@@ -21,7 +21,7 @@ find_package(SARibbonBar REQUIRED)
 find_package(qtadvanceddocking-qt6 REQUIRED PATHS ${QTADS_DIR})
 find_package(VTK REQUIRED)
 find_package(spdlog REQUIRED)
-# find_package(OpenCASCADE REQUIRED)
+find_package(OpenCASCADE REQUIRED)
 
 
 set(PROJECT_SOURCES
@@ -54,10 +54,6 @@ else()
     endif()
 endif()
 
-# file(GLOB LIBS
-#     ${FREECAE_LIB_DIR}/occt/win64/vc14/bind/*.dll
-#     ${FREECAE_LIB_DIR}/occt/win64/vc14/bind/*.dll
-# )
 
 target_link_libraries(APP PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)
 target_link_libraries(APP PUBLIC SARibbonBar::SARibbonBar)
@@ -85,6 +81,17 @@ install(TARGETS APP
     BUNDLE DESTINATION .
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
     RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+)
+
+set_target_properties(APP PROPERTIES
+    VS_DEBUGGER_ENVIRONMENT "PATH=%PATH%;${FREECAE_LIB_DIR}/occt/win64/vc14/bind"
+)
+
+# 让编译后自动复制 DLL 到输出目录
+add_custom_command(TARGET APP POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy_directory
+        "${FREECAE_LIB_DIR}/occt/win64/vc14/bind"
+        "$<TARGET_FILE_DIR:APP>"
 )
 
 if(QT_VERSION_MAJOR EQUAL 6)

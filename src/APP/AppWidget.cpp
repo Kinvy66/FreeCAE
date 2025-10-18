@@ -19,9 +19,9 @@
 #include <vtkFloatArray.h>
 #include <vtkPointData.h>
 
-// #include <BRepPrimAPI_MakeBox.hxx>
-// #include <STEPControl_Reader.hxx>
-// #include <IVtkOCC_Shape.hxx>
+#include <BRepPrimAPI_MakeBox.hxx>
+#include <STEPControl_Reader.hxx>
+#include <IVtkOCC_Shape.hxx>
 
 using namespace ads;
 
@@ -31,7 +31,7 @@ AppWidget::AppWidget(QWidget *parent)
 {
     ui->setupUi(this);
     
-    // STEPControl_Reader reader;
+    STEPControl_Reader reader;
     // reader.ReadFile("");
     // reader.TransferRoot();
     // IVtkOCC_Shape::Handle aShapeImpl = new IVtkOCC_Shape(reader.Shape());
