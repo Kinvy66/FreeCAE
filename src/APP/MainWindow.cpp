@@ -544,14 +544,142 @@ void MainWindow::createCategoryHome(SARibbonCategory *page)
         }
         qDebug() << "布局切换到:" << act->text();
     });
-
-
-
 }
 
+/**
+ * @brief 创建定义页面内容
+ * @param page 定义分类页面指针
+ */
 void MainWindow::createCategoryDefine(SARibbonCategory *page)
 {
-    
+    //  1. 变量 panel
+    SARibbonPanel* panelVar = page->addPanel(tr("变量"));
+
+    QAction* actionLocalVar = createAction(tr("局部变量"), ":/icon/res/icon/icon_app_help.png");
+
+    // connect(actionApp, &QAction::triggered, this, [=](){
+    //     this->ribbonBar()->repaint();
+    // });
+    // addAction(actionLocalVar);
+    panelVar->addLargeAction(actionLocalVar);
+
+    //  2. 函数 panel
+    SARibbonPanel* panelFunction = page->addPanel(tr("函数"));
+
+    QAction* actionAnalytic = createAction(tr("解析"), ":/icon/res/icon/icon_app_help.png");
+    QAction* actionInterpolation = createAction(tr("插值"), ":/icon/res/icon/icon_app_help.png");
+    QAction* actionSegement = createAction(tr("分段"), ":/icon/res/icon/icon_app_help.png");
+    panelFunction->addSmallAction(actionAnalytic);
+    panelFunction->addSmallAction(actionInterpolation);
+    panelFunction->addSmallAction(actionSegement);
+
+    QAction* actionMoreFunction = createAction(tr("更多函数"), ":/icon/res/icon/icon_app_help.png");
+    SARibbonMenu* menuMoreFunction = new SARibbonMenu(this);
+
+    // ===== 创建网格区域 QWidget =====
+    QWidget* gridWidget = new QWidget(menuMoreFunction);
+    QGridLayout* gridLayout = new QGridLayout(gridWidget);
+    gridLayout->setContentsMargins(8, 8, 8, 8);
+    gridLayout->setSpacing(6);
+
+    auto createGridButton = [&](const QString& text, const QString& iconPath) {
+        QPushButton* btn = new QPushButton(QIcon(iconPath), text);
+        btn->setIconSize(QSize(24, 24));
+        btn->setFlat(true);
+        btn->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
+        btn->setStyleSheet(
+            "QPushButton {"
+            "   border: none;"
+            "   background: transparent;"
+            "   padding: 6px;"
+            "   text-align: left;"
+            "}"
+            "QPushButton:hover {"
+            "   background-color: #E6F0FF;"
+            "   border-radius: 4px;"
+            "}"
+            );
+        return btn;
+    };
+
+    // ===== 填充按钮（按列排列）=====
+    QStringList names = {
+        tr("解析"), tr("插值"), tr("分段"),
+        tr("高斯脉冲"), tr("斜坡"), tr("矩形波"),
+        tr("阶跃"), tr("三角波"), tr("波形"),
+        tr("随机"), tr("外部"), tr("MATLAB"),
+        tr("高程(DEM)"), tr("图像"), tr("函数Switch")
+    };
+    const int COLS = 3;  // 每行显示3列
+    int row = 0, col = 0;
+    for (const QString& name : names) {
+        QPushButton* btn = createGridButton(name, ":/icon/res/icon/icon_app_help.png");
+        gridLayout->addWidget(btn, row, col);
+        connect(btn, &QPushButton::clicked, this, [=]() {
+            qDebug() << "Clicked function:" << name;
+            // TODO: 在这里处理点击事件
+        });
+        if (++col >= COLS) {
+            col = 0;
+            ++row;
+        }
+    }
+
+    // ===== 把 gridWidget 封装成 QWidgetAction 加入菜单 =====
+    QWidgetAction* gridAction = new QWidgetAction(menuMoreFunction);
+    gridAction->setDefaultWidget(gridWidget);
+
+    menuMoreFunction->addAction(gridAction);
+    actionMoreFunction->setMenu(menuMoreFunction);
+    panelFunction->addAction(actionMoreFunction);
+
+    //3. 选择 panel
+    SARibbonPanel* panelChose = page->addPanel(tr("选择"));
+
+    QStringList OpNames = {
+        tr("显式"), tr("补集"), tr("相邻"),
+        tr("球/圆盘"), tr("框"), tr("圆柱体"),
+        tr("并集"), tr("交集"), tr("求差")
+    };
+    QStringList OpIcons = {
+        ":/icon/res/icon/icon_app_help.png"
+    };
+    for(int i = 0; i < OpNames.size(); ++i) {
+        QAction* actionOp = createAction(OpNames[i], ":/icon/res/icon/icon_app_help.png");
+        panelChose->addSmallAction(actionOp);
+    }
+
+    QAction* actionColor = createAction(tr("颜色"), ":/icon/res/icon/icon_app_help.png");
+    SARibbonMenu* menuColor = new SARibbonMenu(this);
+    QAction* actionChoseColor = createAction(tr("颜色选择"), ":/icon/res/icon/icon_app_help.png");
+    QAction* actionResetColor = createAction(tr("根据主题重置颜色"), ":/icon/res/icon/icon_app_help.png");
+    QAction* actionDeletColor = createAction(tr("移除选择颜色"), ":/icon/res/icon/icon_app_help.png");
+    menuColor->addAction(actionChoseColor);
+    menuColor->addAction(actionResetColor);
+    menuColor->addAction(actionDeletColor);
+    actionColor->setMenu(menuColor);
+    panelChose->addAction(actionColor);
+
+
+    //3. 选择 panel
+    SARibbonPanel* panelProbe = page->addPanel(tr("探针"));
+    QAction* actionUpdateProbe = createAction(tr("更新探针"), ":/icon/res/icon/icon_app_help.png");
+    panelProbe->addAction(actionUpdateProbe);
+
+    QStringList probeNames = {
+        tr("域探针"), tr("边界探针"), tr("边探针"),
+        tr("点探针"), tr("域点探针"), tr("边界点探针"),
+        tr("全局变量")
+    };
+    QStringList probeIcons = {
+        ":/icon/res/icon/icon_app_help.png"
+    };
+
+    for(int i = 0; i < probeNames.size(); ++i) {
+        QAction* actionProbe = createAction(probeNames[i], ":/icon/res/icon/icon_app_help.png");
+        panelProbe->addSmallAction(actionProbe);
+    }
+
 }
 
 void MainWindow::createCategoryGeometry(SARibbonCategory *page)
