@@ -50,7 +50,7 @@ private:
     QAction* createAction(const QString& text, const QString& iconurl, QKeySequence shortcut);
     
 private Q_SLOTS:
-    
+    // void appDev
     
 private:
     AppWidget* m_app;
