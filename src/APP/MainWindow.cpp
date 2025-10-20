@@ -661,7 +661,7 @@ void MainWindow::createCategoryDefine(SARibbonCategory *page)
     panelChose->addAction(actionColor);
 
 
-    //3. 选择 panel
+    //4. 探针 panel
     SARibbonPanel* panelProbe = page->addPanel(tr("探针"));
     QAction* actionUpdateProbe = createAction(tr("更新探针"), ":/icon/res/icon/icon_app_help.png");
     panelProbe->addAction(actionUpdateProbe);
@@ -674,12 +674,37 @@ void MainWindow::createCategoryDefine(SARibbonCategory *page)
     QStringList probeIcons = {
         ":/icon/res/icon/icon_app_help.png"
     };
-
+    
+    SARibbonMenu* menuProbe = new SARibbonMenu(this);
+    QAction* actionProbe = createAction(tr("探针"), ":/icon/res/icon/icon_app_help.png");
+    
     for(int i = 0; i < probeNames.size(); ++i) {
         QAction* actionProbe = createAction(probeNames[i], ":/icon/res/icon/icon_app_help.png");
-        panelProbe->addSmallAction(actionProbe);
+        menuProbe->addAction(actionProbe);
     }
-
+    actionProbe->setMenu(menuProbe);
+    panelProbe->addAction(actionProbe);
+    
+    
+    //5. 物理场实用程序 panel
+    SARibbonPanel* panelPhysic = page->addPanel(tr("物理场实用程序"));
+    QAction* actionPhysic = createAction(tr("物理场实用程序"), ":/icon/res/icon/icon_app_help.png");
+    SARibbonMenu* menuPhysic = new SARibbonMenu(this);
+    QAction* actionMassProperties = createAction(tr("质量属性"), ":/icon/res/icon/icon_app_help.png");
+    QAction* actionMassContributions = createAction(tr("质量贡献"), ":/icon/res/icon/icon_app_help.png");
+    QAction* actionParticipationFactors = createAction(tr("参与因子"), ":/icon/res/icon/icon_app_help.png");
+    QAction* actionResponseSpectrum = createAction(tr("响应谱"), ":/icon/res/icon/icon_app_help.png");
+    QAction* actionBuckling = createAction(tr("屈曲缺陷"), ":/icon/res/icon/icon_app_help.png");
+    menuPhysic->addAction(actionMassProperties);
+    menuPhysic->addAction(actionMassContributions);
+    menuPhysic->addAction(actionParticipationFactors);
+    menuPhysic->addAction(actionResponseSpectrum);
+    menuPhysic->addAction(actionBuckling);  
+    
+    actionPhysic->setMenu(menuPhysic);
+    panelPhysic->addAction(actionPhysic);
+    
+    
 }
 
 void MainWindow::createCategoryGeometry(SARibbonCategory *page)
