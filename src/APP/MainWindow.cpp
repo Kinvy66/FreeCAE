@@ -96,12 +96,12 @@ MainWindow::MainWindow(QWidget *parent)
     
     
     // 添加网格标签
-    SARibbonCategory* categoryGrid = new SARibbonCategory();
-    categoryGrid->setCategoryName(tr("网格"));
-    categoryGrid->setObjectName(("categoryGrid"));
-    createCategoryGrid(categoryGrid);
-    ribbon->addCategoryPage(categoryGrid);
-    spdlog::info("add grid page!");
+    SARibbonCategory* categoryMesh = new SARibbonCategory();
+    categoryMesh->setCategoryName(tr("网格"));
+    categoryMesh->setObjectName(("categoryMesh"));
+    createCategoryMesh(categoryMesh);
+    ribbon->addCategoryPage(categoryMesh);
+    spdlog::info("add mesh page!");
     
     // 添加研究标签
     SARibbonCategory* categoryStudy = new SARibbonCategory();
@@ -483,18 +483,6 @@ void MainWindow::createCategoryHome(SARibbonCategory *page)
     actionView->setMenu(menuView);
     panelLayout->addAction(actionView);
 
-    // SARibbonMenu* menuResetView = new SARibbonMenu(this);
-    // QAction* actionRestView = createAction(tr("重置桌面"), ":/icon/res/icon/icon_app_help.png");
-    // QAction* actionRestLayout = createAction(tr("重置桌面"), ":/icon/res/icon/icon_app_help.png");
-    // QAction* actionLayout1 = createAction(tr("宽屏布局"), ":/icon/res/icon/icon_app_help.png");
-    // QAction* actionLayout2 = createAction(tr("常规屏幕布局"), ":/icon/res/icon/icon_app_help.png");
-    // menuResetView->addAction(actionRestLayout);
-    // menuResetView->addSeparator();
-    // menuResetView->addAction(actionLayout1);
-    // menuResetView->addAction(actionLayout2);
-    // actionRestView->setMenu(menuResetView);
-    // panelLayout->addAction(actionAddViewGrp);
-
 
     SARibbonMenu* menuResetView = new SARibbonMenu(this);
 
@@ -703,8 +691,139 @@ void MainWindow::createCategoryDefine(SARibbonCategory *page)
     
     actionPhysic->setMenu(menuPhysic);
     panelPhysic->addAction(actionPhysic);
-    
-    
+
+
+    //6. 物理场实用程序 panel
+    SARibbonPanel* panelCoupling = page->addPanel(tr("耦合"));
+
+    SARibbonMenu* menuNonlocalCoupling = new SARibbonMenu(this);
+    QAction* actionNonlocalCoupling = createAction(tr("非局部耦合"), ":/icon/res/icon/icon_app_help.png");
+
+    QAction* actionIntegration = createAction(tr("积分"), ":/icon/res/icon/icon_app_help.png");
+    QAction* actionAverage = createAction(tr("平均值"), ":/icon/res/icon/icon_app_help.png");
+    QAction* actionMax = createAction(tr("最大值"), ":/icon/res/icon/icon_app_help.png");
+    QAction* actionMin = createAction(tr("最小值"), ":/icon/res/icon/icon_app_help.png");
+    QAction* actionGenaralExtrusion = createAction(tr("广义拉伸"), ":/icon/res/icon/icon_app_help.png");
+    QAction* actionLinearExtrusion = createAction(tr("线性拉伸"), ":/icon/res/icon/icon_app_help.png");
+    QAction* actionBoundarySim = createAction(tr("边界相似性"), ":/icon/res/icon/icon_app_help.png");
+    QAction* actionIdentityMapping = createAction(tr("一致映射"), ":/icon/res/icon/icon_app_help.png");
+    QAction* actionGeneralProjection = createAction(tr("广义投影"), ":/icon/res/icon/icon_app_help.png");
+    QAction* actionLinearProjection = createAction(tr("线性投影"), ":/icon/res/icon/icon_app_help.png");
+
+    menuNonlocalCoupling->addAction(actionIntegration);
+    menuNonlocalCoupling->addAction(actionAverage);
+    menuNonlocalCoupling->addAction(actionMax);
+    menuNonlocalCoupling->addAction(actionMin);
+    menuNonlocalCoupling->addAction(actionGenaralExtrusion);
+    menuNonlocalCoupling->addAction(actionLinearExtrusion);
+    menuNonlocalCoupling->addAction(actionBoundarySim);
+    menuNonlocalCoupling->addAction(actionIdentityMapping);
+    menuNonlocalCoupling->addAction(actionGeneralProjection);
+    menuNonlocalCoupling->addAction(actionLinearProjection);
+    actionNonlocalCoupling->setMenu(menuNonlocalCoupling);
+    panelCoupling->addAction(actionNonlocalCoupling);
+
+    SARibbonMenu* menuPairs = new SARibbonMenu(this);
+    QAction* actionPairs = createAction(tr("对"), ":/icon/res/icon/icon_app_help.png");
+    QAction* actionContactPair = createAction(tr("接触对"), ":/icon/res/icon/icon_app_help.png");
+    QAction* actionIdentityBoundaryPair= createAction(tr("一致边界对"), ":/icon/res/icon/icon_app_help.png");
+    QAction* actionIdentityEdgeyPair = createAction(tr("一致边对"), ":/icon/res/icon/icon_app_help.png");
+    QAction* actionIdentityPointPair = createAction(tr("一致点对"), ":/icon/res/icon/icon_app_help.png");
+    menuPairs->addAction(actionContactPair);
+    menuPairs->addAction(actionIdentityBoundaryPair);
+    menuPairs->addAction(actionIdentityEdgeyPair);
+    menuPairs->addAction(actionIdentityPointPair);
+    actionPairs->setMenu(menuPairs);
+    panelCoupling->addAction(actionPairs);
+
+
+    //6. 坐标系 panel
+    SARibbonPanel* panelCoordinateSys = page->addPanel(tr("坐标系"));
+    QStringList coordinateSysNames = {
+        tr("基矢坐标系"), tr("组合坐标系"), tr("映射坐标系"),
+        tr("缩放坐标系"), tr("边界坐标系"), tr("旋转坐标系"),
+        tr("柱坐标系"), tr("球坐标系"), tr("几何中的坐标系"),
+        tr("复合系统")
+    };
+    QStringList coordinateSysIcons = {
+        ":/icon/res/icon/icon_app_help.png"
+    };
+    SARibbonMenu* menuCoordinateSys = new SARibbonMenu(this);
+    QAction* actionCoordinateSys = createAction(tr("坐标系"), ":/icon/res/icon/icon_app_help.png");
+    for(int i = 0; i < coordinateSysNames.size(); ++i) {
+        QAction* action = createAction(coordinateSysNames[i], ":/icon/res/icon/icon_app_help.png");
+        menuCoordinateSys->addAction(action);
+    }
+    actionCoordinateSys->setMenu(menuCoordinateSys);
+    panelCoordinateSys->addAction(actionCoordinateSys);
+
+    QAction* actionPerfectMatchLayer = createAction(tr("完美匹配层"), ":/icon/res/icon/icon_app_help.png");
+    QAction* actionInfiniteEleDomain = createAction(tr("无限元域"), ":/icon/res/icon/icon_app_help.png");
+    QAction* actionAbsorbingLayer = createAction(tr("吸收层"), ":/icon/res/icon/icon_app_help.png");
+    panelCoordinateSys->addSmallAction(actionPerfectMatchLayer);
+    panelCoordinateSys->addSmallAction(actionInfiniteEleDomain);
+    panelCoordinateSys->addSmallAction(actionAbsorbingLayer);
+
+
+    //7. 变形网格 panel
+    SARibbonPanel* panelDeformedMesh = page->addPanel(tr("变形网格"));
+
+    QStringList movingMeshNames = {
+        tr("指定变形"), tr("旋转域"), tr("变形域"),
+        tr("固定边界"), tr("指定网格位移"), tr("指定法向网格位移"),
+        tr("指定法向网格速度"), tr("旋转边界"), tr("网格滑移"),
+        tr("对称")
+    };
+    QStringList movingMeshIcons = {
+        ":/icon/res/icon/icon_app_help.png"
+    };
+    SARibbonMenu* menuMovingMesh = new SARibbonMenu(this);
+    QAction* actionMovingMesh = createAction(tr("变形网格"), ":/icon/res/icon/icon_app_help.png");
+    for(int i = 0; i < movingMeshNames.size(); ++i) {
+        QAction* action = createAction(movingMeshNames[i], ":/icon/res/icon/icon_app_help.png");
+        menuMovingMesh->addAction(action);
+    }
+    actionMovingMesh->setMenu(menuMovingMesh);
+    panelDeformedMesh->addAction(actionMovingMesh);
+
+
+    SARibbonMenu* menuDeformedGeometry = new SARibbonMenu(this);
+    QAction* actionDeformedGeometry = createAction(tr("变形几何"), ":/icon/res/icon/icon_app_help.png");
+    for(int i = 0; i < movingMeshNames.size(); ++i) {
+        QAction* action = createAction(movingMeshNames[i], ":/icon/res/icon/icon_app_help.png");
+        menuDeformedGeometry->addAction(action);
+    }
+    actionDeformedGeometry->setMenu(menuDeformedGeometry);
+    panelDeformedMesh->addAction(actionDeformedGeometry);
+
+
+    //8. 优化 panel
+    SARibbonPanel* panelOptimization = page->addPanel(tr("优化"));
+
+    QStringList optimizationNames = {
+        tr("密度模型"), tr("制动空域"), tr("指定材料"),
+        tr("指定密度"), tr("指定空域边界"), tr("指定材料边界"),
+        tr("指定密度边界"), tr("自由形状域"), tr("自由形状边界"),
+        tr("自由形状壳")
+    };
+    QStringList optimizationIcons = {
+        ":/icon/res/icon/icon_app_help.png"
+    };
+    SARibbonMenu* menuOptimization = new SARibbonMenu(this);
+    QAction* actionOptimization = createAction(tr("优化"), ":/icon/res/icon/icon_app_help.png");
+    for(int i = 0; i < optimizationNames.size(); ++i) {
+        QAction* action = createAction(optimizationNames[i], ":/icon/res/icon/icon_app_help.png");
+        menuOptimization->addAction(action);
+    }
+    actionOptimization->setMenu(menuOptimization);
+    panelOptimization->addAction(actionOptimization);
+
+
+    //8. 优化 panel
+    SARibbonPanel* panelView = page->addPanel(tr("视图"));
+    QAction* actionView = createAction(tr("视图"), ":/icon/res/icon/icon_app_help.png");
+    panelView->addAction(actionView);
+
 }
 
 void MainWindow::createCategoryGeometry(SARibbonCategory *page)
@@ -722,7 +841,7 @@ void MainWindow::createCategoryPhysic(SARibbonCategory *page)
     
 }
 
-void MainWindow::createCategoryGrid(SARibbonCategory *page)
+void MainWindow::createCategoryMesh(SARibbonCategory *page)
 {
     
 }

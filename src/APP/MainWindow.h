@@ -36,7 +36,7 @@ private:
     void createCategoryGeometry(SARibbonCategory* page);
     void createCategoryMaterial(SARibbonCategory* page);
     void createCategoryPhysic(SARibbonCategory* page);
-    void createCategoryGrid(SARibbonCategory* page);
+    void createCategoryMesh(SARibbonCategory* page);
     void createCategoryStudy(SARibbonCategory* page);
     void createCategoryResult(SARibbonCategory* page);
     void createCategoryTool(SARibbonCategory* page);
