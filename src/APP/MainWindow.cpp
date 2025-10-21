@@ -88,7 +88,7 @@ MainWindow::MainWindow(QWidget *parent)
     
     // 添加物理场标签
     SARibbonCategory* categoryPhysic = new SARibbonCategory();
-    categoryPhysic->setCategoryName(tr("材料"));
+    categoryPhysic->setCategoryName(tr("物理场"));
     categoryPhysic->setObjectName(("categoryPhysic"));
     createCategoryPhysic(categoryPhysic);
     ribbon->addCategoryPage(categoryPhysic);
@@ -826,9 +826,230 @@ void MainWindow::createCategoryDefine(SARibbonCategory *page)
 
 }
 
+/**
+ * @brief 创建几何页面内容
+ * @param page 定义几何页面指针
+ */
 void MainWindow::createCategoryGeometry(SARibbonCategory *page)
 {
-    
+    //1. 构建 panel
+    SARibbonPanel* panelBuild = page->addPanel(tr("构建"));
+    QAction* actionBuildAll = createAction(tr("全部构建"), ":/icon/res/icon/icon_app_help.png");
+    panelBuild->addAction(actionBuildAll);
+
+    //2. 导入/导出 panel
+    SARibbonPanel* panelImportExport = page->addPanel(tr("导入/导出"));
+    QAction* actionImport = createAction(tr("导入"), ":/icon/res/icon/icon_app_help.png");
+    QAction* actionInsertSeq = createAction(tr("插入序列"), ":/icon/res/icon/icon_app_help.png");
+    QAction* actionExport = createAction(tr("导出"), ":/icon/res/icon/icon_app_help.png");
+
+    panelImportExport->addSmallAction(actionImport);
+    panelImportExport->addSmallAction(actionInsertSeq);
+    panelImportExport->addSmallAction(actionExport);
+
+
+
+    //3. 清理 panel
+    SARibbonPanel* panelCleanup = page->addPanel(tr("清理"));
+
+    QStringList cleanupNames = {
+        tr("端盖面"), tr("检测干涉"), tr("删除圆角"),
+        tr("删除孔"), tr("删除短边"), tr("删除长短面"),
+        tr("删除小面"), tr("删除尖峰"), tr("删除面"),
+        tr("分离面")
+    };
+    QStringList cleanupIcons = {
+        ":/icon/res/icon/icon_app_help.png"
+    };
+    SARibbonMenu* menuDefeaturingRepair = new SARibbonMenu(this);
+    QAction* actionDefeaturingRepair = createAction(tr("特征去除和修复"), ":/icon/res/icon/icon_app_help.png");
+    for(int i = 0; i < cleanupNames.size(); ++i) {
+        QAction* action = createAction(cleanupNames[i], ":/icon/res/icon/icon_app_help.png");
+        menuDefeaturingRepair->addAction(action);
+    }
+    actionDefeaturingRepair->setMenu(menuDefeaturingRepair);
+    panelCleanup->addAction(actionDefeaturingRepair);
+
+    panelCleanup->addSeparator();
+    QAction* actionRemoveDetail = createAction(tr("移除细节"), ":/icon/res/icon/icon_app_help.png");
+    panelCleanup->addAction(actionRemoveDetail);
+
+
+    QStringList virtualOpNames = {
+        tr("忽略顶点"), tr("忽略边"), tr("忽略面"),
+        tr("形成复合边"), tr("形成复合面"), tr("形成复合域"),
+        tr("塌陷边"), tr("塌陷面"), tr("塌陷面区域"),
+        tr("合并顶点")
+    };
+    QStringList virtualOpIcons = {
+        ":/icon/res/icon/icon_app_help.png"
+    };
+    SARibbonMenu* menuVirtualOp = new SARibbonMenu(this);
+    QAction* actionVirtualOp = createAction(tr("特征去除和修复"), ":/icon/res/icon/icon_app_help.png");
+    for(int i = 0; i < virtualOpNames.size(); ++i) {
+        QAction* action = createAction(virtualOpNames[i], ":/icon/res/icon/icon_app_help.png");
+        menuVirtualOp->addAction(action);
+    }
+    actionVirtualOp->setMenu(menuVirtualOp);
+    panelCleanup->addAction(actionVirtualOp);
+
+    //4. 体素 panel
+    SARibbonPanel* panelPrimitives = page->addPanel(tr("体素"));
+
+    QStringList primitiveNames = {
+        tr("长方体"), tr("圆锥体"), tr("圆柱体"),
+        tr("球体"), tr("圆环"), tr("螺旋")
+    };
+    QStringList primitiveIcons = {
+        ":/icon/res/icon/icon_app_help.png"
+    };
+    for(int i = 0; i < primitiveNames.size(); ++i) {
+        QAction* action = createAction(primitiveNames[i], ":/icon/res/icon/icon_app_help.png");
+        panelPrimitives->addSmallAction(action);
+    }
+    QAction* actionMorePrimitive = createAction(tr("特征去除和修复"), ":/icon/res/icon/icon_app_help.png");
+    SARibbonMenu* menuMorePrimitive = new SARibbonMenu(this);
+
+    QStringList morePrimitiveNames = {
+        tr("三次贝塞尔曲线"), tr("偏心圆锥"), tr("椭球"),
+        tr("六面体"), tr("插值曲线"), tr("线端"),
+        tr("参数化曲线"), tr("参数化曲面"), tr("点"),
+        tr("多边形"), tr("二次贝塞尔曲线"), tr("四面体")
+    };
+    for(int i = 0; i < morePrimitiveNames.size(); ++i) {
+        QAction* action = createAction(morePrimitiveNames[i], ":/icon/res/icon/icon_app_help.png");
+        menuMorePrimitive->addAction(action);
+    }
+
+    actionMorePrimitive->setMenu(menuMorePrimitive);
+    panelPrimitives->addAction(actionMorePrimitive);
+
+
+    //5. 工作平面 panel
+    SARibbonPanel* panelWorkPlane = page->addPanel(tr("工作平面"));
+
+    QAction* actionSelectPlane = createAction(tr("选择工作平面"), ":/icon/res/icon/icon_app_help.png");
+    SARibbonMenu* menuSelectPlanee = new SARibbonMenu(this);
+
+    actionSelectPlane->setEnabled(false);
+    actionSelectPlane->setMenu(menuSelectPlanee);
+
+    panelWorkPlane->addAction(actionSelectPlane);
+
+    QAction* actionWorkPlane = createAction(tr("工作平面"), ":/icon/res/icon/icon_app_help.png");
+    panelWorkPlane->addAction(actionWorkPlane);
+
+    //6. 操作 panel
+    SARibbonPanel* panelOperations = page->addPanel(tr("操作"));
+
+    QAction* actionExtrude = createAction(tr("拉伸"), ":/icon/res/icon/icon_app_help.png");
+    panelOperations->addAction(actionExtrude);
+
+    QAction* actionRevolve = createAction(tr("回转"), ":/icon/res/icon/icon_app_help.png");
+    panelOperations->addSmallAction(actionRevolve);
+    QAction* actionSweep = createAction(tr("扫掠"), ":/icon/res/icon/icon_app_help.png");
+    panelOperations->addSmallAction(actionSweep);
+    QAction* actionLoft = createAction(tr("放样"), ":/icon/res/icon/icon_app_help.png");
+    panelOperations->addSmallAction(actionLoft);
+    panelOperations->addSeparator();
+
+    QAction* actionBooleanPartition = createAction(tr("布尔操作和分割"), ":/icon/res/icon/icon_app_help.png");
+    SARibbonMenu* menuBooleanPartition = new SARibbonMenu(this);
+
+    QStringList booleanPartitionNames = {
+        tr("并集"), tr("交集"), tr("求差"),
+        tr("组合"), tr("分割对象"), tr("分割域"),
+        tr("分割面"), tr("分割边")
+    };
+    for(int i = 0; i < booleanPartitionNames.size(); ++i) {
+        QAction* action = createAction(booleanPartitionNames[i], ":/icon/res/icon/icon_app_help.png");
+        menuBooleanPartition->addAction(action);
+    }
+    actionBooleanPartition->setMenu(menuBooleanPartition);
+    panelOperations->addAction(actionBooleanPartition);
+
+
+    QAction* actionTransforms = createAction(tr("变换"), ":/icon/res/icon/icon_app_help.png");
+    SARibbonMenu* menuTransforms  = new SARibbonMenu(this);
+
+    QStringList transformsNames = {
+        tr("刚性变换"), tr("复制"), tr("旋转"),
+        tr("比例因子"), tr("移动"), tr("镜像"),
+        tr("阵列"), tr("分割边")
+    };
+    for(int i = 0; i < transformsNames.size(); ++i) {
+        QAction* action = createAction(transformsNames[i], ":/icon/res/icon/icon_app_help.png");
+        menuTransforms->addAction(action);
+    }
+    actionTransforms->setMenu(menuTransforms);
+    panelOperations->addAction(actionTransforms);
+
+    QAction* actionConversions = createAction(tr("变换"), ":/icon/res/icon/icon_app_help.png");
+    SARibbonMenu* menuConversions  = new SARibbonMenu(this);
+
+    QStringList conversionNames = {
+        tr("转换为实体"), tr("转换为表面"), tr("转换为曲线"),
+        tr("转换为点"), tr("转换为..对象"), tr("抽取中面"),
+        tr("拆分"), tr("加厚")
+    };
+    for(int i = 0; i < conversionNames.size(); ++i) {
+        QAction* action = createAction(conversionNames[i], ":/icon/res/icon/icon_app_help.png");
+        menuConversions->addAction(action);
+    }
+    actionConversions->setMenu(menuConversions);
+    panelOperations->addAction(actionConversions);
+
+    QAction* actionChamfer = createAction(tr("倒斜角"), ":/icon/res/icon/icon_app_help.png");
+    panelOperations->addSmallAction(actionChamfer);
+    QAction* actionFillet = createAction(tr("倒圆角"), ":/icon/res/icon/icon_app_help.png");
+    panelOperations->addSmallAction(actionFillet);
+    QAction* actionDelete = createAction(tr("删除"), ":/icon/res/icon/icon_app_help.png");
+    panelOperations->addSmallAction(actionDelete);
+
+    //7. 操作 panel
+    SARibbonPanel* panelOther = page->addPanel(tr("其他"));
+
+    QAction* actionParts = createAction(tr("零件"), ":/icon/res/icon/icon_app_help.png");
+    SARibbonMenu* menuParts  = new SARibbonMenu(this);
+    QAction* actionCreatePart = createAction(tr("创建零件"), ":/icon/res/icon/icon_app_help.png");
+    menuParts->addAction(actionCreatePart);
+    QAction* actionLoadPart = createAction(tr("加载零件"), ":/icon/res/icon/icon_app_help.png");
+    menuParts->addAction(actionLoadPart);
+    QAction* actionPartLib = createAction(tr("零件库"), ":/icon/res/icon/icon_app_help.png");
+    menuParts->addAction(actionPartLib);
+
+    actionParts->setMenu(menuParts);
+    panelOther->addAction(actionParts);
+
+
+    QAction* actionSelections = createAction(tr("选择"), ":/icon/res/icon/icon_app_help.png");
+    SARibbonMenu* menuSelections  = new SARibbonMenu(this);
+
+    QStringList selectionsNames = {
+        tr("显式选择"), tr("球选择"), tr("框选择"),
+        tr("圆柱体选择"), tr("并集选择"), tr("交集选择"),
+        tr("差集选择"), tr("补集选择"), tr("相邻选择"),
+        tr("累积选择")
+    };
+    for(int i = 0; i < selectionsNames.size(); ++i) {
+        QAction* action = createAction(selectionsNames[i], ":/icon/res/icon/icon_app_help.png");
+        menuSelections->addAction(action);
+    }
+    actionSelections->setMenu(menuSelections);
+    panelOther->addAction(actionSelections);
+
+    QAction* actionColor = createAction(tr("颜色"), ":/icon/res/icon/icon_app_help.png");
+    SARibbonMenu* menuColor = new SARibbonMenu(this);
+    QAction* actionChoseColor = createAction(tr("颜色选择"), ":/icon/res/icon/icon_app_help.png");
+    QAction* actionResetColor = createAction(tr("根据主题重置颜色"), ":/icon/res/icon/icon_app_help.png");
+    QAction* actionDeletColor = createAction(tr("移除选择颜色"), ":/icon/res/icon/icon_app_help.png");
+    menuColor->addAction(actionChoseColor);
+    menuColor->addAction(actionResetColor);
+    menuColor->addAction(actionDeletColor);
+    actionColor->setMenu(menuColor);
+    panelOther->addAction(actionColor);
+
+
 }
 
 void MainWindow::createCategoryMaterial(SARibbonCategory *page)
