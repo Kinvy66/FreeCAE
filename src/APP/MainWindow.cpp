@@ -109,7 +109,7 @@ MainWindow::MainWindow(QWidget *parent)
     categoryStudy->setObjectName(("categoryStudy"));
     createCategoryStudy(categoryStudy);
     ribbon->addCategoryPage(categoryStudy);
-    categoryStudy->setEnabled(false);
+    // categoryStudy->setEnabled(false);
 
     spdlog::info("add study page!");
     
@@ -1052,19 +1052,381 @@ void MainWindow::createCategoryGeometry(SARibbonCategory *page)
 
 }
 
+/**
+ * @brief 创建材料分类页面内容
+ * @param page 材料分类页面指针
+ */
 void MainWindow::createCategoryMaterial(SARibbonCategory *page)
 {
-    
+
+    //1. 材料 panel
+    SARibbonPanel* panelMaterial = page->addPanel(tr("材料"));
+
+    QAction* actionAddMaterial = createAction(tr("添加材料"), ":/icon/res/icon/icon_app_help.png");
+    panelMaterial->addAction(actionAddMaterial);
+    QAction* actionBlankMaterial = createAction(tr("空材料"), ":/icon/res/icon/icon_app_help.png");
+    panelMaterial->addAction(actionBlankMaterial);
+    QAction* actionBrowseMaterial = createAction(tr("浏览材料"), ":/icon/res/icon/icon_app_help.png");
+    panelMaterial->addAction(actionAddMaterial);
+
+
+    QAction* actionMoreMaterial = createAction(tr("更多材料"), ":/icon/res/icon/icon_app_help.png");
+    SARibbonMenu* menuMoreMaterial = new SARibbonMenu(this);
+
+    QLabel* labelGloabMat = new QLabel(tr("全局"), menuMoreMaterial);
+    labelGloabMat->setAlignment(Qt::AlignLeft | Qt::AlignVCenter);
+    labelGloabMat->setStyleSheet(
+        "QLabel {"
+        "   background-color: #CCE4FF;"  // 标题背景色（选中风格）
+        "   color: black;"
+        "   font-weight: bold;"
+        "   padding: 4px 10px;"
+        "}"
+        );
+    QWidgetAction* actionGlobalMat = new QWidgetAction(menuMoreMaterial);
+    actionGlobalMat->setDefaultWidget(labelGloabMat);
+
+    QWidget* gridWidget = new QWidget(menuMoreMaterial);
+    QGridLayout* gridLayout = new QGridLayout(gridWidget);
+    gridLayout->setContentsMargins(8, 8, 8, 8);
+    gridLayout->setSpacing(6);
+
+
+    // ===== 创建按钮辅助函数 =====
+    auto createGridButton = [&](const QString& text, const QString& iconPath) {
+        QPushButton* btn = new QPushButton(QIcon(iconPath), text);
+        btn->setIconSize(QSize(24, 24));
+        btn->setFlat(true);
+        btn->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
+        btn->setStyleSheet(
+            "QPushButton {"
+            "   border: none;"
+            "   background: transparent;"
+            "   padding: 6px;"
+            "   text-align: left;"
+            "}"
+            "QPushButton:hover {"
+            "   background-color: #E6F0FF;"
+            "   border-radius: 4px;"
+            "}"
+            );
+        return btn;
+    };
+
+    // ===== 填充按钮（按列排列）=====
+    QStringList globalNames = {
+        tr("外部材料"), tr("材料Switch"), tr("多层材料"),
+        tr("单层材料")
+    };
+    const int COLS = 3;  // 每行显示3列
+    int row = 0, col = 0;
+    for (const QString& name : globalNames) {
+        QPushButton* btn = createGridButton(name, ":/icon/res/icon/icon_app_help.png");
+        gridLayout->addWidget(btn, row, col);
+        connect(btn, &QPushButton::clicked, this, [=]() {
+            qDebug() << "Clicked function:" << name;
+            // TODO: 在这里处理点击事件
+        });
+        if (++col >= COLS) {
+            col = 0;
+            ++row;
+        }
+    }
+
+    QWidgetAction* gridAction = new QWidgetAction(menuMoreMaterial);
+    gridAction->setDefaultWidget(gridWidget);
+
+    //======================================
+    // QLabel* labelLocalMat = new QLabel(tr("局部"), menuMoreMaterial);
+    // labelLocalMat->setAlignment(Qt::AlignLeft | Qt::AlignVCenter);
+    // labelLocalMat->setStyleSheet(
+    //     "QLabel {"
+    //     "   background-color: #CCE4FF;"  // 标题背景色（选中风格）
+    //     "   color: black;"
+    //     "   font-weight: bold;"
+    //     "   padding: 4px 10px;"
+    //     "}"
+    //     );
+    // QWidgetAction* actionLocalMat = new QWidgetAction(menuMoreMaterial);
+    // actionLocalMat->setDefaultWidget(labelLocalMat);
+
+    // QWidget* gridLocalWidget = new QWidget(menuMoreMaterial);
+    // QGridLayout* gridLocalLayout = new QGridLayout(gridLocalWidget);
+    // gridLocalLayout->setContentsMargins(8, 8, 8, 8);
+    // gridLocalLayout->setSpacing(6);
+
+
+    // // ===== 创建按钮辅助函数 =====
+    // auto createLocalGridButton = [&](const QString& text, const QString& iconPath) {
+    //     QPushButton* btn = new QPushButton(QIcon(iconPath), text);
+    //     btn->setIconSize(QSize(24, 24));
+    //     btn->setFlat(true);
+    //     btn->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
+    //     btn->setStyleSheet(
+    //         "QPushButton {"
+    //         "   border: none;"
+    //         "   background: transparent;"
+    //         "   padding: 6px;"
+    //         "   text-align: left;"
+    //         "}"
+    //         "QPushButton:hover {"
+    //         "   background-color: #E6F0FF;"
+    //         "   border-radius: 4px;"
+    //         "}"
+    //         );
+    //     return btn;
+    // };
+
+    // // ===== 填充按钮（按列排列）=====
+    // QStringList localNames = {
+    //     tr("外部材料"), tr("材料Switch"), tr("多层材料"),
+    //     tr("单层材料")
+    // };
+    // // const int COLS = 3;  // 每行显示3列
+    // row = 0;
+    // col = 0;
+    // for (const QString& name : localNames) {
+    //     QPushButton* btn = createLocalGridButton(name, ":/icon/res/icon/icon_app_help.png");
+    //     gridLocalLayout->addWidget(btn, row, col);
+    //     connect(btn, &QPushButton::clicked, this, [=]() {
+    //         qDebug() << "Clicked function:" << name;
+    //         // TODO: 在这里处理点击事件
+    //     });
+    //     if (++col >= COLS) {
+    //         col = 0;
+    //         ++row;
+    //     }
+    // }
+
+    // QWidgetAction* gridLocalAction = new QWidgetAction(menuMoreMaterial);
+    // gridLocalAction->setDefaultWidget(gridWidget);
+
+
+    // ===== 添加标题和网格到菜单 =====
+
+    menuMoreMaterial->addAction(actionGlobalMat);
+    menuMoreMaterial->addAction(gridAction);
+
+    // menuMoreMaterial->addAction(actionLocalMat);
+    // menuMoreMaterial->addAction(gridLocalAction);
+
+    actionMoreMaterial->setMenu(menuMoreMaterial);
+    panelMaterial->addAction(actionMoreMaterial, QToolButton::InstantPopup);
+
+    //2. 属性组 panel
+    SARibbonPanel* panelPropertyGroup = page->addPanel(tr("属性组"));
+
+    QAction* actionAnalytic = createAction(tr("解析"), ":/icon/res/icon/icon_app_help.png");
+    panelPropertyGroup->addSmallAction(actionAnalytic);
+    QAction* actionInerpolation = createAction(tr("插值"), ":/icon/res/icon/icon_app_help.png");
+    panelPropertyGroup->addSmallAction(actionInerpolation);
+    QAction* actionPiecewise = createAction(tr("分段"), ":/icon/res/icon/icon_app_help.png");
+    panelPropertyGroup->addSmallAction(actionPiecewise);
+
+    panelPropertyGroup->addSeparator();
+
+    QAction* actionUserDefineGrp = createAction(tr("用户定义属性组"), ":/icon/res/icon/icon_app_help.png");
+    panelPropertyGroup->addAction(actionUserDefineGrp);
+
 }
 
+/**
+ * @brief 物理场分类页面内容
+ * @param page 物理场分类页面指针
+ */
 void MainWindow::createCategoryPhysic(SARibbonCategory *page)
 {
-    
+    // 1. 物理场 panel
+    SARibbonPanel* panelPhysics = page->addPanel(tr("物理场"));
+
+    QAction* actionSelectPhysic = createAction(tr("选择物理场"), ":/icon/res/icon/icon_app_help.png");
+    SARibbonMenu* menuSelectPhysic = new SARibbonMenu(this);
+    actionSelectPhysic->setMenu(menuSelectPhysic);
+    actionSelectPhysic->setEnabled(false);
+    panelPhysics->addAction(actionSelectPhysic);
+
+    QAction* actionAddPhysic = createAction(tr("添加物理场"), ":/icon/res/icon/icon_app_help.png");
+    panelPhysics->addAction(actionAddPhysic);
+
+    QAction* actionInsertPhysic = createAction(tr("从模型插入物理场"), ":/icon/res/icon/icon_app_help.png");
+    panelPhysics->addAction(actionInsertPhysic);
+
+    // 2. 域 panel
+    SARibbonPanel* panelDomain = page->addPanel(tr("域"));
+
+    QAction* actionDomain = createAction(tr("域"), ":/icon/res/icon/icon_app_help.png");
+    SARibbonMenu* menuDomain = new SARibbonMenu(this);
+    actionDomain->setMenu(menuDomain);
+    panelDomain->addAction(actionDomain);
+
+
+    // 3. 边界 panel
+    SARibbonPanel* panelBoundary = page->addPanel(tr("边界"));
+
+    QAction* actionBoundaries = createAction(tr("边界"), ":/icon/res/icon/icon_app_help.png");
+    SARibbonMenu* menuBoundaries = new SARibbonMenu(this);
+    actionBoundaries->setMenu(menuBoundaries);
+    panelBoundary->addAction(actionBoundaries);
+
+    QAction* actionPairs = createAction(tr("对"), ":/icon/res/icon/icon_app_help.png");
+    SARibbonMenu* menuPairs = new SARibbonMenu(this);
+    actionPairs->setMenu(menuPairs);
+    panelBoundary->addAction(actionPairs);
+
+
+    // 3. 边 panel
+    SARibbonPanel* panelEdge = page->addPanel(tr("边"));
+
+    QAction* actionEdge = createAction(tr("边"), ":/icon/res/icon/icon_app_help.png");
+    SARibbonMenu* menuEdge = new SARibbonMenu(this);
+    actionEdge->setMenu(menuEdge);
+    panelEdge->addAction(actionEdge);
+
+    QAction* actionEdgePairs = createAction(tr("对"), ":/icon/res/icon/icon_app_help.png");
+    SARibbonMenu* menuEdgePairs = new SARibbonMenu(this);
+    actionEdgePairs->setMenu(menuEdgePairs);
+    panelEdge->addAction(actionEdgePairs);
+
+    // 3. 边 panel
+    SARibbonPanel* panelPoint = page->addPanel(tr("点"));
+
+    QAction* actionPoints = createAction(tr("边"), ":/icon/res/icon/icon_app_help.png");
+    SARibbonMenu* menuPoints = new SARibbonMenu(this);
+    actionPoints->setMenu(menuPoints);
+    panelPoint->addAction(actionPoints);
+
+    QAction* actionPointPairs = createAction(tr("对"), ":/icon/res/icon/icon_app_help.png");
+    SARibbonMenu* menuPointPairs = new SARibbonMenu(this);
+    actionPointPairs->setMenu(menuPointPairs);
+    panelPoint->addAction(actionPointPairs);
+
 }
 
+/**
+ * @brief 网格分类页面内容
+ * @param page 网格分类页面指针
+ */
 void MainWindow::createCategoryMesh(SARibbonCategory *page)
 {
-    
+    // 1. 构建 panel
+    SARibbonPanel* panelBuild = page->addPanel(tr("构建"));
+
+    QAction* actionBuildMesh = createAction(tr("构建网格"), ":/icon/res/icon/icon_app_help.png");
+    panelBuild->addAction(actionBuildMesh);
+
+    QAction* actionSelectMesh = createAction(tr("选择网格"), ":/icon/res/icon/icon_app_help.png");
+    SARibbonMenu* menuSelectMesh = new SARibbonMenu(this);
+    actionSelectMesh->setMenu(menuSelectMesh);
+    actionSelectMesh->setEnabled(false);
+    panelBuild->addAction(actionSelectMesh);
+
+    QAction* actionAddMesh = createAction(tr("添加网格"), ":/icon/res/icon/icon_app_help.png");
+    panelBuild->addAction(actionAddMesh);
+
+
+    // 2. 物理场控制 panel
+    SARibbonPanel* panelPhysicsControl = page->addPanel(tr("物理场控制"));
+
+    QAction* actionEdit = createAction(tr("编辑"), ":/icon/res/icon/icon_app_help.png");
+    panelPhysicsControl->addAction(actionEdit);
+
+    QAction* actionReset = createAction(tr("重置"), ":/icon/res/icon/icon_app_help.png");
+    panelPhysicsControl->addAction(actionReset);
+
+    QAction* actionPhysicsNormal = createAction(tr("常规"), ":/icon/res/icon/icon_app_help.png");
+    SARibbonMenu* menuPhysicsNormal = new SARibbonMenu(this);
+
+    actionPhysicsNormal->setMenu(menuPhysicsNormal);
+    panelBuild->addAction(actionPhysicsNormal);
+
+    // 3. 生成器 panel
+    SARibbonPanel* panelGenerator = page->addPanel(tr("生成器"));
+
+    QAction* actionBoundary= createAction(tr("边"), ":/icon/res/icon/icon_app_help.png");
+    panelGenerator->addAction(actionBoundary);
+
+
+    // 4. 操作 panel
+    SARibbonPanel* panelOperations = page->addPanel(tr("操作"));
+
+    QAction* actionModify= createAction(tr("修改"), ":/icon/res/icon/icon_app_help.png");
+    SARibbonMenu* menuModify = new SARibbonMenu(this);
+    actionModify->setMenu(menuModify);
+    actionModify->setEnabled(false);
+    panelOperations->addAction(actionModify);
+
+    QAction* actionCopy= createAction(tr("复制"), ":/icon/res/icon/icon_app_help.png");
+    SARibbonMenu* menuCopy = new SARibbonMenu(this);
+    actionCopy->setMenu(menuCopy);
+    actionCopy->setEnabled(false);
+    panelOperations->addAction(actionCopy);
+
+
+    // 5. 属性 panel
+    SARibbonPanel* panelAttributes = page->addPanel(tr("属性"));
+
+    QAction* actionAttrNormal = createAction(tr("常规"), ":/icon/res/icon/icon_app_help.png");
+    SARibbonMenu* menuAttrNormal = new SARibbonMenu(this);
+    actionAttrNormal->setMenu(menuAttrNormal);
+    actionAttrNormal->setEnabled(false);
+    panelAttributes->addAction(actionAttrNormal);
+
+    QAction* actionDistribution= createAction(tr("分布"), ":/icon/res/icon/icon_app_help.png");
+    panelAttributes->addAction(actionDistribution);
+
+    QAction* actionSizeExpression= createAction(tr("大小表达式"), ":/icon/res/icon/icon_app_help.png");
+    panelAttributes->addAction(actionSizeExpression);
+
+
+    QAction* actionMoreAtrr= createAction(tr("更多属性"), ":/icon/res/icon/icon_app_help.png");
+    SARibbonMenu* menuMoreAtrr = new SARibbonMenu(this);
+    actionMoreAtrr->setMenu(menuMoreAtrr);
+    // actionCopy->setEnabled(false);
+    panelAttributes->addAction(actionMoreAtrr);
+
+    // 6. 导入/导出 panel
+    SARibbonPanel* panelImportExport = page->addPanel(tr("导入/导出"));
+
+    QAction* actionImport= createAction(tr("导入"), ":/icon/res/icon/icon_app_help.png");
+    panelImportExport->addAction(actionImport);
+
+    panelImportExport->addSeparator();
+
+    QAction* actionExport= createAction(tr("导出"), ":/icon/res/icon/icon_app_help.png");
+    panelImportExport->addAction(actionExport);
+
+    QAction* actionCreateEntities= createAction(tr("创建零件"), ":/icon/res/icon/icon_app_help.png");
+    panelImportExport->addAction(actionCreateEntities);
+
+    QAction* actionCreatePart= createAction(tr("创建零件"), ":/icon/res/icon/icon_app_help.png");
+    panelImportExport->addAction(actionCreatePart);
+
+    QAction* actionCreateGeoFromMesh= createAction(tr("基于网格创建几何"), ":/icon/res/icon/icon_app_help.png");
+    panelImportExport->addAction(actionCreateGeoFromMesh);
+
+
+    //7. 计算 panel
+    SARibbonPanel* panelEvalute = page->addPanel(tr("计算"));
+
+    QAction* actionMeasure = createAction(tr("测量"), ":/icon/res/icon/icon_app_help.png");
+    panelEvalute->addSmallAction(actionMeasure);
+    QAction* actionStatistics = createAction(tr("统计信息"), ":/icon/res/icon/icon_app_help.png");
+    panelEvalute->addSmallAction(actionStatistics);
+    QAction* actionPlot = createAction(tr("绘制"), ":/icon/res/icon/icon_app_help.png");
+    panelEvalute->addSmallAction(actionPlot);
+
+
+    //8. 清除 panel
+    SARibbonPanel* panelClear = page->addPanel(tr("清除"));
+
+    QAction* actionClearMesh = createAction(tr("清楚网格"), ":/icon/res/icon/icon_app_help.png");
+    panelClear->addAction(actionClearMesh);
+    QAction* actionClearAllMesh = createAction(tr("清楚所有网格"), ":/icon/res/icon/icon_app_help.png");
+    actionClearAllMesh->setVisible(false);
+    panelClear->addAction(actionClearAllMesh);
+    QAction* actionDeleteSequence = createAction(tr("删除序列"), ":/icon/res/icon/icon_app_help.png");
+    panelClear->addAction(actionDeleteSequence);
+
 }
 
 void MainWindow::createCategoryStudy(SARibbonCategory *page)
