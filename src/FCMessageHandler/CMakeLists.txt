@@ -23,6 +23,7 @@ find_package(Qt${QT_VERSION_MAJOR} ${FC_MIN_QT_VERSION} COMPONENTS
     Gui
     Widgets
     Xml
+    Svg
     REQUIRED
 )
 
@@ -32,12 +33,14 @@ find_package(Qt${QT_VERSION_MAJOR} ${FC_MIN_QT_VERSION} COMPONENTS
 ########################################################
 file(GLOB FC_LIB_HEADER_FILES "${CMAKE_CURRENT_SOURCE_DIR}/*.h")
 file(GLOB FC_LIB_SOURCE_FILES "${CMAKE_CURRENT_SOURCE_DIR}/*.cpp")
-
+file(GLOB FC_LIB_UI_FILES "${CMAKE_CURRENT_SOURCE_DIR}/*.ui")
+file(GLOB FC_LIB_QT_RC_FILES "${CMAKE_CURRENT_SOURCE_DIR}/*.qrc")
 
 add_library(${FC_LIB_NAME} SHARED
             ${FC_LIB_HEADER_FILES}
             ${FC_LIB_SOURCE_FILES}
-            ${FC_GLOBAL_HEADER}
+            ${FC_LIB_UI_FILES}
+            ${FC_LIB_QT_RC_FILES}
 )	
 # 构建库定义的宏,必须为Private
 target_compile_definitions(${FC_LIB_NAME} PRIVATE FCMESSAGEHANDLER_BUILDLIB)
@@ -51,6 +54,7 @@ target_link_libraries(${FC_LIB_NAME} PRIVATE
     Qt${QT_VERSION_MAJOR}::Gui
     Qt${QT_VERSION_MAJOR}::Widgets
     Qt${QT_VERSION_MAJOR}::Xml
+    Qt${QT_VERSION_MAJOR}::Svg
 )
 message(STATUS "${FC_LIB_NAME} Qt${QT_VERSION_MAJOR}.${QT_VERSION_MINOR}.${QT_VERSION_PATCH}")
 
@@ -63,18 +67,27 @@ fcmacro_import_spdlog(${FC_LIB_NAME})
 #指定FCWorkbench_DIR为工程的顶层BINARY_DIR，否则找不到FCWorkbench
 find_package(${FC_PROJECT_NAME} COMPONENTS 
     FCUtils
+     
 )
 if(${FC_PROJECT_NAME}_FOUND)
     message(STATUS "  |-linked ${FC_PROJECT_NAME}::FCUtils")
 endif()
 target_link_libraries(${FC_LIB_NAME} PUBLIC
     ${FC_PROJECT_NAME}::FCUtils
+    # ${FC_PROJECT_NAME}::FCShared
 )
 
 ########################################################
 # 设置通用库属性
 ########################################################
 fcmacro_set_lib_properties(${FC_LIB_NAME} ${FC_LIB_VERSION})
+
+
+# 添加这个主要是为了ui文件进行窗口提升时能找到头文件
+target_include_directories(${FC_LIB_NAME} PUBLIC
+    $<INSTALL_INTERFACE:include/${FC_PROJECT_NAME}/${FC_LIB_NAME}>
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
+)
 
 ########################################################
 # 安装

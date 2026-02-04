@@ -12,13 +12,26 @@
 #include "FCGUIAPI.h"
 #include <QWidget>
 
+class QVBoxLayout;
+
 namespace FC 
 {
+
+class FCMessageLogView;
+
 class FCGUI_API FCMessageLogWidget :public QWidget
 {
     Q_OBJECT
 public:
     explicit FCMessageLogWidget(QWidget* parent = nullptr);
+    ~FCMessageLogWidget();
+    void init();
+    
+    FCMessageLogView* getWidget() const ;
+private:
+    FCMessageLogView* mLogView;
+    QVBoxLayout *mLayout;
+    
 };
 } // namespace FC
 

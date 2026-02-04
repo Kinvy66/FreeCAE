@@ -1,0 +1,10 @@
+<RCC>
+    <qresource prefix="/icon">
+        <file>icon/clear-message.svg</file>
+        <file>icon/copy.svg</file>
+        <file>icon/messageTypeDebug.svg</file>
+        <file>icon/messageTypeError.svg</file>
+        <file>icon/messageTypeInfo.svg</file>
+        <file>icon/messageTypeWarning.svg</file>
+    </qresource>
+</RCC>
