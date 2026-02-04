@@ -1,0 +1,6 @@
+PPT
+*.drawio.dtmp
+*.drawio.bkp
+.$*
+~$*
+doxygen/
