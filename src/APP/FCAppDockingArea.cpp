@@ -214,11 +214,10 @@ void FCAppDockingArea::buildGraphicOperateWidget()
 void FCAppDockingArea::buildMessageLogViewWidget()
 {
     mMessageLogViewWidget = new FCMessageLogWidget(mApp);
-    mMessageLogDock->setObjectName("fc_messageLogViewWidgetDock");
-    
+    mMessageLogViewWidget->setObjectName("fc_messageLogViewWidgetDock");
+
     mProgressWidget = new FCProgressWidget(mApp);
-    mMessageLogDock->setObjectName("fc_progressWidgettDock");
-    
+    mProgressWidget->setObjectName("fc_progressWidgettDock");
 }
 
 void FCAppDockingArea::initConnection()
@@ -232,7 +231,7 @@ void FCAppDockingArea::initConnection()
 	 */
 ads::CDockWidget* FCAppDockingArea::getModelBuilderDock() const
 {
-    return mMessageLogDock;
+    return mModelBuilderDock;
 }
 
 /**
