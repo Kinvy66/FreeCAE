@@ -14,3 +14,4 @@ add_subdirectory(FCMessageHandler)
 
 add_subdirectory(APP)
 
+add_subdirectory(FCGUI)

@@ -29,14 +29,14 @@ class FCAppDataManager;
 class FCAppCommand;
 
 // 模型窗口
-class FCModelBuilderWidget;
+class FCProjectTreeWidget;
 // 图形窗口
-class FCGraphicOperateWidget;
-// 设置窗口
-class FCSettingParametersWidget;
+class FCRenderWidget;
+// 属性窗口
+class FCPropertyWidget;
 // 日志窗口
-class FCMessageLogViewWidget;
-
+class FCMessageLogWidget;
+// 进度窗口
 class FCProgressWidget;
 
 
@@ -55,16 +55,16 @@ public:
     
 public:
     // 获取模型窗口
-    virtual QWidget* getModelBuilderWidget() const override;
+    virtual FCProjectTreeWidget* getModelBuilderWidget() const override;
     
     // 获取设置窗口
-    virtual QWidget* getSettingParametersWidget() const override;
+    virtual FCPropertyWidget* getSettingParametersWidget() const override;
     
     // 获取图形可视化窗口
-    virtual QWidget* getGraphicOperateWidget() const override;
+    virtual FCRenderWidget* getGraphicOperateWidget() const override;
     
     // 获取日志显示窗口
-    virtual QWidget* getMessageLogViewWidget() const override;
+    virtual FCMessageLogWidget* getMessageLogViewWidget() const override;
     
     /**
 	 * @brief 模型构建dock
@@ -116,23 +116,23 @@ private:
     // FCAppDataManager* mDataMgr;
     
     // 模型构建窗口
-    QWidget* mModelBuilderWidget;                  ///< 模型构建窗口
+    FCProjectTreeWidget* mModelBuilderWidget;                  ///< 模型构建窗口
     ads::CDockWidget* mModelBuilderDock;                        ///< mModelBuilderWidget对应的docking
     
     // 参数设置构建窗口
-    QWidget* mSettingParametersWidget;        ///< 参数设置窗口
+    FCPropertyWidget* mSettingParametersWidget;        ///< 参数设置窗口
     ads::CDockWidget* mSettingParametersDock;                   ///< mSettingParametersWidget对应的docking
     
     // 图形操作窗口
-    QWidget* mGraphicOperateWidget;              ///< 图形操作窗口
+    FCRenderWidget* mGraphicOperateWidget;              ///< 图形操作窗口
     ads::CDockWidget* mGraphicOperateDock;                      ///< mGraphicOperateWidget对应的docking
     
     // 日志窗口
-    QWidget* mMessageLogViewWidget;              ///< 日志窗口
+    FCMessageLogWidget* mMessageLogViewWidget;              ///< 日志窗口
     ads::CDockWidget* mMessageLogDock;                          ///< mMessageLogViewWidget对应的docking
     
     // 进度窗口
-    QWidget* mProgressWidget;                      ///< 日志窗口
+    FCProgressWidget* mProgressWidget;                      ///< 日志窗口
     ads::CDockWidget* mProgressDock;                          ///< mMessageLogViewWidget对应的docking
 
 };

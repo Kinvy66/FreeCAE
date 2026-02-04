@@ -37,13 +37,17 @@ class FCSettingParametersWidget;
 class FCGraphicOperateWidget;
 class FCMessageLogViewWidget;
 
-// class FCChartManageWidget;
-// class FCChartOperateWidget;
-// class FCDataManageWidget;
-// class FCDataOperateWidget;
-class FCMessageLogViewWidget;
-// class FCWorkFlowNodeListWidget;
-// class FCWorkFlowOperateWidget;
+// 模型窗口
+class FCProjectTreeWidget;
+// 图形窗口
+class FCRenderWidget;
+// 属性窗口
+class FCPropertyWidget;
+// 日志窗口
+class FCMessageLogWidget;
+// 进度窗口
+class FCProgressWidget;
+
 
 class FCINTERFACE_API FCDockingAreaInterface : public FCUIExtendInterface
 {
@@ -210,16 +214,16 @@ public:
 	 */
     
     // 获取模型窗口
-    virtual QWidget* getModelBuilderWidget() const = 0;
+    virtual FCProjectTreeWidget* getModelBuilderWidget() const = 0;
     
     // 获取设置窗口
-    virtual QWidget* getSettingParametersWidget() const = 0;
+    virtual FCPropertyWidget* getSettingParametersWidget() const = 0;
     
     // 获取图形可视化窗口
-    virtual QWidget* getGraphicOperateWidget() const = 0;
+    virtual FCRenderWidget* getGraphicOperateWidget() const = 0;
     
     // 获取日志显示窗口
-    virtual QWidget* getMessageLogViewWidget() const = 0;
+    virtual FCMessageLogWidget* getMessageLogViewWidget() const = 0;
     
 
     

@@ -23,11 +23,11 @@
 // #include "FCAppDataManager.h"
 
 // docking ui
-// #include "FCModelBuilderWidget.h"
-// #include "FCSettingParametersWidget.h"
-// #include "FCGraphicOperateWidget.h"
-// #include "FCMessageLogViewWidget.h"
-// #include "FCProgressWidget.h"
+#include "FCProjectTreeWidget.h"
+#include "FCRenderWidget.h"
+#include "FCPropertyWidget.h"
+#include "FCMessageLogWidget.h"
+#include "FCProgressWidget.h"
 
 
 //===================================================
@@ -76,7 +76,7 @@ void FCAppDockingArea::resetText()
  * @brief 获取模型构建窗口
  * @return 
  */
-QWidget *FCAppDockingArea::getModelBuilderWidget() const
+FCProjectTreeWidget *FCAppDockingArea::getModelBuilderWidget() const
 {
     return mModelBuilderWidget;   
 }
@@ -85,7 +85,7 @@ QWidget *FCAppDockingArea::getModelBuilderWidget() const
  * @brief 获取参数设置构建窗口
  * @return 
  */
-QWidget *FCAppDockingArea::getSettingParametersWidget() const
+FCPropertyWidget *FCAppDockingArea::getSettingParametersWidget() const
 {
     return mSettingParametersWidget;       
 }
@@ -94,7 +94,7 @@ QWidget *FCAppDockingArea::getSettingParametersWidget() const
  * @brief 获取图形操作窗口
  * @return 
  */
-QWidget *FCAppDockingArea::getGraphicOperateWidget() const
+FCRenderWidget *FCAppDockingArea::getGraphicOperateWidget() const
 {
     return mGraphicOperateWidget;       
 }
@@ -103,7 +103,7 @@ QWidget *FCAppDockingArea::getGraphicOperateWidget() const
  * @brief 获取日志窗口
  * @return 
  */
-QWidget *FCAppDockingArea::getMessageLogViewWidget() const
+FCMessageLogWidget *FCAppDockingArea::getMessageLogViewWidget() const
 {
     return mMessageLogViewWidget;       
 }
@@ -186,7 +186,7 @@ void FCAppDockingArea::buildDockingArea()
  */
 void FCAppDockingArea::buildModelBuilderWidget()
 {
-    mModelBuilderWidget = new QWidget();
+    mModelBuilderWidget = new FCProjectTreeWidget(mApp);
     mModelBuilderWidget->setObjectName("fc_modelBuilderWidgetDock");
 }
 
@@ -195,7 +195,7 @@ void FCAppDockingArea::buildModelBuilderWidget()
  */
 void FCAppDockingArea::buildSettingParameterWidget()
 {
-    mSettingParametersWidget = new QWidget(mApp);
+    mSettingParametersWidget = new FCPropertyWidget(mApp);
     mSettingParametersWidget->setObjectName("fc_settingParameterWidgetDock");
 }
 
@@ -204,7 +204,7 @@ void FCAppDockingArea::buildSettingParameterWidget()
  */
 void FCAppDockingArea::buildGraphicOperateWidget()
 {
-    mGraphicOperateWidget = new QWidget(mApp);
+    mGraphicOperateWidget = new FCRenderWidget(mApp);
     mGraphicOperateWidget->setObjectName("fc_graphicOperateWidgetDock");
 }
 
@@ -213,11 +213,11 @@ void FCAppDockingArea::buildGraphicOperateWidget()
  */
 void FCAppDockingArea::buildMessageLogViewWidget()
 {
-    mMessageLogViewWidget = new QWidget(mApp);
-    mMessageLogViewWidget->setObjectName("fc_messageLogViewWidgetDock");
+    mMessageLogViewWidget = new FCMessageLogWidget(mApp);
+    mMessageLogDock->setObjectName("fc_messageLogViewWidgetDock");
     
-    mProgressWidget = new QWidget(mApp);
-    mProgressWidget->setObjectName("fc_progressWidgettDock");
+    mProgressWidget = new FCProgressWidget(mApp);
+    mMessageLogDock->setObjectName("fc_progressWidgettDock");
     
 }
 
