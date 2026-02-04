@@ -37,6 +37,8 @@ public:
     //查找action
     QAction* findAction(const char* objname);
     QAction* findAction(const QString& objname);
+    // 获取所有的action
+    QList<QAction* > getAllActions();
 };
 
 

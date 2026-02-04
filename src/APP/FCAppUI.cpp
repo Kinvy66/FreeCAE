@@ -12,6 +12,7 @@
 #include "FCAppActions.h"
 #include "FCAppCommand.h"
 #include "FCAppCore.h"
+#include "FCActionEventHandler.h"
 // #include "FCAppDataManager.h"
 #include "AppMainWindow.h"
 #include "FCStatusBar.h"
@@ -44,7 +45,7 @@ FCAppUI::FCAppUI(SARibbonMainWindow* m, FCCoreInterface* c) : FCUIInterface(m, c
  */
 QMainWindow* FCAppUI::getMainWindow() const
 {
-    return static_cast< QMainWindow* >(m_ribbonArea->app());
+    return static_cast< QMainWindow* >(mRibbonArea->app());
 }
 
 /**
@@ -53,7 +54,7 @@ QMainWindow* FCAppUI::getMainWindow() const
  */
 FCDockingAreaInterface* FCAppUI::getDockingArea()
 {
-    return m_dockingArea;
+    return mDockingArea;
 }
 
 /**
@@ -62,7 +63,7 @@ FCDockingAreaInterface* FCAppUI::getDockingArea()
  */
 FCRibbonAreaInterface* FCAppUI::getRibbonArea()
 {
-    return m_ribbonArea;
+    return mRibbonArea;
 }
 
 /**
@@ -72,9 +73,10 @@ void FCAppUI::createUi()
 {
     createCmd();      // cmd必须先创建，因为Actions会用到cmd的
     createActions();  // Actions第二个创建
+    mActionHandler = new FCActionEventHandler();
     createDockingArea();
     createRibbonArea();
-    m_ribbonArea->setDockingArea(m_dockingArea);
+    mRibbonArea->setDockingArea(mDockingArea);
     createStatusBar();
 }
 
@@ -93,7 +95,12 @@ FCAppCore* FCAppUI::getAppCore()
  */
 FCAppActions* FCAppUI::getAppActions()
 {
-    return m_actions;
+    return mActions;
+}
+
+FCActionEventHandler *FCAppUI::getActionHandler()
+{
+    return mActionHandler;
 }
 
 /**
@@ -102,7 +109,7 @@ FCAppActions* FCAppUI::getAppActions()
  */
 FCAppCommand* FCAppUI::getAppCmd()
 {
-    return m_cmd;
+    return mCmd;
 }
 
 /**
@@ -111,7 +118,7 @@ FCAppCommand* FCAppUI::getAppCmd()
  */
 FCAppDockingArea* FCAppUI::getAppDockingArea()
 {
-    return m_dockingArea;
+    return mDockingArea;
 }
 
 /**
@@ -120,7 +127,7 @@ FCAppDockingArea* FCAppUI::getAppDockingArea()
  */
 FCAppRibbonArea* FCAppUI::getAppRibbonArea()
 {
-    return m_ribbonArea;
+    return mRibbonArea;
 }
 
 /**
@@ -137,9 +144,9 @@ FCStatusBar *FCAppUI::getStautsBar()
  */
 void FCAppUI::createActions()
 {
-    m_actions = new FCAppActions(this);
+    mActions = new FCAppActions(this);
     // m_actions->retranslateUi();  // 显示调用文字翻译
-    registeAction(m_actions);
+    registeAction(mActions);
 }
 
 /**
@@ -147,8 +154,8 @@ void FCAppUI::createActions()
  */
 void FCAppUI::createCmd()
 {
-    m_cmd = new FCAppCommand(this);
-    registeCommand(m_cmd);
+    mCmd = new FCAppCommand(this);
+    registeCommand(mCmd);
 }
 
 /**
@@ -156,8 +163,8 @@ void FCAppUI::createCmd()
  */
 void FCAppUI::createDockingArea()
 {
-    m_dockingArea = new FCAppDockingArea(this);
-    registeExtend(m_dockingArea);
+    mDockingArea = new FCAppDockingArea(this);
+    registeExtend(mDockingArea);
 }
 
 /**
@@ -165,8 +172,8 @@ void FCAppUI::createDockingArea()
  */
 void FCAppUI::createRibbonArea()
 {
-    m_ribbonArea = new FCAppRibbonArea(this);
-    registeExtend(m_ribbonArea);
+    mRibbonArea = new FCAppRibbonArea(this);
+    registeExtend(mRibbonArea);
 }
 
 /**

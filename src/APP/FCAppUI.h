@@ -16,6 +16,7 @@ namespace FC
 class FCAppCore;
 class FCAppCommand;
 class FCAppActions;
+class FCActionEventHandler;
 class FCAppDockingArea;
 class FCAppRibbonArea;
 class FCStatusBar;
@@ -45,6 +46,9 @@ public:
     FCAppCore* getAppCore();
     //减少一次dynamic_cast
     FCAppActions* getAppActions();
+    
+    FCActionEventHandler* getActionHandler();
+    
     //减少一次dynamic_cast
     FCAppCommand* getAppCmd();
     //获取dock
@@ -62,11 +66,13 @@ protected:
     void createStatusBar();
     
 public:
-    FCAppActions* m_actions;
-    FCAppCommand* m_cmd;
-    FCAppDockingArea* m_dockingArea;
-    FCAppRibbonArea* m_ribbonArea;
+    FCAppActions* mActions;
+    
+    FCAppCommand* mCmd;
+    FCAppDockingArea* mDockingArea;
+    FCAppRibbonArea* mRibbonArea;
     FCStatusBar* mStatusBar;
+    FCActionEventHandler* mActionHandler;
 };
 
 } // namespace FC

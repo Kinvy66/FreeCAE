@@ -181,69 +181,69 @@ public:
     ///////////////////////////////////////////
     // pass
     
-    FCAppActions* m_actions;       ///< 所有的action管理
-    FCAppDockingArea* m_dockArea;  ///< 注意这个变量不能在构造函数中调用
-    AppMainWindow* m_app;
-    FCAppCommand* m_appCmd;        ///< cmd
+    FCAppActions* mActions;       ///< 所有的action管理
+    FCAppDockingArea* mDockArea;  ///< 注意这个变量不能在构造函数中调用
+    AppMainWindow* mApp;
+    FCAppCommand* mAppCmd;        ///< cmd
     //----------------------------------------------------
     // Main
     //----------------------------------------------------
-    SARibbonCategory* m_categoryMain;           ///< 主页标签
-    SARibbonPanel* m_panelMainFileOpt;         ///< 文件操作
-    SARibbonPanel* m_panelModelOpt;            ///< 模型操作
-    SARibbonPanel* m_panelGeometryOpt;         ///< 几何操作
-    SARibbonPanel* m_panelMeshOpt;             ///< 网格操作
-    SARibbonPanel* m_panelStudyOpt;            ///< 研究操作
-    SARibbonPanel* m_panelLayoutOpt;           ///< 布局操作
+    SARibbonCategory* mCategoryMain;           ///< 主页标签
+    SARibbonPanel* mPanelMainFileOpt;         ///< 文件操作
+    SARibbonPanel* mPanelModelOpt;            ///< 模型操作
+    SARibbonPanel* mPanelGeometryOpt;         ///< 几何操作
+    SARibbonPanel* mPanelMeshOpt;             ///< 网格操作
+    SARibbonPanel* mPanelStudyOpt;            ///< 研究操作
+    SARibbonPanel* mPanelLayoutOpt;           ///< 布局操作
     
     //----------------------------------------------------
     // Geometry
     //----------------------------------------------------
-    SARibbonCategory* m_categoryGeometry;           ///< 几何标签
-    SARibbonPanel* m_panelGeometryBuildOpt;        ///< 构建操作
-    SARibbonPanel* m_panelGeometryImpExpOpt;       ///< 导入/导出操作
-    SARibbonPanel* m_panelGeometryPrimOpt;         ///< 体素操作
-    SARibbonPanel* m_panelGeometryWrkPlaneOpt;     ///< 工作平面操作
-    SARibbonPanel* m_panelGeometryOperatopsOpt;    ///< 操作
-    SARibbonPanel* m_panelGeometryOtherOpt;        ///< 其他操作
+    SARibbonCategory* mCategoryGeometry;           ///< 几何标签
+    SARibbonPanel* mPanelGeometryBuildOpt;        ///< 构建操作
+    SARibbonPanel* mPanelGeometryImpExpOpt;       ///< 导入/导出操作
+    SARibbonPanel* mPanelGeometryPrimOpt;         ///< 体素操作
+    SARibbonPanel* mPanelGeometryWrkPlaneOpt;     ///< 工作平面操作
+    SARibbonPanel* mPanelGeometryOperatopsOpt;    ///< 操作
+    SARibbonPanel* mPanelGeometryOtherOpt;        ///< 其他操作
     
     //----------------------------------------------------
     // Mesh
     //----------------------------------------------------
-    SARibbonCategory* m_categoryMesh;           ///< 网格标签
-    SARibbonPanel* m_panelMeshBuildOpt;        ///< 构建操作
-    SARibbonPanel* m_panelMeshImpExpOpt;       ///< 导入/导出操作
-    SARibbonPanel* m_panelMeshGenerateOpt;     ///< 生成操作
-    SARibbonPanel* m_panelMeshAttrOpt;         ///< 属性操作
-    SARibbonPanel* m_panelMeshOperationOpt;    ///< 编辑操作
-    SARibbonPanel* m_panelMeshEvaluateOpt;     ///< 计算操作
-    SARibbonPanel* m_pannelMeshClearOpt;        ///< 清除操作
-    SARibbonPanel* m_pannelMeshOtherOpt;        ///< 清除操作
+    SARibbonCategory* mCategoryMesh;           ///< 网格标签
+    SARibbonPanel* mPanelMeshBuildOpt;        ///< 构建操作
+    SARibbonPanel* mPanelMeshImpExpOpt;       ///< 导入/导出操作
+    SARibbonPanel* mPanelMeshGenerateOpt;     ///< 生成操作
+    SARibbonPanel* mPanelMeshAttrOpt;         ///< 属性操作
+    SARibbonPanel* mPanelMeshOperationOpt;    ///< 编辑操作
+    SARibbonPanel* mPanelMeshEvaluateOpt;     ///< 计算操作
+    SARibbonPanel* mPanelMeshClearOpt;        ///< 清除操作
+    SARibbonPanel* mPanelMeshOtherOpt;        ///< 其他操作
     
     //----------------------------------------------------
     // Study
     //----------------------------------------------------
-    SARibbonCategory* m_categoryStudy;           ///< 研究标签
-    // SARibbonPanel* m_pannelStudyOpt;             ///< 计算操作
-    SARibbonPanel* m_panelStudySolverOpt;       ///< 求解器操作
-    SARibbonPanel* m_panelStudyStepOpt;         ///< 研究步骤
-    SARibbonPanel* m_panelStudyCleanOpt;        ///< 清除操作
+    SARibbonCategory* mCategoryStudy;           ///< 研究标签
+    // SARibbonPanel* mPanelStudyOpt;             ///< 计算操作
+    SARibbonPanel* mPanelStudySolverOpt;       ///< 求解器操作
+    SARibbonPanel* mPanelStudyStepOpt;         ///< 研究步骤
+    SARibbonPanel* mPanelStudyCleanOpt;        ///< 清除操作
     
     //----------------------------------------------------
     // Result
     //----------------------------------------------------
-    SARibbonCategory* m_categoryResult;      ///< 结果标签
-    SARibbonPanel* m_panelPlotGroupRes;     ///< 绘图组操作
-    SARibbonPanel* m_panelDataSetRes;       ///< 数据集
-    SARibbonPanel* m_panelNumrcalRes;       ///< 数值结果
-    SARibbonPanel* m_panelExportRes;        ///< 导出结果
-    SARibbonPanel* m_panelClearRes;         ///< 清除操作
+    SARibbonCategory* mCategoryResult;      ///< 结果标签
+    SARibbonPanel* mPanelPlotGroupRes;     ///< 绘图组操作
+    SARibbonPanel* mPanelDataSetRes;       ///< 数据集
+    SARibbonPanel* mPanelNumrcalRes;       ///< 数值结果
+    SARibbonPanel* mPanelExportRes;        ///< 导出结果
+    SARibbonPanel* mPanelClearRes;         ///< 清除操作
     
     //----------------------------------------------------
     // Tools
     //----------------------------------------------------
-    SARibbonCategory* m_categoryTools;   ///< 工具标签
-    SARibbonPanel* m_panelDevTools;     ///< 开发工具
+    SARibbonCategory* mCategoryTools;   ///< 工具标签
+    SARibbonPanel* mPanelDevTools;     ///< 开发工具
 
    
     // ApplicationMenu
@@ -251,10 +251,10 @@ public:
     
     // 菜单相关
     // QMenu* mExportWorkflowSceneToImageMenu { nullptr };  ///< scene导出为图片菜单
-    // QMenu* m_menuViewLineMarkers { nullptr };            ///< 视图标记线
-    // QMenu* m_menuInsertRow { nullptr };                  ///< 针对insertrow的action menu
-    // QMenu* m_menuInsertColumn { nullptr };               ///< 这对insertcol的action menu
-    QMenu* m_menuTheme { nullptr };                      ///< 主题菜单    
+    // QMenu* mMenuViewLineMarkers { nullptr };            ///< 视图标记线
+    // QMenu* mMenuInsertRow { nullptr };                  ///< 针对insertrow的action menu
+    // QMenu* mMenuInsertColumn { nullptr };               ///< 这对insertcol的action menu
+    QMenu* mMenuTheme { nullptr };                      ///< 主题菜单    
 
     
 };

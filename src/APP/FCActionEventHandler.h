@@ -1,4 +1,4 @@
-**
+/**
  * @file FCActionEventHandler.h
  * @brief action点击事件处理
  * @date 2026-01-29
@@ -37,8 +37,7 @@ private:
      * @return 
      */
     FCActionOperator* getOperator(QObject* object);
-    
-    
+
 };
 } // namespace FC
 

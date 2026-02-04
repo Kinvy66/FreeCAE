@@ -80,6 +80,7 @@ AppMainWindow::AppMainWindow(QWidget *parent)
         .setAppMainWindow(this)                       // app
         .setAppCore(&core)                            // core
         .setAppActions(mUI->getAppActions())          // action
+        .setActionHandler(mUI->getActionHandler())
         .setAppCommand(mUI->getAppCmd())              // cmd
         .setAppDataManager(core.getAppDatas())        // data
         .setAppDockingArea(mUI->getAppDockingArea())  // dock

@@ -31,6 +31,7 @@
 #include "FCAppDockingArea.h"
 #include "FCAppCommand.h"
 #include "FCAppActions.h"
+#include "FCActionEventHandler.h"
 // #include "FCAppDataManager.h"
 #include "FCProjectInterface.h"
 // Qt-Advanced-Docking-System
@@ -138,6 +139,12 @@ QMessageBox::                                                                   
         return (*this);
     }
     
+    FCAppController &FCAppController::setActionHandler(FCActionEventHandler *handler)
+    {
+        mActionHandler = handler;
+        return (*this);        
+    }
+    
     /**
  * @brief 设置app数据管理
  * @param d
@@ -171,7 +178,11 @@ QMessageBox::                                                                   
  */
     void FCAppController::initConnection()
     {
-        
+        QList<QAction*> actionList = mActions->getAllActions();
+        for (QAction* action : actionList) {
+            if (action == nullptr)continue;
+            connect(action, &QAction::triggered, mActionHandler, &FCActionEventHandler::execOperator);
+        }
     }
     
     

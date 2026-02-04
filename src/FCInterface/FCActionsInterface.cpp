@@ -171,3 +171,13 @@ QAction* FCActionsInterface::findAction(const QString& objname)
 {
     return d_ptr->mObjectToAction.value(objname, nullptr);
 }
+
+
+/**
+ * @brief 获取所有的action
+ * @return
+ */
+QList<QAction *> FCActionsInterface::getAllActions()
+{
+    return d_ptr->mObjectToAction.values();
+}

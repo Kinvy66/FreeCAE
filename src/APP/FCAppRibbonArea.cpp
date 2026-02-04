@@ -101,9 +101,9 @@ FCAppRibbonArea::FCAppRibbonArea(FCUIInterface* u)
     : FCRibbonAreaInterface(u)
 {
     FCAppUI* appui = qobject_cast< FCAppUI* >(u);
-    m_app          = qobject_cast< AppMainWindow* >(appui->mainWindow());
-    m_actions      = qobject_cast< FCAppActions* >(u->getActionInterface());
-    m_appCmd       = qobject_cast< FCAppCommand* >(u->getCommandInterface());
+    mApp          = qobject_cast< AppMainWindow* >(appui->mainWindow());
+    mActions      = qobject_cast< FCAppActions* >(u->getActionInterface());
+    mAppCmd       = qobject_cast< FCAppCommand* >(u->getCommandInterface());
     // ribbon的构建在setDockingArea进行，为了保证ribbon在dock之后构建
 }
 
@@ -118,13 +118,13 @@ FCAppRibbonArea::~FCAppRibbonArea()
 void FCAppRibbonArea::buildMenu()
 {
 
-    m_menuTheme = new SARibbonMenu(m_app);
-    // m_menuTheme->setObjectName(QStringLiteral("menuTheme"));
-    // m_menuTheme->setIcon(QIcon(QStringLiteral(":/app/bright/Icon/theme.svg")));
-    // m_menuTheme->addAction(m_actions->actionRibbonThemeOffice2013);
-    // m_menuTheme->addAction(m_actions->actionRibbonThemeOffice2016Blue);
-    // m_menuTheme->addAction(m_actions->actionRibbonThemeOffice2021Blue);
-    // m_menuTheme->addAction(m_actions->actionRibbonThemeDark);
+    mMenuTheme = new SARibbonMenu(mApp);
+    // mMenuTheme->setObjectName(QStringLiteral("menuTheme"));
+    // mMenuTheme->setIcon(QIcon(QStringLiteral(":/app/bright/Icon/theme.svg")));
+    // mMenuTheme->addAction(m_actions->actionRibbonThemeOffice2013);
+    // mMenuTheme->addAction(m_actions->actionRibbonThemeOffice2016Blue);
+    // mMenuTheme->addAction(m_actions->actionRibbonThemeOffice2021Blue);
+    // mMenuTheme->addAction(m_actions->actionRibbonThemeDark);
 
 }
 
@@ -143,12 +143,12 @@ void FCAppRibbonArea::resetText()
 {
     ribbonBar()->applicationButton()->setText(tr("文件"));  // 文件
     
-    // m_categoryMain->setCategoryName(tr("主页"));              // cn:主页
-    // m_categoryGeometry->setCategoryName(tr("几何"));       // cn:几何
-    // m_categoryMesh->setCategoryName(tr("Mesh"));              // cn:网格
-    // m_categoryStudy->setCategoryName(tr("Study"));            // cn: 研究
-    // m_categoryResult->setCategoryName(tr("Reslut"));          // cn:结果
-    // m_categoryTools->setCategoryName(tr("Tools"));            // cn:工具
+    // mCategoryMain->setCategoryName(tr("主页"));              // cn:主页
+    // mCategoryGeometry->setCategoryName(tr("几何"));       // cn:几何
+    // mCategoryMesh->setCategoryName(tr("Mesh"));              // cn:网格
+    // mCategoryStudy->setCategoryName(tr("Study"));            // cn: 研究
+    // mCategoryResult->setCategoryName(tr("Reslut"));          // cn:结果
+    // mCategoryTools->setCategoryName(tr("Tools"));            // cn:工具
     
     //todo:其他panel以及action的翻译
 }
@@ -180,28 +180,28 @@ void FCAppRibbonArea::buildRibbon()
  */
 void FCAppRibbonArea::buildRibbonMainCategory()
 {
-    m_categoryMain = new SARibbonCategory(app());
-    m_categoryMain->setObjectName(QStringLiteral("fc-ribbon-category-main"));
-    m_categoryMain->setCategoryName(tr("主页"));
+    mCategoryMain = new SARibbonCategory(app());
+    mCategoryMain->setObjectName(QStringLiteral("fc-ribbon-category-main"));
+    mCategoryMain->setCategoryName(tr("主页"));
     //---------File Pannel -----------------------------------------------
-    m_panelMainFileOpt = m_categoryMain->addPanel(tr("文件"));
-    m_panelMainFileOpt->setObjectName(QStringLiteral("fc-ribbon-category-main.file"));
-    m_panelMainFileOpt->addLargeAction(m_actions->actionNew);
-    m_panelMainFileOpt->addLargeAction(m_actions->actionOpen);
-    m_panelMainFileOpt->addLargeAction(m_actions->actionSave);
+    mPanelMainFileOpt = mCategoryMain->addPanel(tr("文件"));
+    mPanelMainFileOpt->setObjectName(QStringLiteral("fc-ribbon-category-main.file"));
+    mPanelMainFileOpt->addLargeAction(mActions->actionNew);
+    mPanelMainFileOpt->addLargeAction(mActions->actionOpen);
+    mPanelMainFileOpt->addLargeAction(mActions->actionSave);
     
-    m_panelModelOpt = m_categoryMain->addPanel(tr("模型"));
-    m_panelModelOpt->setObjectName(QStringLiteral("fc-ribbon-category-main.model"));
-    m_panelModelOpt->addLargeAction(m_actions->actionHomeImportGeometry);
-    m_panelModelOpt->addLargeAction(m_actions->actionHomeImportMesh);
+    mPanelModelOpt = mCategoryMain->addPanel(tr("模型"));
+    mPanelModelOpt->setObjectName(QStringLiteral("fc-ribbon-category-main.model"));
+    mPanelModelOpt->addLargeAction(mActions->actionHomeImportGeometry);
+    mPanelModelOpt->addLargeAction(mActions->actionHomeImportMesh);
     
-    m_panelLayoutOpt = m_categoryMain->addPanel(tr("布局"));
-    m_panelLayoutOpt->setObjectName(QStringLiteral("fc-ribbon-category-main.layout"));
-    m_panelLayoutOpt->addLargeAction(m_actions->actionWindowViews);
-    m_panelLayoutOpt->addLargeAction(m_actions->actionResetLayout);
+    mPanelLayoutOpt = mCategoryMain->addPanel(tr("布局"));
+    mPanelLayoutOpt->setObjectName(QStringLiteral("fc-ribbon-category-main.layout"));
+    mPanelLayoutOpt->addLargeAction(mActions->actionWindowViews);
+    mPanelLayoutOpt->addLargeAction(mActions->actionResetLayout);
     
     
-    ribbonBar()->addCategoryPage(m_categoryMain);
+    ribbonBar()->addCategoryPage(mCategoryMain);
 }
 
 /**
@@ -210,84 +210,84 @@ void FCAppRibbonArea::buildRibbonMainCategory()
  */
 void FCAppRibbonArea::buildRibbonGeometryCategory()
 {
-    m_categoryGeometry = new SARibbonCategory(app());
-    m_categoryGeometry->setObjectName(QStringLiteral("fc-ribbon-category-geometry"));
-    m_categoryGeometry->setCategoryName(tr("几何"));
+    mCategoryGeometry = new SARibbonCategory(app());
+    mCategoryGeometry->setObjectName(QStringLiteral("fc-ribbon-category-geometry"));
+    mCategoryGeometry->setCategoryName(tr("几何"));
     
-    m_panelGeometryBuildOpt = m_categoryGeometry->addPanel(tr("构建"));
-    m_panelGeometryBuildOpt->setObjectName(QStringLiteral("fc-ribbon-category-geometry.build"));
-    m_panelGeometryBuildOpt->addLargeAction(m_actions->actionGeometryModelBuildAll);
+    mPanelGeometryBuildOpt = mCategoryGeometry->addPanel(tr("构建"));
+    mPanelGeometryBuildOpt->setObjectName(QStringLiteral("fc-ribbon-category-geometry.build"));
+    mPanelGeometryBuildOpt->addLargeAction(mActions->actionGeometryModelBuildAll);
     
     
     // 1. import/export panel
     
-    m_panelGeometryImpExpOpt = m_categoryGeometry->addPanel(tr("导入/导出"));       ///< 导入/导出操作
-    m_panelGeometryImpExpOpt->setObjectName(QStringLiteral("fc-ribbon-category-geometry.importexport"));
-    m_panelGeometryImpExpOpt->addSmallAction(m_actions->actionImportGeometryModel);
-    m_panelGeometryImpExpOpt->addSmallAction(m_actions->actionExportGeometryModel);
-    m_panelGeometryImpExpOpt->addSmallAction(m_actions->actionInsertSequenen);
+    mPanelGeometryImpExpOpt = mCategoryGeometry->addPanel(tr("导入/导出"));       ///< 导入/导出操作
+    mPanelGeometryImpExpOpt->setObjectName(QStringLiteral("fc-ribbon-category-geometry.importexport"));
+    mPanelGeometryImpExpOpt->addSmallAction(mActions->actionImportGeometryModel);
+    mPanelGeometryImpExpOpt->addSmallAction(mActions->actionExportGeometryModel);
+    mPanelGeometryImpExpOpt->addSmallAction(mActions->actionInsertSequenen);
     
     // 2. create geometry panel
-    m_panelGeometryPrimOpt = m_categoryGeometry->addPanel(tr("模型创建"));         ///< 体素操作
-    m_panelGeometryPrimOpt->setObjectName(QStringLiteral("fc-ribbon-category-geometry.createmodel"));
-    m_panelGeometryPrimOpt->addSmallAction(m_actions->actionCreateCube);
-    m_panelGeometryPrimOpt->addSmallAction(m_actions->actionCreateCone);
-    m_panelGeometryPrimOpt->addSmallAction(m_actions->actionCreateCylinder);
-    m_panelGeometryPrimOpt->addSmallAction(m_actions->actionCreateSphere);
-    m_panelGeometryPrimOpt->addSmallAction(m_actions->actionCreateTorus);
-    // m_panelGeometryPrimOpt->addSmallAction(m_actions->actionCreateHelix);
+    mPanelGeometryPrimOpt = mCategoryGeometry->addPanel(tr("模型创建"));         ///< 体素操作
+    mPanelGeometryPrimOpt->setObjectName(QStringLiteral("fc-ribbon-category-geometry.createmodel"));
+    mPanelGeometryPrimOpt->addSmallAction(mActions->actionCreateCube);
+    mPanelGeometryPrimOpt->addSmallAction(mActions->actionCreateCone);
+    mPanelGeometryPrimOpt->addSmallAction(mActions->actionCreateCylinder);
+    mPanelGeometryPrimOpt->addSmallAction(mActions->actionCreateSphere);
+    mPanelGeometryPrimOpt->addSmallAction(mActions->actionCreateTorus);
+    // mPanelGeometryPrimOpt->addSmallAction(m_actions->actionCreateHelix);
     
-    SARibbonMenu* menuCreateMoreGemetryModel = new SARibbonMenu(m_app);
-    menuCreateMoreGemetryModel->addAction(m_actions->actionCreatorBezierCurve);
-    menuCreateMoreGemetryModel->addAction(m_actions->actionCreatorTetrahedron);
-    m_actions->actionMenuCreateMoreGemetryModel->setMenu(menuCreateMoreGemetryModel);
-    m_panelGeometryPrimOpt->addLargeAction(m_actions->actionMenuCreateMoreGemetryModel);
+    SARibbonMenu* menuCreateMoreGemetryModel = new SARibbonMenu(mApp);
+    menuCreateMoreGemetryModel->addAction(mActions->actionCreatorBezierCurve);
+    menuCreateMoreGemetryModel->addAction(mActions->actionCreatorTetrahedron);
+    mActions->actionMenuCreateMoreGemetryModel->setMenu(menuCreateMoreGemetryModel);
+    mPanelGeometryPrimOpt->addLargeAction(mActions->actionMenuCreateMoreGemetryModel);
     
     
     // 3. work plane panel
-    m_panelGeometryWrkPlaneOpt = m_categoryGeometry->addPanel(tr("工作平面")) ;     ///< 工作平面操作
-    m_panelGeometryWrkPlaneOpt->setObjectName(QStringLiteral("fc-ribbon-category-geometry.workplane"));
-    m_panelGeometryWrkPlaneOpt->addLargeAction(m_actions->actionMenuSelectWorkPlane);
-    m_panelGeometryWrkPlaneOpt->addLargeAction(m_actions->actionWorkPlane);
-    m_panelGeometryWrkPlaneOpt->addSeparator();
-    m_panelGeometryWrkPlaneOpt->addLargeAction(m_actions->actionExtrude);
-    m_panelGeometryWrkPlaneOpt->addSmallAction(m_actions->actionRevolve);
-    m_panelGeometryWrkPlaneOpt->addSmallAction(m_actions->actionSweep);
-    m_panelGeometryWrkPlaneOpt->addSmallAction(m_actions->actionLoft);
+    mPanelGeometryWrkPlaneOpt = mCategoryGeometry->addPanel(tr("工作平面")) ;     ///< 工作平面操作
+    mPanelGeometryWrkPlaneOpt->setObjectName(QStringLiteral("fc-ribbon-category-geometry.workplane"));
+    mPanelGeometryWrkPlaneOpt->addLargeAction(mActions->actionMenuSelectWorkPlane);
+    mPanelGeometryWrkPlaneOpt->addLargeAction(mActions->actionWorkPlane);
+    mPanelGeometryWrkPlaneOpt->addSeparator();
+    mPanelGeometryWrkPlaneOpt->addLargeAction(mActions->actionExtrude);
+    mPanelGeometryWrkPlaneOpt->addSmallAction(mActions->actionRevolve);
+    mPanelGeometryWrkPlaneOpt->addSmallAction(mActions->actionSweep);
+    mPanelGeometryWrkPlaneOpt->addSmallAction(mActions->actionLoft);
     
     
     // 4. geometry operator panel
-    m_panelGeometryOperatopsOpt = m_categoryGeometry->addPanel(tr("操作"));    ///< 操作
-    m_panelGeometryOperatopsOpt->setObjectName(QStringLiteral("fc-ribbon-category-geometry.operate"));    
-    SARibbonMenu* menuGeometryBooleanOpt = new SARibbonMenu(m_app);
-    menuGeometryBooleanOpt->addAction(m_actions->actionBooleanUnion);
-    menuGeometryBooleanOpt->addAction(m_actions->actionBooleanIntersection);
-    menuGeometryBooleanOpt->addAction(m_actions->actionBooleanDifference);
-    menuGeometryBooleanOpt->addAction(m_actions->actionBooleanCompose);
-    m_actions->actionMenuGeometryBooleanOpt->setMenu(menuGeometryBooleanOpt);
-    m_panelGeometryOperatopsOpt->addLargeAction(m_actions->actionMenuGeometryBooleanOpt);
-    SARibbonMenu* menuGeometryTransformOpt = new SARibbonMenu(m_app);
-    menuGeometryTransformOpt->addAction(m_actions->actionTransformRigid);
-    menuGeometryTransformOpt->addAction(m_actions->actionTransformCopy);
-    menuGeometryTransformOpt->addAction(m_actions->actionTransformScale);
-    menuGeometryTransformOpt->addAction(m_actions->actionTransformMove);
-    menuGeometryTransformOpt->addAction(m_actions->actionTransformMirror);
-    menuGeometryTransformOpt->addAction(m_actions->actionTransformArray);
-    m_actions->actionMenuGeometryTransformOpt->setMenu(menuGeometryTransformOpt);
-    m_panelGeometryOperatopsOpt->addAction(m_actions->actionMenuGeometryTransformOpt);
-    m_panelGeometryOperatopsOpt->addSmallAction(m_actions->actionChamferOpt);
-    m_panelGeometryOperatopsOpt->addSmallAction(m_actions->actionFilletOpt);
-    m_panelGeometryOperatopsOpt->addSmallAction(m_actions->actionGeometryDelete);
+    mPanelGeometryOperatopsOpt = mCategoryGeometry->addPanel(tr("操作"));    ///< 操作
+    mPanelGeometryOperatopsOpt->setObjectName(QStringLiteral("fc-ribbon-category-geometry.operate"));    
+    SARibbonMenu* menuGeometryBooleanOpt = new SARibbonMenu(mApp);
+    menuGeometryBooleanOpt->addAction(mActions->actionBooleanUnion);
+    menuGeometryBooleanOpt->addAction(mActions->actionBooleanIntersection);
+    menuGeometryBooleanOpt->addAction(mActions->actionBooleanDifference);
+    menuGeometryBooleanOpt->addAction(mActions->actionBooleanCompose);
+    mActions->actionMenuGeometryBooleanOpt->setMenu(menuGeometryBooleanOpt);
+    mPanelGeometryOperatopsOpt->addLargeAction(mActions->actionMenuGeometryBooleanOpt);
+    SARibbonMenu* menuGeometryTransformOpt = new SARibbonMenu(mApp);
+    menuGeometryTransformOpt->addAction(mActions->actionTransformRigid);
+    menuGeometryTransformOpt->addAction(mActions->actionTransformCopy);
+    menuGeometryTransformOpt->addAction(mActions->actionTransformScale);
+    menuGeometryTransformOpt->addAction(mActions->actionTransformMove);
+    menuGeometryTransformOpt->addAction(mActions->actionTransformMirror);
+    menuGeometryTransformOpt->addAction(mActions->actionTransformArray);
+    mActions->actionMenuGeometryTransformOpt->setMenu(menuGeometryTransformOpt);
+    mPanelGeometryOperatopsOpt->addAction(mActions->actionMenuGeometryTransformOpt);
+    mPanelGeometryOperatopsOpt->addSmallAction(mActions->actionChamferOpt);
+    mPanelGeometryOperatopsOpt->addSmallAction(mActions->actionFilletOpt);
+    mPanelGeometryOperatopsOpt->addSmallAction(mActions->actionGeometryDelete);
     
     
     // 5. other panel
-    m_panelGeometryOtherOpt = m_categoryGeometry->addPanel(tr("其他"));        ///< 其他操作
-    m_panelGeometryOtherOpt->setObjectName(QStringLiteral("fc-ribbon-category-geometry.other"));    
-    m_panelGeometryOtherOpt->addLargeAction(m_actions->actionGeometryMeasure);
-    m_panelGeometryOtherOpt->addLargeAction(m_actions->actionGeometryDeletSequence);
+    mPanelGeometryOtherOpt = mCategoryGeometry->addPanel(tr("其他"));        ///< 其他操作
+    mPanelGeometryOtherOpt->setObjectName(QStringLiteral("fc-ribbon-category-geometry.other"));    
+    mPanelGeometryOtherOpt->addLargeAction(mActions->actionGeometryMeasure);
+    mPanelGeometryOtherOpt->addLargeAction(mActions->actionGeometryDeletSequence);
     
 
-    ribbonBar()->addCategoryPage(m_categoryGeometry);
+    ribbonBar()->addCategoryPage(mCategoryGeometry);
 }
 
 /**
@@ -296,39 +296,39 @@ void FCAppRibbonArea::buildRibbonGeometryCategory()
  */
 void FCAppRibbonArea::buildRibbonMeshCategory()
 {
-    m_categoryMesh = new SARibbonCategory(app());
-    m_categoryMesh->setObjectName(QStringLiteral("fc-ribbon-category-mesh"));
-    m_categoryMesh->setCategoryName(tr("网格"));
+    mCategoryMesh = new SARibbonCategory(app());
+    mCategoryMesh->setObjectName(QStringLiteral("fc-ribbon-category-mesh"));
+    mCategoryMesh->setCategoryName(tr("网格"));
     
     // // 1.  mesh panel
-    m_panelMeshBuildOpt = m_categoryMesh->addPanel(tr("构建"));
-    m_panelMeshBuildOpt->setObjectName(QStringLiteral("fc-ribbon-category-mesh.build"));
-    m_panelMeshBuildOpt->addLargeAction(m_actions->actionMeshBuild);
-    m_panelMeshBuildOpt->addLargeAction(m_actions->actionMenuSelectMesh);
-    m_panelMeshBuildOpt->addLargeAction(m_actions->actionAddMesh);
+    mPanelMeshBuildOpt = mCategoryMesh->addPanel(tr("构建"));
+    mPanelMeshBuildOpt->setObjectName(QStringLiteral("fc-ribbon-category-mesh.build"));
+    mPanelMeshBuildOpt->addLargeAction(mActions->actionMeshBuild);
+    mPanelMeshBuildOpt->addLargeAction(mActions->actionMenuSelectMesh);
+    mPanelMeshBuildOpt->addLargeAction(mActions->actionAddMesh);
     
     // // 2. import/export panel
-    m_panelMeshImpExpOpt = m_categoryMesh->addPanel(tr("导入/导出"));
-    m_panelMeshImpExpOpt->setObjectName(QStringLiteral("fc-ribbon-category-mesh.importexport"));
-    m_panelMeshImpExpOpt->addLargeAction(m_actions->actionMeshImportMesh);
-    m_panelMeshImpExpOpt->addLargeAction(m_actions->actionMeshExportMesh);
+    mPanelMeshImpExpOpt = mCategoryMesh->addPanel(tr("导入/导出"));
+    mPanelMeshImpExpOpt->setObjectName(QStringLiteral("fc-ribbon-category-mesh.importexport"));
+    mPanelMeshImpExpOpt->addLargeAction(mActions->actionMeshImportMesh);
+    mPanelMeshImpExpOpt->addLargeAction(mActions->actionMeshExportMesh);
     
     
     // // 4. evaluate panel
-    m_panelMeshEvaluateOpt = m_categoryMesh->addPanel(tr("计算"));
-    m_panelMeshEvaluateOpt->setObjectName(QStringLiteral("fc-ribbon-category-mesh.evaluate"));
-    m_panelMeshEvaluateOpt->addLargeAction(m_actions->actionMeshMeasure);
-    m_panelMeshEvaluateOpt->addLargeAction(m_actions->actionMeshStatictic);
-    m_panelMeshEvaluateOpt->addLargeAction(m_actions->actionMeshPlot);
+    mPanelMeshEvaluateOpt = mCategoryMesh->addPanel(tr("计算"));
+    mPanelMeshEvaluateOpt->setObjectName(QStringLiteral("fc-ribbon-category-mesh.evaluate"));
+    mPanelMeshEvaluateOpt->addLargeAction(mActions->actionMeshMeasure);
+    mPanelMeshEvaluateOpt->addLargeAction(mActions->actionMeshStatictic);
+    mPanelMeshEvaluateOpt->addLargeAction(mActions->actionMeshPlot);
     
     // // 3. clear panel
-    m_pannelMeshClearOpt = m_categoryMesh->addPanel(tr("导入/导出"));
-    m_pannelMeshClearOpt->setObjectName(QStringLiteral("fc-ribbon-category-mesh.clear"));
-    m_pannelMeshClearOpt->addLargeAction(m_actions->actionClearMesh);
-    m_pannelMeshClearOpt->addLargeAction(m_actions->actionClearAllMesh);
-    m_pannelMeshClearOpt->addLargeAction(m_actions->actionDeletMeshSequenen);
+    mPanelMeshClearOpt = mCategoryMesh->addPanel(tr("导入/导出"));
+    mPanelMeshClearOpt->setObjectName(QStringLiteral("fc-ribbon-category-mesh.clear"));
+    mPanelMeshClearOpt->addLargeAction(mActions->actionClearMesh);
+    mPanelMeshClearOpt->addLargeAction(mActions->actionClearAllMesh);
+    mPanelMeshClearOpt->addLargeAction(mActions->actionDeletMeshSequenen);
     
-    ribbonBar()->addCategoryPage(m_categoryMesh);
+    ribbonBar()->addCategoryPage(mCategoryMesh);
 }
 
 /**
@@ -337,16 +337,16 @@ void FCAppRibbonArea::buildRibbonMeshCategory()
  */
 void FCAppRibbonArea::buildRibbonStudyCategory()
 {
-    m_categoryStudy = new SARibbonCategory(app());
-    m_categoryStudy->setObjectName(QStringLiteral("fc-ribbon-category-study"));
-    m_categoryStudy->setCategoryName(tr("研究"));
+    mCategoryStudy = new SARibbonCategory(app());
+    mCategoryStudy->setObjectName(QStringLiteral("fc-ribbon-category-study"));
+    mCategoryStudy->setCategoryName(tr("研究"));
     
-    m_panelStudySolverOpt = m_categoryStudy->addPanel(tr("求解"));
-    m_panelStudySolverOpt->setObjectName(QStringLiteral("fc-ribbon-category-study.solver"));
-    m_panelStudySolverOpt->addLargeAction(m_actions->actionSolverManager);
-    m_panelStudySolverOpt->addLargeAction(m_actions->actionCompute);   
+    mPanelStudySolverOpt = mCategoryStudy->addPanel(tr("求解"));
+    mPanelStudySolverOpt->setObjectName(QStringLiteral("fc-ribbon-category-study.solver"));
+    mPanelStudySolverOpt->addLargeAction(mActions->actionSolverManager);
+    mPanelStudySolverOpt->addLargeAction(mActions->actionCompute);   
     
-    ribbonBar()->addCategoryPage(m_categoryStudy);
+    ribbonBar()->addCategoryPage(mCategoryStudy);
     
 }
 
@@ -356,37 +356,37 @@ void FCAppRibbonArea::buildRibbonStudyCategory()
  */
 void FCAppRibbonArea::buildRibbonResultCategory()
 {
-    m_categoryResult = new SARibbonCategory(app());
-    m_categoryResult->setObjectName(QStringLiteral("fc-ribbon-category-result"));
-    m_categoryResult->setCategoryName(tr("结果"));
+    mCategoryResult = new SARibbonCategory(app());
+    mCategoryResult->setObjectName(QStringLiteral("fc-ribbon-category-result"));
+    mCategoryResult->setCategoryName(tr("结果"));
     
     // //1. plot panel
-    m_panelPlotGroupRes = m_categoryResult->addPanel(tr("绘图"));
-    m_panelPlotGroupRes->setObjectName(QStringLiteral("fc-ribbon-category-result.plot"));
-    m_panelPlotGroupRes->addLargeAction(m_actions->action3DPlot);
-    m_panelPlotGroupRes->addLargeAction(m_actions->action2DPlot);
-    m_panelPlotGroupRes->addLargeAction(m_actions->action1DPlot);
+    mPanelPlotGroupRes = mCategoryResult->addPanel(tr("绘图"));
+    mPanelPlotGroupRes->setObjectName(QStringLiteral("fc-ribbon-category-result.plot"));
+    mPanelPlotGroupRes->addLargeAction(mActions->action3DPlot);
+    mPanelPlotGroupRes->addLargeAction(mActions->action2DPlot);
+    mPanelPlotGroupRes->addLargeAction(mActions->action1DPlot);
     
     //  //2. export panel
-    m_panelExportRes = m_categoryResult->addPanel(tr("数值"));
-    m_panelExportRes->setObjectName(QStringLiteral("fc-ribbon-category-result.export"));
-    SARibbonMenu* menuResultDataExport = new SARibbonMenu(m_app);
-    menuResultDataExport->addAction(m_actions->actionNumericalDataExport);
-    menuResultDataExport->addAction(m_actions->actionPlotDataExport);
-    menuResultDataExport->addAction(m_actions->actionMeshDataExport);
-    menuResultDataExport->addAction(m_actions->actionTableDataExport);
-    m_actions->actionMenuDataExport->setMenu(menuResultDataExport);
-    m_panelExportRes->addLargeAction(m_actions->actionMenuDataExport);
-    m_panelExportRes->addLargeAction(m_actions->actionImageExport);
-    m_panelExportRes->addLargeAction(m_actions->actionAnimationExport);
+    mPanelExportRes = mCategoryResult->addPanel(tr("数值"));
+    mPanelExportRes->setObjectName(QStringLiteral("fc-ribbon-category-result.export"));
+    SARibbonMenu* menuResultDataExport = new SARibbonMenu(mApp);
+    menuResultDataExport->addAction(mActions->actionNumericalDataExport);
+    menuResultDataExport->addAction(mActions->actionPlotDataExport);
+    menuResultDataExport->addAction(mActions->actionMeshDataExport);
+    menuResultDataExport->addAction(mActions->actionTableDataExport);
+    mActions->actionMenuDataExport->setMenu(menuResultDataExport);
+    mPanelExportRes->addLargeAction(mActions->actionMenuDataExport);
+    mPanelExportRes->addLargeAction(mActions->actionImageExport);
+    mPanelExportRes->addLargeAction(mActions->actionAnimationExport);
     
     // //3. Clear panel
-    m_panelClearRes = m_categoryResult->addPanel(tr("清除"));
-    m_panelClearRes->setObjectName(QStringLiteral("fc-ribbon-category-result.clear"));
-    m_panelClearRes->addLargeAction(m_actions->actionClearPlotData);
+    mPanelClearRes = mCategoryResult->addPanel(tr("清除"));
+    mPanelClearRes->setObjectName(QStringLiteral("fc-ribbon-category-result.clear"));
+    mPanelClearRes->addLargeAction(mActions->actionClearPlotData);
 
     
-    ribbonBar()->addCategoryPage(m_categoryResult);
+    ribbonBar()->addCategoryPage(mCategoryResult);
     
 }
 
@@ -396,16 +396,16 @@ void FCAppRibbonArea::buildRibbonResultCategory()
  */
 void FCAppRibbonArea::buildRibbonToolsCategory()
 {
-    m_categoryTools = new SARibbonCategory(app());
-    m_categoryTools->setObjectName(QStringLiteral("fc-ribbon-category-tools"));
-    m_categoryTools->setCategoryName(tr("工具"));
+    mCategoryTools = new SARibbonCategory(app());
+    mCategoryTools->setObjectName(QStringLiteral("fc-ribbon-category-tools"));
+    mCategoryTools->setCategoryName(tr("工具"));
     
-    m_panelDevTools = m_categoryTools->addPanel(tr("工具"));
-    m_panelDevTools->setObjectName(QStringLiteral("fc-ribbon-category-tools.tool"));
-    m_panelDevTools->addLargeAction(m_actions->actionPlugin);
-    m_panelDevTools->addLargeAction(m_actions->actionAbout);
+    mPanelDevTools = mCategoryTools->addPanel(tr("工具"));
+    mPanelDevTools->setObjectName(QStringLiteral("fc-ribbon-category-tools.tool"));
+    mPanelDevTools->addLargeAction(mActions->actionPlugin);
+    mPanelDevTools->addLargeAction(mActions->actionAbout);
         
-    ribbonBar()->addCategoryPage(m_categoryTools);
+    ribbonBar()->addCategoryPage(mCategoryTools);
     
 }
 
@@ -417,19 +417,19 @@ void FCAppRibbonArea::buildRibbonQuickAccessBar()
 {
     SARibbonQuickAccessBar* quickAccessBar = ribbonBar()->quickAccessBar();
     quickAccessBar->addSeparator();
-    quickAccessBar->addAction(m_actions->actionNew);
-    quickAccessBar->addAction(m_actions->actionOpen);
-    quickAccessBar->addAction(m_actions->actionSave);
-    quickAccessBar->addAction(m_actions->actionSaveAs);
-    quickAccessBar->addAction(m_actions->actionGlobalUndo);
-    quickAccessBar->addAction(m_actions->actionGlobalRedo);
-    quickAccessBar->addAction(m_actions->actionGlobalCopy);
-    quickAccessBar->addAction(m_actions->actionGlobalPaste);
-    quickAccessBar->addAction(m_actions->actionGlobalDuplicate);
-    quickAccessBar->addAction(m_actions->actionGlobalDelete);
-    quickAccessBar->addAction(m_actions->actionGlobalSelectAll);
-    quickAccessBar->addAction(m_actions->actionGlobalClearSelect);
-    quickAccessBar->addAction(m_actions->actionGlobaFind);
+    quickAccessBar->addAction(mActions->actionNew);
+    quickAccessBar->addAction(mActions->actionOpen);
+    quickAccessBar->addAction(mActions->actionSave);
+    quickAccessBar->addAction(mActions->actionSaveAs);
+    quickAccessBar->addAction(mActions->actionGlobalUndo);
+    quickAccessBar->addAction(mActions->actionGlobalRedo);
+    quickAccessBar->addAction(mActions->actionGlobalCopy);
+    quickAccessBar->addAction(mActions->actionGlobalPaste);
+    quickAccessBar->addAction(mActions->actionGlobalDuplicate);
+    quickAccessBar->addAction(mActions->actionGlobalDelete);
+    quickAccessBar->addAction(mActions->actionGlobalSelectAll);
+    quickAccessBar->addAction(mActions->actionGlobalClearSelect);
+    quickAccessBar->addAction(mActions->actionGlobaFind);
     
     quickAccessBar->addSeparator();
 }
@@ -440,14 +440,14 @@ void FCAppRibbonArea::buildRibbonQuickAccessBar()
 void FCAppRibbonArea::buildApplicationMenu()
 {
     mApplicationMenu = new FCAppRibbonApplicationMenu(app());
-    mApplicationMenu->addAction(m_actions->actionNew);
-    mApplicationMenu->addAction(m_actions->actionOpen);
-    mApplicationMenu->addAction(m_actions->actionSave);
-    mApplicationMenu->addAction(m_actions->actionSaveAs);
+    mApplicationMenu->addAction(mActions->actionNew);
+    mApplicationMenu->addAction(mActions->actionOpen);
+    mApplicationMenu->addAction(mActions->actionSave);
+    mApplicationMenu->addAction(mActions->actionSaveAs);
     mApplicationMenu->addSeparator();
-    mApplicationMenu->addAction(m_actions->actionPreferences);
+    mApplicationMenu->addAction(mActions->actionPreferences);
     mApplicationMenu->addSeparator();
-    mApplicationMenu->addAction(m_actions->actionExit);
+    mApplicationMenu->addAction(mActions->actionExit);
     
     // m_actions->recentFilesManager->attachToMenu(mApplicationMenu, tr("Recent Files"));  // cn:最近打开的文件
     SARibbonApplicationButton* appBtn = qobject_cast< SARibbonApplicationButton* >(ribbonBar()->applicationButton());
@@ -465,12 +465,12 @@ void FCAppRibbonArea::buildRightButtonBar()
 {
     // ribbonBar()->activeRightButtonGroup();
     // SARibbonButtonGroupWidget* rbar = ribbonBar()->rightButtonGroup();
-    // rbar->addMenuAction(m_menuTheme);
+    // rbar->addMenuAction(mMenuTheme);
 }
 
 void FCAppRibbonArea::setDockingArea(FCAppDockingArea *dock)
 {
-    m_dockArea = dock;
+    mDockArea = dock;
     buildMenu();
     buildRibbon();
     buildRedoUndo();
@@ -480,7 +480,7 @@ void FCAppRibbonArea::setDockingArea(FCAppDockingArea *dock)
 
 AppMainWindow* FCAppRibbonArea::app() const
 {
-    return (m_app);
+    return (mApp);
 }
 
 SARibbonBar* FCAppRibbonArea::ribbonBar() const
@@ -494,7 +494,7 @@ SARibbonBar* FCAppRibbonArea::ribbonBar() const
  */
 SARibbonCategory* FCAppRibbonArea::getRibbonCategoryMain() const
 {
-    return (m_categoryMain);
+    return (mCategoryMain);
 }
 
 /**
@@ -503,7 +503,7 @@ SARibbonCategory* FCAppRibbonArea::getRibbonCategoryMain() const
  */
 void FCAppRibbonArea::buildRedoUndo()
 {
-    QUndoGroup& undoGroup = m_appCmd->undoGroup();
+    QUndoGroup& undoGroup = mAppCmd->undoGroup();
     // 设置redo,undo的action
     
     // m_actions->actionRedo = undoGroup.createRedoAction(this);

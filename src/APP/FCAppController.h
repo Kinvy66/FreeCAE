@@ -13,8 +13,6 @@
 #include <QAction>
 #include <QUndoStack>
 #include <QScopedPointer>
-// #include "DADataManageWidget.h"
-// #include "DAWorkFlowGraphicsScene.h"
 
 
 class QComboBox;
@@ -40,20 +38,8 @@ class FCAppRibbonArea;
 class FCAppDockingArea;
 class FCAppCommand;
 class FCAppActions;
-class FCGeometrySet;
 class FCAppDataManager;
-// class FCSettingContainerWidget;
-// class FCDataOperateOfDataFrameWidget;
-// class FCWorkFlowOperateWidget;
-// class FCDataOperateWidget;
-// class FCAppChartOperateWidget;
-// class FCDataManageWidget;
-// class FCFigureWidget;
-// class FCChartWidget;
-// class FCDataOperatePageWidget;
-// class FCAppSettingDialog;
-// class FCAppConfig;
-// class FCWorkFlowEditWidget;
+class FCActionEventHandler;
 
 class FCAppController : public QObject
 {
@@ -91,8 +77,11 @@ public:
     FCAppController& setAppCommand(FCAppCommand* cmd);
     // 设置AppActions
     FCAppController& setAppActions(FCAppActions* act);
+    // 设置action时间处理器
+    FCAppController& setActionHandler(FCActionEventHandler* handler);
     // 设置AppDataManager
     FCAppController& setAppDataManager(FCAppDataManager* d);
+    
     // 获取app
     AppMainWindow* app() const;
     // 初始化--必须初始化才能生效
@@ -100,31 +89,7 @@ public:
     
     
 public:
-    // 获取当前dataframeOperateWidget,如果没有返回nullptr,此函数不返回nullptr的前提是
-    // FCDataOperateOfDataFrameWidget* getCurrentDataFrameOperateWidget(bool checkDataOperateAreaFocused = true,
-                                                                     // bool isShowMessage               = true);
-    // 获取工作流操作窗口
-    // DAWorkFlowOperateWidget* getWorkFlowOperateWidget() const;
-    // 获取数据操作窗口
-    // DADataOperateWidget* getDataOperateWidget() const;
-    // 获取绘图操作窗口
-    // DAAppChartOperateWidget* getChartOperateWidget() const;
-    // 获取数据管理窗口
-    // DADataManageWidget* getDataManageWidget() const;
-    // 获取当前的绘图,如果没有回返回nullptr
-    // DAFigureWidget* getCurrentFigure();
-    // DAFigureWidget* gcf();
-    // 获取绘图操作窗口,如果没有回返回nullptr
-    // DAChartWidget* getCurrentChart() const;
-    // DAChartWidget* gca() const;
-    // 获取设置窗口
-    // DASettingContainerWidget* getSettingContainerWidget() const;
-    // 判断当前是否是在绘图操作模式，就算绘图操作不在焦点，但绘图操作在前端，此函数也返回true
-    // bool isLastFocusedOnChartOptWidget() const;
-    // bool isLastFocusedOnWorkflowOptWidget() const;
-    // bool isLastFocusedOnDataOptWidget() const;
-    // DAAppConfig* getConfig() const;
-    // void setConfig(DAAppConfig* config);
+
     // 设置工程为dirty
     void setDirty(bool on = true);
     bool isDirty() const;
@@ -136,22 +101,8 @@ public:
     static QString makeWindowTitle();
     static QString makeWindowTitle(FCProjectInterface* proj);
     
-    void deletGeometryEntity(const IdType id, QString name);
-    void deletMeshEntity(const IdType id, QString name);
-    
-    
-public Q_SLOTS:
-
-
-    
 private Q_SLOTS:
-    // 工程的胀状态改变槽
-    // void onProjectDirtyStateChanged(bool isdirty);
-    //===================================================
-    // 主页标签 Main Category
-    //===================================================
-    // void onActionAppendProjectTriggered();
-    
+   
     void onActionAddDataTriggered();
     
     void onTestSlot(const IdType id, bool r);
@@ -159,19 +110,12 @@ private Q_SLOTS:
    
 private slots:
     
-    // DockWidget的焦点变化
-    void onFocusedDockWidgetChanged(ads::CDockWidget* old, ads::CDockWidget* now);
-    
-    
-signals:
-    void showModel(FCGeometrySet* set, bool r);
-    
+    void onFocusedDockWidgetChanged(ads::CDockWidget* old, ads::CDockWidget* now);    
     
 private:
     // 初始化信号槽
     void initConnection();
   
-    
 private:
     AppMainWindow* mMainWindow { nullptr };
     FCAppCore* mCore { nullptr };
@@ -182,6 +126,8 @@ private:
     FCAppCommand* mCommand { nullptr };
     FCAppActions* mActions { nullptr };
     FCAppDataManager* mDatas { nullptr };
+    
+    FCActionEventHandler* mActionHandler;
     
     QStringList mFileReadFilters;  ///< 包含支持的文件[Images (*.png *.xpm *.jpg)] [Text files (*.txt)]
     //
