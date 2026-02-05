@@ -11,7 +11,9 @@ cmake_minimum_required(VERSION 3.12)
 add_subdirectory(FCInterface)
 add_subdirectory(FCUtils)
 add_subdirectory(FCMessageHandler)
+add_subdirectory(FCRenderWindowVTK)
+add_subdirectory(FCGUI)
 
 add_subdirectory(APP)
 
-add_subdirectory(FCGUI)
+

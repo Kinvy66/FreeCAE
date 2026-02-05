@@ -1,9 +1,8 @@
 /**
  * @file FCRenderWidget.h
- * @brief VTK渲染窗口
+ * @brief VTK渲染窗口容器，内嵌 FCGraph3DWindowVTK
  * @date 2026-02-04
  * @version V0.0.1
- * @details 
  * @copyright Copyright (c) 2026 Kinvy. All rights reserved.
  */
 #ifndef FCRENDERWIDGET_H
@@ -12,16 +11,28 @@
 #include "FCGUIAPI.h"
 #include <QWidget>
 
-namespace FC 
+namespace Comp
 {
-class FCGUI_API FCRenderWidget : public  QWidget
+class FCGraph3DWindowVTK;
+class Graph3DWindowInitializer;
+}
+
+namespace FC
+{
+class FCGUI_API FCRenderWidget : public QWidget
 {
     Q_OBJECT
 public:
     explicit FCRenderWidget(QWidget* parent = nullptr);
+    ~FCRenderWidget() override;
+
+    /** 获取内嵌的 VTK 三维渲染窗口，用于添加对象、设置视角等 */
+    Comp::FCGraph3DWindowVTK* getGraph3DWindow() const { return m_graph3DWindow; }
+
+private:
+    Comp::Graph3DWindowInitializer* m_initializer = nullptr;
+    Comp::FCGraph3DWindowVTK* m_graph3DWindow = nullptr;
 };
 } // namespace FC
-
-
 
 #endif // FCRENDERWIDGET_H

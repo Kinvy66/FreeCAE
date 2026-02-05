@@ -37,7 +37,6 @@ file(GLOB FC_LIB_UI_FILES "${CMAKE_CURRENT_SOURCE_DIR}/*.ui")
 file(GLOB FC_APP_QT_RC_FILES ${CMAKE_CURRENT_SOURCE_DIR}/*.qrc)
 
 
-
 add_library(${FC_LIB_NAME} SHARED
             ${FC_LIB_HEADER_FILES}
             ${FC_LIB_SOURCE_FILES}
@@ -64,22 +63,8 @@ message(STATUS "${FC_LIB_NAME} Qt${QT_VERSION_MAJOR}.${QT_VERSION_MINOR}.${QT_VE
 # FCMessageHandler依赖spdlog
 # spdlog是header only
 # fcmacro_import_spdlog(${FC_LIB_NAME})
+# 仅依赖 VTK 和 Qt，不依赖 OCC 及其他 FreeCAE 内部库
 fcmacro_import_vtk(${FC_LIB_NAME})
-fcmacro_import_occ(${FC_LIB_NAME})
-
-# # FCUtils
-# #指定FreeCAE_DIR为工程的顶层BINARY_DIR，否则找不到FreeCAE
-find_package(${FC_PROJECT_NAME} COMPONENTS 
-    FCCore
-    FCAppFramework
-)
-if(${FC_PROJECT_NAME}_FOUND)
-    message(STATUS "  |-linked ${FC_PROJECT_NAME}::FCCore")
-endif()
-target_link_libraries(${FC_LIB_NAME} PUBLIC
-    ${FC_PROJECT_NAME}::FCCore
-    ${FC_PROJECT_NAME}::FCAppFramework
-)
 
 
 ########################################################
