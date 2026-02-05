@@ -9,7 +9,6 @@
 #include "FCDir.h"
 #include <QStandardPaths>
 #include <QDir>
-#include <QApplication>
 #if defined(_WIN32) || defined(_WIN64)
 #include <windows.h>
 #include <filesystem>
