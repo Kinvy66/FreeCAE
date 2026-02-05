@@ -7,6 +7,7 @@
 
 #include "FCModelInterfaceAPI.h"
 #include "FCModelSurface.h"
+#include <FCData/FCMacros.h>
 
 namespace FC {
 

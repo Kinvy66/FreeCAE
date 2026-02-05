@@ -63,15 +63,18 @@ message(STATUS "${FC_LIB_NAME} Qt${QT_VERSION_MAJOR}.${QT_VERSION_MINOR}.${QT_VE
 # fcmacro_import_vtk(${FC_LIB_NAME})
 
 
-# 依赖模块
+# 依赖模块（FCData + FCModelInterface，用于 FCAbstractGeoModel）
+# 同树构建时由 add_subdirectory 已定义，无需 find_package，避免 FreeCAEConfig 组件列表不包含 FCData/FCModelInterface 报错
 find_package(${FC_PROJECT_NAME} COMPONENTS 
     FCData
+    FCModelInterface
 )
 if(${FC_PROJECT_NAME}_FOUND)
     message(STATUS "  |-linked ${FC_PROJECT_NAME}::FCUtils")
 endif()
 target_link_libraries(${FC_LIB_NAME} PUBLIC
     ${FC_PROJECT_NAME}::FCData
+    ${FC_PROJECT_NAME}::FCModelInterface
 )
 
 ########################################################
