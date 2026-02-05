@@ -10,6 +10,13 @@
 
 namespace FC {
 
+struct FCElementQuality
+{
+    double minEdgeLength{ 0 };
+    double maxEdgeLength{ 0 };
+    double aspectRatio{ 0 };
+};
+
 class FCMODELINTERFACE_API FCAbstractMesh : public FCAbstractModel
 {
 public:

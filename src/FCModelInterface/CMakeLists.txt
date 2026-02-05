@@ -56,17 +56,27 @@ target_link_libraries(${FC_LIB_NAME} PRIVATE
     Qt${QT_VERSION_MAJOR}::Gui
     Qt${QT_VERSION_MAJOR}::Widgets
     Qt${QT_VERSION_MAJOR}::Svg
-    FCData
 )
 message(STATUS "${FC_LIB_NAME} Qt${QT_VERSION_MAJOR}.${QT_VERSION_MINOR}.${QT_VERSION_PATCH}")
 
-# -------------link 3rdparty spdlog--------------------------
+# -------------link 3rdparty--------------------------
 # FCMessageHandler依赖spdlog
 # spdlog是header only
 # fcmacro_import_spdlog(${FC_LIB_NAME})
 # 仅依赖 VTK 和 Qt，不依赖 OCC 及其他 FreeCAE 内部库
 # fcmacro_import_vtk(${FC_LIB_NAME})
 
+
+# 依赖模块
+find_package(${FC_PROJECT_NAME} COMPONENTS 
+    FCData
+)
+if(${FC_PROJECT_NAME}_FOUND)
+    message(STATUS "  |-linked ${FC_PROJECT_NAME}::FCUtils")
+endif()
+target_link_libraries(${FC_LIB_NAME} PUBLIC
+    ${FC_PROJECT_NAME}::FCData
+)
 
 ########################################################
 # 设置通用库属性

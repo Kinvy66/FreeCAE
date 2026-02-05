@@ -61,8 +61,7 @@ message(STATUS "${FC_LIB_NAME} Qt${QT_VERSION_MAJOR}.${QT_VERSION_MINOR}.${QT_VE
 # spdlog是header only
 # fcmacro_import_spdlog(${FC_LIB_NAME})
 
-# FCUtils
-#指定FCWorkbench_DIR为工程的顶层BINARY_DIR，否则找不到FCWorkbench
+# 依赖模块
 find_package(${FC_PROJECT_NAME} COMPONENTS 
     FCUtils
     FCInterface
