@@ -1,14 +1,6 @@
-/*
- * Copyright (c) 2020-2025, Qingdao Digital Intelligent Ship & Ocean Technology Co., Ltd.
- * All rights reserved.
- *
- * This file is part of FastCAE and is distributed under the terms of the
- * BSD 3-Clause License. See the LICENSE file in the project root for details.
- */
-
 /**
  * @file FCActorClipTool.h
- * @brief 支持裁切平面的 Actor（仅 VTK，与 FITKActorClipTool 接口一致）
+ * @brief 支持裁切平面的 Actor
  */
 #ifndef FCACTORCLIPTOOL_H
 #define FCACTORCLIPTOOL_H
@@ -50,8 +42,8 @@ private:
     FCActorClipTool(const FCActorClipTool&) = delete;
     void operator=(const FCActorClipTool&) = delete;
 
-    ClipType m_clipType = ClipType::NoneType;
-    vtkPlane* m_clipPlane = nullptr;
+    ClipType mClipType = ClipType::NoneType;
+    vtkPlane* mClipPlane = nullptr;
 };
 } // namespace FC
 #endif

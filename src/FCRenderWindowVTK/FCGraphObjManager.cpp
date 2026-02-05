@@ -14,34 +14,34 @@ FCGraphObjManager::~FCGraphObjManager() = default;
 
 void FCGraphObjManager::appendGraphObj(FCGraphObjectVTK* obj)
 {
-    if (obj && !m_list.contains(obj))
-        m_list.append(obj);
+    if (obj && !mList.contains(obj))
+        mList.append(obj);
 }
 
 int FCGraphObjManager::getGraphObjCount() const
 {
-    return m_list.size();
+    return mList.size();
 }
 
 FCGraphObjectVTK* FCGraphObjManager::getGraphObjAt(int index) const
 {
-    if (index < 0 || index >= m_list.size())
+    if (index < 0 || index >= mList.size())
         return nullptr;
-    return m_list.at(index);
+    return mList.at(index);
 }
 
 void FCGraphObjManager::removeGraphObj(FCGraphObjectVTK* obj)
 {
-    m_list.removeOne(obj);
+    mList.removeOne(obj);
 }
 
 void FCGraphObjManager::clear()
 {
-    m_list.clear();
+    mList.clear();
 }
 
 bool FCGraphObjManager::isContains(FCGraphObjectVTK* obj) const
 {
-    return obj && m_list.contains(obj);
+    return obj && mList.contains(obj);
 }
 } // namespace FC

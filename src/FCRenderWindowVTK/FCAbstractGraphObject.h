@@ -1,6 +1,6 @@
 /**
  * @file FCAbstractGraphObject.h
- * @brief 渲染对象抽象基类（仅依赖 Qt，与 FITKAbstractGraphObject 接口一致）
+ * @brief 渲染对象抽象基类
  */
 #ifndef FCABSTRACTGRAPEOBJECT_H
 #define FCABSTRACTGRAPEOBJECT_H
@@ -27,8 +27,8 @@ public:
     virtual void removeFromGraphWidget();
 
 protected:
-    FCGraph3DWindowVTK* m_graphWidget = nullptr;
-    void* m_dataObject = nullptr;
+    FCGraph3DWindowVTK* mGraphWidget = nullptr;
+    void* mDataObject = nullptr;
 };
 } // namespace FC
 #endif

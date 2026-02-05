@@ -32,11 +32,11 @@ public:
     virtual void setParallelProjection(bool on = true) = 0;
     virtual bool getParallelProjection() = 0;
 
-    int getGraphWidgetID() const { return m_graphWidgetID; }
-    void setGraphWidgetID(int id) { m_graphWidgetID = id; }
+    int getGraphWidgetID() const { return mGraphWidgetID; }
+    void setGraphWidgetID(int id) { mGraphWidgetID = id; }
 
 private:
-    int m_graphWidgetID = 0;
+    int mGraphWidgetID = 0;
 };
 } // namespace FC
 #endif

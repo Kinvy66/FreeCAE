@@ -1,14 +1,6 @@
-/*
- * Copyright (c) 2020-2025, Qingdao Digital Intelligent Ship & Ocean Technology Co., Ltd.
- * All rights reserved.
- *
- * This file is part of FastCAE and is distributed under the terms of the
- * BSD 3-Clause License. See the LICENSE file in the project root for details.
- */
-
 /**
  * @file FCGraph3DClipDialog.h
- * @brief 三维渲染窗口裁切对话框（占位，仅 VTK+Qt）
+ * @brief 三维渲染窗口裁切对话框
  */
 #ifndef FCGRAPH3DCLIPDIALOG_H
 #define FCGRAPH3DCLIPDIALOG_H
@@ -32,8 +24,8 @@ protected:
     void showEvent(QShowEvent* event) override;
 
 private:
-    FCGraph3DWindowVTK* m_graph3DWindow = nullptr;
-    bool m_clipCreateNewModel = true;
+    FCGraph3DWindowVTK* mGraph3DWindow = nullptr;
+    bool mClipCreateNewModel = true;
 };
 } // namespace FC
 #endif

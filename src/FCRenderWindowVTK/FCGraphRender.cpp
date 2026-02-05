@@ -1,8 +1,3 @@
-/*
- * Copyright (c) 2020-2025, Qingdao Digital Intelligent Ship & Ocean Technology Co., Ltd.
- * All rights reserved.
- */
-
 #include "FCGraphRender.h"
 #include "FCGraphObjectVTK.h"
 #include "FCGraph3DWindowVTK.h"
@@ -17,48 +12,48 @@
 namespace FC
 {
 FCGraphRender::FCGraphRender(FCGraph3DWindowVTK* gw, vtkRenderer* ren)
-    : _graphWidget(gw)
+    : mGraphWidget(gw)
 {
-    if (!_graphWidget)
+    if (!mGraphWidget)
         return;
-    m_objectManager = new FCGraphObjManager();
+    mObjectManager = new FCGraphObjManager();
 
     if (ren)
-        m_renderer = ren;
+        mRenderer = ren;
     else
-        m_renderer = vtkRenderer::New();
+        mRenderer = vtkRenderer::New();
 
-    m_renderer->SetBackground2(250/255.0, 251/255.0, 254/255.0);
-    m_renderer->SetBackground(230/255.0, 242/255.0, 255/255.0);
-    m_renderer->SetGradientBackground(true);
-    m_renderer->InteractiveOn();
+    mRenderer->SetBackground2(250/255.0, 251/255.0, 254/255.0);
+    mRenderer->SetBackground(230/255.0, 242/255.0, 255/255.0);
+    mRenderer->SetGradientBackground(true);
+    mRenderer->InteractiveOn();
 
-    vtkRenderWindow* renderWin = _graphWidget->getVTKRenderWindow();
+    vtkRenderWindow* renderWin = mGraphWidget->getVTKRenderWindow();
     if (renderWin)
-        renderWin->AddRenderer(m_renderer);
+        renderWin->AddRenderer(mRenderer);
 }
 
 FCGraphRender::~FCGraphRender()
 {
     clear();
-    if (m_objectManager)
-        delete m_objectManager;
-    if (m_renderer)
-        m_renderer->Delete();
+    if (mObjectManager)
+        delete mObjectManager;
+    if (mRenderer)
+        mRenderer->Delete();
 }
 
 void FCGraphRender::addObject(FCGraphObjectVTK* object)
 {
     if (!object)
         return;
-    m_objectManager->appendGraphObj(object);
-    object->setGraphWidget(_graphWidget);
+    mObjectManager->appendGraphObj(object);
+    object->setGraphWidget(mGraphWidget);
 
     const int nact = object->getActorCount();
-    if (!m_renderer)
+    if (!mRenderer)
         return;
 
-    vtkCamera* c = m_renderer->GetActiveCamera();
+    vtkCamera* c = mRenderer->GetActiveCamera();
     for (int i = 0; i < nact; i++)
     {
         vtkProp* act = object->getActor(i);
@@ -67,20 +62,20 @@ void FCGraphRender::addObject(FCGraphObjectVTK* object)
         vtkCubeAxesActor* cubeAxes = vtkCubeAxesActor::SafeDownCast(act);
         if (cubeAxes)
             cubeAxes->SetCamera(c);
-        m_renderer->AddViewProp(act);
+        mRenderer->AddViewProp(act);
     }
 }
 
 void FCGraphRender::removeObject(FCGraphObjectVTK* gobj)
 {
-    if (!gobj || !m_objectManager->isContains(gobj))
+    if (!gobj || !mObjectManager->isContains(gobj))
         return;
     gobj->setGraphWidget(nullptr);
     const int nact = gobj->getActorCount();
-    if (m_renderer)
+    if (mRenderer)
     {
         for (int i = 0; i < nact; i++)
-            m_renderer->RemoveViewProp(gobj->getActor(i));
+            mRenderer->RemoveViewProp(gobj->getActor(i));
         int nWidget = gobj->getWidgetCount();
         for (int i = 0; i < nWidget; i++)
         {
@@ -93,26 +88,26 @@ void FCGraphRender::removeObject(FCGraphObjectVTK* gobj)
             }
         }
     }
-    m_objectManager->removeGraphObj(gobj);
+    mObjectManager->removeGraphObj(gobj);
 }
 
 vtkRenderer* FCGraphRender::getRenderer()
 {
-    return m_renderer;
+    return mRenderer;
 }
 
 FCGraphObjManager* FCGraphRender::getGraphObjManager()
 {
-    return m_objectManager;
+    return mObjectManager;
 }
 
 double FCGraphRender::getActorBounds(double* bound)
 {
     bool isEmpty = true;
-    const int ngobj = m_objectManager->getGraphObjCount();
+    const int ngobj = mObjectManager->getGraphObjCount();
     for (int i = 0; i < ngobj; ++i)
     {
-        FCGraphObjectVTK* object = m_objectManager->getGraphObjTAt<FCGraphObjectVTK>(i);
+        FCGraphObjectVTK* object = mObjectManager->getGraphObjTAt<FCGraphObjectVTK>(i);
         if (!object)
             continue;
         double b[6] = { 9e64, -9e64, 9e64, -9e64, 9e64, -9e64 };
@@ -136,36 +131,36 @@ double FCGraphRender::getActorBounds(double* bound)
 
 int FCGraphRender::getGraphObjectCount()
 {
-    return m_objectManager ? m_objectManager->getGraphObjCount() : 0;
+    return mObjectManager ? mObjectManager->getGraphObjCount() : 0;
 }
 
 void FCGraphRender::clear()
 {
-    const int nActor = m_objectManager->getGraphObjCount();
+    const int nActor = mObjectManager->getGraphObjCount();
     for (int i = 0; i < nActor; ++i)
     {
-        FCGraphObjectVTK* gobj = m_objectManager->getGraphObjTAt<FCGraphObjectVTK>(i);
+        FCGraphObjectVTK* gobj = mObjectManager->getGraphObjTAt<FCGraphObjectVTK>(i);
         if (!gobj)
             continue;
         gobj->setGraphWidget(nullptr);
         const int nact = gobj->getActorCount();
-        if (m_renderer)
+        if (mRenderer)
         {
             for (int j = 0; j < nact; j++)
-                m_renderer->RemoveViewProp(gobj->getActor(j));
+                mRenderer->RemoveViewProp(gobj->getActor(j));
         }
     }
-    m_objectManager->clear();
+    mObjectManager->clear();
 }
 
 void FCGraphRender::setBackgroundColor(float* rgb1, float* rgb2)
 {
-    if (!rgb1 || !m_renderer)
+    if (!rgb1 || !mRenderer)
         return;
     if (!rgb2)
         rgb2 = rgb1;
-    m_renderer->SetGradientBackground(true);
-    m_renderer->SetBackground2(rgb1[0], rgb1[1], rgb1[2]);
-    m_renderer->SetBackground(rgb2[0], rgb2[1], rgb2[2]);
+    mRenderer->SetGradientBackground(true);
+    mRenderer->SetBackground2(rgb1[0], rgb1[1], rgb1[2]);
+    mRenderer->SetBackground(rgb2[0], rgb2[1], rgb2[2]);
 }
 } // namespace FC

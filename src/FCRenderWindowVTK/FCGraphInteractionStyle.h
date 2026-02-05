@@ -1,14 +1,6 @@
-/*
- * Copyright (c) 2020-2025, Qingdao Digital Intelligent Ship & Ocean Technology Co., Ltd.
- * All rights reserved.
- *
- * This file is part of FastCAE and is distributed under the terms of the
- * BSD 3-Clause License. See the LICENSE file in the project root for details.
- */
-
 /**
  * @file FCGraphInteractionStyle.h
- * @brief 渲染窗口交互器类接口声明（仅 VTK+Qt，与 FITKGraphInteractionStyle 接口一致）
+ * @brief 渲染窗口交互器类接口声明
  */
 #ifndef FCGRAPHINTERACTIONSTYLE_H
 #define FCGRAPHINTERACTIONSTYLE_H
@@ -57,12 +49,12 @@ protected:
     void OnChar() override;
     bool isMouseMoved();
 
-    FCGraph3DWindowVTK* m_graph3dWin = nullptr;
-    FCGraphOperator* m_operactor = nullptr;
-    int m_leftButtonDowmPos[2] = { 0, 0 };
-    int m_leftButtonUpPos[2] = { 0, 0 };
-    FCGraphAreaPicker* m_areaPick = nullptr;
-    bool m_leftButtonPressed = false;
+    FCGraph3DWindowVTK* mGraph3DWin = nullptr;
+    FCGraphOperator* mOperactor = nullptr;
+    int mLeftButtonDownPos[2] = { 0, 0 };
+    int mLeftButtonUpPos[2] = { 0, 0 };
+    FCGraphAreaPicker* mAreaPick = nullptr;
+    bool mLeftButtonPressed = false;
 };
 } // namespace FC
 #endif

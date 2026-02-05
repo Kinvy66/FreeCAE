@@ -17,8 +17,8 @@ namespace FC
 {
 FCBoundaryActor::FCBoundaryActor()
 {
-    _boundaryActor = vtkActor::New();
-    _boundaryActor->SetMapper(vtkSmartPointer<vtkDataSetMapper>::New());
+    mBoundaryActor = vtkActor::New();
+    mBoundaryActor->SetMapper(vtkSmartPointer<vtkDataSetMapper>::New());
     vtkSmartPointer<vtkUnstructuredGrid> ugrid = vtkSmartPointer<vtkUnstructuredGrid>::New();
     vtkSmartPointer<vtkPoints> points = vtkSmartPointer<vtkPoints>::New();
     points->InsertNextPoint(0., 0., 0.);
@@ -30,25 +30,25 @@ FCBoundaryActor::FCBoundaryActor()
     ugrid->InsertNextCell(VTK_VERTEX, c1);
     ugrid->InsertNextCell(VTK_VERTEX, c2);
     ugrid->SetPoints(points);
-    _boundaryActor->GetMapper()->SetInputDataObject(ugrid);
-    _boundaryActor->GetProperty()->SetOpacity(0);
+    mBoundaryActor->GetMapper()->SetInputDataObject(ugrid);
+    mBoundaryActor->GetProperty()->SetOpacity(0);
 }
 
 FCBoundaryActor::~FCBoundaryActor()
 {
-    if (_boundaryActor)
-        _boundaryActor->Delete();
+    if (mBoundaryActor)
+        mBoundaryActor->Delete();
 }
 
 vtkActor* FCBoundaryActor::getActor()
 {
-    return _boundaryActor;
+    return mBoundaryActor;
 }
 
 void FCBoundaryActor::updateBoundary(double* bound)
 {
     vtkUnstructuredGrid* ugrid =
-        vtkUnstructuredGrid::SafeDownCast(_boundaryActor->GetMapper()->GetInput());
+        vtkUnstructuredGrid::SafeDownCast(mBoundaryActor->GetMapper()->GetInput());
     if (!ugrid)
         return;
     vtkPoints* pts = ugrid->GetPoints();

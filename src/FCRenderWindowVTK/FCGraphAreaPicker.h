@@ -1,14 +1,6 @@
-/*
- * Copyright (c) 2020-2025, Qingdao Digital Intelligent Ship & Ocean Technology Co., Ltd.
- * All rights reserved.
- *
- * This file is part of FastCAE and is distributed under the terms of the
- * BSD 3-Clause License. See the LICENSE file in the project root for details.
- */
-
-/**
+ /**
  * @file FCGraphAreaPicker.h
- * @brief VTK 框选功能接口声明（仅 VTK+Qt，与 FITKGraphAreaPicker 接口一致）
+ * @brief VTK 框选功能接口声明
  */
 #ifndef FCGRAPHAREAPICKER_H
 #define FCGRAPHAREAPICKER_H
@@ -42,13 +34,13 @@ private:
     void initRectangle();
     void updateRectangle();
 
-    FCGraphInteractionStyle* m_style = nullptr;
-    vtkRenderer* m_render = nullptr;
-    int m_startPos[2] = { 0, 0 };
-    int m_endPos[2] = { 0, 0 };
-    vtkSmartPointer<vtkPolyData> m_pickData;
-    vtkSmartPointer<vtkActor2D> m_pickActor;
-    double m_color3[3] = { 1., 1., 1. };
+    FCGraphInteractionStyle* mStyle = nullptr;
+    vtkRenderer* mRender = nullptr;
+    int mStartPos[2] = { 0, 0 };
+    int mEndPos[2] = { 0, 0 };
+    vtkSmartPointer<vtkPolyData> mPickData;
+    vtkSmartPointer<vtkActor2D> mPickActor;
+    double mColor3[3] = { 1., 1., 1. };
 };
 } // namespace FC
 #endif

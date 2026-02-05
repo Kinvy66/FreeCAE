@@ -1,14 +1,6 @@
-/*
- * Copyright (c) 2020-2025, Qingdao Digital Intelligent Ship & Ocean Technology Co., Ltd.
- * All rights reserved.
- *
- * This file is part of FastCAE and is distributed under the terms of the
- * BSD 3-Clause License. See the LICENSE file in the project root for details.
- */
-
 /**
  * @file FCGraph3DWindowVTK.h
- * @brief 三维渲染窗口接口声明（仅 VTK+Qt，与 FITKGraph3DWindowVTK 接口一致）
+ * @brief 三维渲染窗口接口声明
  */
 #ifndef FCGRAPH3DWINDOWVTK_H
 #define FCGRAPH3DWINDOWVTK_H
@@ -38,11 +30,6 @@ class FCGraphInteractionStyle;
 class FCBoundaryActor;
 class FCLegendScaleActor;
 class FCGraph3DWindowInitializer;
-}
-
-namespace Ui
-{
-class FCGraph3DWindowVTK;
 }
 
 namespace FC
@@ -111,9 +98,9 @@ public:
     bool getGraphObjCenter(double* center);
 
     template<class T>
-    void setUserInformation(T info) { m_userInfo = QVariant::fromValue(info); }
+    void setUserInformation(T info) { mUserInfo = QVariant::fromValue(info); }
     template<class T>
-    T getUserInformationAs() { return m_userInfo.value<T>(); }
+    T getUserInformationAs() { return mUserInfo.value<T>(); }
     void setUserInformation(QVariant info);
     QVariant getUserInformation();
 
@@ -158,36 +145,35 @@ private slots:
     void slot_changingView();
 
 protected:
-    FCGraph3DWindowInitializer* _initializer = nullptr;
-    Ui::FCGraph3DWindowVTK* m_ui = nullptr;
-    QWidget* m_vtkWidget = nullptr;
-    FCLegendScaleActor* m_legendScaleActor = nullptr;
-    vtkRenderWindowInteractor* m_interactor = nullptr;
-    vtkRenderWindow* m_renderWindow = nullptr;
-    vtkCamera* m_camera = nullptr;
-    vtkOrientationMarkerWidget* m_axesWidget = nullptr;
-    QHash<int, FCGraphRender*> m_renders;
-    FCGraphInteractionStyle* m_interactionStyle = nullptr;
-    FCBoundaryActor* m_actorBound = nullptr;
-    QVariant m_userInfo;
-    bool m_initFlag = false;
-    QGridLayout* _renderToolBarLayout = nullptr;
-    QToolBar* _renderToolBar = nullptr;
-    QToolBar* _renderIconToolBar = nullptr;
-    FCGraphWinToolBarPos _renderBarStyle = FCGraphWinToolBarPos::FCTopLeft;
-    FCGraphWinImageType _imageType = FCGraphWinImageType::FC_PNG;
-    double _defFp[3] = { 0, 0, 0 }, _defVp[3] = { 0, 1, 0 }, _defPos[3] = { 1, 1, 1 };
-    double _ISOFp[3] = { 1, 1, 1 }, _ISOVp[3] = { 0, 0, 0 }, _ISOPos[3] = { 0, 1, 0 };
+    FCGraph3DWindowInitializer* mInitializer = nullptr;
+    QWidget* mVtkWidget = nullptr;
+    FCLegendScaleActor* mLegendScaleActor = nullptr;
+    vtkRenderWindowInteractor* mInteractor = nullptr;
+    vtkRenderWindow* mRenderWindow = nullptr;
+    vtkCamera* mCamera = nullptr;
+    vtkOrientationMarkerWidget* mAxesWidget = nullptr;
+    QHash<int, FCGraphRender*> mRenders;
+    FCGraphInteractionStyle* mInteractionStyle = nullptr;
+    FCBoundaryActor* mActorBound = nullptr;
+    QVariant mUserInfo;
+    bool mInitFlag = false;
+    QGridLayout* mRenderToolBarLayout = nullptr;
+    QToolBar* mRenderToolBar = nullptr;
+    QToolBar* mRenderIconToolBar = nullptr;
+    FCGraphWinToolBarPos mRenderBarStyle = FCGraphWinToolBarPos::FCTopLeft;
+    FCGraphWinImageType mImageType = FCGraphWinImageType::FC_PNG;
+    double mDefFp[3] = { 0, 0, 0 }, mDefVp[3] = { 0, 1, 0 }, mDefPos[3] = { 1, 1, 1 };
+    double mISOFp[3] = { 1, 1, 1 }, mISOVp[3] = { 0, 0, 0 }, mISOPos[3] = { 0, 1, 0 };
 
 private:
-    static QMutex _mutex;
-    QTimer m_timerView;
-    int m_viewStep = 50;
-    int m_currStep = 0;
-    int m_interval = 10;
-    double m_tarPos3[3] = { 0., 0., 0. };
-    double m_tarUp3[3] = { 0., 0., 0. };
-    double m_tarFoc3[3] = { 0., 0., 0. };
+    static QMutex mMutex;
+    QTimer mTimerView;
+    int mViewStep = 50;
+    int mCurrStep = 0;
+    int mInterval = 10;
+    double mTarPos3[3] = { 0., 0., 0. };
+    double mTarUp3[3] = { 0., 0., 0. };
+    double mTarFoc3[3] = { 0., 0., 0. };
 };
 } // namespace FC
 #endif

@@ -11,8 +11,8 @@ namespace FC
 {
 FCGraph3DClipDialog::FCGraph3DClipDialog(FCGraph3DWindowVTK* graph3DWindow, bool clipCreateNewModel, QWidget* parent)
     : QDialog(parent)
-    , m_graph3DWindow(graph3DWindow)
-    , m_clipCreateNewModel(clipCreateNewModel)
+    , mGraph3DWindow(graph3DWindow)
+    , mClipCreateNewModel(clipCreateNewModel)
 {
 }
 

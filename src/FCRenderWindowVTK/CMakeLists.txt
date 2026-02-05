@@ -33,14 +33,12 @@ find_package(Qt${QT_VERSION_MAJOR} ${FC_MIN_QT_VERSION} COMPONENTS
 ########################################################
 file(GLOB FC_LIB_HEADER_FILES "${CMAKE_CURRENT_SOURCE_DIR}/*.h")
 file(GLOB FC_LIB_SOURCE_FILES "${CMAKE_CURRENT_SOURCE_DIR}/*.cpp")
-file(GLOB FC_LIB_UI_FILES "${CMAKE_CURRENT_SOURCE_DIR}/*.ui")
 file(GLOB FC_APP_QT_RC_FILES ${CMAKE_CURRENT_SOURCE_DIR}/*.qrc)
 
 
 add_library(${FC_LIB_NAME} SHARED
             ${FC_LIB_HEADER_FILES}
             ${FC_LIB_SOURCE_FILES}
-            ${FC_LIB_UI_FILES}
             ${FC_GLOBAL_HEADER}
             ${FC_APP_QT_RC_FILES}
 )	

@@ -19,7 +19,7 @@
 namespace FC
 {
 FCGraphAreaPicker::FCGraphAreaPicker(FCGraphInteractionStyle* style)
-    : m_style(style)
+    : mStyle(style)
 {
 }
 
@@ -27,59 +27,59 @@ FCGraphAreaPicker::~FCGraphAreaPicker() = default;
 
 void FCGraphAreaPicker::setLeftButtonDownPos(int* pos)
 {
-    m_startPos[0] = pos[0];
-    m_startPos[1] = pos[1];
+    mStartPos[0] = pos[0];
+    mStartPos[1] = pos[1];
 }
 
 void FCGraphAreaPicker::setPickerRender(vtkRenderer* render)
 {
     if (!render)
         return;
-    m_render = render;
+    mRender = render;
     initRectangle();
-    if (m_pickActor)
-        m_render->AddViewProp(m_pickActor);
+    if (mPickActor)
+        mRender->AddViewProp(mPickActor);
 }
 
 void FCGraphAreaPicker::enable(bool state)
 {
-    if (!m_pickActor)
+    if (!mPickActor)
         return;
-    m_pickActor->SetVisibility(state ? 1 : 0);
-    if (state && m_pickData)
+    mPickActor->SetVisibility(state ? 1 : 0);
+    if (state && mPickData)
     {
-        vtkPoints* points = m_pickData->GetPoints();
+        vtkPoints* points = mPickData->GetPoints();
         points->SetNumberOfPoints(0);
         points->InsertPoint(0, 0, 0, 0);
         points->InsertPoint(1, 0, 0, 0);
         points->InsertPoint(2, 0, 0, 0);
         points->InsertPoint(3, 0, 0, 0);
         points->Modified();
-        m_pickData->Modified();
-        if (m_pickActor->GetMapper())
-            m_pickActor->GetMapper()->Update();
+        mPickData->Modified();
+        if (mPickActor->GetMapper())
+            mPickActor->GetMapper()->Update();
     }
-    if (m_render && m_render->GetRenderWindow())
-        m_render->GetRenderWindow()->Render();
+    if (mRender && mRender->GetRenderWindow())
+        mRender->GetRenderWindow()->Render();
 }
 
 bool FCGraphAreaPicker::isEnable()
 {
-    return m_pickActor && m_pickActor->GetVisibility();
+    return mPickActor && mPickActor->GetVisibility();
 }
 
 void FCGraphAreaPicker::drawRectangle()
 {
-    if (!isEnable() || !m_style || !m_style->getInteractor())
+    if (!isEnable() || !mStyle || !mStyle->getInteractor())
         return;
-    m_style->getInteractor()->GetEventPosition(m_endPos);
+    mStyle->getInteractor()->GetEventPosition(mEndPos);
     updateRectangle();
 }
 
 void FCGraphAreaPicker::pick()
 {
-    if (m_style)
-        m_style->areaPick(m_startPos, m_endPos);
+    if (mStyle)
+        mStyle->areaPick(mStartPos, mEndPos);
 }
 
 void FCGraphAreaPicker::initRectangle()
@@ -95,30 +95,30 @@ void FCGraphAreaPicker::initRectangle()
         cells->InsertNextCell(2, line);
     }
 
-    m_pickData = vtkSmartPointer<vtkPolyData>::New();
-    m_pickData->SetPoints(points);
-    m_pickData->SetLines(cells);
+    mPickData = vtkSmartPointer<vtkPolyData>::New();
+    mPickData->SetPoints(points);
+    mPickData->SetLines(cells);
 
     vtkSmartPointer<vtkPolyDataMapper2D> mapper = vtkSmartPointer<vtkPolyDataMapper2D>::New();
-    mapper->SetInputData(m_pickData);
+    mapper->SetInputData(mPickData);
 
-    m_pickActor = vtkSmartPointer<vtkActor2D>::New();
-    m_pickActor->SetMapper(mapper);
-    m_pickActor->GetProperty()->SetColor(1, 1, 1);
-    m_pickActor->GetProperty()->SetLineWidth(2);
-    m_pickActor->GetProperty()->SetColor(m_color3[0], m_color3[1], m_color3[2]);
+    mPickActor = vtkSmartPointer<vtkActor2D>::New();
+    mPickActor->SetMapper(mapper);
+    mPickActor->GetProperty()->SetColor(1, 1, 1);
+    mPickActor->GetProperty()->SetLineWidth(2);
+    mPickActor->GetProperty()->SetColor(mColor3[0], mColor3[1], mColor3[2]);
 }
 
 void FCGraphAreaPicker::updateRectangle()
 {
-    if (!m_render || !m_pickData || !m_pickActor)
+    if (!mRender || !mPickData || !mPickActor)
         return;
-    vtkPoints* points = m_pickData->GetPoints();
+    vtkPoints* points = mPickData->GetPoints();
     points->SetNumberOfPoints(0);
-    const int xmax = m_startPos[0] > m_endPos[0] ? m_startPos[0] : m_endPos[0];
-    const int xmin = m_startPos[0] + m_endPos[0] - xmax;
-    const int ymax = m_startPos[1] > m_endPos[1] ? m_startPos[1] : m_endPos[1];
-    const int ymin = m_startPos[1] + m_endPos[1] - ymax;
+    const int xmax = mStartPos[0] > mEndPos[0] ? mStartPos[0] : mEndPos[0];
+    const int xmin = mStartPos[0] + mEndPos[0] - xmax;
+    const int ymax = mStartPos[1] > mEndPos[1] ? mStartPos[1] : mEndPos[1];
+    const int ymin = mStartPos[1] + mEndPos[1] - ymax;
     if (xmax - xmin < 2 || ymax - ymin < 2)
         return;
     points->InsertPoint(0, xmax, ymax, 0);
@@ -126,19 +126,19 @@ void FCGraphAreaPicker::updateRectangle()
     points->InsertPoint(2, xmin, ymin, 0);
     points->InsertPoint(3, xmax, ymin, 0);
     points->Modified();
-    m_pickData->Modified();
-    if (m_pickActor->GetMapper())
-        m_pickActor->GetMapper()->Update();
-    if (m_render->GetRenderWindow())
-        m_render->GetRenderWindow()->Render();
+    mPickData->Modified();
+    if (mPickActor->GetMapper())
+        mPickActor->GetMapper()->Update();
+    if (mRender->GetRenderWindow())
+        mRender->GetRenderWindow()->Render();
 }
 
 void FCGraphAreaPicker::setColor(double rf, double gf, double bf)
 {
-    m_color3[0] = rf;
-    m_color3[1] = gf;
-    m_color3[2] = bf;
-    if (m_pickActor && m_pickActor->GetProperty())
-        m_pickActor->GetProperty()->SetColor(rf, gf, bf);
+    mColor3[0] = rf;
+    mColor3[1] = gf;
+    mColor3[2] = bf;
+    if (mPickActor && mPickActor->GetProperty())
+        mPickActor->GetProperty()->SetColor(rf, gf, bf);
 }
 } // namespace FC

@@ -14,23 +14,23 @@ namespace FC
 FCGraphObjectVTK::FCGraphObjectVTK(void* dataObject)
     : FCAbstractGraphObject(dataObject)
 {
-    m_clipPlane = vtkPlane::New();
+    mClipPlane = vtkPlane::New();
 }
 
 FCGraphObjectVTK::~FCGraphObjectVTK()
 {
     removeFromGraphWidget();
 
-    for (auto actor : m_actorList)
+    for (auto actor : mActorList)
     {
         if (actor)
         {
             actor->Delete();
         }
     }
-    m_actorList.clear();
+    mActorList.clear();
 
-    for (vtkInteractorObserver* widget : m_widgetList)
+    for (vtkInteractorObserver* widget : mWidgetList)
     {
         if (widget)
         {
@@ -38,18 +38,18 @@ FCGraphObjectVTK::~FCGraphObjectVTK()
             widget->Delete();
         }
     }
-    m_widgetList.clear();
+    mWidgetList.clear();
 
-    if (m_clipPlane)
+    if (mClipPlane)
     {
-        m_clipPlane->Delete();
-        m_clipPlane = nullptr;
+        mClipPlane->Delete();
+        mClipPlane = nullptr;
     }
 }
 
 void FCGraphObjectVTK::setClipType(GraphClipType type)
 {
-    if (!m_clipPlane)
+    if (!mClipPlane)
         return;
 
     ClipType cType = ClipType::NoneType;
@@ -68,74 +68,74 @@ void FCGraphObjectVTK::setClipType(GraphClipType type)
         break;
     }
 
-    for (vtkProp* prop : m_actorList)
+    for (vtkProp* prop : mActorList)
     {
         FCActorClipTool* fActor = dynamic_cast<FCActorClipTool*>(prop);
         if (!fActor)
             continue;
         fActor->setClipType(cType);
-        fActor->setClipImplicitFunction(m_clipPlane);
+        fActor->setClipImplicitFunction(mClipPlane);
     }
 }
 
 void FCGraphObjectVTK::setCustomClipPlane(double* org, double* nor)
 {
-    if (m_clipPlane)
+    if (mClipPlane)
     {
-        m_clipPlane->SetOrigin(org);
-        m_clipPlane->SetNormal(nor);
+        mClipPlane->SetOrigin(org);
+        mClipPlane->SetNormal(nor);
     }
 }
 
 void FCGraphObjectVTK::addActor(vtkProp* actor)
 {
-    if (!actor || m_actorList.contains(actor))
+    if (!actor || mActorList.contains(actor))
         return;
-    m_actorList.append(actor);
+    mActorList.append(actor);
 }
 
 vtkProp* FCGraphObjectVTK::getActor(int index)
 {
-    if (index < 0 || index >= m_actorList.size())
+    if (index < 0 || index >= mActorList.size())
         return nullptr;
-    return m_actorList.at(index);
+    return mActorList.at(index);
 }
 
 int FCGraphObjectVTK::getActorCount()
 {
-    return m_actorList.size();
+    return mActorList.size();
 }
 
 void FCGraphObjectVTK::addWidget(vtkInteractorObserver* widget)
 {
-    if (!widget || m_widgetList.contains(widget))
+    if (!widget || mWidgetList.contains(widget))
         return;
-    m_widgetList.push_back(widget);
+    mWidgetList.push_back(widget);
 }
 
 vtkInteractorObserver* FCGraphObjectVTK::getWidget(int index)
 {
-    if (index < 0 || index >= m_widgetList.count())
+    if (index < 0 || index >= mWidgetList.count())
         return nullptr;
-    return m_widgetList[index];
+    return mWidgetList[index];
 }
 
 int FCGraphObjectVTK::getWidgetCount()
 {
-    return m_widgetList.count();
+    return mWidgetList.count();
 }
 
 bool FCGraphObjectVTK::hasFixedBounds()
 {
-    return m_hasFixedBounds;
+    return mHasFixedBounds;
 }
 
 bool FCGraphObjectVTK::getFixedBounds(double* bounds)
 {
-    if (!m_hasFixedBounds)
+    if (!mHasFixedBounds)
         return false;
     double bds[6] = { 9e64, -9e64, 9e64, -9e64, 9e64, -9e64 };
-    bool hasBds = getActorsBounds(m_actorList, bds);
+    bool hasBds = getActorsBounds(mActorList, bds);
     for (int i = 0; i < 6; i++)
         bounds[i] = bds[i];
     return hasBds;

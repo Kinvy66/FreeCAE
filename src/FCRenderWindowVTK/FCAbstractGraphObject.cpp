@@ -1,15 +1,10 @@
-/*
- * Copyright (c) 2020-2025, Qingdao Digital Intelligent Ship & Ocean Technology Co., Ltd.
- * All rights reserved.
- */
-
 #include "FCAbstractGraphObject.h"
 #include "FCGraph3DWindowVTK.h"
 
 namespace FC
 {
 FCAbstractGraphObject::FCAbstractGraphObject(void* dataObject)
-    : m_dataObject(dataObject)
+    : mDataObject(dataObject)
 {
 }
 
@@ -17,20 +12,20 @@ FCAbstractGraphObject::~FCAbstractGraphObject() = default;
 
 void FCAbstractGraphObject::setGraphWidget(FCGraph3DWindowVTK* w)
 {
-    m_graphWidget = w;
+    mGraphWidget = w;
 }
 
 FCGraph3DWindowVTK* FCAbstractGraphObject::getGraphWidget() const
 {
-    return m_graphWidget;
+    return mGraphWidget;
 }
 
 void FCAbstractGraphObject::removeFromGraphWidget()
 {
-    if (m_graphWidget)
+    if (mGraphWidget)
     {
-        m_graphWidget->removeGraphObj(this);
-        m_graphWidget = nullptr;
+        mGraphWidget->removeGraphObj(this);
+        mGraphWidget = nullptr;
     }
 }
 } // namespace FC

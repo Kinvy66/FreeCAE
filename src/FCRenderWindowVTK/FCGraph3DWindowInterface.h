@@ -1,14 +1,6 @@
-/*
- * Copyright (c) 2020-2025, Qingdao Digital Intelligent Ship & Ocean Technology Co., Ltd.
- * All rights reserved.
- *
- * This file is part of FastCAE and is distributed under the terms of the
- * BSD 3-Clause License. See the LICENSE file in the project root for details.
- */
-
 /**
  * @file FCGraph3DWindowInterface.h
- * @brief 三维渲染窗口组件接口（仅 VTK+Qt，与 FITKGraph3DWindowInterface 接口一致）
+ * @brief 三维渲染窗口组件接口
  */
 #ifndef FCGRAPH3DWINDOWINTERFACE_H
 #define FCGRAPH3DWINDOWINTERFACE_H
@@ -36,7 +28,7 @@ enum ResolveCoincidentType
 };
 
 /**
- * @brief 渲染窗口信息（仅 Qt，无 FITK 依赖）
+ * @brief 渲染窗口信息
  */
 class FCRENDERWINDOWVTK_API FCGraph3DWindowInitializer
 {
@@ -52,8 +44,8 @@ public:
     void setValue(const QString& key, const QVariant& value);
 
 private:
-    int _layerCount = 3;
-    QHash<QString, QVariant> _params;
+    int mLayerCount = 3;
+    QHash<QString, QVariant> mParams;
 };
 
 /**
@@ -73,7 +65,7 @@ public:
     static void SetResolveCoincidentType(ResolveCoincidentType type);
 
 private:
-    QHash<int, FCGraph3DWindowInitializer*> _initilizerList;
+    QHash<int, FCGraph3DWindowInitializer*> mInitializerList;
 };
 } // namespace FC
 #endif

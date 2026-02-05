@@ -35,9 +35,9 @@ public:
     void setBackgroundColor(float* rgb1, float* rgb2 = nullptr);
 
 private:
-    FCGraph3DWindowVTK* _graphWidget = nullptr;
-    vtkRenderer* m_renderer = nullptr;
-    FCGraphObjManager* m_objectManager = nullptr;
+    FCGraph3DWindowVTK* mGraphWidget = nullptr;
+    vtkRenderer* mRenderer = nullptr;
+    FCGraphObjManager* mObjectManager = nullptr;
 };
 } // namespace FC
 #endif

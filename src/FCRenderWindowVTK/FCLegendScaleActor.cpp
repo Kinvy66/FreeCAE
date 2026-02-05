@@ -1,8 +1,3 @@
-/*
- * Copyright (c) 2020-2025, Qingdao Digital Intelligent Ship & Ocean Technology Co., Ltd.
- * All rights reserved.
- */
-
 #include "FCLegendScaleActor.h"
 #include <vtkActor2D.h>
 #include <vtkAxisActor2D.h>

@@ -1,8 +1,3 @@
-/*
- * Copyright (c) 2020-2025, Qingdao Digital Intelligent Ship & Ocean Technology Co., Ltd.
- * All rights reserved.
- */
-
 #include "FCActorClipTool.h"
 #include <vtkPlane.h>
 #include <vtkObjectFactory.h>
@@ -17,11 +12,11 @@ FCActorClipTool::~FCActorClipTool() = default;
 
 void FCActorClipTool::setClipType(ClipType type)
 {
-    m_clipType = type;
+    mClipType = type;
 }
 
 void FCActorClipTool::setClipImplicitFunction(vtkPlane* plane)
 {
-    m_clipPlane = plane;
+    mClipPlane = plane;
 }
 } // namespace FC

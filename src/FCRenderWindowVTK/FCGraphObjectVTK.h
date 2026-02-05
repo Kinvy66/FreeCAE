@@ -1,14 +1,6 @@
-/*
- * Copyright (c) 2020-2025, Qingdao Digital Intelligent Ship & Ocean Technology Co., Ltd.
- * All rights reserved.
- *
- * This file is part of FastCAE and is distributed under the terms of the
- * BSD 3-Clause License. See the LICENSE file in the project root for details.
- */
-
 /**
  * @file FCGraphObjectVTK.h
- * @brief 渲染对象接口声明（仅 VTK+Qt，与 FITKGraphObjectVTK 接口一致）
+ * @brief 渲染对象接口声明
  */
 #ifndef FCGRAPHOBJECTVTK_H
 #define FCGRAPHOBJECTVTK_H
@@ -58,13 +50,13 @@ public:
     bool getActorsBounds(QList<vtkProp*> props, double* bounds);
 
 protected:
-    QList<vtkProp*> m_actorList;
-    QList<vtkInteractorObserver*> m_widgetList;
-    bool m_hasFixedBounds = true;
-    double m_polygonOffset = 0.;
-    vtkPlane* m_planeFunction = nullptr;
-    bool m_isOpenClip = false;
-    vtkPlane* m_clipPlane = nullptr;
+    QList<vtkProp*> mActorList;
+    QList<vtkInteractorObserver*> mWidgetList;
+    bool mHasFixedBounds = true;
+    double mPolygonOffset = 0.;
+    vtkPlane* mPlaneFunction = nullptr;
+    bool mIsOpenClip = false;
+    vtkPlane* mClipPlane = nullptr;
 };
 } // namespace FC
 #endif
