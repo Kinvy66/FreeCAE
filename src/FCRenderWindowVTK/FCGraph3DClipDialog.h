@@ -16,7 +16,7 @@
 #include "FCRenderWindowVTKAPI.h"
 #include <QDialog>
 
-namespace Comp
+namespace FC
 {
 class FCGraph3DWindowVTK;
 
@@ -35,5 +35,5 @@ private:
     FCGraph3DWindowVTK* m_graph3DWindow = nullptr;
     bool m_clipCreateNewModel = true;
 };
-} // namespace Comp
+} // namespace FC
 #endif

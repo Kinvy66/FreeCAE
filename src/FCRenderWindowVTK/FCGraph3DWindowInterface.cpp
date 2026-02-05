@@ -13,7 +13,7 @@
 #include <QWidget>
 #include <QColor>
 
-namespace Comp
+namespace FC
 {
 QString FCGraph3DWindowInterface::CheckSystem()
 {
@@ -22,7 +22,7 @@ QString FCGraph3DWindowInterface::CheckSystem()
 
 FCGraph3DWindowInterface::~FCGraph3DWindowInterface()
 {
-    QList<Graph3DWindowInitializer*> inis = _initilizerList.values();
+    QList<FCGraph3DWindowInitializer*> inis = _initilizerList.values();
     for (auto iner : inis)
     {
         if (iner)
@@ -33,9 +33,9 @@ FCGraph3DWindowInterface::~FCGraph3DWindowInterface()
 
 QWidget* FCGraph3DWindowInterface::getWidget(int indexPort)
 {
-    Graph3DWindowInitializer* initer = _initilizerList.value(indexPort);
+    FCGraph3DWindowInitializer* initer = _initilizerList.value(indexPort);
     if (!initer)
-        initer = new Graph3DWindowInitializer;
+        initer = new FCGraph3DWindowInitializer;
     FCGraph3DWindowVTK* w = new FCGraph3DWindowVTK(initer);
 
     QVariant vtc = initer->getValue(BackGroundColorTop);
@@ -57,38 +57,38 @@ QString FCGraph3DWindowInterface::getComponentName()
     return QStringLiteral("Graph3DWindowVTK");
 }
 
-void FCGraph3DWindowInterface::addInitializer(int key, Graph3DWindowInitializer* info)
+void FCGraph3DWindowInterface::addInitializer(int key, FCGraph3DWindowInitializer* info)
 {
     if (_initilizerList.contains(key))
     {
-        Graph3DWindowInitializer* iner = _initilizerList.value(key);
+        FCGraph3DWindowInitializer* iner = _initilizerList.value(key);
         if (iner)
             delete iner;
     }
     _initilizerList[key] = info;
 }
 
-FCGraphInteractionStyle* Graph3DWindowInitializer::getStyle()
+FCGraphInteractionStyle* FCGraph3DWindowInitializer::getStyle()
 {
     return FCGraphInteractionStyle::New();
 }
 
-void Graph3DWindowInitializer::setLayerCount(int nc)
+void FCGraph3DWindowInitializer::setLayerCount(int nc)
 {
     _layerCount = nc;
 }
 
-int Graph3DWindowInitializer::getLayerCount() const
+int FCGraph3DWindowInitializer::getLayerCount() const
 {
     return _layerCount;
 }
 
-QVariant Graph3DWindowInitializer::getValue(const QString& key) const
+QVariant FCGraph3DWindowInitializer::getValue(const QString& key) const
 {
     return _params.value(key);
 }
 
-void Graph3DWindowInitializer::setValue(const QString& key, const QVariant& value)
+void FCGraph3DWindowInitializer::setValue(const QString& key, const QVariant& value)
 {
     _params[key] = value;
 }
@@ -113,4 +113,4 @@ void FCGraph3DWindowInterface::SetResolveCoincidentType(ResolveCoincidentType ty
         break;
     }
 }
-} // namespace Comp
+} // namespace FC

@@ -54,11 +54,11 @@
 #include <vtkGenericOpenGLRenderWindow.h>
 #endif
 
-namespace Comp
+namespace FC
 {
 QMutex FCGraph3DWindowVTK::_mutex;
 
-FCGraph3DWindowVTK::FCGraph3DWindowVTK(Graph3DWindowInitializer* ini)
+FCGraph3DWindowVTK::FCGraph3DWindowVTK(FCGraph3DWindowInitializer* ini)
     : FCAbstractGraph3DWidget(nullptr)
     , _initializer(ini)
 {
@@ -1053,4 +1053,4 @@ void FCGraph3DWindowVTK::setInteractionStyle(FCGraphInteractionStyle* style)
         }
     }
 }
-} // namespace Comp
+} // namespace FC

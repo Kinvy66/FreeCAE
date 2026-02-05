@@ -16,7 +16,7 @@
 #include <vtkRenderWindowInteractor.h>
 #include <vtkCellArray.h>
 
-namespace Comp
+namespace FC
 {
 FCGraphAreaPicker::FCGraphAreaPicker(FCGraphInteractionStyle* style)
     : m_style(style)
@@ -141,4 +141,4 @@ void FCGraphAreaPicker::setColor(double rf, double gf, double bf)
     if (m_pickActor && m_pickActor->GetProperty())
         m_pickActor->GetProperty()->SetColor(rf, gf, bf);
 }
-} // namespace Comp
+} // namespace FC

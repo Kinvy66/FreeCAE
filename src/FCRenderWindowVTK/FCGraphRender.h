@@ -1,14 +1,6 @@
-/*
- * Copyright (c) 2020-2025, Qingdao Digital Intelligent Ship & Ocean Technology Co., Ltd.
- * All rights reserved.
- *
- * This file is part of FastCAE and is distributed under the terms of the
- * BSD 3-Clause License. See the LICENSE file in the project root for details.
- */
-
 /**
  * @file FCGraphRender.h
- * @brief 渲染场景接口声明（仅 VTK+Qt，与 FITKGraphRender 接口一致）
+ * @brief 渲染场景接口声明
  */
 #ifndef FCGRAPHRENDER_H
 #define FCGRAPHRENDER_H
@@ -20,7 +12,7 @@
 class vtkRenderer;
 class vtkRenderWindow;
 
-namespace Comp
+namespace FC
 {
 class FCGraphObjectVTK;
 class FCGraph3DWindowVTK;
@@ -47,5 +39,5 @@ private:
     vtkRenderer* m_renderer = nullptr;
     FCGraphObjManager* m_objectManager = nullptr;
 };
-} // namespace Comp
+} // namespace FC
 #endif

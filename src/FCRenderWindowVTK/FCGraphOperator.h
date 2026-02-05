@@ -15,7 +15,7 @@
 
 #include "FCRenderWindowVTKAPI.h"
 
-namespace Comp
+namespace FC
 {
 class FCGraph3DWindowVTK;
 
@@ -31,5 +31,5 @@ public:
 protected:
     FCGraph3DWindowVTK* m_graph3DWindow = nullptr;
 };
-} // namespace Comp
+} // namespace FC
 #endif

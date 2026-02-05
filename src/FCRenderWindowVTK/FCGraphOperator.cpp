@@ -6,7 +6,7 @@
 #include "FCGraphOperator.h"
 #include "FCGraph3DWindowVTK.h"
 
-namespace Comp
+namespace FC
 {
 FCGraphOperator::FCGraphOperator() = default;
 
@@ -21,4 +21,4 @@ FCGraph3DWindowVTK* FCGraphOperator::getGraph3DWindow()
 {
     return m_graph3DWindow;
 }
-} // namespace Comp
+} // namespace FC

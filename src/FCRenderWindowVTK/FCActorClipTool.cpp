@@ -7,7 +7,7 @@
 #include <vtkPlane.h>
 #include <vtkObjectFactory.h>
 
-namespace Comp
+namespace FC
 {
 vtkStandardNewMacro(FCActorClipTool);
 
@@ -24,4 +24,4 @@ void FCActorClipTool::setClipImplicitFunction(vtkPlane* plane)
 {
     m_clipPlane = plane;
 }
-} // namespace Comp
+} // namespace FC

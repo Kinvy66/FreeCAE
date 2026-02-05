@@ -9,7 +9,7 @@
 #include <vtkPlane.h>
 #include <vtkInteractorObserver.h>
 
-namespace Comp
+namespace FC
 {
 FCGraphObjectVTK::FCGraphObjectVTK(void* dataObject)
     : FCAbstractGraphObject(dataObject)
@@ -180,4 +180,4 @@ bool FCGraphObjectVTK::getActorsBounds(QList<vtkProp*> props, double* bounds)
         bounds[i] = bdsAll[i];
     return hasBds;
 }
-} // namespace Comp
+} // namespace FC

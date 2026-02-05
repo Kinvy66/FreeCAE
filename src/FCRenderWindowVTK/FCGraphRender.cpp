@@ -14,7 +14,7 @@
 #include <vtkCamera.h>
 #include <cmath>
 
-namespace Comp
+namespace FC
 {
 FCGraphRender::FCGraphRender(FCGraph3DWindowVTK* gw, vtkRenderer* ren)
     : _graphWidget(gw)
@@ -168,4 +168,4 @@ void FCGraphRender::setBackgroundColor(float* rgb1, float* rgb2)
     m_renderer->SetBackground2(rgb1[0], rgb1[1], rgb1[2]);
     m_renderer->SetBackground(rgb2[0], rgb2[1], rgb2[2]);
 }
-} // namespace Comp
+} // namespace FC

@@ -9,7 +9,7 @@
 #include <vtkRenderWindowInteractor.h>
 #include <QList>
 
-namespace Comp
+namespace FC
 {
 FCGraphInteractionStyle* FCGraphInteractionStyle::New()
 {
@@ -150,4 +150,4 @@ bool FCGraphInteractionStyle::isMouseMoved()
     int dy = m_leftButtonUpPos[1] - m_leftButtonDowmPos[1];
     return dx * dx + dy * dy > 50;
 }
-} // namespace Comp
+} // namespace FC

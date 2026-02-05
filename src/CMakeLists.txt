@@ -12,8 +12,10 @@ add_subdirectory(FCInterface)
 add_subdirectory(FCUtils)
 add_subdirectory(FCMessageHandler)
 add_subdirectory(FCRenderWindowVTK)
+add_subdirectory(FCModelInterface)
+add_subdirectory(FCGeometryInterface)
+add_subdirectory(FCGeometryCommand)
 add_subdirectory(FCGUI)
 
 add_subdirectory(APP)
-
 

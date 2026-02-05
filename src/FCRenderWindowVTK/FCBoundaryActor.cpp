@@ -13,7 +13,7 @@
 #include <vtkUnstructuredGrid.h>
 #include <vtkProperty.h>
 
-namespace Comp
+namespace FC
 {
 FCBoundaryActor::FCBoundaryActor()
 {
@@ -57,4 +57,4 @@ void FCBoundaryActor::updateBoundary(double* bound)
     pts->InsertNextPoint(bound[1], bound[3], bound[5]);
     ugrid->Modified();
 }
-} // namespace Comp
+} // namespace FC

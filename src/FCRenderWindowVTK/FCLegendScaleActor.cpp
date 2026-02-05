@@ -24,7 +24,7 @@
 #include <cmath>
 #include <cstdio>
 
-namespace Comp
+namespace FC
 {
 vtkStandardNewMacro(FCLegendScaleActor);
 
@@ -258,4 +258,4 @@ void FCLegendScaleActor::PrintSelf(ostream& os, vtkIndent indent)
     os << indent << "Legend Label Property: " << (this->LegendLabelProperty ? "set\n" : "(none)\n");
     os << indent << "Bottom Axis: " << (this->BottomAxis ? "set\n" : "(none)\n");
 }
-} // namespace Comp
+} // namespace FC

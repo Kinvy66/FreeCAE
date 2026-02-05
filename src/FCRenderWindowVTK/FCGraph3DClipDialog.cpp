@@ -7,7 +7,7 @@
 #include "FCGraph3DWindowVTK.h"
 #include <QShowEvent>
 
-namespace Comp
+namespace FC
 {
 FCGraph3DClipDialog::FCGraph3DClipDialog(FCGraph3DWindowVTK* graph3DWindow, bool clipCreateNewModel, QWidget* parent)
     : QDialog(parent)
@@ -26,4 +26,4 @@ void FCGraph3DClipDialog::showEvent(QShowEvent* event)
 {
     QDialog::showEvent(event);
 }
-} // namespace Comp
+} // namespace FC

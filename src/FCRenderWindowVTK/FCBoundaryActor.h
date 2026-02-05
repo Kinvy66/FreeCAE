@@ -18,7 +18,7 @@
 class vtkActor;
 class vtkUnstructuredGrid;
 
-namespace Comp
+namespace FC
 {
 class FCRENDERWINDOWVTK_API FCBoundaryActor
 {
@@ -32,5 +32,5 @@ public:
 private:
     vtkActor* _boundaryActor = nullptr;
 };
-} // namespace Comp
+} // namespace FC
 #endif

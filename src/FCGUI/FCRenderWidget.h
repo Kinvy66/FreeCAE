@@ -11,10 +11,10 @@
 #include "FCGUIAPI.h"
 #include <QWidget>
 
-namespace Comp
+namespace FC
 {
 class FCGraph3DWindowVTK;
-class Graph3DWindowInitializer;
+class FCGraph3DWindowInitializer;
 }
 
 namespace FC
@@ -27,11 +27,11 @@ public:
     ~FCRenderWidget() override;
 
     /** 获取内嵌的 VTK 三维渲染窗口，用于添加对象、设置视角等 */
-    Comp::FCGraph3DWindowVTK* getGraph3DWindow() const { return m_graph3DWindow; }
+    FC::FCGraph3DWindowVTK* getGraph3DWindow() const { return m_graph3DWindow; }
 
 private:
-    Comp::Graph3DWindowInitializer* m_initializer = nullptr;
-    Comp::FCGraph3DWindowVTK* m_graph3DWindow = nullptr;
+    FC::FCGraph3DWindowInitializer* m_initializer = nullptr;
+    FC::FCGraph3DWindowVTK* m_graph3DWindow = nullptr;
 };
 } // namespace FC
 

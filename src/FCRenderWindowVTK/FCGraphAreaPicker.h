@@ -20,7 +20,7 @@
 
 class vtkRenderer;
 
-namespace Comp
+namespace FC
 {
 class FCGraphInteractionStyle;
 
@@ -50,5 +50,5 @@ private:
     vtkSmartPointer<vtkActor2D> m_pickActor;
     double m_color3[3] = { 1., 1., 1. };
 };
-} // namespace Comp
+} // namespace FC
 #endif

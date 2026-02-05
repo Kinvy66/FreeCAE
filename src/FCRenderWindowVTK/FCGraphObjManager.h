@@ -16,7 +16,7 @@
 #include "FCRenderWindowVTKAPI.h"
 #include <QList>
 
-namespace Comp
+namespace FC
 {
 class FCGraphObjectVTK;
 
@@ -41,5 +41,5 @@ public:
 private:
     QList<FCGraphObjectVTK*> m_list;
 };
-} // namespace Comp
+} // namespace FC
 #endif

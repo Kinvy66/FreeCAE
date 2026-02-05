@@ -15,10 +15,10 @@ namespace FC
 FCRenderWidget::FCRenderWidget(QWidget* parent)
     : QWidget(parent)
 {
-    m_initializer = new Comp::Graph3DWindowInitializer();
+    m_initializer = new FCGraph3DWindowInitializer();
     m_initializer->setLayerCount(3);
 
-    m_graph3DWindow = new Comp::FCGraph3DWindowVTK(m_initializer);
+    m_graph3DWindow = new FCGraph3DWindowVTK(m_initializer);
 
     QVBoxLayout* layout = new QVBoxLayout(this);
     layout->setContentsMargins(0, 0, 0, 0);
@@ -29,6 +29,6 @@ FCRenderWidget::~FCRenderWidget()
 {
     delete m_initializer;
     m_initializer = nullptr;
-    m_graph3DWindow = nullptr; // 已由 QWidget 子对象析构
+    m_graph3DWindow = nullptr; 
 }
 } // namespace FC

@@ -30,14 +30,14 @@ class vtkRenderer;
 class QGridLayout;
 class QToolBar;
 
-namespace Comp
+namespace FC
 {
 class FCGraphRender;
 class FCGraphObjectVTK;
 class FCGraphInteractionStyle;
 class FCBoundaryActor;
 class FCLegendScaleActor;
-class Graph3DWindowInitializer;
+class FCGraph3DWindowInitializer;
 }
 
 namespace Ui
@@ -45,7 +45,7 @@ namespace Ui
 class FCGraph3DWindowVTK;
 }
 
-namespace Comp
+namespace FC
 {
 enum class FCGraphWinToolBarPos
 {
@@ -73,7 +73,7 @@ class FCRENDERWINDOWVTK_API FCGraph3DWindowVTK : public FCAbstractGraph3DWidget
 {
     Q_OBJECT
 public:
-    explicit FCGraph3DWindowVTK(Graph3DWindowInitializer* initializer);
+    explicit FCGraph3DWindowVTK(FCGraph3DWindowInitializer* initializer);
     ~FCGraph3DWindowVTK() override;
 
     void setHiddenLineRemoval(bool flag);
@@ -158,7 +158,7 @@ private slots:
     void slot_changingView();
 
 protected:
-    Graph3DWindowInitializer* _initializer = nullptr;
+    FCGraph3DWindowInitializer* _initializer = nullptr;
     Ui::FCGraph3DWindowVTK* m_ui = nullptr;
     QWidget* m_vtkWidget = nullptr;
     FCLegendScaleActor* m_legendScaleActor = nullptr;
@@ -189,5 +189,5 @@ private:
     double m_tarUp3[3] = { 0., 0., 0. };
     double m_tarFoc3[3] = { 0., 0., 0. };
 };
-} // namespace Comp
+} // namespace FC
 #endif

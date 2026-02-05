@@ -6,7 +6,7 @@
 #include "FCGraphObjManager.h"
 #include "FCGraphObjectVTK.h"
 
-namespace Comp
+namespace FC
 {
 FCGraphObjManager::FCGraphObjManager() = default;
 
@@ -44,4 +44,4 @@ bool FCGraphObjManager::isContains(FCGraphObjectVTK* obj) const
 {
     return obj && m_list.contains(obj);
 }
-} // namespace Comp
+} // namespace FC

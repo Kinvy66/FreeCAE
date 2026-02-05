@@ -20,7 +20,7 @@
 class vtkPlane;
 class vtkAlgorithmOutput;
 
-namespace Comp
+namespace FC
 {
 enum class ClipType
 {
@@ -53,5 +53,5 @@ private:
     ClipType m_clipType = ClipType::NoneType;
     vtkPlane* m_clipPlane = nullptr;
 };
-} // namespace Comp
+} // namespace FC
 #endif

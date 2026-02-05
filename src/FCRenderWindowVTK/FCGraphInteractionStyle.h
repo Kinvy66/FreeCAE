@@ -20,7 +20,7 @@
 class vtkRenderer;
 class vtkRenderWindowInteractor;
 
-namespace Comp
+namespace FC
 {
 class FCGraphOperator;
 class FCGraph3DWindowVTK;
@@ -64,5 +64,5 @@ protected:
     FCGraphAreaPicker* m_areaPick = nullptr;
     bool m_leftButtonPressed = false;
 };
-} // namespace Comp
+} // namespace FC
 #endif

@@ -23,7 +23,7 @@
 #define BackGroundColorTop "BackGroundColorTop"
 #define BackGroundColorButtom "BackGroundColorButtom"
 
-namespace Comp
+namespace FC
 {
 class FCGraphInteractionStyle;
 
@@ -38,11 +38,11 @@ enum ResolveCoincidentType
 /**
  * @brief 渲染窗口信息（仅 Qt，无 FITK 依赖）
  */
-class FCRENDERWINDOWVTK_API Graph3DWindowInitializer
+class FCRENDERWINDOWVTK_API FCGraph3DWindowInitializer
 {
 public:
-    explicit Graph3DWindowInitializer() = default;
-    virtual ~Graph3DWindowInitializer() = default;
+    explicit FCGraph3DWindowInitializer() = default;
+    virtual ~FCGraph3DWindowInitializer() = default;
 
     virtual FCGraphInteractionStyle* getStyle();
     void setLayerCount(int nc);
@@ -69,11 +69,11 @@ public:
 
     virtual QWidget* getWidget(int indexPort);
     virtual QString getComponentName();
-    void addInitializer(int key, Graph3DWindowInitializer* info);
+    void addInitializer(int key, FCGraph3DWindowInitializer* info);
     static void SetResolveCoincidentType(ResolveCoincidentType type);
 
 private:
-    QHash<int, Graph3DWindowInitializer*> _initilizerList;
+    QHash<int, FCGraph3DWindowInitializer*> _initilizerList;
 };
-} // namespace Comp
+} // namespace FC
 #endif

@@ -21,7 +21,7 @@ class vtkProp;
 class vtkPlane;
 class vtkInteractorObserver;
 
-namespace Comp
+namespace FC
 {
 /**
  * @brief 渲染对象接口声明
@@ -66,5 +66,5 @@ protected:
     bool m_isOpenClip = false;
     vtkPlane* m_clipPlane = nullptr;
 };
-} // namespace Comp
+} // namespace FC
 #endif

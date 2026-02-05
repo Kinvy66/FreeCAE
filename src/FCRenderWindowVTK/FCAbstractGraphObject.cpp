@@ -6,7 +6,7 @@
 #include "FCAbstractGraphObject.h"
 #include "FCGraph3DWindowVTK.h"
 
-namespace Comp
+namespace FC
 {
 FCAbstractGraphObject::FCAbstractGraphObject(void* dataObject)
     : m_dataObject(dataObject)
@@ -33,4 +33,4 @@ void FCAbstractGraphObject::removeFromGraphWidget()
         m_graphWidget = nullptr;
     }
 }
-} // namespace Comp
+} // namespace FC
