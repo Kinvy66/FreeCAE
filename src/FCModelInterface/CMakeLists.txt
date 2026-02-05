@@ -45,13 +45,18 @@ target_compile_definitions(${FC_LIB_NAME} PRIVATE FCMODELINTERFACE_BUILDLIB)
 # 定义别名让DAWorkbench::${DA_LIB_NAME}也能获取到
 add_library(${FC_PROJECT_NAME}::${FC_LIB_NAME} ALIAS ${FC_LIB_NAME})
 ########################################################
-# 依赖链接
+# 依赖链接（仅 FCData + Qt，不依赖 FITKCore）
 ########################################################
+target_include_directories(${FC_LIB_NAME} PUBLIC
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
+    $<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/src>
+)
 target_link_libraries(${FC_LIB_NAME} PRIVATE
     Qt${QT_VERSION_MAJOR}::Core
     Qt${QT_VERSION_MAJOR}::Gui
     Qt${QT_VERSION_MAJOR}::Widgets
     Qt${QT_VERSION_MAJOR}::Svg
+    FCData
 )
 message(STATUS "${FC_LIB_NAME} Qt${QT_VERSION_MAJOR}.${QT_VERSION_MINOR}.${QT_VERSION_PATCH}")
 
