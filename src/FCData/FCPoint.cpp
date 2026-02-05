@@ -28,6 +28,15 @@ FCPoint::FCPoint(double* c)
     }
 }
 
+FCPoint::FCPoint(const double* c)
+{
+    if (c) {
+        _coor[0] = c[0];
+        _coor[1] = c[1];
+        _coor[2] = c[2];
+    }
+}
+
 FCPoint::FCPoint(const FCPoint& point)
 {
     _coor[0] = point._coor[0];

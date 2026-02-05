@@ -15,7 +15,7 @@ QList<FCModelSet*> FCComponentManager::getModelSet(FCModelEnum::FITKModelSetType
     QList<FCModelSet*> sets;
     const int n = getDataCount();
     for (int i = 0; i < n; ++i) {
-        FCModelSet* set = getDataByIndex(i);
+        FCModelSet* set = dynamic_cast<FCModelSet*>(getDataByIndex(i));
         if (!set) continue;
         if (set->getModelSetType() == t) sets.append(set);
         if (!set->isCombination()) continue;
@@ -45,7 +45,7 @@ QList<FCMeshSurface*> FCComponentManager::getAllMeshSurface()
     QList<FCMeshSurface*> surfs;
     const int n = getDataCount();
     for (int i = 0; i < n; ++i) {
-        FCMeshSurface* surf = getDataByIndex(i);
+        FCMeshSurface* surf = dynamic_cast<FCMeshSurface*>(getDataByIndex(i));
         if (surf) surfs.append(surf);
     }
     return surfs;
@@ -56,7 +56,7 @@ QList<FCMeshSurface*> FCComponentManager::getMeshSurface(FCMeshSurface::MeshSurf
     QList<FCMeshSurface*> surfs;
     const int n = getDataCount();
     for (int i = 0; i < n; ++i) {
-        FCMeshSurface* surf = getDataByIndex(i);
+        FCMeshSurface* surf = dynamic_cast<FCMeshSurface*>(getDataByIndex(i));
         if (!surf || surf->getMeshSurfaceType() != t) continue;
         surfs.append(surf);
     }
@@ -68,7 +68,7 @@ QList<FCModelSurface*> FCComponentManager::getModelSurface(FCModelSurface::Model
     QList<FCModelSurface*> surfs;
     const int n = getDataCount();
     for (int i = 0; i < n; ++i) {
-        FCModelSurface* surf = getDataByIndex(i);
+        FCModelSurface* surf = dynamic_cast<FCModelSurface*>(getDataByIndex(i));
         if (!surf || surf->getModelSurfaceType() != t) continue;
         surfs.append(surf);
     }
@@ -180,7 +180,7 @@ FCAbstractModelComponent* FCComponentManager::getDataByID(int id)
     if (comp) return comp;
     const int n = getDataCount();
     for (int i = 0; i < n; ++i) {
-        FCModelSet* set = getDataByIndex(i);
+        FCModelSet* set = dynamic_cast<FCModelSet*>(getDataByIndex(i));
         if (!set || !set->isCombination()) continue;
         comp = set->getDataByID(id);
         if (comp) return comp;

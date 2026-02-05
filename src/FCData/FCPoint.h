@@ -19,6 +19,7 @@ public:
     FCPoint();
     FCPoint(double x, double y, double z);
     FCPoint(double* c);
+    FCPoint(const double* c);
     FCPoint(const FCPoint& point);
 
     double x() const;
