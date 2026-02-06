@@ -70,6 +70,10 @@ public:
     void printLog(QString msg, int type = 1);
     /** 从部件中移除后的处理逻辑（由部件调用） */
     virtual void removeFromPart(FCAbsGeoCommand* part);
+    /** 被引用次数（撤销列表用，接口层可恒为 0） */
+    virtual int getReferencedCmdCount() const { return 0; }
+    /** 在 GUI 中是否有效（撤销列表用，接口层可恒为 true） */
+    virtual bool getDataValidInGUI() const { return true; }
 
 protected:
     FCAbsGeoShapeAgent* _shapeAgent{};

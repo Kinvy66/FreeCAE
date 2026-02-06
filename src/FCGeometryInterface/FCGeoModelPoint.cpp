@@ -56,4 +56,28 @@ FCGeoEnum::FITKGeometryComType FCGeoModelInteractionPoint::getGeometryCommandTyp
 
 bool FCGeoModelInteractionPoint::update() { return true; }
 
+FCGeoEnum::FITKGeometryComType FCGeoModelPointProjectionOnCurve::getGeometryCommandType()
+{
+    return FCGeoEnum::FGTPointProjectionOnCurve;
+}
+bool FCGeoModelPointProjectionOnCurve::update() { return true; }
+
+FCGeoEnum::FITKGeometryComType FCGeoModelTwoCurveIntersectPoint::getGeometryCommandType()
+{
+    return FCGeoEnum::FGTTwoCurveIntersectPoint;
+}
+bool FCGeoModelTwoCurveIntersectPoint::update() { return true; }
+
+FCGeoEnum::FITKGeometryComType FCGeoModelPointProjectionOnSurface::getGeometryCommandType()
+{
+    return FCGeoEnum::FGTPointProjectionOnSurface;
+}
+bool FCGeoModelPointProjectionOnSurface::update() { return true; }
+
+FCGeoEnum::FITKGeometryComType FCGeoModelCurveIntersectSurface::getGeometryCommandType()
+{
+    return FCGeoEnum::FGTCurveIntersectSurface;
+}
+bool FCGeoModelCurveIntersectSurface::update() { return true; }
+
 } // namespace FC

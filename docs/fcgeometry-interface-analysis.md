@@ -108,70 +108,41 @@
 | FITKAbsGeoOperBool / FITKAbsGeoOperNBodyUnite | FCGeoOperBool / FCGeoOperNBodyUnite | 布尔、多体并 |
 | FITKAbsGeoImportBase / FITKAbsGeoModelImport/Export | FCGeoImportBase / FCGeoModelImport/Export | 导入导出 |
 | FITKAbsGeoTransformation 及子类 | FCGeoTransformation 及子类 | 平移/旋转/缩放/镜像/阵列 |
-| FITKAbsGeoModelPoint 及部分子类 | FCGeoModelPoint（Point/CurveEnd/CurveEndDistance/CurveRadio/InteractionPoint） | 点及曲线相关点 |
+| FITKAbsGeoModelPoint 及部分子类 | FCGeoModelPoint（Point/CurveEnd/CurveEndDistance/CurveRadio/InteractionPoint/ProjectionOnCurve/TwoCurveIntersectPoint/ProjectionOnSurface/CurveIntersectSurface） | 点及曲线相关点 |
+| FITKAbsGeoModelCurve 及子类 | FCGeoModelCurve（Line/Segment/Wire/Circle） | 曲线基类与直线/线段/线串/圆 |
+| FITKAbsGeoModelSurface 及子类 | FCGeoModelSurface（ClosedWireSurface/OffsetSurface/ExtrudeSurface/RevolSurface/SweepSurface） | 曲面基类与封闭线/偏移/拉伸/旋转/扫略 |
 | FITKAbsGeoModelSolid 及子类 | FCGeoModelSolid（ClosedSurface/Extrude/Revol/Sweep/MultiSection） | 实体 |
 | FITKAbsGeoModelCut 及子类 | FCGeoModelCut（Extrude/Revol/Sweep/MultiSection） | 切割 |
 | FITKAbsGeoModelOperSolid 部分 | FCGeoModelOperSolid（Chamfer/Fillet/Defeature/RemoveChamfer/RemoveFillet/FillHole） | 倒角/倒圆/特征移除（无 CircularHole） |
 | FITKAbsGeoReferencePoint/Line/Plane 及子类 | FCGeoReferencePoint/Line/Plane 及子类 | 参考点/线/面 |
 | FITKAbsGeoStitch | FCGeoStitch | 缝合 |
 | FITKAbsGeoSplitter 及子类 | FCGeoSplitter（Curve/Surface/Solid） | 分割 |
-| FITKAbsGeoModelPartitionEdge/Face/Solid 及部分子类 | FCGeoModelPartitionEdge/Face/Solid 及部分子类 | 边/面/体分块（部分子类） |
+| FITKAbsGeoModelPartitionEdge/Face/Solid 及子类 | FCGeoModelPartitionEdge/Face/Solid（含 WithCurvedPath/WithIntersectFace/WithProjectEdges、WithSweepEdge/WithNSidedPatch） | 边/面/体分块 |
+| FITKAbsGeoModelOperLine/Face/Compound/ImprintSolid | FCGeoModelOperLine/Face/Compound/ImprintSolid | 线/面/复合/压印体操作 |
 | FITKGeometryMeshVS | FCGeometryMeshVS | 几何网格显示桩 |
+| FITKAbsExtendTool | FCExtendTool | 构造辅助（静态向量/拓扑） |
+| FITKAbsVirtualTopoMapper | FCVirtualTopoMapper | 虚拓扑关系查询 |
+| FITKAbsGeomTools（Point/Edge/Face/Common/Feature + Creator） | FCAbstractGeomTools | 几何查询工具（接口层桩） |
+| FITKGeoCommandList | FCGeoCommandList | 几何命令列表/撤销列表 |
+| FITKGlobalGeoComponent / Manager | FCGlobalGeoComponent / FCGlobalGeoComponentManager | 全局几何分组 |
+| FITKDatumList / FITKPrincipalDatumList | FCDatumList / FCPrincipalDatumList | 基准元素列表 |
+| FITKGeometryMeshEntity（Pt/Tri/EdgeEntity/FaceEntity） | FCGeometryMeshEntity（FCGeoMeshVSPt/VSTri/VSEdgeEntity/VSFaceEntity） | 几何显示网格实体 |
+| FITKImportFileThread / FITKExportFileThread | FCImportFileThread / FCExportFileThread | 导入/导出后台线程（QThread，run 为桩） |
 
-### 6.2 尚未迁移的 FITK 接口（按类别）
+### 6.2 尚未迁移的 FITK 接口（按约定：仅 Python 不移植）
 
-**草图与构造**
+**Python 绑定（不移植）**
 
-- FITKAbsGeoSketch2D、FITKAbsGeoSketchDeleter、FITKAbsGeoSketchFillet  
-- FITKAbsConstruction、FITKAbsExtendTool  
+- PyFITKGeoBehavior、PyFITKSketch2D  
 
-**曲线 / 曲面 / 体（完整层次）**
+**可选扩展（接口层已具备曲线/曲面基类与主要子类，以下可按需补充）**
 
-- FITKAbsGeoModelCurve（整棵曲线命令树：Line/Segment/Wire/Circle/BSpline/Offset/Trimmed 等）  
-- FITKAbsGeoModelSurface（整棵曲面命令树：ClosedWire/Offset/Extrude/Revol/Sweep 等）  
-- FITKAbsGeoModelOperLine、FITKAbsGeoModelOperFace  
-- FITKAbsGeoModelOperCompound、FITKAbsGeoModelOperImprintSolid  
-
-**导入导出与部件**
-
-- FITKAbsGeoModelExportTopos  
-- FITKAbsGeoModelImportFlattenAssembly  
-- FITKAbsGeoImportedPart  
-- FITKImportFileThread、FITKExportFileThread（后台线程，偏应用层）  
-
-**修复与替换**
-
-- FITKAbsGeoCoverEdges、FITKAbsGeoReplaceFaces  
-- FITKAbsGeoRepairSmallEdges、FITKAbsGeoRepairSmallFaces  
-
-**其他几何命令**
-
-- FITKAbsGeoModelExtractCenter、FITKAbsGeoModelFromMesh  
-- FITKAbsGeoModelNearestPointLine  
-- FITKAbsGeoSampleCurve  
-- FITKAbsGeoFeature（如 Stiffener）  
-- FITKAbsGeoVirtualTopoCombine  
-- FITKAbsGeoModelOperSolid 中的 CircularHole  
-
-**辅助与 Python**
-
-- FITKAbsGeomTools、FITKAbsVirtualTopoMapper  
-- FITKGeoCommandList、FITKGlobalGeoComponent  
-- FITKGeometryMeshEntity  
-- PyFITKGeoBehavior、PyFITKSketch2D（Python 绑定）  
-
-**Partition 未覆盖子类**
-
-- PartitionFace：WithCurvedPath、WithIntersectFace、WithProjectEdges  
-- PartitionSolid：WithSweepEdge、WithNSidedPatch  
-
-**Point 未覆盖子类**
-
-- PointProjectionOnCurve、TwoCurveIntersectPoint、PointProjectionOnSurface、CurveIntersectSurface  
+- 曲线：CircleArc、ThreePointsCircle、BSpline、Offset、Trimmed、BridgeCurve 等更多子类  
+- 曲面：仅保留 ClosedWire/Offset/Extrude/Revol/Sweep 主类，其余子类可按需添加  
 
 ---
 
-结论：**核心框架、基础体、删除、布尔、导入导出、变换、点/体/切割/体操作、参考点线面、缝合、分割、分区（边/面/体）的主要接口已移植**；**曲线/曲面完整命令树、草图、构造、修复/替换、虚拓扑组合、导出拓扑、从网格/抽中面/最近点线、CircularHole、Partition/Point 部分子类及 Python/线程/列表等辅助类尚未移植**。若需“全部移植”，可在此基础上按上述列表逐项补充接口（仍为接口层，不含 OCC 实现）。
+结论：**核心框架、基础体、删除、布尔、导入导出、变换、点/体/切割/体操作、参考点线面、缝合、分割、分区（含 Partition/Point 子类）、草图、构造、修复/替换、虚拓扑组合、导出拓扑、从网格/抽中面/最近点线、CircularHole、OperLine/Face/Compound/Imprint、曲线基类（Line/Segment/Wire/Circle）、曲面基类（ClosedWire/Offset/Extrude/Revol/Sweep）、辅助工具与线程（FCExtendTool、FCVirtualTopoMapper、FCAbstractGeomTools、FCGeoCommandList、FCGlobalGeoComponent、FCDatumList、FCGeometryMeshEntity、FCImportFileThread、FCExportFileThread）等接口均已移植**；**仅 Python 绑定不移植**。
 
 ## 七、移植注意事项
 

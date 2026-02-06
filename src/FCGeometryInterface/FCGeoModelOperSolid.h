@@ -128,6 +128,48 @@ public:
     bool update() override;
 };
 
+/**
+ * @brief 圆孔
+ */
+class FCGEOMETRYINTERFACE_API FCGeoModelCircularHoleSolid : public FCGeoModelSolid
+{
+    FC_CLASS(FC, FCGeoModelCircularHoleSolid);
+public:
+    FCGeoModelCircularHoleSolid() = default;
+    ~FCGeoModelCircularHoleSolid() override = default;
+
+    FCGeoEnum::FITKGeometryComType getGeometryCommandType() override;
+    bool update() override;
+
+    void setHolePoint(double x, double y, double z);
+    void getHolePoint(double& x, double& y, double& z) const;
+    void setHolePoint(const double* point);
+    void getHolePoint(double* point) const;
+    void setFlip(bool flip) { _flip = flip; }
+    bool getFlip() const { return _flip; }
+    void setDiameter(double diameter) { _diameter = diameter; }
+    double getDiameter() const { return _diameter; }
+    void setOperFace(const VirtualShape& face) { _operFace = face; }
+    VirtualShape getOperFace() const { return _operFace; }
+    void setOperEdge1(const VirtualShape& edge) { _operEdge1 = edge; }
+    VirtualShape getOperEdge1() const { return _operEdge1; }
+    void setDistanceLocateHole1(double d) { _distanceLocateHole1 = d; }
+    double getDistanceLocateHole1() const { return _distanceLocateHole1; }
+    void setOperEdge2(const VirtualShape& edge) { _operEdge2 = edge; }
+    VirtualShape getOperEdge2() const { return _operEdge2; }
+    void setDistanceLocateHole2(double d) { _distanceLocateHole2 = d; }
+    double getDistanceLocateHole2() const { return _distanceLocateHole2; }
+protected:
+    double _holePoint[3]{};
+    bool _flip{ false };
+    double _diameter{ 0.6 };
+    VirtualShape _operFace{};
+    VirtualShape _operEdge1{};
+    double _distanceLocateHole1{ 2 };
+    VirtualShape _operEdge2{};
+    double _distanceLocateHole2{ 2 };
+};
+
 } // namespace FC
 
 #endif // FCGEOMODELOPERSOLID_H

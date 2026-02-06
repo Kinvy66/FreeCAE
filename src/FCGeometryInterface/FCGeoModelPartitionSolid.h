@@ -87,6 +87,43 @@ protected:
     VirtualShape m_sketch{};
 };
 
+/**
+ * @brief 使用扫掠边进行实体分块
+ */
+class FCGEOMETRYINTERFACE_API FCGeoModelPartitionSolidWithSweepEdge : public FCGeoModelPartitionSolid
+{
+    FC_CLASS(FC, FCGeoModelPartitionSolidWithSweepEdge);
+public:
+    FCGeoModelPartitionSolidWithSweepEdge() = default;
+    ~FCGeoModelPartitionSolidWithSweepEdge() override = default;
+    FCGeoEnum::FITKGeometryComType getGeometryCommandType() override;
+    bool update() override;
+    void setEdges(const QList<VirtualShape>& edges) { m_edges = edges; }
+    QList<VirtualShape> edges() const { return m_edges; }
+    void setSweepPath(const VirtualShape& path) { m_sweepPath = path; m_sweepDirection.clear(); }
+    VirtualShape sweepPath() const { return m_sweepPath; }
+    void setSweepDirection(const QVector<double>& dir) { m_sweepDirection = dir; m_sweepPath = VirtualShape(); }
+    QVector<double> sweepDirection() const { return m_sweepDirection; }
+protected:
+    QList<VirtualShape> m_edges;
+    VirtualShape m_sweepPath{};
+    QVector<double> m_sweepDirection;
+};
+
+/**
+ * @brief 使用区域补丁进行实体分块
+ */
+class FCGEOMETRYINTERFACE_API FCGeoModelPartitionSolidWithNSidedPatch : public FCGeoModelPartitionSolid
+{
+    FC_CLASS(FC, FCGeoModelPartitionSolidWithNSidedPatch);
+public:
+    FCGeoModelPartitionSolidWithNSidedPatch() = default;
+    ~FCGeoModelPartitionSolidWithNSidedPatch() override = default;
+    FCGeoEnum::FITKGeometryComType getGeometryCommandType() override;
+    bool update() override;
+protected:
+};
+
 } // namespace FC
 
 #endif // FCGEOMODELPARTITIONSOLID_H

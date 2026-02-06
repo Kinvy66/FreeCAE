@@ -9,6 +9,7 @@
 #include "FCAbsGeoCommand.h"
 #include "FCGeoEnum.h"
 #include <FCData/FCMacros.h>
+#include <FCData/FCAbstractDataManager.hpp>
 
 namespace FC {
 
@@ -74,6 +75,28 @@ public:
 protected:
     double _nor[3]{ 0., 0., 1. };
     double _up[3]{ 0., 1., 0. };
+};
+
+/** 系统默认基准元素管理器（平面/轴），接口层可返回 nullptr */
+class FCGEOMETRYINTERFACE_API FCPrincipalDatumList
+{
+public:
+    explicit FCPrincipalDatumList() = default;
+    virtual ~FCPrincipalDatumList() = default;
+    FCAbsGeoDatumPlane* getPrincipalPlane(FCGeoEnum::DatumPlnType type);
+    FCAbsGeoDatumLine* getPrincipalAxis(FCGeoEnum::DatumAxisType type);
+};
+
+/** 基准元素列表（撤销列表用） */
+class FCGEOMETRYINTERFACE_API FCDatumList : public FCAbstractDataManager<FCAbsGeoDatum>
+{
+public:
+    explicit FCDatumList();
+    virtual ~FCDatumList();
+    FCAbsGeoDatumPlane* getPrincipalPlane(FCGeoEnum::DatumPlnType type);
+    FCAbsGeoDatumLine* getPrincipalAxis(FCGeoEnum::DatumAxisType type);
+protected:
+    FCPrincipalDatumList* m_principalDatumMgr{ nullptr };
 };
 
 } // namespace FC

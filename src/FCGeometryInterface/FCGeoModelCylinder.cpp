@@ -3,7 +3,7 @@
  * @brief 圆柱体几何命令实现（接口层）
  */
 #include "FCGeoModelCylinder.h"
-#include <FCModelInterface/FCAbstractModel.h>
+#include "FCAbstractModel.h"
 
 namespace FC {
 

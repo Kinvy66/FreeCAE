@@ -47,6 +47,10 @@ public:
     int getIndexLabel() const;
     void setTag(int tag);
     int getTag();
+    /** 被合并的拓扑数量（虚拓扑合并用，接口层可恒为 0） */
+    int getCombinedTopoCount() const { return 0; }
+    /** 合并到的拓扑（接口层可恒为 nullptr） */
+    FCAbsVirtualTopo* getCombinedToTopo() const { return nullptr; }
 
 protected:
     FCGeoEnum::VTopoShapeType _shapeType{ FCGeoEnum::VSNone };

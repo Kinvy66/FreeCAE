@@ -30,4 +30,22 @@ FCGeoEnum::FITKGeometryComType FCGeoModelPartitionFaceWithExtendFace::getGeometr
 }
 bool FCGeoModelPartitionFaceWithExtendFace::update() { return true; }
 
+FCGeoEnum::FITKGeometryComType FCGeoModelPartitionFaceWithCurvedPath::getGeometryCommandType()
+{
+    return FCGeoEnum::FGTPartitionFaceWithCurvedPath;
+}
+bool FCGeoModelPartitionFaceWithCurvedPath::update() { return true; }
+
+FCGeoEnum::FITKGeometryComType FCGeoModelPartitionFaceWithIntersectFace::getGeometryCommandType()
+{
+    return FCGeoEnum::FGTPartitionFaceWithIntersectFace;
+}
+bool FCGeoModelPartitionFaceWithIntersectFace::update() { return true; }
+
+FCGeoEnum::FITKGeometryComType FCGeoModelPartitionFaceWithProjectEdges::getGeometryCommandType()
+{
+    return FCGeoEnum::FGTPartitionFaceWithProjectEdges;
+}
+bool FCGeoModelPartitionFaceWithProjectEdges::update() { return true; }
+
 } // namespace FC

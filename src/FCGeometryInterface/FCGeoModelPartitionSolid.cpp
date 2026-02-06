@@ -24,4 +24,16 @@ FCGeoEnum::FITKGeometryComType FCGeoModelPartitionSolidWithSketchPlanar::getGeom
 }
 bool FCGeoModelPartitionSolidWithSketchPlanar::update() { return true; }
 
+FCGeoEnum::FITKGeometryComType FCGeoModelPartitionSolidWithSweepEdge::getGeometryCommandType()
+{
+    return FCGeoEnum::FGTPartitionSolidWithSweepEdge;
+}
+bool FCGeoModelPartitionSolidWithSweepEdge::update() { return true; }
+
+FCGeoEnum::FITKGeometryComType FCGeoModelPartitionSolidWithNSidedPatch::getGeometryCommandType()
+{
+    return FCGeoEnum::FGTPartitionSolidWithNSidedPatch;
+}
+bool FCGeoModelPartitionSolidWithNSidedPatch::update() { return true; }
+
 } // namespace FC

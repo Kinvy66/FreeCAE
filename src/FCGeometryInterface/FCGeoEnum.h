@@ -251,6 +251,21 @@ public:
         DAT_UserDefine
     };
 
+    /** 几何集合类型（与 FITKModelSetType 对应，供 FCGlobalGeoComponent 使用） */
+    enum FCGeoSetType
+    {
+        FMSNone = 0,
+        FMSNode,
+        FMSElem,
+        FMSMIX,
+        FMSPoint,
+        FMSEdge,
+        FMSSurface,
+        FMSSolid,
+        FMSComb,
+    };
+    Q_ENUM(FCGeoSetType);
+
 private:
     FCGeoEnum() = default;
 };

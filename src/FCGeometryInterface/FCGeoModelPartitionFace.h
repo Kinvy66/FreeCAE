@@ -108,6 +108,68 @@ protected:
     VirtualShape m_extendFace{};
 };
 
+/**
+ * @brief 使用曲线路径进行面分块
+ */
+class FCGEOMETRYINTERFACE_API FCGeoModelPartitionFaceWithCurvedPath : public FCGeoModelPartitionFace
+{
+    FC_CLASS(FC, FCGeoModelPartitionFaceWithCurvedPath);
+public:
+    FCGeoModelPartitionFaceWithCurvedPath() = default;
+    ~FCGeoModelPartitionFaceWithCurvedPath() override = default;
+    FCGeoEnum::FITKGeometryComType getGeometryCommandType() override;
+    bool update() override;
+    void setFace(const VirtualShape& face) { m_faces = QList<VirtualShape>() << face; }
+    VirtualShape face() const { return m_faces.isEmpty() ? VirtualShape() : m_faces.first(); }
+    void setFirstEdge(const VirtualShape& e) { m_firstEdge = e; }
+    VirtualShape firstEdge() const { return m_firstEdge; }
+    void setSecondEdge(const VirtualShape& e) { m_secondEdge = e; }
+    VirtualShape secondEdge() const { return m_secondEdge; }
+    void setFirstPoint(const QVector<double>& p) { m_firstPoint = p; }
+    QVector<double> firstPoint() const { return m_firstPoint; }
+    void setSecondPoint(const QVector<double>& p) { m_secondPoint = p; }
+    QVector<double> secondPoint() const { return m_secondPoint; }
+protected:
+    VirtualShape m_firstEdge{};
+    VirtualShape m_secondEdge{};
+    QVector<double> m_firstPoint;
+    QVector<double> m_secondPoint;
+};
+
+/**
+ * @brief 使用相交面进行面分块
+ */
+class FCGEOMETRYINTERFACE_API FCGeoModelPartitionFaceWithIntersectFace : public FCGeoModelPartitionFace
+{
+    FC_CLASS(FC, FCGeoModelPartitionFaceWithIntersectFace);
+public:
+    FCGeoModelPartitionFaceWithIntersectFace() = default;
+    ~FCGeoModelPartitionFaceWithIntersectFace() override = default;
+    FCGeoEnum::FITKGeometryComType getGeometryCommandType() override;
+    bool update() override;
+    void setToolFaces(const QList<VirtualShape>& faces) { m_toolFaces = faces; }
+    QList<VirtualShape> toolFaces() const { return m_toolFaces; }
+protected:
+    QList<VirtualShape> m_toolFaces;
+};
+
+/**
+ * @brief 使用投影边进行面分块
+ */
+class FCGEOMETRYINTERFACE_API FCGeoModelPartitionFaceWithProjectEdges : public FCGeoModelPartitionFace
+{
+    FC_CLASS(FC, FCGeoModelPartitionFaceWithProjectEdges);
+public:
+    FCGeoModelPartitionFaceWithProjectEdges() = default;
+    ~FCGeoModelPartitionFaceWithProjectEdges() override = default;
+    FCGeoEnum::FITKGeometryComType getGeometryCommandType() override;
+    bool update() override;
+    void setProjectEdges(const QList<VirtualShape>& edges) { m_projectEdges = edges; }
+    QList<VirtualShape> projectEdges() const { return m_projectEdges; }
+protected:
+    QList<VirtualShape> m_projectEdges;
+};
+
 } // namespace FC
 
 #endif // FCGEOMODELPARTITIONFACE_H

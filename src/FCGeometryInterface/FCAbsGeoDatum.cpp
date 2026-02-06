@@ -89,4 +89,37 @@ void FCAbsGeoDatumPlane::getUp(double* up) const
     up[0] = _up[0]; up[1] = _up[1]; up[2] = _up[2];
 }
 
+FCAbsGeoDatumPlane* FCPrincipalDatumList::getPrincipalPlane(FCGeoEnum::DatumPlnType)
+{
+    return nullptr;
+}
+
+FCAbsGeoDatumLine* FCPrincipalDatumList::getPrincipalAxis(FCGeoEnum::DatumAxisType)
+{
+    return nullptr;
+}
+
+FCDatumList::FCDatumList()
+{
+    m_principalDatumMgr = new FCPrincipalDatumList;
+}
+
+FCDatumList::~FCDatumList()
+{
+    if (m_principalDatumMgr) {
+        delete m_principalDatumMgr;
+        m_principalDatumMgr = nullptr;
+    }
+}
+
+FCAbsGeoDatumPlane* FCDatumList::getPrincipalPlane(FCGeoEnum::DatumPlnType type)
+{
+    return m_principalDatumMgr ? m_principalDatumMgr->getPrincipalPlane(type) : nullptr;
+}
+
+FCAbsGeoDatumLine* FCDatumList::getPrincipalAxis(FCGeoEnum::DatumAxisType type)
+{
+    return m_principalDatumMgr ? m_principalDatumMgr->getPrincipalAxis(type) : nullptr;
+}
+
 } // namespace FC
