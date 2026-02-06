@@ -7,6 +7,7 @@
 #define FCDATAREPO_H
 
 #include "FCDataAPI.h"
+#include "FCAbstractDataObject.h"
 #include <QHash>
 #include <QMutex>
 #include <QMutexLocker>
@@ -27,6 +28,18 @@ public:
     /** 按类型获取数据对象 */
     template<typename T>
     T* getDataAs(int id) const { return dynamic_cast<T*>(getDataByID(id)); }
+
+    /** 按类型获取第一个匹配的数据对象（用于获取全局唯一的 FCGeoCommandList 等） */
+    template<typename T>
+    T* getFirstDataByType() const
+    {
+        QMutexLocker locker(&_mutex);
+        for (FCAbstractDataObject* obj : _dataMap) {
+            T* t = dynamic_cast<T*>(obj);
+            if (t) return t;
+        }
+        return nullptr;
+    }
 
     /** 获取一个未被占用的有效 ID（在创建 FCAbstractDataObject 前调用） */
     int getNextValidID();

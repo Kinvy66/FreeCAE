@@ -37,6 +37,7 @@ public:
     int getNumberOfRootObjs();
     void appendVirtualTopoObj(FCAbsVirtualTopo* tobj);
     void appendVirtualTopoObj(FCAbsVirtualTopo* tobj, FCGeoEnum::VTopoShapeType st);
+    void appendVirtualTopoObjs(const QList<FCAbsVirtualTopo*>& topos);
     FCAbsVirtualTopo* getVirtualTopo(void* shape, FCGeoEnum::VTopoShapeType type);
     FCShapeVirtualTopoManager* getShapeVirtualTopoManager(FCGeoEnum::VTopoShapeType type);
     int getShapeVirtualTopoCount(FCGeoEnum::VTopoShapeType type);

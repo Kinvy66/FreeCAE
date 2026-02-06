@@ -67,6 +67,8 @@ public:
     FCAbsVirtualTopo* getVirtualTopo(FCGeoEnum::VTopoShapeType type, int id);
     template<typename T> T* getShapeT(FCGeoEnum::VTopoShapeType type, int id);
     template<typename T> T* getShapeT(int id);
+    /** 按虚拓扑类型与列表索引获取形状（供 OCC 等实现使用） */
+    template<typename T> T* getShapeTopoByIndexT(FCGeoEnum::VTopoShapeType type, int index);
     void printLog(QString msg, int type = 1);
     /** 从部件中移除后的处理逻辑（由部件调用） */
     virtual void removeFromPart(FCAbsGeoCommand* part);
@@ -102,6 +104,17 @@ inline T* FCAbsGeoCommand::getShapeT(int id)
         if (virShape) return virShape->getShapeT<T>();
     }
     return nullptr;
+}
+
+template<typename T>
+inline T* FCAbsGeoCommand::getShapeTopoByIndexT(FCGeoEnum::VTopoShapeType type, int index)
+{
+    FCVirtualTopoManager* mgr = getVirtualTopoManager();
+    if (!mgr) return nullptr;
+    FCShapeVirtualTopoManager* sm = mgr->getShapeVirtualTopoManager(type);
+    if (!sm) return nullptr;
+    FCAbsVirtualTopo* vtopo = sm->getDataByIndex(index);
+    return vtopo ? vtopo->getShapeT<T>() : nullptr;
 }
 
 class FCGEOMETRYINTERFACE_API FCGeoCommandManager : public FCAbstractDataManager<FCAbsGeoCommand>

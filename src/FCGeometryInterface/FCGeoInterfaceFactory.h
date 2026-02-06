@@ -1,13 +1,13 @@
 /**
  * @file FCGeoInterfaceFactory.h
- * @brief 几何接口工厂（移植自 FITKInterfaceGeometry）
- */
+ * @brief 几何接口工厂（移植自 FITKInterfaceGeometry�? */
 #ifndef FCGEOINTERFACEFACTORY_H
 #define FCGEOINTERFACEFACTORY_H
 
 #include "FCGeometryInterfaceAPI.h"
 #include "FCAbsGeoCommand.h"
 #include "FCAbsGeoDatum.h"
+#include "FCAbsGeomTools.h"
 #include "FCGeoEnum.h"
 #include <QHash>
 #include <QObject>
@@ -25,6 +25,9 @@ class FCGEOMETRYINTERFACE_API FCGeoInterfaceFactory : public QObject
 public:
     static FCGeoInterfaceFactory* instance();
     static void destroy();
+
+    void setGeomToolsCreator(FCAbstractGeomToolsCreator* creator);
+    FCAbstractGeomToolsCreator* getGeomToolsCreator() const { return _geomToolsCreator; }
 
     void insertCommandCreateFun(FCGeoEnum::FITKGeometryComType t, GeoCommandFuns f);
     void insertDatumCreateFun(FCGeoEnum::FITKDatumType t, GeoDatumFuns f);
@@ -56,6 +59,7 @@ private:
 
     static QMutex _mutex;
     static FCGeoInterfaceFactory* _instance;
+    FCAbstractGeomToolsCreator* _geomToolsCreator{};
     QHash<FCGeoEnum::FITKGeometryComType, GeoCommandFuns> _interfaceFuns;
     QHash<FCGeoEnum::FITKDatumType, GeoDatumFuns> _interfaceDatumFuns;
 };

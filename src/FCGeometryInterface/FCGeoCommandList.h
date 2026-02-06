@@ -1,6 +1,6 @@
 /**
  * @file FCGeoCommandList.h
- * @brief 几何命令列表/撤销列表（移植自 FITKInterfaceGeometry FITKGeoCommandList）
+ * @brief 几何命令列表/撤销列表（移植自 FITKInterfaceGeometry FITKGeoCommandList�?
  */
 #ifndef FCGEOCOMMANDLIST_H
 #define FCGEOCOMMANDLIST_H
@@ -9,14 +9,14 @@
 #include "FCAbsGeoCommand.h"
 #include "FCAbsGeoDatum.h"
 #include "FCGlobalGeoComponent.h"
-#include "FCGeoSketch2D.h"
+#include "FCAbsGeoSketch2D.h"
 #include <FCData/FCAbstractDataObject.h>
 #include <QList>
 
 namespace FC {
 
 /**
- * @brief 几何命令列表（撤销列表）：命令管理器 + 基准/草图/全局分组 + 重做栈
+ * @brief 几何命令列表（撤销列表）：命令管理�?+ 基准/草图/全局分组 + 重做�?
  */
 class FCGEOMETRYINTERFACE_API FCGeoCommandList : public FCAbstractDataObject,
     public FCGeoCommandManager

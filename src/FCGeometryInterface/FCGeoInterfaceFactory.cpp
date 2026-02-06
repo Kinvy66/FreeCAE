@@ -1,7 +1,6 @@
 /**
  * @file FCGeoInterfaceFactory.cpp
- * @brief 几何接口工厂实现（移植自 FITKInterfaceGeometry）
- */
+ * @brief 几何接口工厂实现（移植自 FITKInterfaceGeometry�? */
 #include "FCGeoInterfaceFactory.h"
 #include <QMutexLocker>
 
@@ -41,6 +40,11 @@ void FCGeoInterfaceFactory::insertCommandCreateFun(FCGeoEnum::FITKGeometryComTyp
     if (f) _interfaceFuns.insert(t, f);
 }
 
+void FCGeoInterfaceFactory::setGeomToolsCreator(FCAbstractGeomToolsCreator* creator)
+{
+    _geomToolsCreator = creator;
+}
+
 void FCGeoInterfaceFactory::insertDatumCreateFun(FCGeoEnum::FITKDatumType t, GeoDatumFuns f)
 {
     if (f) _interfaceDatumFuns.insert(t, f);
@@ -56,6 +60,7 @@ FCAbsGeoCommand* FCGeoInterfaceFactory::createCommand(FCGeoEnum::FITKGeometryCom
 
 void FCGeoInterfaceFactory::clearAllInterface()
 {
+    _geomToolsCreator = nullptr;
     _interfaceFuns.clear();
     _interfaceDatumFuns.clear();
 }

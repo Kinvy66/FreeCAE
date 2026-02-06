@@ -34,20 +34,21 @@ find_package(Qt${QT_VERSION_MAJOR} ${FC_MIN_QT_VERSION} COMPONENTS
 file(GLOB FC_LIB_HEADER_FILES "${CMAKE_CURRENT_SOURCE_DIR}/*.h")
 file(GLOB FC_LIB_SOURCE_FILES "${CMAKE_CURRENT_SOURCE_DIR}/*.cpp")
 
-
-
 add_library(${FC_LIB_NAME} SHARED
             ${FC_LIB_HEADER_FILES}
             ${FC_LIB_SOURCE_FILES}
-)	
+)
 # 构建库定义的宏,必须为Private
 target_compile_definitions(${FC_LIB_NAME} PRIVATE FCGEOMETRYCMD_BUILDLIB)
-# 定义别名让DAWorkbench::${DA_LIB_NAME}也能获取到
 add_library(${FC_PROJECT_NAME}::${FC_LIB_NAME} ALIAS ${FC_LIB_NAME})
+
 ########################################################
-# 依赖链接
+# 依赖：FCGeometryInterface（几何接口）、OCC、VTK
 ########################################################
+find_package(${FC_PROJECT_NAME} COMPONENTS FCGeometryInterface FCData REQUIRED)
 target_link_libraries(${FC_LIB_NAME} PRIVATE
+    ${FC_PROJECT_NAME}::FCGeometryInterface
+    ${FC_PROJECT_NAME}::FCData
     Qt${QT_VERSION_MAJOR}::Core
     Qt${QT_VERSION_MAJOR}::Gui
     Qt${QT_VERSION_MAJOR}::Widgets
@@ -55,13 +56,8 @@ target_link_libraries(${FC_LIB_NAME} PRIVATE
 )
 message(STATUS "${FC_LIB_NAME} Qt${QT_VERSION_MAJOR}.${QT_VERSION_MINOR}.${QT_VERSION_PATCH}")
 
-# -------------link 3rdparty spdlog--------------------------
-# FCMessageHandler依赖spdlog
-# spdlog是header only
-# fcmacro_import_spdlog(${FC_LIB_NAME})
-# 仅依赖 VTK 和 Qt，不依赖 OCC 及其他 FreeCAE 内部库
-# fcmacro_import_vtk(${FC_LIB_NAME})
-
+fcmacro_import_vtk(${FC_LIB_NAME})
+fcmacro_import_occ(${FC_LIB_NAME})
 
 ########################################################
 # 设置通用库属性

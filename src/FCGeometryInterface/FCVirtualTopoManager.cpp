@@ -99,6 +99,12 @@ void FCVirtualTopoManager::appendVirtualTopoObj(FCAbsVirtualTopo* tobj, FCGeoEnu
     mgr->appendDataObj(tobj);
 }
 
+void FCVirtualTopoManager::appendVirtualTopoObjs(const QList<FCAbsVirtualTopo*>& topos)
+{
+    for (FCAbsVirtualTopo* t : topos)
+        appendVirtualTopoObj(t);
+}
+
 FCAbsVirtualTopo* FCVirtualTopoManager::getVirtualTopo(void* shape, FCGeoEnum::VTopoShapeType type)
 {
     Q_UNUSED(shape);

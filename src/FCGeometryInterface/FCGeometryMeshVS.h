@@ -17,6 +17,7 @@ class FCGEOMETRYINTERFACE_API FCGeometryMeshVS : public FCAbstractDataObject
 public:
     explicit FCGeometryMeshVS();
     ~FCGeometryMeshVS() override;
+    void clear();
 };
 
 } // namespace FC

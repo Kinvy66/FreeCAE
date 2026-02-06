@@ -9,4 +9,9 @@ FCGeometryMeshVS::FCGeometryMeshVS()
 FCGeometryMeshVS::~FCGeometryMeshVS()
 {}
 
+void FCGeometryMeshVS::clear()
+{
+    // 占位类，暂无实际实现
+}
+
 } // namespace FC
