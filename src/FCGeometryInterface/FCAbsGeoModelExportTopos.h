@@ -22,7 +22,7 @@ public:
     explicit FCGeoModelExportTopos() = default;
     ~FCGeoModelExportTopos() override = default;
 
-    FCGeoEnum::FITKGeometryComType getGeometryCommandType() override;
+    FCGeoEnum::FCGeometryComType getGeometryCommandType() override;
     bool update() override;
 
     void setFileName(const QString& fileName);

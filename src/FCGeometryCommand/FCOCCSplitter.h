@@ -24,7 +24,7 @@ class FCGEOMETRYCMD_API FCOCCCurveSplitter : public FC::FCGeoCurveSplitter, publ
 public:
     FCOCCCurveSplitter();
     ~FCOCCCurveSplitter() override = default;
-    FC::FCGeoEnum::FITKGeometryComType getGeometryCommandType() override;
+    FC::FCGeoEnum::FCGeometryComType getGeometryCommandType() override;
     bool update() override;
 };
 
@@ -33,7 +33,7 @@ class FCGEOMETRYCMD_API FCOCCSurfaceSplitter : public FC::FCGeoSurfaceSplitter, 
 public:
     FCOCCSurfaceSplitter();
     ~FCOCCSurfaceSplitter() override = default;
-    FC::FCGeoEnum::FITKGeometryComType getGeometryCommandType() override;
+    FC::FCGeoEnum::FCGeometryComType getGeometryCommandType() override;
     bool update() override;
 };
 
@@ -42,7 +42,7 @@ class FCGEOMETRYCMD_API FCOCCSolidSplitter : public FC::FCGeoSolidSplitter, publ
 public:
     FCOCCSolidSplitter();
     ~FCOCCSolidSplitter() override = default;
-    FC::FCGeoEnum::FITKGeometryComType getGeometryCommandType() override;
+    FC::FCGeoEnum::FCGeometryComType getGeometryCommandType() override;
     bool update() override;
 };
 

@@ -24,7 +24,7 @@ class FCGEOMETRYCMD_API FCOCCModelReplaceFaces : public FC::FCGeoReplaceFaces, p
 public:
     FCOCCModelReplaceFaces() : OCCShapeAgent(this) { _shapeAgent = _occShapeAgent; }
     ~FCOCCModelReplaceFaces() override = default;
-    FC::FCGeoEnum::FITKGeometryComType getGeometryCommandType() override;
+    FC::FCGeoEnum::FCGeometryComType getGeometryCommandType() override;
     bool update() override;
 };
 

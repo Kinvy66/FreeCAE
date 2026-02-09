@@ -41,7 +41,7 @@ public:
     FCGeoVirtualTopoCombineFaces() = default;
     ~FCGeoVirtualTopoCombineFaces() override = default;
 
-    FCGeoEnum::FITKGeometryComType getGeometryCommandType() override;
+    FCGeoEnum::FCGeometryComType getGeometryCommandType() override;
     bool update() override;
 
     void setSkipSharpAngle(bool skip) { m_skipSharpAngle = skip; }
@@ -63,7 +63,7 @@ public:
     FCGeoVirtualTopoCombineEdges() = default;
     ~FCGeoVirtualTopoCombineEdges() override = default;
 
-    FCGeoEnum::FITKGeometryComType getGeometryCommandType() override;
+    FCGeoEnum::FCGeometryComType getGeometryCommandType() override;
     bool update() override;
 
     void setSkipSharpAngle(bool skip) { m_skipSharpAngle = skip; }

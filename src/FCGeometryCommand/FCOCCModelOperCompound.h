@@ -24,7 +24,7 @@ class FCGEOMETRYCMD_API FCOCCModelOperAddCompound : public FC::FCGeoModelOperCom
 public:
     FCOCCModelOperAddCompound() : OCCShapeAgent(this) { _shapeAgent = _occShapeAgent; }
     ~FCOCCModelOperAddCompound() override = default;
-    FC::FCGeoEnum::FITKGeometryComType getGeometryCommandType() override;
+    FC::FCGeoEnum::FCGeometryComType getGeometryCommandType() override;
     bool update() override;
 };
 
@@ -33,7 +33,7 @@ class FCGEOMETRYCMD_API FCOCCModelOperRemoveCompound : public FC::FCGeoModelOper
 public:
     FCOCCModelOperRemoveCompound() : OCCShapeAgent(this) { _shapeAgent = _occShapeAgent; }
     ~FCOCCModelOperRemoveCompound() override = default;
-    FC::FCGeoEnum::FITKGeometryComType getGeometryCommandType() override;
+    FC::FCGeoEnum::FCGeometryComType getGeometryCommandType() override;
     bool update() override;
 };
 

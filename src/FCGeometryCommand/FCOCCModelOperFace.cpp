@@ -59,7 +59,7 @@ static TopoDS_Shape getSubShape(const FC::VirtualShape& vs, FC::FCModelEnum::FIT
 }
 
 // ----- RemoveFace -----
-FC::FCGeoEnum::FITKGeometryComType FCOCCModelOperFaceRemoveFace::getGeometryCommandType()
+FC::FCGeoEnum::FCGeometryComType FCOCCModelOperFaceRemoveFace::getGeometryCommandType()
 {
     return FC::FCGeoEnum::FGTRemoveFace;
 }
@@ -122,7 +122,7 @@ static TopoDS_Shape makeWireFromEdges(const QList<TopoDS_Shape>& edgeShapes, boo
     return mw.Shape();
 }
 
-FC::FCGeoEnum::FITKGeometryComType FCOCCModelOperFaceFillGaps::getGeometryCommandType()
+FC::FCGeoEnum::FCGeometryComType FCOCCModelOperFaceFillGaps::getGeometryCommandType()
 {
     return FC::FCGeoEnum::FGTFillGapsFace;
 }
@@ -169,7 +169,7 @@ bool FCOCCModelOperFaceFillGaps::update()
 }
 
 // ----- DeleteFloatingEdge -----
-FC::FCGeoEnum::FITKGeometryComType FCOCCModelOperFaceDeleteFloatingEdge::getGeometryCommandType()
+FC::FCGeoEnum::FCGeometryComType FCOCCModelOperFaceDeleteFloatingEdge::getGeometryCommandType()
 {
     return FC::FCGeoEnum::FGTDeleteFloatingEdge;
 }

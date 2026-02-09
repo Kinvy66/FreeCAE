@@ -20,7 +20,7 @@ public:
     explicit FCGeoModelImportFlattenAssembly() = default;
     ~FCGeoModelImportFlattenAssembly() override = default;
 
-    FCGeoEnum::FITKGeometryComType getGeometryCommandType() override;
+    FCGeoEnum::FCGeometryComType getGeometryCommandType() override;
     bool update() override;
 };
 

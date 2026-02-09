@@ -24,7 +24,7 @@ class FCGEOMETRYCMD_API FCOCCGeoSketchDeleter : public FC::FCGeoSketchDeleter, p
 public:
     FCOCCGeoSketchDeleter() : OCCShapeAgent(this) { _shapeAgent = _occShapeAgent; }
     ~FCOCCGeoSketchDeleter() override = default;
-    FC::FCGeoEnum::FITKGeometryComType getGeometryCommandType() override;
+    FC::FCGeoEnum::FCGeometryComType getGeometryCommandType() override;
     bool update() override;
 };
 

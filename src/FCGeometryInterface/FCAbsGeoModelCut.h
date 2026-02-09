@@ -39,7 +39,7 @@ public:
     FCAbsGeoModelExtrudeCut() = default;
     ~FCAbsGeoModelExtrudeCut() override = default;
 
-    FCGeoEnum::FITKGeometryComType getGeometryCommandType() override;
+    FCGeoEnum::FCGeometryComType getGeometryCommandType() override;
     bool update() override;
 
     VirtualShape sourceSurface() const { return m_sourceSurface; }
@@ -71,7 +71,7 @@ public:
     FCAbsGeoModelRevolCut() = default;
     ~FCAbsGeoModelRevolCut() override = default;
 
-    FCGeoEnum::FITKGeometryComType getGeometryCommandType() override;
+    FCGeoEnum::FCGeometryComType getGeometryCommandType() override;
     bool update() override;
 
     VirtualShape sourceSurface() const { return m_sourceSurface; }
@@ -101,7 +101,7 @@ public:
     FCAbsGeoModelSweepCut() = default;
     ~FCAbsGeoModelSweepCut() override = default;
 
-    FCGeoEnum::FITKGeometryComType getGeometryCommandType() override;
+    FCGeoEnum::FCGeometryComType getGeometryCommandType() override;
     bool update() override;
 
     VirtualShape profile() const { return m_profile; }
@@ -126,7 +126,7 @@ public:
     FCAbsGeoModelMultiSectionCut() = default;
     ~FCAbsGeoModelMultiSectionCut() override = default;
 
-    FCGeoEnum::FITKGeometryComType getGeometryCommandType() override;
+    FCGeoEnum::FCGeometryComType getGeometryCommandType() override;
     bool update() override;
 
     QList<VirtualShape> sections() const { return m_sections; }

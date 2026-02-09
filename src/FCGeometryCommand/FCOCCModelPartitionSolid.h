@@ -24,7 +24,7 @@ class FCGEOMETRYCMD_API FCOCCModelPartitionSolidWithPlane : public FC::FCGeoMode
 public:
     FCOCCModelPartitionSolidWithPlane();
     ~FCOCCModelPartitionSolidWithPlane() override = default;
-    FC::FCGeoEnum::FITKGeometryComType getGeometryCommandType() override;
+    FC::FCGeoEnum::FCGeometryComType getGeometryCommandType() override;
     bool update() override;
 };
 
@@ -33,7 +33,7 @@ class FCGEOMETRYCMD_API FCOCCModelPartitionSolidWithExtendFace : public FC::FCGe
 public:
     FCOCCModelPartitionSolidWithExtendFace();
     ~FCOCCModelPartitionSolidWithExtendFace() override = default;
-    FC::FCGeoEnum::FITKGeometryComType getGeometryCommandType() override;
+    FC::FCGeoEnum::FCGeometryComType getGeometryCommandType() override;
     bool update() override;
 };
 
@@ -42,7 +42,7 @@ class FCGEOMETRYCMD_API FCOCCModelPartitionSolidWithSweepEdge : public FC::FCGeo
 public:
     FCOCCModelPartitionSolidWithSweepEdge();
     ~FCOCCModelPartitionSolidWithSweepEdge() override = default;
-    FC::FCGeoEnum::FITKGeometryComType getGeometryCommandType() override;
+    FC::FCGeoEnum::FCGeometryComType getGeometryCommandType() override;
     bool update() override;
 };
 
@@ -51,7 +51,7 @@ class FCGEOMETRYCMD_API FCOCCModelPartitionSolidWithSketchPlanar : public FC::FC
 public:
     FCOCCModelPartitionSolidWithSketchPlanar();
     ~FCOCCModelPartitionSolidWithSketchPlanar() override = default;
-    FC::FCGeoEnum::FITKGeometryComType getGeometryCommandType() override;
+    FC::FCGeoEnum::FCGeometryComType getGeometryCommandType() override;
     bool update() override;
 };
 

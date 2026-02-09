@@ -36,7 +36,7 @@ FCGeoInterfaceFactory::~FCGeoInterfaceFactory()
     clearAllInterface();
 }
 
-void FCGeoInterfaceFactory::insertCommandCreateFun(FCGeoEnum::FITKGeometryComType t, GeoCommandFuns f)
+void FCGeoInterfaceFactory::insertCommandCreateFun(FCGeoEnum::FCGeometryComType t, GeoCommandFuns f)
 {
     if (f) _interfaceFuns.insert(t, f);
 }
@@ -46,12 +46,12 @@ void FCGeoInterfaceFactory::setGeomToolsCreator(FCAbstractGeomToolsCreator* crea
     _geomToolsCreator = creator;
 }
 
-void FCGeoInterfaceFactory::insertDatumCreateFun(FCGeoEnum::FITKDatumType t, GeoDatumFuns f)
+void FCGeoInterfaceFactory::insertDatumCreateFun(FCGeoEnum::FCDatumType t, GeoDatumFuns f)
 {
     if (f) _interfaceDatumFuns.insert(t, f);
 }
 
-FCAbsGeoCommand* FCGeoInterfaceFactory::createCommand(FCGeoEnum::FITKGeometryComType t)
+FCAbsGeoCommand* FCGeoInterfaceFactory::createCommand(FCGeoEnum::FCGeometryComType t)
 {
     if (!_interfaceFuns.contains(t)) return nullptr;
     GeoCommandFuns fun = _interfaceFuns.value(t);
@@ -66,17 +66,17 @@ void FCGeoInterfaceFactory::clearAllInterface()
     _interfaceDatumFuns.clear();
 }
 
-bool FCGeoInterfaceFactory::getCommandSupported(FCGeoEnum::FITKGeometryComType type)
+bool FCGeoInterfaceFactory::getCommandSupported(FCGeoEnum::FCGeometryComType type)
 {
     return _interfaceFuns.contains(type);
 }
 
-bool FCGeoInterfaceFactory::getDatumSupported(FCGeoEnum::FITKDatumType type)
+bool FCGeoInterfaceFactory::getDatumSupported(FCGeoEnum::FCDatumType type)
 {
     return _interfaceDatumFuns.contains(type);
 }
 
-FCAbsGeoDatum* FCGeoInterfaceFactory::createDatum(FCGeoEnum::FITKDatumType t)
+FCAbsGeoDatum* FCGeoInterfaceFactory::createDatum(FCGeoEnum::FCDatumType t)
 {
     if (!_interfaceDatumFuns.contains(t)) return nullptr;
     GeoDatumFuns fun = _interfaceDatumFuns.value(t);

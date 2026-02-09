@@ -43,7 +43,7 @@ static TopoDS_Shape getSubShape(const FC::VirtualShape& vs, FC::FCModelEnum::FIT
     return occ->getShape(type, vs.VirtualTopoId);
 }
 
-FC::FCGeoEnum::FITKGeometryComType FCOCCModelRepairSmallFaces::getGeometryCommandType()
+FC::FCGeoEnum::FCGeometryComType FCOCCModelRepairSmallFaces::getGeometryCommandType()
 {
     return FC::FCGeoEnum::FGTRepairSmallFaces;
 }

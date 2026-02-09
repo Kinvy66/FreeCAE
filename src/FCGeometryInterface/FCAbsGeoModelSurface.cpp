@@ -6,49 +6,49 @@
 
 namespace FC {
 
-FCGeoEnum::FITKGeometryComType FCGeoModelClosedWireSurface::getGeometryCommandType()
+FCGeoEnum::FCGeometryComType FCGeoModelClosedWireSurface::getGeometryCommandType()
 {
     return FCGeoEnum::FGTClosedWireSurface;
 }
 bool FCGeoModelClosedWireSurface::update() { return true; }
 
-FCGeoEnum::FITKGeometryComType FCGeoModelOffsetSurface::getGeometryCommandType()
+FCGeoEnum::FCGeometryComType FCGeoModelOffsetSurface::getGeometryCommandType()
 {
     return FCGeoEnum::FGTOffsetSurface;
 }
 bool FCGeoModelOffsetSurface::update() { return true; }
 
-FCGeoEnum::FITKGeometryComType FCGeoModelExtrudeSurface::getGeometryCommandType()
+FCGeoEnum::FCGeometryComType FCGeoModelExtrudeSurface::getGeometryCommandType()
 {
     return FCGeoEnum::FGTExtrudeSurface;
 }
 bool FCGeoModelExtrudeSurface::update() { return true; }
 
-FCGeoEnum::FITKGeometryComType FCGeoModelRevolSurface::getGeometryCommandType()
+FCGeoEnum::FCGeometryComType FCGeoModelRevolSurface::getGeometryCommandType()
 {
     return FCGeoEnum::FGTRevolSurface;
 }
 bool FCGeoModelRevolSurface::update() { return true; }
 
-FCGeoEnum::FITKGeometryComType FCGeoModelSweepSurface::getGeometryCommandType()
+FCGeoEnum::FCGeometryComType FCGeoModelSweepSurface::getGeometryCommandType()
 {
     return FCGeoEnum::FGTSweepSurface;
 }
 bool FCGeoModelSweepSurface::update() { return true; }
 
-FCGeoEnum::FITKGeometryComType FCGeoModelMultiSectionSurface::getGeometryCommandType()
+FCGeoEnum::FCGeometryComType FCGeoModelMultiSectionSurface::getGeometryCommandType()
 {
     return FCGeoEnum::FGTMultiSectionSurface;
 }
 bool FCGeoModelMultiSectionSurface::update() { return true; }
 
-FCGeoEnum::FITKGeometryComType FCGeoModelBridgeSurface::getGeometryCommandType()
+FCGeoEnum::FCGeometryComType FCGeoModelBridgeSurface::getGeometryCommandType()
 {
     return FCGeoEnum::FGTBridgeSurface;
 }
 bool FCGeoModelBridgeSurface::update() { return true; }
 
-FCGeoEnum::FITKGeometryComType FCGeoModelSolidSurface::getGeometryCommandType()
+FCGeoEnum::FCGeometryComType FCGeoModelSolidSurface::getGeometryCommandType()
 {
     return FCGeoEnum::FGTSurfaceFromSolid;
 }

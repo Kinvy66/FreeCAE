@@ -32,7 +32,7 @@ class FCGEOMETRYINTERFACE_API FCGeoModelClosedWireSurface : public FCGeoModelSur
 public:
     FCGeoModelClosedWireSurface() = default;
     ~FCGeoModelClosedWireSurface() override = default;
-    FCGeoEnum::FITKGeometryComType getGeometryCommandType() override;
+    FCGeoEnum::FCGeometryComType getGeometryCommandType() override;
     bool update() override;
     void addEdge(VirtualShape edge) { m_edges.append(edge); }
     void setEdges(const QList<VirtualShape>& edges) { m_edges = edges; }
@@ -50,7 +50,7 @@ class FCGEOMETRYINTERFACE_API FCGeoModelOffsetSurface : public FCGeoModelSurface
 public:
     FCGeoModelOffsetSurface() = default;
     ~FCGeoModelOffsetSurface() override = default;
-    FCGeoEnum::FITKGeometryComType getGeometryCommandType() override;
+    FCGeoEnum::FCGeometryComType getGeometryCommandType() override;
     bool update() override;
     VirtualShape sourceSurface() const { return m_sourceSurface; }
     void setSourceSurface(VirtualShape shape) { m_sourceSurface = shape; }
@@ -70,7 +70,7 @@ class FCGEOMETRYINTERFACE_API FCGeoModelExtrudeSurface : public FCGeoModelSurfac
 public:
     FCGeoModelExtrudeSurface() = default;
     ~FCGeoModelExtrudeSurface() override = default;
-    FCGeoEnum::FITKGeometryComType getGeometryCommandType() override;
+    FCGeoEnum::FCGeometryComType getGeometryCommandType() override;
     bool update() override;
     VirtualShape sourceCurve() const { return m_sourceCurve; }
     void setSourceCurve(VirtualShape shape) { m_sourceCurve = shape; }
@@ -100,7 +100,7 @@ class FCGEOMETRYINTERFACE_API FCGeoModelRevolSurface : public FCGeoModelSurface
 public:
     FCGeoModelRevolSurface() = default;
     ~FCGeoModelRevolSurface() override = default;
-    FCGeoEnum::FITKGeometryComType getGeometryCommandType() override;
+    FCGeoEnum::FCGeometryComType getGeometryCommandType() override;
     bool update() override;
     VirtualShape sourceCurve() const { return m_sourceCurve; }
     void setSourceCurve(VirtualShape shape) { m_sourceCurve = shape; }
@@ -128,7 +128,7 @@ class FCGEOMETRYINTERFACE_API FCGeoModelSweepSurface : public FCGeoModelSurface
 public:
     FCGeoModelSweepSurface() = default;
     ~FCGeoModelSweepSurface() override = default;
-    FCGeoEnum::FITKGeometryComType getGeometryCommandType() override;
+    FCGeoEnum::FCGeometryComType getGeometryCommandType() override;
     bool update() override;
     VirtualShape profile() const { return m_profiles.isEmpty() ? VirtualShape() : m_profiles.first(); }
     void setProfile(VirtualShape shape) { m_profiles = { shape }; }
@@ -152,7 +152,7 @@ class FCGEOMETRYINTERFACE_API FCGeoModelMultiSectionSurface : public FCGeoModelS
 public:
     FCGeoModelMultiSectionSurface() = default;
     ~FCGeoModelMultiSectionSurface() override = default;
-    FCGeoEnum::FITKGeometryComType getGeometryCommandType() override;
+    FCGeoEnum::FCGeometryComType getGeometryCommandType() override;
     bool update() override;
     QList<VirtualShape> sections() const { return m_sections; }
     void setSections(const QList<VirtualShape>& s) { m_sections = s; }
@@ -172,7 +172,7 @@ class FCGEOMETRYINTERFACE_API FCGeoModelBridgeSurface : public FCGeoModelSurface
 public:
     FCGeoModelBridgeSurface() = default;
     ~FCGeoModelBridgeSurface() override = default;
-    FCGeoEnum::FITKGeometryComType getGeometryCommandType() override;
+    FCGeoEnum::FCGeometryComType getGeometryCommandType() override;
     bool update() override;
     VirtualShape sourceSurface1() const { return m_sourceSurface1; }
     void setSourceSurface1(VirtualShape s) { m_sourceSurface1 = s; }
@@ -198,7 +198,7 @@ class FCGEOMETRYINTERFACE_API FCGeoModelSolidSurface : public FCGeoModelSurface
 public:
     FCGeoModelSolidSurface() = default;
     ~FCGeoModelSolidSurface() override = default;
-    FCGeoEnum::FITKGeometryComType getGeometryCommandType() override;
+    FCGeoEnum::FCGeometryComType getGeometryCommandType() override;
     bool update() override;
     VirtualShape solid() const { return m_solid; }
     void setSolid(VirtualShape s) { m_solid = s; }

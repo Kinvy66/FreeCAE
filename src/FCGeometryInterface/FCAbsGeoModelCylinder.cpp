@@ -7,7 +7,7 @@
 
 namespace FC {
 
-FCGeoEnum::FITKGeometryComType FCGeoModelCylinder::getGeometryCommandType()
+FCGeoEnum::FCGeometryComType FCGeoModelCylinder::getGeometryCommandType()
 {
     return FCGeoEnum::FGTCylinder;
 }

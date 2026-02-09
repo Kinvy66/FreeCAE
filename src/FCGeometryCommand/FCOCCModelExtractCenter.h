@@ -24,7 +24,7 @@ class FCGEOMETRYCMD_API FCOCCModelExtractCenter : public FC::FCGeoModelExtractCe
 public:
     FCOCCModelExtractCenter() : OCCShapeAgent(this) { _shapeAgent = _occShapeAgent; }
     ~FCOCCModelExtractCenter() override = default;
-    FC::FCGeoEnum::FITKGeometryComType getGeometryCommandType() override;
+    FC::FCGeoEnum::FCGeometryComType getGeometryCommandType() override;
     bool update() override;
 };
 

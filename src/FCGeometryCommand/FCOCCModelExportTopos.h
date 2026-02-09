@@ -24,7 +24,7 @@ class FCGEOMETRYCMD_API FCOCCModelExportTopos : public FC::FCGeoModelExportTopos
 public:
     FCOCCModelExportTopos() : OCCShapeAgent(this) { _shapeAgent = _occShapeAgent; }
     ~FCOCCModelExportTopos() override = default;
-    FC::FCGeoEnum::FITKGeometryComType getGeometryCommandType() override;
+    FC::FCGeoEnum::FCGeometryComType getGeometryCommandType() override;
     bool update() override;
 };
 

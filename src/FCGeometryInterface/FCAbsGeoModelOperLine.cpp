@@ -6,7 +6,7 @@
 
 namespace FC {
 
-FCGeoEnum::FITKGeometryComType FCGeoModelOperLine::getGeometryCommandType()
+FCGeoEnum::FCGeometryComType FCGeoModelOperLine::getGeometryCommandType()
 {
     switch (m_operType) {
     case GBTMerge: return FCGeoEnum::FGTMergeLine;

@@ -6,7 +6,7 @@
 
 namespace FC {
 
-FCGeoEnum::FITKGeometryComType FCGeoModelFromMesh::getGeometryCommandType()
+FCGeoEnum::FCGeometryComType FCGeoModelFromMesh::getGeometryCommandType()
 {
     return FCGeoEnum::FGTModelFromMesh;
 }

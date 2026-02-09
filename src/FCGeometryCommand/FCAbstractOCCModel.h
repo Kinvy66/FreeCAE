@@ -36,7 +36,7 @@ public:
 
     int getShapeCount(FC::FCModelEnum::FITKModelSetType type) override;
     const TopoDS_Shape getShape(FC::FCModelEnum::FITKModelSetType type, int id);
-    FC::FCGeoEnum::FITKGeoEngine getGeoEngine() override;
+    FC::FCGeoEnum::FCGeoEngine getGeoEngine() override;
     FC::FCModelEnum::AbsModelType getAbsModelType() override;
     bool getBoundaryBox(double* minPt, double* maxPt) override;
 

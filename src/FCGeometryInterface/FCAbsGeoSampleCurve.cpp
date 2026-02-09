@@ -6,7 +6,7 @@
 
 namespace FC {
 
-FCGeoEnum::FITKGeometryComType FCGeoSampleCurve::getGeometryCommandType()
+FCGeoEnum::FCGeometryComType FCGeoSampleCurve::getGeometryCommandType()
 {
     return FCGeoEnum::FGTSampleCurve;
 }

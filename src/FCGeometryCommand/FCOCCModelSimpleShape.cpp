@@ -25,7 +25,7 @@ FCOCCModelBox::FCOCCModelBox()
     _shapeAgent = _occShapeAgent;
 }
 
-FC::FCGeoEnum::FITKGeometryComType FCOCCModelBox::getGeometryCommandType()
+FC::FCGeoEnum::FCGeometryComType FCOCCModelBox::getGeometryCommandType()
 {
     return FC::FCGeoEnum::FGTBox;
 }
@@ -57,7 +57,7 @@ FCOCCModelCylinder::FCOCCModelCylinder()
     _shapeAgent = _occShapeAgent;
 }
 
-FC::FCGeoEnum::FITKGeometryComType FCOCCModelCylinder::getGeometryCommandType()
+FC::FCGeoEnum::FCGeometryComType FCOCCModelCylinder::getGeometryCommandType()
 {
     return FC::FCGeoEnum::FGTCylinder;
 }
@@ -90,7 +90,7 @@ FCOCCModelSphere::FCOCCModelSphere()
     _shapeAgent = _occShapeAgent;
 }
 
-FC::FCGeoEnum::FITKGeometryComType FCOCCModelSphere::getGeometryCommandType()
+FC::FCGeoEnum::FCGeometryComType FCOCCModelSphere::getGeometryCommandType()
 {
     return FC::FCGeoEnum::FGTSphere;
 }

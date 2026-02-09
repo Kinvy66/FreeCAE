@@ -6,7 +6,7 @@
 
 namespace FC {
 
-FCGeoEnum::FITKDatumType FCGeoReferencePoint::getDatumType()
+FCGeoEnum::FCDatumType FCGeoReferencePoint::getDatumType()
 {
     return FCGeoEnum::FDTPoint;
 }
@@ -16,7 +16,7 @@ void FCGeoReferencePoint::setCoord(double x, double y, double z)
     _pos[0] = x; _pos[1] = y; _pos[2] = z;
 }
 
-FCGeoEnum::FITKDatumType FCGeoReferenceCurveRadio::getDatumType()
+FCGeoEnum::FCDatumType FCGeoReferenceCurveRadio::getDatumType()
 {
     return FCGeoEnum::FDTCurveRadio;
 }

@@ -25,7 +25,7 @@ public:
     explicit FCGeoModelNearestPointLine() = default;
     ~FCGeoModelNearestPointLine() override = default;
 
-    FCGeoEnum::FITKGeometryComType getGeometryCommandType() override;
+    FCGeoEnum::FCGeometryComType getGeometryCommandType() override;
     bool update() override;
 
     void setPoint(const double* point);

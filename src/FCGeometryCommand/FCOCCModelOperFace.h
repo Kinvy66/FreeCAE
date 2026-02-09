@@ -24,7 +24,7 @@ class FCGEOMETRYCMD_API FCOCCModelOperFaceRemoveFace : public FC::FCGeoModelOper
 public:
     FCOCCModelOperFaceRemoveFace() : OCCShapeAgent(this) { _shapeAgent = _occShapeAgent; }
     ~FCOCCModelOperFaceRemoveFace() override = default;
-    FC::FCGeoEnum::FITKGeometryComType getGeometryCommandType() override;
+    FC::FCGeoEnum::FCGeometryComType getGeometryCommandType() override;
     bool update() override;
 };
 
@@ -33,7 +33,7 @@ class FCGEOMETRYCMD_API FCOCCModelOperFaceFillGaps : public FC::FCGeoModelOperFa
 public:
     FCOCCModelOperFaceFillGaps() : OCCShapeAgent(this) { _shapeAgent = _occShapeAgent; }
     ~FCOCCModelOperFaceFillGaps() override = default;
-    FC::FCGeoEnum::FITKGeometryComType getGeometryCommandType() override;
+    FC::FCGeoEnum::FCGeometryComType getGeometryCommandType() override;
     bool update() override;
 };
 
@@ -42,7 +42,7 @@ class FCGEOMETRYCMD_API FCOCCModelOperFaceDeleteFloatingEdge : public FC::FCGeoM
 public:
     FCOCCModelOperFaceDeleteFloatingEdge() : OCCShapeAgent(this) { _shapeAgent = _occShapeAgent; }
     ~FCOCCModelOperFaceDeleteFloatingEdge() override = default;
-    FC::FCGeoEnum::FITKGeometryComType getGeometryCommandType() override;
+    FC::FCGeoEnum::FCGeometryComType getGeometryCommandType() override;
     bool update() override;
 };
 

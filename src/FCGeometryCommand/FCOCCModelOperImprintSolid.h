@@ -24,7 +24,7 @@ class FCGEOMETRYCMD_API FCOCCModelOperImprintSolid : public FC::FCGeoModelOperIm
 public:
     FCOCCModelOperImprintSolid() : OCCShapeAgent(this) { _shapeAgent = _occShapeAgent; }
     ~FCOCCModelOperImprintSolid() override = default;
-    FC::FCGeoEnum::FITKGeometryComType getGeometryCommandType() override;
+    FC::FCGeoEnum::FCGeometryComType getGeometryCommandType() override;
     bool update() override;
 };
 

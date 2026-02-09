@@ -38,7 +38,7 @@ public:
     FCGeoModelPartitionSolidWithPlane() = default;
     ~FCGeoModelPartitionSolidWithPlane() override = default;
 
-    FCGeoEnum::FITKGeometryComType getGeometryCommandType() override;
+    FCGeoEnum::FCGeometryComType getGeometryCommandType() override;
     bool update() override;
 
     void setPlane(const QVector<double>& origin, const QVector<double>& normal) { m_origin = origin; m_normal = normal; }
@@ -59,7 +59,7 @@ public:
     FCGeoModelPartitionSolidWithExtendFace() = default;
     ~FCGeoModelPartitionSolidWithExtendFace() override = default;
 
-    FCGeoEnum::FITKGeometryComType getGeometryCommandType() override;
+    FCGeoEnum::FCGeometryComType getGeometryCommandType() override;
     bool update() override;
 
     void setExtendFace(const VirtualShape& face) { m_extendFace = face; }
@@ -78,7 +78,7 @@ public:
     FCGeoModelPartitionSolidWithSketchPlanar() = default;
     ~FCGeoModelPartitionSolidWithSketchPlanar() override = default;
 
-    FCGeoEnum::FITKGeometryComType getGeometryCommandType() override;
+    FCGeoEnum::FCGeometryComType getGeometryCommandType() override;
     bool update() override;
 
     void setSketch(const VirtualShape& sketch) { m_sketch = sketch; }
@@ -96,7 +96,7 @@ class FCGEOMETRYINTERFACE_API FCGeoModelPartitionSolidWithSweepEdge : public FCG
 public:
     FCGeoModelPartitionSolidWithSweepEdge() = default;
     ~FCGeoModelPartitionSolidWithSweepEdge() override = default;
-    FCGeoEnum::FITKGeometryComType getGeometryCommandType() override;
+    FCGeoEnum::FCGeometryComType getGeometryCommandType() override;
     bool update() override;
     void setEdges(const QList<VirtualShape>& edges) { m_edges = edges; }
     QList<VirtualShape> edges() const { return m_edges; }
@@ -119,7 +119,7 @@ class FCGEOMETRYINTERFACE_API FCGeoModelPartitionSolidWithNSidedPatch : public F
 public:
     FCGeoModelPartitionSolidWithNSidedPatch() = default;
     ~FCGeoModelPartitionSolidWithNSidedPatch() override = default;
-    FCGeoEnum::FITKGeometryComType getGeometryCommandType() override;
+    FCGeoEnum::FCGeometryComType getGeometryCommandType() override;
     bool update() override;
 protected:
 };

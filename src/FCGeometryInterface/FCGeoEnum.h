@@ -14,7 +14,7 @@ class FCGEOMETRYINTERFACE_API FCGeoEnum : public QObject
 {
     Q_OBJECT
 public:
-    enum FITKGeoEngine
+    enum FCGeoEngine
     {
         FGENone = -1,
         FGEOCC,
@@ -23,7 +23,7 @@ public:
         FGEACIS,
         FGECGM,
     };
-    Q_ENUM(FITKGeoEngine);
+    Q_ENUM(FCGeoEngine);
 
     enum VTopoShapeType
     {
@@ -39,7 +39,7 @@ public:
     };
     Q_ENUM(VTopoShapeType);
 
-    enum FITKDatumType
+    enum FCDatumType
     {
         FDTNone = -1,
         FDTPoint = 0,
@@ -55,18 +55,18 @@ public:
         FDTPointAndDirectionPlane = 2004,
         FDTRotateFromPlanePlane = 2005
     };
-    Q_ENUM(FITKDatumType);
+    Q_ENUM(FCDatumType);
 
-    enum FITKGeoStatus
+    enum FCGeoStatus
     {
         FGSNone = -1,
         FGSNormal,
         FGSModified,
         FGSDeleted,
     };
-    Q_ENUM(FITKGeoStatus);
+    Q_ENUM(FCGeoStatus);
 
-    enum FITKGeometryComType
+    enum FCGeometryComType
     {
         FGTNone = -1,
         FGTDelete,
@@ -208,17 +208,17 @@ public:
         FGTRotateFace,
         FGTModifyBlend,
     };
-    Q_ENUM(FITKGeometryComType);
+    Q_ENUM(FCGeometryComType);
 
-    enum FITKConstructionType
+    enum FCConstructionType
     {
         FCTNone = -1,
         FCTLine,
         FCTCircle
     };
-    Q_ENUM(FITKConstructionType);
+    Q_ENUM(FCConstructionType);
 
-    enum FITKFeatureType
+    enum FCFeatureType
     {
         FeatureTypeNone = 0,
         FeatureTypeChamfer = 1,
@@ -233,7 +233,7 @@ public:
         FeatureTypeWallAndBend = 512,
         FeatureTypeAll = 1024,
     };
-    Q_ENUM(FITKFeatureType);
+    Q_ENUM(FCFeatureType);
 
     enum DatumPlnType
     {

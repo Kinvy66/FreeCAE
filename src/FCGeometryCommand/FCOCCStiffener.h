@@ -24,7 +24,7 @@ class FCGEOMETRYCMD_API FCOCCStiffener : public FC::FCGeoStiffener, public OCCSh
 public:
     FCOCCStiffener() : OCCShapeAgent(this) { _shapeAgent = _occShapeAgent; }
     ~FCOCCStiffener() override = default;
-    FC::FCGeoEnum::FITKGeometryComType getGeometryCommandType() override;
+    FC::FCGeoEnum::FCGeometryComType getGeometryCommandType() override;
     bool update() override;
 };
 

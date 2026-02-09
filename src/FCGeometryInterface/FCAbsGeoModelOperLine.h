@@ -25,7 +25,7 @@ public:
     FCGeoModelOperLine() = default;
     ~FCGeoModelOperLine() override = default;
 
-    FCGeoEnum::FITKGeometryComType getGeometryCommandType() override;
+    FCGeoEnum::FCGeometryComType getGeometryCommandType() override;
     bool update() override;
 
     void add(const VirtualShape& shape);

@@ -6,7 +6,7 @@
 
 namespace FC {
 
-FCGeoEnum::FITKGeometryComType FCGeoModelOperImprintSolid::getGeometryCommandType()
+FCGeoEnum::FCGeometryComType FCGeoModelOperImprintSolid::getGeometryCommandType()
 {
     return FCGeoEnum::FGTImprintSolid;
 }

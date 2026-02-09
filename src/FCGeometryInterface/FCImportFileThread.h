@@ -24,7 +24,7 @@ public:
 
     void run() override;
     void setFilePath(QString filePath);
-    void setImportedMethod(FCGeoEnum::FITKGeometryComType type);
+    void setImportedMethod(FCGeoEnum::FCGeometryComType type);
     const QList<int>& newCmdIds() const { return m_newIds; }
     bool isRunning() const { return m_isRunning; }
 
@@ -33,7 +33,7 @@ signals:
 
 protected:
     QString m_filePath;
-    FCGeoEnum::FITKGeometryComType m_ioType{ FCGeoEnum::FGTImport };
+    FCGeoEnum::FCGeometryComType m_ioType{ FCGeoEnum::FGTImport };
     QList<int> m_newIds;
     bool m_isRunning{ false };
 };

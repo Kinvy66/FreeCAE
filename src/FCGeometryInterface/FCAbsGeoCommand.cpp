@@ -26,12 +26,12 @@ bool FCAbsGeoCommand::redo()
     return false;
 }
 
-void FCAbsGeoCommand::setCommandStatus(FCGeoEnum::FITKGeoStatus status)
+void FCAbsGeoCommand::setCommandStatus(FCGeoEnum::FCGeoStatus status)
 {
     _status = status;
 }
 
-FCGeoEnum::FITKGeoStatus FCAbsGeoCommand::getCommandStatus()
+FCGeoEnum::FCGeoStatus FCAbsGeoCommand::getCommandStatus()
 {
     return _status;
 }

@@ -6,7 +6,7 @@
 
 namespace FC {
 
-FCGeoEnum::FITKGeometryComType FCGeoRepairSmallEdges::getGeometryCommandType()
+FCGeoEnum::FCGeometryComType FCGeoRepairSmallEdges::getGeometryCommandType()
 {
     return FCGeoEnum::FGTRepairSmallEdges;
 }

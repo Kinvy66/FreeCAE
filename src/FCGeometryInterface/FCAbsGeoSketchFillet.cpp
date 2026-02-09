@@ -6,7 +6,7 @@
 
 namespace FC {
 
-FCGeoEnum::FITKGeometryComType FCGeoSketchFillet::getGeometryCommandType()
+FCGeoEnum::FCGeometryComType FCGeoSketchFillet::getGeometryCommandType()
 {
     return FCGeoEnum::FGTSketchFillet;
 }

@@ -24,7 +24,7 @@ class FCGEOMETRYCMD_API FCOCCModelRepairSmallEdges : public FC::FCGeoRepairSmall
 public:
     FCOCCModelRepairSmallEdges() : OCCShapeAgent(this) { _shapeAgent = _occShapeAgent; }
     ~FCOCCModelRepairSmallEdges() override = default;
-    FC::FCGeoEnum::FITKGeometryComType getGeometryCommandType() override;
+    FC::FCGeoEnum::FCGeometryComType getGeometryCommandType() override;
     bool update() override;
 };
 

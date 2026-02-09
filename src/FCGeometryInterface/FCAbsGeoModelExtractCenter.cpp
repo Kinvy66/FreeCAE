@@ -7,7 +7,7 @@
 
 namespace FC {
 
-FCGeoEnum::FITKGeometryComType FCGeoModelExtractCenter::getGeometryCommandType()
+FCGeoEnum::FCGeometryComType FCGeoModelExtractCenter::getGeometryCommandType()
 {
     return FCGeoEnum::FGTExtractCenter;
 }

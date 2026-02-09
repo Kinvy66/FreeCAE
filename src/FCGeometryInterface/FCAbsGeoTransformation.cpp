@@ -6,55 +6,55 @@
 
 namespace FC {
 
-FCGeoEnum::FITKGeometryComType FCGeoModelTransform::getGeometryCommandType()
+FCGeoEnum::FCGeometryComType FCGeoModelTransform::getGeometryCommandType()
 {
     return FCGeoEnum::FGTTransform;
 }
 bool FCGeoModelTransform::update() { return true; }
 
-FCGeoEnum::FITKGeometryComType FCGeoModelTransformByTwoPoints::getGeometryCommandType()
+FCGeoEnum::FCGeometryComType FCGeoModelTransformByTwoPoints::getGeometryCommandType()
 {
     return FCGeoEnum::FGTTransformByTwoPoints;
 }
 bool FCGeoModelTransformByTwoPoints::update() { return true; }
 
-FCGeoEnum::FITKGeometryComType FCGeoModelTransformByDirAndDis::getGeometryCommandType()
+FCGeoEnum::FCGeometryComType FCGeoModelTransformByDirAndDis::getGeometryCommandType()
 {
     return FCGeoEnum::FGTTransformByDirAndDis;
 }
 bool FCGeoModelTransformByDirAndDis::update() { return true; }
 
-FCGeoEnum::FITKGeometryComType FCGeoModelRotate::getGeometryCommandType()
+FCGeoEnum::FCGeometryComType FCGeoModelRotate::getGeometryCommandType()
 {
     return FCGeoEnum::FGTRotate;
 }
 bool FCGeoModelRotate::update() { return true; }
 
-FCGeoEnum::FITKGeometryComType FCGeoModelScale::getGeometryCommandType()
+FCGeoEnum::FCGeometryComType FCGeoModelScale::getGeometryCommandType()
 {
     return FCGeoEnum::FGTScale;
 }
 bool FCGeoModelScale::update() { return true; }
 
-FCGeoEnum::FITKGeometryComType FCGeoModelMirror::getGeometryCommandType()
+FCGeoEnum::FCGeometryComType FCGeoModelMirror::getGeometryCommandType()
 {
     return FCGeoEnum::FGTMirror;
 }
 bool FCGeoModelMirror::update() { return true; }
 
-FCGeoEnum::FITKGeometryComType FCGeoModelPattern::getGeometryCommandType()
+FCGeoEnum::FCGeometryComType FCGeoModelPattern::getGeometryCommandType()
 {
     return FCGeoEnum::FGTPattern;
 }
 bool FCGeoModelPattern::update() { return true; }
 
-FCGeoEnum::FITKGeometryComType FCGeoModelRectangularPattern::getGeometryCommandType()
+FCGeoEnum::FCGeometryComType FCGeoModelRectangularPattern::getGeometryCommandType()
 {
     return FCGeoEnum::FGTRectangularPattern;
 }
 bool FCGeoModelRectangularPattern::update() { return true; }
 
-FCGeoEnum::FITKGeometryComType FCGeoModelCircularPattern::getGeometryCommandType()
+FCGeoEnum::FCGeometryComType FCGeoModelCircularPattern::getGeometryCommandType()
 {
     return FCGeoEnum::FGTCircularPattern;
 }

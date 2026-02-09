@@ -71,14 +71,14 @@ OCC_TRANSFORM_CTOR(FCOCCModelMirror)
 OCC_TRANSFORM_CTOR(FCOCCModelRectangularPattern)
 OCC_TRANSFORM_CTOR(FCOCCModelCircularPattern)
 
-FC::FCGeoEnum::FITKGeometryComType FCOCCModelTransform::getGeometryCommandType() { return FC::FCGeoEnum::FGTTransform; }
-FC::FCGeoEnum::FITKGeometryComType FCOCCModelTransformByTwoPoints::getGeometryCommandType() { return FC::FCGeoEnum::FGTTransformByTwoPoints; }
-FC::FCGeoEnum::FITKGeometryComType FCOCCModelTransformByDirAndDis::getGeometryCommandType() { return FC::FCGeoEnum::FGTTransformByDirAndDis; }
-FC::FCGeoEnum::FITKGeometryComType FCOCCModelRotate::getGeometryCommandType() { return FC::FCGeoEnum::FGTRotate; }
-FC::FCGeoEnum::FITKGeometryComType FCOCCModelScale::getGeometryCommandType() { return FC::FCGeoEnum::FGTScale; }
-FC::FCGeoEnum::FITKGeometryComType FCOCCModelMirror::getGeometryCommandType() { return FC::FCGeoEnum::FGTMirror; }
-FC::FCGeoEnum::FITKGeometryComType FCOCCModelRectangularPattern::getGeometryCommandType() { return FC::FCGeoEnum::FGTRectangularPattern; }
-FC::FCGeoEnum::FITKGeometryComType FCOCCModelCircularPattern::getGeometryCommandType() { return FC::FCGeoEnum::FGTCircularPattern; }
+FC::FCGeoEnum::FCGeometryComType FCOCCModelTransform::getGeometryCommandType() { return FC::FCGeoEnum::FGTTransform; }
+FC::FCGeoEnum::FCGeometryComType FCOCCModelTransformByTwoPoints::getGeometryCommandType() { return FC::FCGeoEnum::FGTTransformByTwoPoints; }
+FC::FCGeoEnum::FCGeometryComType FCOCCModelTransformByDirAndDis::getGeometryCommandType() { return FC::FCGeoEnum::FGTTransformByDirAndDis; }
+FC::FCGeoEnum::FCGeometryComType FCOCCModelRotate::getGeometryCommandType() { return FC::FCGeoEnum::FGTRotate; }
+FC::FCGeoEnum::FCGeometryComType FCOCCModelScale::getGeometryCommandType() { return FC::FCGeoEnum::FGTScale; }
+FC::FCGeoEnum::FCGeometryComType FCOCCModelMirror::getGeometryCommandType() { return FC::FCGeoEnum::FGTMirror; }
+FC::FCGeoEnum::FCGeometryComType FCOCCModelRectangularPattern::getGeometryCommandType() { return FC::FCGeoEnum::FGTRectangularPattern; }
+FC::FCGeoEnum::FCGeometryComType FCOCCModelCircularPattern::getGeometryCommandType() { return FC::FCGeoEnum::FGTCircularPattern; }
 
 bool FCOCCModelTransform::update()
 {

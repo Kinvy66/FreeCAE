@@ -15,7 +15,7 @@ FCGeoSketch2D::~FCGeoSketch2D()
 {
 }
 
-FCGeoEnum::FITKGeometryComType FCGeoSketch2D::getGeometryCommandType()
+FCGeoEnum::FCGeometryComType FCGeoSketch2D::getGeometryCommandType()
 {
     return FCGeoEnum::FGTSketch2D;
 }

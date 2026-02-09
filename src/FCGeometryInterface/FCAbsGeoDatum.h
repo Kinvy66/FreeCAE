@@ -26,8 +26,8 @@ public:
     bool editable();
     void setPosition(double* pos);
     void getPosition(double* pos);
-    virtual FCGeoEnum::FITKDatumType getDatumType() = 0;
-    FCGeoEnum::FITKGeometryComType getGeometryCommandType() override;
+    virtual FCGeoEnum::FCDatumType getDatumType() = 0;
+    FCGeoEnum::FCGeometryComType getGeometryCommandType() override;
     virtual bool update() override { return true; }
     void printLog(QString msg, int type = 1);
 
@@ -43,7 +43,7 @@ class FCGEOMETRYINTERFACE_API FCAbsGeoDatumPoint : public FCAbsGeoDatum
 public:
     FCAbsGeoDatumPoint() = default;
     ~FCAbsGeoDatumPoint() override = default;
-    FCGeoEnum::FITKDatumType getDatumType() override;
+    FCGeoEnum::FCDatumType getDatumType() override;
 };
 
 /** 基准线基类 */
@@ -53,7 +53,7 @@ class FCGEOMETRYINTERFACE_API FCAbsGeoDatumLine : public FCAbsGeoDatum
 public:
     FCAbsGeoDatumLine() = default;
     ~FCAbsGeoDatumLine() override = default;
-    FCGeoEnum::FITKDatumType getDatumType() override;
+    FCGeoEnum::FCDatumType getDatumType() override;
     void setPosition2(const double* pos);
     void getPosition2(double* pos) const;
 protected:
@@ -67,7 +67,7 @@ class FCGEOMETRYINTERFACE_API FCAbsGeoDatumPlane : public FCAbsGeoDatum
 public:
     FCAbsGeoDatumPlane() = default;
     ~FCAbsGeoDatumPlane() override = default;
-    FCGeoEnum::FITKDatumType getDatumType() override;
+    FCGeoEnum::FCDatumType getDatumType() override;
     void setNormal(const double* nor);
     void getNormal(double* nor) const;
     void setUp(const double* up);

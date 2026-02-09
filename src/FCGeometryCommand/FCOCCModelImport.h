@@ -24,7 +24,7 @@ class FCGEOMETRYCMD_API FCOCCModelImport : public FC::FCGeoModelImport, public O
 public:
     explicit FCOCCModelImport();
     ~FCOCCModelImport() override = default;
-    FC::FCGeoEnum::FITKGeometryComType getGeometryCommandType() override;
+    FC::FCGeoEnum::FCGeometryComType getGeometryCommandType() override;
     bool update() override;
 };
 

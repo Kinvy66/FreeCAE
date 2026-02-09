@@ -19,14 +19,14 @@ class FCGEOMETRYINTERFACE_API FCGeoConstruction : public FCAbsGeoCommand
 {
     FC_CLASS(FC, FCGeoConstruction);
 public:
-    explicit FCGeoConstruction(FCGeoEnum::FITKConstructionType type = FCGeoEnum::FCTLine);
+    explicit FCGeoConstruction(FCGeoEnum::FCConstructionType type = FCGeoEnum::FCTLine);
     ~FCGeoConstruction() override = default;
 
-    FCGeoEnum::FITKGeometryComType getGeometryCommandType() override;
+    FCGeoEnum::FCGeometryComType getGeometryCommandType() override;
     bool update() override;
 
-    void setConstructionType(FCGeoEnum::FITKConstructionType type) { m_type = type; }
-    FCGeoEnum::FITKConstructionType getConstructionType() const { return m_type; }
+    void setConstructionType(FCGeoEnum::FCConstructionType type) { m_type = type; }
+    FCGeoEnum::FCConstructionType getConstructionType() const { return m_type; }
     void getPositions(double* point1, double* point2) const;
     void setPositions(const double* point1, const double* point2);
     void setPosition1(double x, double y, double z);
@@ -34,7 +34,7 @@ public:
     void setPosition2(double x, double y, double z);
     void setPosition2(const double* point);
 protected:
-    FCGeoEnum::FITKConstructionType m_type{ FCGeoEnum::FCTLine };
+    FCGeoEnum::FCConstructionType m_type{ FCGeoEnum::FCTLine };
     double m_point1[3]{ 0., 0., 0. };
     double m_point2[3]{ 0., 0., 0. };
 };

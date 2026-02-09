@@ -41,7 +41,7 @@ void FCGeoModelCurve::setZDirection(double x, double y, double z)
     setZDirection({ x, y, z });
 }
 
-FCGeoEnum::FITKGeometryComType FCGeoModelLine::getGeometryCommandType()
+FCGeoEnum::FCGeometryComType FCGeoModelLine::getGeometryCommandType()
 {
     return FCGeoEnum::FGTLine;
 }
@@ -52,7 +52,7 @@ void FCGeoModelLine::setDir(double x, double y, double z)
     m_dir = { x, y, z };
 }
 
-FCGeoEnum::FITKGeometryComType FCGeoModelSegment::getGeometryCommandType()
+FCGeoEnum::FCGeometryComType FCGeoModelSegment::getGeometryCommandType()
 {
     return FCGeoEnum::FGTSegment;
 }
@@ -68,13 +68,13 @@ void FCGeoModelSegment::setEndPoint(double x, double y, double z)
     m_endPoint = { x, y, z };
 }
 
-FCGeoEnum::FITKGeometryComType FCGeoModelWire::getGeometryCommandType()
+FCGeoEnum::FCGeometryComType FCGeoModelWire::getGeometryCommandType()
 {
     return FCGeoEnum::FGTWire;
 }
 bool FCGeoModelWire::update() { return true; }
 
-FCGeoEnum::FITKGeometryComType FCGeoModelCircle::getGeometryCommandType()
+FCGeoEnum::FCGeometryComType FCGeoModelCircle::getGeometryCommandType()
 {
     return FCGeoEnum::FGTCircle;
 }
@@ -85,13 +85,13 @@ void FCGeoModelCircle::setCenter(double x, double y, double z)
     m_center = { x, y, z };
 }
 
-FCGeoEnum::FITKGeometryComType FCGeoModelThreePointsCircle::getGeometryCommandType()
+FCGeoEnum::FCGeometryComType FCGeoModelThreePointsCircle::getGeometryCommandType()
 {
     return FCGeoEnum::FGTThreePointsCircle;
 }
 bool FCGeoModelThreePointsCircle::update() { return true; }
 
-FCGeoEnum::FITKGeometryComType FCGeoModelCircleArc::getGeometryCommandType()
+FCGeoEnum::FCGeometryComType FCGeoModelCircleArc::getGeometryCommandType()
 {
     return FCGeoEnum::FGTCircleArc;
 }
@@ -105,13 +105,13 @@ void FCGeoModelCircleArc::setEndPoint(double x, double y, double z)
     m_endPoint = { x, y, z };
 }
 
-FCGeoEnum::FITKGeometryComType FCGeoModelEllipse::getGeometryCommandType()
+FCGeoEnum::FCGeometryComType FCGeoModelEllipse::getGeometryCommandType()
 {
     return FCGeoEnum::FGTEllipse;
 }
 bool FCGeoModelEllipse::update() { return true; }
 
-FCGeoEnum::FITKGeometryComType FCGeoModelThreePointsEllipse::getGeometryCommandType()
+FCGeoEnum::FCGeometryComType FCGeoModelThreePointsEllipse::getGeometryCommandType()
 {
     return FCGeoEnum::FGTThreePointsEllipse;
 }
@@ -125,7 +125,7 @@ void FCGeoModelThreePointsEllipse::setMinorPoint(double x, double y, double z)
     m_minorPoint = { x, y, z };
 }
 
-FCGeoEnum::FITKGeometryComType FCGeoModelEllipseArc::getGeometryCommandType()
+FCGeoEnum::FCGeometryComType FCGeoModelEllipseArc::getGeometryCommandType()
 {
     return FCGeoEnum::FGTEllipseArc;
 }
@@ -139,13 +139,13 @@ void FCGeoModelEllipseArc::setEndPoint(double x, double y, double z)
     m_endPoint = { x, y, z };
 }
 
-FCGeoEnum::FITKGeometryComType FCGeoModelHyperbola::getGeometryCommandType()
+FCGeoEnum::FCGeometryComType FCGeoModelHyperbola::getGeometryCommandType()
 {
     return FCGeoEnum::FGTHyperbola;
 }
 bool FCGeoModelHyperbola::update() { return true; }
 
-FCGeoEnum::FITKGeometryComType FCGeoModelThreePointsHyperbola::getGeometryCommandType()
+FCGeoEnum::FCGeometryComType FCGeoModelThreePointsHyperbola::getGeometryCommandType()
 {
     return FCGeoEnum::FGTThreePointsHyperbola;
 }
@@ -159,7 +159,7 @@ void FCGeoModelThreePointsHyperbola::setMinorPoint(double x, double y, double z)
     m_minorPoint = { x, y, z };
 }
 
-FCGeoEnum::FITKGeometryComType FCGeoModelHyperbolaArc::getGeometryCommandType()
+FCGeoEnum::FCGeometryComType FCGeoModelHyperbolaArc::getGeometryCommandType()
 {
     return FCGeoEnum::FGTHyperbolaArc;
 }
@@ -173,19 +173,19 @@ void FCGeoModelHyperbolaArc::setEndPoint(double x, double y, double z)
     m_endPoint = { x, y, z };
 }
 
-FCGeoEnum::FITKGeometryComType FCGeoModelParabola::getGeometryCommandType()
+FCGeoEnum::FCGeometryComType FCGeoModelParabola::getGeometryCommandType()
 {
     return FCGeoEnum::FGTParabola;
 }
 bool FCGeoModelParabola::update() { return true; }
 
-FCGeoEnum::FITKGeometryComType FCGeoModelThreePointsParabola::getGeometryCommandType()
+FCGeoEnum::FCGeometryComType FCGeoModelThreePointsParabola::getGeometryCommandType()
 {
     return FCGeoEnum::FGTThreePointsParabola;
 }
 bool FCGeoModelThreePointsParabola::update() { return true; }
 
-FCGeoEnum::FITKGeometryComType FCGeoModelParabolaArc::getGeometryCommandType()
+FCGeoEnum::FCGeometryComType FCGeoModelParabolaArc::getGeometryCommandType()
 {
     return FCGeoEnum::FGTParabolaArc;
 }
@@ -199,25 +199,25 @@ void FCGeoModelParabolaArc::setEndPoint(double x, double y, double z)
     m_endPoint = { x, y, z };
 }
 
-FCGeoEnum::FITKGeometryComType FCGeoModelBezierByControlPoints::getGeometryCommandType()
+FCGeoEnum::FCGeometryComType FCGeoModelBezierByControlPoints::getGeometryCommandType()
 {
     return FCGeoEnum::FGTBezierByControlPoints;
 }
 bool FCGeoModelBezierByControlPoints::update() { return true; }
 
-FCGeoEnum::FITKGeometryComType FCGeoModelBsplineByThroughPoints::getGeometryCommandType()
+FCGeoEnum::FCGeometryComType FCGeoModelBsplineByThroughPoints::getGeometryCommandType()
 {
     return FCGeoEnum::FGTBSplineByThroughPoints;
 }
 bool FCGeoModelBsplineByThroughPoints::update() { return true; }
 
-FCGeoEnum::FITKGeometryComType FCGeoModelTrimmedCurve::getGeometryCommandType()
+FCGeoEnum::FCGeometryComType FCGeoModelTrimmedCurve::getGeometryCommandType()
 {
     return FCGeoEnum::FGTTrimmed;
 }
 bool FCGeoModelTrimmedCurve::update() { return true; }
 
-FCGeoEnum::FITKGeometryComType FCGeoModelOffsetCurve::getGeometryCommandType()
+FCGeoEnum::FCGeometryComType FCGeoModelOffsetCurve::getGeometryCommandType()
 {
     return FCGeoEnum::FGTOffsetCurve;
 }
@@ -227,25 +227,25 @@ void FCGeoModelOffsetCurve::setDir(double x, double y, double z)
     m_dir = { x, y, z };
 }
 
-FCGeoEnum::FITKGeometryComType FCGeoModelCurveProjectionOnSurface::getGeometryCommandType()
+FCGeoEnum::FCGeometryComType FCGeoModelCurveProjectionOnSurface::getGeometryCommandType()
 {
     return FCGeoEnum::FGTCurveProjectionOnSurface;
 }
 bool FCGeoModelCurveProjectionOnSurface::update() { return true; }
 
-FCGeoEnum::FITKGeometryComType FCGeoModelSurfaceIntersectionSurface::getGeometryCommandType()
+FCGeoEnum::FCGeometryComType FCGeoModelSurfaceIntersectionSurface::getGeometryCommandType()
 {
     return FCGeoEnum::FGTSurfaceIntersectSurface;
 }
 bool FCGeoModelSurfaceIntersectionSurface::update() { return true; }
 
-FCGeoEnum::FITKGeometryComType FCGeoModelBridgeCurve::getGeometryCommandType()
+FCGeoEnum::FCGeometryComType FCGeoModelBridgeCurve::getGeometryCommandType()
 {
     return FCGeoEnum::FGTBridgeCurve;
 }
 bool FCGeoModelBridgeCurve::update() { return true; }
 
-FCGeoEnum::FITKGeometryComType FCGeoModelSurfaceEdge::getGeometryCommandType()
+FCGeoEnum::FCGeometryComType FCGeoModelSurfaceEdge::getGeometryCommandType()
 {
     return FCGeoEnum::FGTCurveFromSurface;
 }

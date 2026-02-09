@@ -24,7 +24,7 @@ class FCGEOMETRYCMD_API FCOCCModelCoverEdges : public FC::FCGeoCoverEdges, publi
 public:
     FCOCCModelCoverEdges() : OCCShapeAgent(this) { _shapeAgent = _occShapeAgent; }
     ~FCOCCModelCoverEdges() override = default;
-    FC::FCGeoEnum::FITKGeometryComType getGeometryCommandType() override;
+    FC::FCGeoEnum::FCGeometryComType getGeometryCommandType() override;
     bool update() override;
 };
 

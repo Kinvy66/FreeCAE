@@ -7,7 +7,7 @@
 
 namespace FC {
 
-FCGeoEnum::FITKGeometryComType FCAbsGeoPart::getGeometryCommandType()
+FCGeoEnum::FCGeometryComType FCAbsGeoPart::getGeometryCommandType()
 {
     return FCGeoEnum::FGTPart;
 }

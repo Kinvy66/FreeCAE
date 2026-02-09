@@ -6,7 +6,7 @@
 
 namespace FC {
 
-FCGeoEnum::FITKGeometryComType FCGeoModelOperCompound::getGeometryCommandType()
+FCGeoEnum::FCGeometryComType FCGeoModelOperCompound::getGeometryCommandType()
 {
     return FCGeoEnum::FGTCompoundAppendShape;
 }

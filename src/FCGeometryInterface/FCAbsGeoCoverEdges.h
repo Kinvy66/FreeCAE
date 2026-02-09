@@ -21,7 +21,7 @@ public:
     FCGeoCoverEdges() = default;
     ~FCGeoCoverEdges() override = default;
 
-    FCGeoEnum::FITKGeometryComType getGeometryCommandType() override;
+    FCGeoEnum::FCGeometryComType getGeometryCommandType() override;
     bool update() override;
 
     QList<VirtualShape> edges() const { return m_edges; }

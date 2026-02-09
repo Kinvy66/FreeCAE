@@ -24,7 +24,7 @@ class FCGEOMETRYCMD_API FCOCCModelStitch : public FC::FCGeoStitch, public OCCSha
 public:
     FCOCCModelStitch() : OCCShapeAgent(this) { _shapeAgent = _occShapeAgent; }
     ~FCOCCModelStitch() override = default;
-    FC::FCGeoEnum::FITKGeometryComType getGeometryCommandType() override;
+    FC::FCGeoEnum::FCGeometryComType getGeometryCommandType() override;
     bool update() override;
 };
 

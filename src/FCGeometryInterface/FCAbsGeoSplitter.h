@@ -43,7 +43,7 @@ public:
     FCGeoCurveSplitter() = default;
     ~FCGeoCurveSplitter() override = default;
 
-    FCGeoEnum::FITKGeometryComType getGeometryCommandType() override;
+    FCGeoEnum::FCGeometryComType getGeometryCommandType() override;
     bool update() override;
 
     std::array<double, 3> point() const { return m_point; }
@@ -63,7 +63,7 @@ public:
     FCGeoSurfaceSplitter() = default;
     ~FCGeoSurfaceSplitter() override = default;
 
-    FCGeoEnum::FITKGeometryComType getGeometryCommandType() override;
+    FCGeoEnum::FCGeometryComType getGeometryCommandType() override;
     bool update() override;
 };
 
@@ -77,7 +77,7 @@ public:
     FCGeoSolidSplitter() = default;
     ~FCGeoSolidSplitter() override = default;
 
-    FCGeoEnum::FITKGeometryComType getGeometryCommandType() override;
+    FCGeoEnum::FCGeometryComType getGeometryCommandType() override;
     bool update() override;
 };
 

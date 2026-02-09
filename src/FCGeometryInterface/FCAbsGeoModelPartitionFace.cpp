@@ -6,43 +6,43 @@
 
 namespace FC {
 
-FCGeoEnum::FITKGeometryComType FCGeoModelPartitionFaceWithSketch::getGeometryCommandType()
+FCGeoEnum::FCGeometryComType FCGeoModelPartitionFaceWithSketch::getGeometryCommandType()
 {
     return FCGeoEnum::FGTPartitionFaceWithSketch;
 }
 bool FCGeoModelPartitionFaceWithSketch::update() { return true; }
 
-FCGeoEnum::FITKGeometryComType FCGeoModelPartitionFaceWithTwoPoints::getGeometryCommandType()
+FCGeoEnum::FCGeometryComType FCGeoModelPartitionFaceWithTwoPoints::getGeometryCommandType()
 {
     return FCGeoEnum::FGTPartitionFaceWithTwoPoints;
 }
 bool FCGeoModelPartitionFaceWithTwoPoints::update() { return true; }
 
-FCGeoEnum::FITKGeometryComType FCGeoModelPartitionFaceWithDatumPlane::getGeometryCommandType()
+FCGeoEnum::FCGeometryComType FCGeoModelPartitionFaceWithDatumPlane::getGeometryCommandType()
 {
     return FCGeoEnum::FGTPartitionFaceWithDatumPlane;
 }
 bool FCGeoModelPartitionFaceWithDatumPlane::update() { return true; }
 
-FCGeoEnum::FITKGeometryComType FCGeoModelPartitionFaceWithExtendFace::getGeometryCommandType()
+FCGeoEnum::FCGeometryComType FCGeoModelPartitionFaceWithExtendFace::getGeometryCommandType()
 {
     return FCGeoEnum::FGTPartitionFaceWithExtendFace;
 }
 bool FCGeoModelPartitionFaceWithExtendFace::update() { return true; }
 
-FCGeoEnum::FITKGeometryComType FCGeoModelPartitionFaceWithCurvedPath::getGeometryCommandType()
+FCGeoEnum::FCGeometryComType FCGeoModelPartitionFaceWithCurvedPath::getGeometryCommandType()
 {
     return FCGeoEnum::FGTPartitionFaceWithCurvedPath;
 }
 bool FCGeoModelPartitionFaceWithCurvedPath::update() { return true; }
 
-FCGeoEnum::FITKGeometryComType FCGeoModelPartitionFaceWithIntersectFace::getGeometryCommandType()
+FCGeoEnum::FCGeometryComType FCGeoModelPartitionFaceWithIntersectFace::getGeometryCommandType()
 {
     return FCGeoEnum::FGTPartitionFaceWithIntersectFace;
 }
 bool FCGeoModelPartitionFaceWithIntersectFace::update() { return true; }
 
-FCGeoEnum::FITKGeometryComType FCGeoModelPartitionFaceWithProjectEdges::getGeometryCommandType()
+FCGeoEnum::FCGeometryComType FCGeoModelPartitionFaceWithProjectEdges::getGeometryCommandType()
 {
     return FCGeoEnum::FGTPartitionFaceWithProjectEdges;
 }

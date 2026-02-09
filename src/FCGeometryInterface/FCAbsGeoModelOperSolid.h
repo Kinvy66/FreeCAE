@@ -21,7 +21,7 @@ public:
     FCAbsGeoModelChamferSolid() = default;
     ~FCAbsGeoModelChamferSolid() override = default;
 
-    FCGeoEnum::FITKGeometryComType getGeometryCommandType() override;
+    FCGeoEnum::FCGeometryComType getGeometryCommandType() override;
     bool update() override;
 
     void setInputCmdId(int cmdId) { m_solidCmdId = cmdId; }
@@ -47,7 +47,7 @@ public:
     FCAbsGeoModelFilletSolid() = default;
     ~FCAbsGeoModelFilletSolid() override = default;
 
-    FCGeoEnum::FITKGeometryComType getGeometryCommandType() override;
+    FCGeoEnum::FCGeometryComType getGeometryCommandType() override;
     bool update() override;
 
     void setInputCmdId(int cmdId) { m_solidCmdId = cmdId; }
@@ -73,7 +73,7 @@ public:
     FCAbsGeoModelDefeatureSolid() = default;
     ~FCAbsGeoModelDefeatureSolid() override = default;
 
-    FCGeoEnum::FITKGeometryComType getGeometryCommandType() override;
+    FCGeoEnum::FCGeometryComType getGeometryCommandType() override;
     bool update() override;
 
     void setInputCmdId(int cmdId) { m_solidCmdId = cmdId; }
@@ -96,7 +96,7 @@ public:
     FCAbsGeoModelRemoveChamferSolid() = default;
     ~FCAbsGeoModelRemoveChamferSolid() override = default;
 
-    FCGeoEnum::FITKGeometryComType getGeometryCommandType() override;
+    FCGeoEnum::FCGeometryComType getGeometryCommandType() override;
     bool update() override;
 };
 
@@ -110,7 +110,7 @@ public:
     FCAbsGeoModelRemoveFilletSolid() = default;
     ~FCAbsGeoModelRemoveFilletSolid() override = default;
 
-    FCGeoEnum::FITKGeometryComType getGeometryCommandType() override;
+    FCGeoEnum::FCGeometryComType getGeometryCommandType() override;
     bool update() override;
 };
 
@@ -124,7 +124,7 @@ public:
     FCAbsGeoModelFillHoleSolid() = default;
     ~FCAbsGeoModelFillHoleSolid() override = default;
 
-    FCGeoEnum::FITKGeometryComType getGeometryCommandType() override;
+    FCGeoEnum::FCGeometryComType getGeometryCommandType() override;
     bool update() override;
 };
 
@@ -138,7 +138,7 @@ public:
     FCAbsGeoModelCircularHoleSolid() = default;
     ~FCAbsGeoModelCircularHoleSolid() override = default;
 
-    FCGeoEnum::FITKGeometryComType getGeometryCommandType() override;
+    FCGeoEnum::FCGeometryComType getGeometryCommandType() override;
     bool update() override;
 
     void setHolePoint(double x, double y, double z);

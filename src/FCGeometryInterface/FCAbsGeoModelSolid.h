@@ -33,7 +33,7 @@ public:
     FCAbsGeoModelClosedSurfaceSolid() = default;
     ~FCAbsGeoModelClosedSurfaceSolid() override = default;
 
-    FCGeoEnum::FITKGeometryComType getGeometryCommandType() override;
+    FCGeoEnum::FCGeometryComType getGeometryCommandType() override;
     bool update() override;
 
     void addFace(const VirtualShape& face) { m_faces.append(face); }
@@ -53,7 +53,7 @@ public:
     FCAbsGeoModelExtrudeSolid() = default;
     ~FCAbsGeoModelExtrudeSolid() override = default;
 
-    FCGeoEnum::FITKGeometryComType getGeometryCommandType() override;
+    FCGeoEnum::FCGeometryComType getGeometryCommandType() override;
     bool update() override;
 
     VirtualShape sourceSurface() const { return m_sourceSurface; }
@@ -85,7 +85,7 @@ public:
     FCAbsGeoModelRevolSolid() = default;
     ~FCAbsGeoModelRevolSolid() override = default;
 
-    FCGeoEnum::FITKGeometryComType getGeometryCommandType() override;
+    FCGeoEnum::FCGeometryComType getGeometryCommandType() override;
     bool update() override;
 
     VirtualShape sourceSurface() const { return m_sourceSurface; }
@@ -115,7 +115,7 @@ public:
     FCAbsGeoModelSweepSolid() = default;
     ~FCAbsGeoModelSweepSolid() override = default;
 
-    FCGeoEnum::FITKGeometryComType getGeometryCommandType() override;
+    FCGeoEnum::FCGeometryComType getGeometryCommandType() override;
     bool update() override;
 
     VirtualShape profile() const { return m_profile; }
@@ -139,7 +139,7 @@ public:
     FCAbsGeoModelMultiSectionSolid() = default;
     ~FCAbsGeoModelMultiSectionSolid() override = default;
 
-    FCGeoEnum::FITKGeometryComType getGeometryCommandType() override;
+    FCGeoEnum::FCGeometryComType getGeometryCommandType() override;
     bool update() override;
 
     QList<VirtualShape> sections() const { return m_sections; }

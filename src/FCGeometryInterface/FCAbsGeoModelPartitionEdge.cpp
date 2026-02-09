@@ -6,19 +6,19 @@
 
 namespace FC {
 
-FCGeoEnum::FITKGeometryComType FCGeoModelPartitionEdgeWithParameter::getGeometryCommandType()
+FCGeoEnum::FCGeometryComType FCGeoModelPartitionEdgeWithParameter::getGeometryCommandType()
 {
     return FCGeoEnum::FGTPartitionEdgeWithParameter;
 }
 bool FCGeoModelPartitionEdgeWithParameter::update() { return true; }
 
-FCGeoEnum::FITKGeometryComType FCGeoModelPartitionEdgeWithPoint::getGeometryCommandType()
+FCGeoEnum::FCGeometryComType FCGeoModelPartitionEdgeWithPoint::getGeometryCommandType()
 {
     return FCGeoEnum::FGTPartitionEdgeWithPoint;
 }
 bool FCGeoModelPartitionEdgeWithPoint::update() { return true; }
 
-FCGeoEnum::FITKGeometryComType FCGeoModelPartitionEdgeWithDatumPlane::getGeometryCommandType()
+FCGeoEnum::FCGeometryComType FCGeoModelPartitionEdgeWithDatumPlane::getGeometryCommandType()
 {
     return FCGeoEnum::FGTPartitionEdgeWithDatumPlane;
 }

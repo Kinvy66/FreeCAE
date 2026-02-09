@@ -36,7 +36,7 @@ public:
     explicit FCGeoModelFromMesh() = default;
     ~FCGeoModelFromMesh() override = default;
 
-    FCGeoEnum::FITKGeometryComType getGeometryCommandType() override;
+    FCGeoEnum::FCGeometryComType getGeometryCommandType() override;
     bool update() override;
 
     void setMeshNodeCoordinates(const QHash<int, MeshNodeCoordinates>& coords) { m_meshNodeCoordinates = coords; }

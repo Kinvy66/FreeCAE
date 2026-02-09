@@ -39,7 +39,7 @@ public:
     FCGeoModelPartitionFaceWithSketch() = default;
     ~FCGeoModelPartitionFaceWithSketch() override = default;
 
-    FCGeoEnum::FITKGeometryComType getGeometryCommandType() override;
+    FCGeoEnum::FCGeometryComType getGeometryCommandType() override;
     bool update() override;
 
     void setSketch(int id) { m_sketchId = id; }
@@ -58,7 +58,7 @@ public:
     FCGeoModelPartitionFaceWithTwoPoints() = default;
     ~FCGeoModelPartitionFaceWithTwoPoints() override = default;
 
-    FCGeoEnum::FITKGeometryComType getGeometryCommandType() override;
+    FCGeoEnum::FCGeometryComType getGeometryCommandType() override;
     bool update() override;
 
     void setStartPoint(const QVector<double>& point) { m_startPoint = point; }
@@ -80,7 +80,7 @@ public:
     FCGeoModelPartitionFaceWithDatumPlane() = default;
     ~FCGeoModelPartitionFaceWithDatumPlane() override = default;
 
-    FCGeoEnum::FITKGeometryComType getGeometryCommandType() override;
+    FCGeoEnum::FCGeometryComType getGeometryCommandType() override;
     bool update() override;
 
     FCAbsGeoDatumPlane* datumPlane() const { return m_datumPlane; }
@@ -99,7 +99,7 @@ public:
     FCGeoModelPartitionFaceWithExtendFace() = default;
     ~FCGeoModelPartitionFaceWithExtendFace() override = default;
 
-    FCGeoEnum::FITKGeometryComType getGeometryCommandType() override;
+    FCGeoEnum::FCGeometryComType getGeometryCommandType() override;
     bool update() override;
 
     void setExtendFace(const VirtualShape& face) { m_extendFace = face; }
@@ -117,7 +117,7 @@ class FCGEOMETRYINTERFACE_API FCGeoModelPartitionFaceWithCurvedPath : public FCG
 public:
     FCGeoModelPartitionFaceWithCurvedPath() = default;
     ~FCGeoModelPartitionFaceWithCurvedPath() override = default;
-    FCGeoEnum::FITKGeometryComType getGeometryCommandType() override;
+    FCGeoEnum::FCGeometryComType getGeometryCommandType() override;
     bool update() override;
     void setFace(const VirtualShape& face) { m_faces = QList<VirtualShape>() << face; }
     VirtualShape face() const { return m_faces.isEmpty() ? VirtualShape() : m_faces.first(); }
@@ -145,7 +145,7 @@ class FCGEOMETRYINTERFACE_API FCGeoModelPartitionFaceWithIntersectFace : public 
 public:
     FCGeoModelPartitionFaceWithIntersectFace() = default;
     ~FCGeoModelPartitionFaceWithIntersectFace() override = default;
-    FCGeoEnum::FITKGeometryComType getGeometryCommandType() override;
+    FCGeoEnum::FCGeometryComType getGeometryCommandType() override;
     bool update() override;
     void setToolFaces(const QList<VirtualShape>& faces) { m_toolFaces = faces; }
     QList<VirtualShape> toolFaces() const { return m_toolFaces; }
@@ -162,7 +162,7 @@ class FCGEOMETRYINTERFACE_API FCGeoModelPartitionFaceWithProjectEdges : public F
 public:
     FCGeoModelPartitionFaceWithProjectEdges() = default;
     ~FCGeoModelPartitionFaceWithProjectEdges() override = default;
-    FCGeoEnum::FITKGeometryComType getGeometryCommandType() override;
+    FCGeoEnum::FCGeometryComType getGeometryCommandType() override;
     bool update() override;
     void setProjectEdges(const QList<VirtualShape>& edges) { m_projectEdges = edges; }
     QList<VirtualShape> projectEdges() const { return m_projectEdges; }

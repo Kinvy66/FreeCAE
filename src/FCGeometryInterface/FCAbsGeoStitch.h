@@ -21,7 +21,7 @@ public:
     FCGeoStitch() = default;
     ~FCGeoStitch() override = default;
 
-    FCGeoEnum::FITKGeometryComType getGeometryCommandType() override;
+    FCGeoEnum::FCGeometryComType getGeometryCommandType() override;
     bool update() override;
 
     double tolerance() const { return m_tolerance; }

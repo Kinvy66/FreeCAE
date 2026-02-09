@@ -20,7 +20,7 @@ FCOCCModelImport::FCOCCModelImport()
     _shapeAgent = _occShapeAgent;
 }
 
-FC::FCGeoEnum::FITKGeometryComType FCOCCModelImport::getGeometryCommandType()
+FC::FCGeoEnum::FCGeometryComType FCOCCModelImport::getGeometryCommandType()
 {
     return FC::FCGeoEnum::FGTImport;
 }

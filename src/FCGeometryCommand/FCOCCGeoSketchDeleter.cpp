@@ -24,7 +24,7 @@
 
 namespace OCC {
 
-FC::FCGeoEnum::FITKGeometryComType FCOCCGeoSketchDeleter::getGeometryCommandType()
+FC::FCGeoEnum::FCGeometryComType FCOCCGeoSketchDeleter::getGeometryCommandType()
 {
     return FC::FCGeoEnum::FGTSketchDeleter;
 }

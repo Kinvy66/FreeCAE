@@ -6,7 +6,7 @@
 
 namespace FC {
 
-FCGeoEnum::FITKGeometryComType FCGeoStitch::getGeometryCommandType()
+FCGeoEnum::FCGeometryComType FCGeoStitch::getGeometryCommandType()
 {
     return FCGeoEnum::FGTStitch;
 }

@@ -6,7 +6,7 @@
 
 namespace FC {
 
-FCGeoEnum::FITKGeometryComType FCGeoCoverEdges::getGeometryCommandType()
+FCGeoEnum::FCGeometryComType FCGeoCoverEdges::getGeometryCommandType()
 {
     return FCGeoEnum::FGTCoverEdges;
 }

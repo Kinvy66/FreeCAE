@@ -23,7 +23,7 @@ class FCGEOMETRYCMD_API FCOCCModelExport : public FC::FCGeoModelExport
 public:
     explicit FCOCCModelExport() = default;
     ~FCOCCModelExport() override = default;
-    FC::FCGeoEnum::FITKGeometryComType getGeometryCommandType() override;
+    FC::FCGeoEnum::FCGeometryComType getGeometryCommandType() override;
     bool update() override;
 };
 

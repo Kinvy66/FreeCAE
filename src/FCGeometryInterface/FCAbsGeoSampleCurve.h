@@ -25,7 +25,7 @@ public:
     explicit FCGeoSampleCurve() = default;
     ~FCGeoSampleCurve() override = default;
 
-    FCGeoEnum::FITKGeometryComType getGeometryCommandType() override;
+    FCGeoEnum::FCGeometryComType getGeometryCommandType() override;
     bool update() override;
 
     void setSampleMethod(SampleMethod method) { m_sampleMethod = method; }

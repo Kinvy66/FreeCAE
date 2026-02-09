@@ -48,7 +48,7 @@ class FCGEOMETRYINTERFACE_API FCGeoModelLine : public FCGeoModelCurve
 public:
     FCGeoModelLine() = default;
     ~FCGeoModelLine() override = default;
-    FCGeoEnum::FITKGeometryComType getGeometryCommandType() override;
+    FCGeoEnum::FCGeometryComType getGeometryCommandType() override;
     bool update() override;
     std::array<double, 3> dir() const { return m_dir; }
     void setDir(double x, double y, double z);
@@ -65,7 +65,7 @@ class FCGEOMETRYINTERFACE_API FCGeoModelSegment : public FCGeoModelCurve
 public:
     FCGeoModelSegment() = default;
     ~FCGeoModelSegment() override = default;
-    FCGeoEnum::FITKGeometryComType getGeometryCommandType() override;
+    FCGeoEnum::FCGeometryComType getGeometryCommandType() override;
     bool update() override;
     std::array<double, 3> startPoint() const { return m_startPoint; }
     void setStartPoint(double x, double y, double z);
@@ -87,7 +87,7 @@ class FCGEOMETRYINTERFACE_API FCGeoModelWire : public FCGeoModelCurve
 public:
     FCGeoModelWire() = default;
     ~FCGeoModelWire() override = default;
-    FCGeoEnum::FITKGeometryComType getGeometryCommandType() override;
+    FCGeoEnum::FCGeometryComType getGeometryCommandType() override;
     bool update() override;
     void setCurves(const QList<VirtualShape>& curves) { m_curves = curves; }
     QList<VirtualShape> curves() const { return m_curves; }
@@ -104,7 +104,7 @@ class FCGEOMETRYINTERFACE_API FCGeoModelCircle : public FCGeoModelCurve
 public:
     FCGeoModelCircle() = default;
     ~FCGeoModelCircle() override = default;
-    FCGeoEnum::FITKGeometryComType getGeometryCommandType() override;
+    FCGeoEnum::FCGeometryComType getGeometryCommandType() override;
     bool update() override;
     std::array<double, 3> center() const { return m_center; }
     void setCenter(double x, double y, double z);
@@ -128,7 +128,7 @@ class FCGEOMETRYINTERFACE_API FCGeoModelThreePointsCircle : public FCGeoModelCir
 public:
     FCGeoModelThreePointsCircle() = default;
     ~FCGeoModelThreePointsCircle() override = default;
-    FCGeoEnum::FITKGeometryComType getGeometryCommandType() override;
+    FCGeoEnum::FCGeometryComType getGeometryCommandType() override;
     bool update() override;
     void setPoints(const QList<std::array<double, 3>>& points) { m_points = points; }
     QList<std::array<double, 3>> points() const { return m_points; }
@@ -145,7 +145,7 @@ class FCGEOMETRYINTERFACE_API FCGeoModelCircleArc : public FCGeoModelCircle
 public:
     FCGeoModelCircleArc() = default;
     ~FCGeoModelCircleArc() override = default;
-    FCGeoEnum::FITKGeometryComType getGeometryCommandType() override;
+    FCGeoEnum::FCGeometryComType getGeometryCommandType() override;
     bool update() override;
     std::array<double, 3> startPoint() const { return m_startPoint; }
     void setStartPoint(double x, double y, double z);
@@ -167,7 +167,7 @@ class FCGEOMETRYINTERFACE_API FCGeoModelEllipse : public FCGeoModelCurve
 public:
     FCGeoModelEllipse() = default;
     ~FCGeoModelEllipse() override = default;
-    FCGeoEnum::FITKGeometryComType getGeometryCommandType() override;
+    FCGeoEnum::FCGeometryComType getGeometryCommandType() override;
     bool update() override;
     double majorRadius() const { return m_majorRadius; }
     void setMajorRadius(double r) { m_majorRadius = r; }
@@ -187,7 +187,7 @@ class FCGEOMETRYINTERFACE_API FCGeoModelThreePointsEllipse : public FCGeoModelCu
 public:
     FCGeoModelThreePointsEllipse() = default;
     ~FCGeoModelThreePointsEllipse() override = default;
-    FCGeoEnum::FITKGeometryComType getGeometryCommandType() override;
+    FCGeoEnum::FCGeometryComType getGeometryCommandType() override;
     bool update() override;
     std::array<double, 3> majorPoint() const { return m_majorPoint; }
     void setMajorPoint(double x, double y, double z);
@@ -209,7 +209,7 @@ class FCGEOMETRYINTERFACE_API FCGeoModelEllipseArc : public FCGeoModelCurve
 public:
     FCGeoModelEllipseArc() = default;
     ~FCGeoModelEllipseArc() override = default;
-    FCGeoEnum::FITKGeometryComType getGeometryCommandType() override;
+    FCGeoEnum::FCGeometryComType getGeometryCommandType() override;
     bool update() override;
     double majorRadius() const { return m_majorRadius; }
     void setMajorRadius(double r) { m_majorRadius = r; }
@@ -237,7 +237,7 @@ class FCGEOMETRYINTERFACE_API FCGeoModelHyperbola : public FCGeoModelCurve
 public:
     FCGeoModelHyperbola() = default;
     ~FCGeoModelHyperbola() override = default;
-    FCGeoEnum::FITKGeometryComType getGeometryCommandType() override;
+    FCGeoEnum::FCGeometryComType getGeometryCommandType() override;
     bool update() override;
     double majorRadius() const { return m_majorRadius; }
     void setMajorRadius(double r) { m_majorRadius = r; }
@@ -257,7 +257,7 @@ class FCGEOMETRYINTERFACE_API FCGeoModelThreePointsHyperbola : public FCGeoModel
 public:
     FCGeoModelThreePointsHyperbola() = default;
     ~FCGeoModelThreePointsHyperbola() override = default;
-    FCGeoEnum::FITKGeometryComType getGeometryCommandType() override;
+    FCGeoEnum::FCGeometryComType getGeometryCommandType() override;
     bool update() override;
     std::array<double, 3> majorPoint() const { return m_majorPoint; }
     void setMajorPoint(double x, double y, double z);
@@ -285,7 +285,7 @@ class FCGEOMETRYINTERFACE_API FCGeoModelHyperbolaArc : public FCGeoModelCurve
 public:
     FCGeoModelHyperbolaArc() = default;
     ~FCGeoModelHyperbolaArc() override = default;
-    FCGeoEnum::FITKGeometryComType getGeometryCommandType() override;
+    FCGeoEnum::FCGeometryComType getGeometryCommandType() override;
     bool update() override;
     double majorRadius() const { return m_majorRadius; }
     void setMajorRadius(double r) { m_majorRadius = r; }
@@ -313,7 +313,7 @@ class FCGEOMETRYINTERFACE_API FCGeoModelParabola : public FCGeoModelCurve
 public:
     FCGeoModelParabola() = default;
     ~FCGeoModelParabola() override = default;
-    FCGeoEnum::FITKGeometryComType getGeometryCommandType() override;
+    FCGeoEnum::FCGeometryComType getGeometryCommandType() override;
     bool update() override;
     double focalLength() const { return m_focalLength; }
     void setFocalLength(double f) { m_focalLength = f; }
@@ -330,7 +330,7 @@ class FCGEOMETRYINTERFACE_API FCGeoModelThreePointsParabola : public FCGeoModelC
 public:
     FCGeoModelThreePointsParabola() = default;
     ~FCGeoModelThreePointsParabola() override = default;
-    FCGeoEnum::FITKGeometryComType getGeometryCommandType() override;
+    FCGeoEnum::FCGeometryComType getGeometryCommandType() override;
     bool update() override;
     void setPoints(const QList<std::array<double, 3>>& points) { m_points = points; }
     QList<std::array<double, 3>> points() const { return m_points; }
@@ -350,7 +350,7 @@ class FCGEOMETRYINTERFACE_API FCGeoModelParabolaArc : public FCGeoModelCurve
 public:
     FCGeoModelParabolaArc() = default;
     ~FCGeoModelParabolaArc() override = default;
-    FCGeoEnum::FITKGeometryComType getGeometryCommandType() override;
+    FCGeoEnum::FCGeometryComType getGeometryCommandType() override;
     bool update() override;
     double focalLength() const { return m_focalLength; }
     void setFocalLength(double f) { m_focalLength = f; }
@@ -375,7 +375,7 @@ class FCGEOMETRYINTERFACE_API FCGeoModelBezierByControlPoints : public FCGeoMode
 public:
     FCGeoModelBezierByControlPoints() = default;
     ~FCGeoModelBezierByControlPoints() override = default;
-    FCGeoEnum::FITKGeometryComType getGeometryCommandType() override;
+    FCGeoEnum::FCGeometryComType getGeometryCommandType() override;
     bool update() override;
     void setControlPoints(const QList<std::array<double, 3>>& points) { m_controlPoints = points; }
     QList<std::array<double, 3>> controlPoints() const { return m_controlPoints; }
@@ -392,7 +392,7 @@ class FCGEOMETRYINTERFACE_API FCGeoModelBsplineByThroughPoints : public FCGeoMod
 public:
     FCGeoModelBsplineByThroughPoints() = default;
     ~FCGeoModelBsplineByThroughPoints() override = default;
-    FCGeoEnum::FITKGeometryComType getGeometryCommandType() override;
+    FCGeoEnum::FCGeometryComType getGeometryCommandType() override;
     bool update() override;
     void setThroughPoints(const QList<std::array<double, 3>>& points) { m_throughPoints = points; }
     QList<std::array<double, 3>> throughPoints() const { return m_throughPoints; }
@@ -412,7 +412,7 @@ class FCGEOMETRYINTERFACE_API FCGeoModelTrimmedCurve : public FCGeoModelCurve
 public:
     FCGeoModelTrimmedCurve() = default;
     ~FCGeoModelTrimmedCurve() override = default;
-    FCGeoEnum::FITKGeometryComType getGeometryCommandType() override;
+    FCGeoEnum::FCGeometryComType getGeometryCommandType() override;
     bool update() override;
     VirtualShape sourceCurve() const { return m_sourceCurve; }
     void setSourceCurve(const VirtualShape& curve) { m_sourceCurve = curve; }
@@ -432,7 +432,7 @@ class FCGEOMETRYINTERFACE_API FCGeoModelOffsetCurve : public FCGeoModelCurve
 public:
     FCGeoModelOffsetCurve() = default;
     ~FCGeoModelOffsetCurve() override = default;
-    FCGeoEnum::FITKGeometryComType getGeometryCommandType() override;
+    FCGeoEnum::FCGeometryComType getGeometryCommandType() override;
     bool update() override;
     VirtualShape sourceCurve() const { return m_sourceCurve; }
     void setSourceCurve(const VirtualShape& curve) { m_sourceCurve = curve; }
@@ -456,7 +456,7 @@ class FCGEOMETRYINTERFACE_API FCGeoModelCurveProjectionOnSurface : public FCGeoM
 public:
     FCGeoModelCurveProjectionOnSurface() = default;
     ~FCGeoModelCurveProjectionOnSurface() override = default;
-    FCGeoEnum::FITKGeometryComType getGeometryCommandType() override;
+    FCGeoEnum::FCGeometryComType getGeometryCommandType() override;
     bool update() override;
     VirtualShape sourceCurve() const { return m_sourceCurve; }
     void setSourceCurve(const VirtualShape& curve) { m_sourceCurve = curve; }
@@ -476,7 +476,7 @@ class FCGEOMETRYINTERFACE_API FCGeoModelSurfaceIntersectionSurface : public FCGe
 public:
     FCGeoModelSurfaceIntersectionSurface() = default;
     ~FCGeoModelSurfaceIntersectionSurface() override = default;
-    FCGeoEnum::FITKGeometryComType getGeometryCommandType() override;
+    FCGeoEnum::FCGeometryComType getGeometryCommandType() override;
     bool update() override;
     VirtualShape sourceSurface1() const { return m_sourceSurface1; }
     void setSourceSurface1(const VirtualShape& surface) { m_sourceSurface1 = surface; }
@@ -496,7 +496,7 @@ class FCGEOMETRYINTERFACE_API FCGeoModelBridgeCurve : public FCGeoModelCurve
 public:
     FCGeoModelBridgeCurve() = default;
     ~FCGeoModelBridgeCurve() override = default;
-    FCGeoEnum::FITKGeometryComType getGeometryCommandType() override;
+    FCGeoEnum::FCGeometryComType getGeometryCommandType() override;
     bool update() override;
     VirtualShape sourceCurve1() const { return m_sourceCurve1; }
     void setSourceCurve1(const VirtualShape& curve) { m_sourceCurve1 = curve; }
@@ -522,7 +522,7 @@ class FCGEOMETRYINTERFACE_API FCGeoModelSurfaceEdge : public FCGeoModelCurve
 public:
     FCGeoModelSurfaceEdge() = default;
     ~FCGeoModelSurfaceEdge() override = default;
-    FCGeoEnum::FITKGeometryComType getGeometryCommandType() override;
+    FCGeoEnum::FCGeometryComType getGeometryCommandType() override;
     bool update() override;
     VirtualShape sourceSurface() const { return m_sourceSurface; }
     void setSourceSurface(const VirtualShape& surface) { m_sourceSurface = surface; }

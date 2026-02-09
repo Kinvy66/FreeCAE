@@ -11,7 +11,7 @@ FCGeoModelPoint::FCGeoModelPoint(double x, double y, double z)
 {
 }
 
-FCGeoEnum::FITKGeometryComType FCGeoModelPoint::getGeometryCommandType()
+FCGeoEnum::FCGeometryComType FCGeoModelPoint::getGeometryCommandType()
 {
     return FCGeoEnum::FGTPoint;
 }
@@ -28,53 +28,53 @@ void FCGeoModelPoint::setCoord(double x, double y, double z)
     m_z = z;
 }
 
-FCGeoEnum::FITKGeometryComType FCGeoModelCurveEnd::getGeometryCommandType()
+FCGeoEnum::FCGeometryComType FCGeoModelCurveEnd::getGeometryCommandType()
 {
     return FCGeoEnum::FGTCurveEnd;
 }
 
 bool FCGeoModelCurveEnd::update() { return true; }
 
-FCGeoEnum::FITKGeometryComType FCGeoModelCurveEndDistance::getGeometryCommandType()
+FCGeoEnum::FCGeometryComType FCGeoModelCurveEndDistance::getGeometryCommandType()
 {
     return FCGeoEnum::FGTCurveEndDistance;
 }
 
 bool FCGeoModelCurveEndDistance::update() { return true; }
 
-FCGeoEnum::FITKGeometryComType FCGeoModelCurveRadio::getGeometryCommandType()
+FCGeoEnum::FCGeometryComType FCGeoModelCurveRadio::getGeometryCommandType()
 {
     return FCGeoEnum::FGTCurveRadio;
 }
 
 bool FCGeoModelCurveRadio::update() { return true; }
 
-FCGeoEnum::FITKGeometryComType FCGeoModelInteractionPoint::getGeometryCommandType()
+FCGeoEnum::FCGeometryComType FCGeoModelInteractionPoint::getGeometryCommandType()
 {
     return FCGeoEnum::FGTInteractionPoint;
 }
 
 bool FCGeoModelInteractionPoint::update() { return true; }
 
-FCGeoEnum::FITKGeometryComType FCGeoModelPointProjectionOnCurve::getGeometryCommandType()
+FCGeoEnum::FCGeometryComType FCGeoModelPointProjectionOnCurve::getGeometryCommandType()
 {
     return FCGeoEnum::FGTPointProjectionOnCurve;
 }
 bool FCGeoModelPointProjectionOnCurve::update() { return true; }
 
-FCGeoEnum::FITKGeometryComType FCGeoModelTwoCurveIntersectPoint::getGeometryCommandType()
+FCGeoEnum::FCGeometryComType FCGeoModelTwoCurveIntersectPoint::getGeometryCommandType()
 {
     return FCGeoEnum::FGTTwoCurveIntersectPoint;
 }
 bool FCGeoModelTwoCurveIntersectPoint::update() { return true; }
 
-FCGeoEnum::FITKGeometryComType FCGeoModelPointProjectionOnSurface::getGeometryCommandType()
+FCGeoEnum::FCGeometryComType FCGeoModelPointProjectionOnSurface::getGeometryCommandType()
 {
     return FCGeoEnum::FGTPointProjectionOnSurface;
 }
 bool FCGeoModelPointProjectionOnSurface::update() { return true; }
 
-FCGeoEnum::FITKGeometryComType FCGeoModelCurveIntersectSurface::getGeometryCommandType()
+FCGeoEnum::FCGeometryComType FCGeoModelCurveIntersectSurface::getGeometryCommandType()
 {
     return FCGeoEnum::FGTCurveIntersectSurface;
 }

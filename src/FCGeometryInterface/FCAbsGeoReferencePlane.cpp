@@ -21,12 +21,12 @@ void FCGeoReferencePlane::setUp(double x, double y, double z)
     _up[0] = x; _up[1] = y; _up[2] = z;
 }
 
-FCGeoEnum::FITKDatumType FCGeoReferenceOffsetPlane::getDatumType()
+FCGeoEnum::FCDatumType FCGeoReferenceOffsetPlane::getDatumType()
 {
     return FCGeoEnum::FDTOffsetPlane;
 }
 
-FCGeoEnum::FITKDatumType FCGeoReferenceThreePointsPlane::getDatumType()
+FCGeoEnum::FCDatumType FCGeoReferenceThreePointsPlane::getDatumType()
 {
     return FCGeoEnum::FDTThreePointsPlane;
 }
@@ -50,17 +50,17 @@ void FCGeoReferenceThreePointsPlane::setPoint(int index, double x, double y, dou
         m_points[index] = { x, y, z };
 }
 
-FCGeoEnum::FITKDatumType FCGeoReferenceEquationPlane::getDatumType()
+FCGeoEnum::FCDatumType FCGeoReferenceEquationPlane::getDatumType()
 {
     return FCGeoEnum::FDTEquationPlane;
 }
 
-FCGeoEnum::FITKDatumType FCGeoReferencePointAndDirectionPlane::getDatumType()
+FCGeoEnum::FCDatumType FCGeoReferencePointAndDirectionPlane::getDatumType()
 {
     return FCGeoEnum::FDTPointAndDirectionPlane;
 }
 
-FCGeoEnum::FITKDatumType FCGeoReferenceRotateFromPlanePlane::getDatumType()
+FCGeoEnum::FCDatumType FCGeoReferenceRotateFromPlanePlane::getDatumType()
 {
     return FCGeoEnum::FDTRotateFromPlanePlane;
 }

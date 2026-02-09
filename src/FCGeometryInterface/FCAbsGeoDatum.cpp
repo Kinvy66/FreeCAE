@@ -28,7 +28,7 @@ void FCAbsGeoDatum::getPosition(double* pos)
     pos[0] = _pos[0]; pos[1] = _pos[1]; pos[2] = _pos[2];
 }
 
-FCGeoEnum::FITKGeometryComType FCAbsGeoDatum::getGeometryCommandType()
+FCGeoEnum::FCGeometryComType FCAbsGeoDatum::getGeometryCommandType()
 {
     return FCGeoEnum::FGTDatum;
 }
@@ -38,12 +38,12 @@ void FCAbsGeoDatum::printLog(QString msg, int type)
     FCAbsGeoCommand::printLog(msg, type);
 }
 
-FCGeoEnum::FITKDatumType FCAbsGeoDatumPoint::getDatumType()
+FCGeoEnum::FCDatumType FCAbsGeoDatumPoint::getDatumType()
 {
     return FCGeoEnum::FDTPoint;
 }
 
-FCGeoEnum::FITKDatumType FCAbsGeoDatumLine::getDatumType()
+FCGeoEnum::FCDatumType FCAbsGeoDatumLine::getDatumType()
 {
     return FCGeoEnum::FDTLine;
 }
@@ -60,7 +60,7 @@ void FCAbsGeoDatumLine::getPosition2(double* pos) const
     pos[0] = _pos2[0]; pos[1] = _pos2[1]; pos[2] = _pos2[2];
 }
 
-FCGeoEnum::FITKDatumType FCAbsGeoDatumPlane::getDatumType()
+FCGeoEnum::FCDatumType FCAbsGeoDatumPlane::getDatumType()
 {
     return FCGeoEnum::FDTPlane;
 }

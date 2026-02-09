@@ -7,7 +7,7 @@
 
 namespace FC {
 
-FCGeoEnum::FITKGeometryComType FCGeoModelSphere::getGeometryCommandType()
+FCGeoEnum::FCGeometryComType FCGeoModelSphere::getGeometryCommandType()
 {
     return FCGeoEnum::FGTSphere;
 }

@@ -20,7 +20,7 @@ FCOCCOperBool::FCOCCOperBool()
     _shapeAgent = _occShapeAgent;
 }
 
-FC::FCGeoEnum::FITKGeometryComType FCOCCOperBool::getGeometryCommandType()
+FC::FCGeoEnum::FCGeometryComType FCOCCOperBool::getGeometryCommandType()
 {
     return FC::FCGeoEnum::FGTBool;
 }

@@ -36,7 +36,7 @@ class FCGEOMETRYINTERFACE_API FCGeoReferenceOffsetPlane : public FCGeoReferenceP
 public:
     FCGeoReferenceOffsetPlane() = default;
     ~FCGeoReferenceOffsetPlane() override = default;
-    FCGeoEnum::FITKDatumType getDatumType() override;
+    FCGeoEnum::FCDatumType getDatumType() override;
 
     VirtualShape sourceSurface() const { return m_sourceSurface; }
     void setSourceSurface(const VirtualShape& s) { m_sourceSurface = s; }
@@ -72,7 +72,7 @@ class FCGEOMETRYINTERFACE_API FCGeoReferenceThreePointsPlane : public FCGeoRefer
 public:
     FCGeoReferenceThreePointsPlane() = default;
     ~FCGeoReferenceThreePointsPlane() override = default;
-    FCGeoEnum::FITKDatumType getDatumType() override;
+    FCGeoEnum::FCDatumType getDatumType() override;
 
     std::array<double, 3> point(int index) const;
     void setPoint(int index, std::array<double, 3> xyz);
@@ -90,7 +90,7 @@ class FCGEOMETRYINTERFACE_API FCGeoReferenceEquationPlane : public FCGeoReferenc
 public:
     FCGeoReferenceEquationPlane() = default;
     ~FCGeoReferenceEquationPlane() override = default;
-    FCGeoEnum::FITKDatumType getDatumType() override;
+    FCGeoEnum::FCDatumType getDatumType() override;
 
     double a() const { return m_a; }
     void setA(double val) { m_a = val; }
@@ -116,7 +116,7 @@ class FCGEOMETRYINTERFACE_API FCGeoReferencePointAndDirectionPlane : public FCGe
 public:
     FCGeoReferencePointAndDirectionPlane() = default;
     ~FCGeoReferencePointAndDirectionPlane() override = default;
-    FCGeoEnum::FITKDatumType getDatumType() override;
+    FCGeoEnum::FCDatumType getDatumType() override;
 
     std::array<double, 3> point() const { return m_point; }
     void setPoint(std::array<double, 3> xyz) { m_point = xyz; }
@@ -138,7 +138,7 @@ class FCGEOMETRYINTERFACE_API FCGeoReferenceRotateFromPlanePlane : public FCGeoR
 public:
     FCGeoReferenceRotateFromPlanePlane() = default;
     ~FCGeoReferenceRotateFromPlanePlane() override = default;
-    FCGeoEnum::FITKDatumType getDatumType() override;
+    FCGeoEnum::FCDatumType getDatumType() override;
 
     void setPlane(const QVector<double>& plane);
     std::array<double, 3> planePosition() const { return m_planePos; }

@@ -26,7 +26,7 @@ class FCGEOMETRYCMD_API FCOCCModelBox : public FC::FCGeoModelBox, public OCCShap
 public:
     explicit FCOCCModelBox();
     ~FCOCCModelBox() override = default;
-    FC::FCGeoEnum::FITKGeometryComType getGeometryCommandType() override;
+    FC::FCGeoEnum::FCGeometryComType getGeometryCommandType() override;
     bool update() override;
 };
 
@@ -35,7 +35,7 @@ class FCGEOMETRYCMD_API FCOCCModelCylinder : public FC::FCGeoModelCylinder, publ
 public:
     explicit FCOCCModelCylinder();
     ~FCOCCModelCylinder() override = default;
-    FC::FCGeoEnum::FITKGeometryComType getGeometryCommandType() override;
+    FC::FCGeoEnum::FCGeometryComType getGeometryCommandType() override;
     bool update() override;
 };
 
@@ -44,7 +44,7 @@ class FCGEOMETRYCMD_API FCOCCModelSphere : public FC::FCGeoModelSphere, public O
 public:
     explicit FCOCCModelSphere();
     ~FCOCCModelSphere() override = default;
-    FC::FCGeoEnum::FITKGeometryComType getGeometryCommandType() override;
+    FC::FCGeoEnum::FCGeometryComType getGeometryCommandType() override;
     bool update() override;
 };
 

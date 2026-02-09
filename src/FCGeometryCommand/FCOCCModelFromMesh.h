@@ -24,7 +24,7 @@ class FCGEOMETRYCMD_API FCOCCModelFromMesh : public FC::FCGeoModelFromMesh, publ
 public:
     FCOCCModelFromMesh() : OCCShapeAgent(this) { _shapeAgent = _occShapeAgent; }
     ~FCOCCModelFromMesh() override = default;
-    FC::FCGeoEnum::FITKGeometryComType getGeometryCommandType() override;
+    FC::FCGeoEnum::FCGeometryComType getGeometryCommandType() override;
     bool update() override;
 };
 

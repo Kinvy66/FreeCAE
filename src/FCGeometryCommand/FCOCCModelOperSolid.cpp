@@ -90,7 +90,7 @@ bool defeatureShape(int solidCmdId, const QList<FC::VirtualShape>& faceTopos, To
 } // namespace
 
 FCOCCModelChamferSolid::FCOCCModelChamferSolid() : OCCShapeAgent(this) { _shapeAgent = _occShapeAgent; }
-FC::FCGeoEnum::FITKGeometryComType FCOCCModelChamferSolid::getGeometryCommandType() { return FC::FCGeoEnum::FGTChamferSolid; }
+FC::FCGeoEnum::FCGeometryComType FCOCCModelChamferSolid::getGeometryCommandType() { return FC::FCGeoEnum::FGTChamferSolid; }
 bool FCOCCModelChamferSolid::update()
 {
     int solidCmdId = getInputCmdId();
@@ -122,7 +122,7 @@ bool FCOCCModelChamferSolid::update()
 }
 
 FCOCCModelFilletSolid::FCOCCModelFilletSolid() : OCCShapeAgent(this) { _shapeAgent = _occShapeAgent; }
-FC::FCGeoEnum::FITKGeometryComType FCOCCModelFilletSolid::getGeometryCommandType() { return FC::FCGeoEnum::FGTFilletSolid; }
+FC::FCGeoEnum::FCGeometryComType FCOCCModelFilletSolid::getGeometryCommandType() { return FC::FCGeoEnum::FGTFilletSolid; }
 bool FCOCCModelFilletSolid::update()
 {
     int solidCmdId = getInputCmdId();
@@ -154,7 +154,7 @@ bool FCOCCModelFilletSolid::update()
 }
 
 FCOCCModelDefeatureSolid::FCOCCModelDefeatureSolid() : OCCShapeAgent(this) { _shapeAgent = _occShapeAgent; }
-FC::FCGeoEnum::FITKGeometryComType FCOCCModelDefeatureSolid::getGeometryCommandType() { return FC::FCGeoEnum::FGTDefeature; }
+FC::FCGeoEnum::FCGeometryComType FCOCCModelDefeatureSolid::getGeometryCommandType() { return FC::FCGeoEnum::FGTDefeature; }
 bool FCOCCModelDefeatureSolid::update()
 {
     int solidCmdId = getInputCmdId();
@@ -166,7 +166,7 @@ bool FCOCCModelDefeatureSolid::update()
 }
 
 FCOCCModelRemoveChamferSolid::FCOCCModelRemoveChamferSolid() : OCCShapeAgent(this) { _shapeAgent = _occShapeAgent; }
-FC::FCGeoEnum::FITKGeometryComType FCOCCModelRemoveChamferSolid::getGeometryCommandType() { return FC::FCGeoEnum::FGTRemoveChamfer; }
+FC::FCGeoEnum::FCGeometryComType FCOCCModelRemoveChamferSolid::getGeometryCommandType() { return FC::FCGeoEnum::FGTRemoveChamfer; }
 bool FCOCCModelRemoveChamferSolid::update()
 {
     int solidCmdId = getInputCmdId();
@@ -178,7 +178,7 @@ bool FCOCCModelRemoveChamferSolid::update()
 }
 
 FCOCCModelRemoveFilletSolid::FCOCCModelRemoveFilletSolid() : OCCShapeAgent(this) { _shapeAgent = _occShapeAgent; }
-FC::FCGeoEnum::FITKGeometryComType FCOCCModelRemoveFilletSolid::getGeometryCommandType() { return FC::FCGeoEnum::FGTRemoveFillet; }
+FC::FCGeoEnum::FCGeometryComType FCOCCModelRemoveFilletSolid::getGeometryCommandType() { return FC::FCGeoEnum::FGTRemoveFillet; }
 bool FCOCCModelRemoveFilletSolid::update()
 {
     int solidCmdId = getInputCmdId();
@@ -190,7 +190,7 @@ bool FCOCCModelRemoveFilletSolid::update()
 }
 
 FCOCCModelFillHoleSolid::FCOCCModelFillHoleSolid() : OCCShapeAgent(this) { _shapeAgent = _occShapeAgent; }
-FC::FCGeoEnum::FITKGeometryComType FCOCCModelFillHoleSolid::getGeometryCommandType() { return FC::FCGeoEnum::FGTFillHole; }
+FC::FCGeoEnum::FCGeometryComType FCOCCModelFillHoleSolid::getGeometryCommandType() { return FC::FCGeoEnum::FGTFillHole; }
 bool FCOCCModelFillHoleSolid::update()
 {
     int solidCmdId = getInputCmdId();
@@ -202,7 +202,7 @@ bool FCOCCModelFillHoleSolid::update()
 }
 
 FCOCCModelCircularHole::FCOCCModelCircularHole() : OCCShapeAgent(this) { _shapeAgent = _occShapeAgent; }
-FC::FCGeoEnum::FITKGeometryComType FCOCCModelCircularHole::getGeometryCommandType() { return FC::FCGeoEnum::FGTCircularHole; }
+FC::FCGeoEnum::FCGeometryComType FCOCCModelCircularHole::getGeometryCommandType() { return FC::FCGeoEnum::FGTCircularHole; }
 bool FCOCCModelCircularHole::update()
 {
     int baseCmdId = getInputCmdId();

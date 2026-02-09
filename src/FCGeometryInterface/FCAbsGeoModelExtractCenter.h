@@ -25,7 +25,7 @@ public:
     explicit FCGeoModelExtractCenter() = default;
     ~FCGeoModelExtractCenter() override = default;
 
-    FCGeoEnum::FITKGeometryComType getGeometryCommandType() override;
+    FCGeoEnum::FCGeometryComType getGeometryCommandType() override;
     bool update() override;
 
     void setShape(const VirtualShape& shape) { m_shape = shape; }

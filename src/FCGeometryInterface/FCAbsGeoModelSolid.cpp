@@ -6,31 +6,31 @@
 
 namespace FC {
 
-FCGeoEnum::FITKGeometryComType FCAbsGeoModelClosedSurfaceSolid::getGeometryCommandType()
+FCGeoEnum::FCGeometryComType FCAbsGeoModelClosedSurfaceSolid::getGeometryCommandType()
 {
     return FCGeoEnum::FGTClosedSurfaceSolid;
 }
 bool FCAbsGeoModelClosedSurfaceSolid::update() { return true; }
 
-FCGeoEnum::FITKGeometryComType FCAbsGeoModelExtrudeSolid::getGeometryCommandType()
+FCGeoEnum::FCGeometryComType FCAbsGeoModelExtrudeSolid::getGeometryCommandType()
 {
     return FCGeoEnum::FGTExtrudeSolid;
 }
 bool FCAbsGeoModelExtrudeSolid::update() { return true; }
 
-FCGeoEnum::FITKGeometryComType FCAbsGeoModelRevolSolid::getGeometryCommandType()
+FCGeoEnum::FCGeometryComType FCAbsGeoModelRevolSolid::getGeometryCommandType()
 {
     return FCGeoEnum::FGTRevolSolid;
 }
 bool FCAbsGeoModelRevolSolid::update() { return true; }
 
-FCGeoEnum::FITKGeometryComType FCAbsGeoModelSweepSolid::getGeometryCommandType()
+FCGeoEnum::FCGeometryComType FCAbsGeoModelSweepSolid::getGeometryCommandType()
 {
     return FCGeoEnum::FGTSweepSolid;
 }
 bool FCAbsGeoModelSweepSolid::update() { return true; }
 
-FCGeoEnum::FITKGeometryComType FCAbsGeoModelMultiSectionSolid::getGeometryCommandType()
+FCGeoEnum::FCGeometryComType FCAbsGeoModelMultiSectionSolid::getGeometryCommandType()
 {
     return FCGeoEnum::FGTMultiSectionSolid;
 }

@@ -24,7 +24,7 @@ public:
     explicit FCAbsGeoShapeAgent(FCAbsGeoCommand* command);
     ~FCAbsGeoShapeAgent() override = 0;
 
-    virtual FCGeoEnum::FITKGeoEngine getGeoEngine() = 0;
+    virtual FCGeoEnum::FCGeoEngine getGeoEngine() = 0;
     FCAbsGeoCommand* getGeoCommand();
     template<class T> T* getTGeoCommand() { return dynamic_cast<T*>(_command); }
     virtual void buildVirtualTopo(bool keepTopos = false) = 0;

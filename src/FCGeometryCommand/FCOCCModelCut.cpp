@@ -67,7 +67,7 @@ TopoDS_Wire shapeToWire(const TopoDS_Shape& s)
 } // namespace
 
 FCOCCModelExtrudeCut::FCOCCModelExtrudeCut() : OCCShapeAgent(this) { _shapeAgent = _occShapeAgent; }
-FC::FCGeoEnum::FITKGeometryComType FCOCCModelExtrudeCut::getGeometryCommandType() { return FC::FCGeoEnum::FGTExtrudeCut; }
+FC::FCGeoEnum::FCGeometryComType FCOCCModelExtrudeCut::getGeometryCommandType() { return FC::FCGeoEnum::FGTExtrudeCut; }
 bool FCOCCModelExtrudeCut::update()
 {
     int baseCmdId = getInputCmdId();
@@ -102,7 +102,7 @@ bool FCOCCModelExtrudeCut::update()
 }
 
 FCOCCModelRevolCut::FCOCCModelRevolCut() : OCCShapeAgent(this) { _shapeAgent = _occShapeAgent; }
-FC::FCGeoEnum::FITKGeometryComType FCOCCModelRevolCut::getGeometryCommandType() { return FC::FCGeoEnum::FGTRevolCut; }
+FC::FCGeoEnum::FCGeometryComType FCOCCModelRevolCut::getGeometryCommandType() { return FC::FCGeoEnum::FGTRevolCut; }
 bool FCOCCModelRevolCut::update()
 {
     int baseCmdId = getInputCmdId();
@@ -139,7 +139,7 @@ bool FCOCCModelRevolCut::update()
 }
 
 FCOCCModelSweepCut::FCOCCModelSweepCut() : OCCShapeAgent(this) { _shapeAgent = _occShapeAgent; }
-FC::FCGeoEnum::FITKGeometryComType FCOCCModelSweepCut::getGeometryCommandType() { return FC::FCGeoEnum::FGTSweepCut; }
+FC::FCGeoEnum::FCGeometryComType FCOCCModelSweepCut::getGeometryCommandType() { return FC::FCGeoEnum::FGTSweepCut; }
 bool FCOCCModelSweepCut::update()
 {
     int baseCmdId = getInputCmdId();
@@ -194,7 +194,7 @@ bool FCOCCModelSweepCut::update()
 }
 
 FCOCCModelMultiSectionCut::FCOCCModelMultiSectionCut() : OCCShapeAgent(this) { _shapeAgent = _occShapeAgent; }
-FC::FCGeoEnum::FITKGeometryComType FCOCCModelMultiSectionCut::getGeometryCommandType() { return FC::FCGeoEnum::FGTMultiSectionCut; }
+FC::FCGeoEnum::FCGeometryComType FCOCCModelMultiSectionCut::getGeometryCommandType() { return FC::FCGeoEnum::FGTMultiSectionCut; }
 bool FCOCCModelMultiSectionCut::update()
 {
     int baseCmdId = getInputCmdId();

@@ -24,7 +24,7 @@ class FCGEOMETRYCMD_API FCOCCModelNearestPointLine : public FC::FCGeoModelNeares
 public:
     FCOCCModelNearestPointLine() : OCCShapeAgent(this) { _shapeAgent = _occShapeAgent; }
     ~FCOCCModelNearestPointLine() override = default;
-    FC::FCGeoEnum::FITKGeometryComType getGeometryCommandType() override;
+    FC::FCGeoEnum::FCGeometryComType getGeometryCommandType() override;
     bool update() override;
 };
 

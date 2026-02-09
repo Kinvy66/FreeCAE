@@ -8,7 +8,7 @@
 
 namespace FC {
 
-FCGeoEnum::FITKGeometryComType FCAbsGeoInstance::getGeometryCommandType()
+FCGeoEnum::FCGeometryComType FCAbsGeoInstance::getGeometryCommandType()
 {
     return FCGeoEnum::FGTInstance;
 }

@@ -68,7 +68,7 @@ TopoDS_Wire shapeToWire(const TopoDS_Shape& s)
 } // namespace
 
 FCOCCModelClosedSurfaceSolid::FCOCCModelClosedSurfaceSolid() : OCCShapeAgent(this) { _shapeAgent = _occShapeAgent; }
-FC::FCGeoEnum::FITKGeometryComType FCOCCModelClosedSurfaceSolid::getGeometryCommandType() { return FC::FCGeoEnum::FGTClosedSurfaceSolid; }
+FC::FCGeoEnum::FCGeometryComType FCOCCModelClosedSurfaceSolid::getGeometryCommandType() { return FC::FCGeoEnum::FGTClosedSurfaceSolid; }
 bool FCOCCModelClosedSurfaceSolid::update()
 {
     QList<FC::VirtualShape> faceList = faces();
@@ -100,7 +100,7 @@ bool FCOCCModelClosedSurfaceSolid::update()
 }
 
 FCOCCModelExtrudeSolid::FCOCCModelExtrudeSolid() : OCCShapeAgent(this) { _shapeAgent = _occShapeAgent; }
-FC::FCGeoEnum::FITKGeometryComType FCOCCModelExtrudeSolid::getGeometryCommandType() { return FC::FCGeoEnum::FGTExtrudeSolid; }
+FC::FCGeoEnum::FCGeometryComType FCOCCModelExtrudeSolid::getGeometryCommandType() { return FC::FCGeoEnum::FGTExtrudeSolid; }
 bool FCOCCModelExtrudeSolid::update()
 {
     FC::VirtualShape src = sourceSurface();
@@ -128,7 +128,7 @@ bool FCOCCModelExtrudeSolid::update()
 }
 
 FCOCCModelRevolSolid::FCOCCModelRevolSolid() : OCCShapeAgent(this) { _shapeAgent = _occShapeAgent; }
-FC::FCGeoEnum::FITKGeometryComType FCOCCModelRevolSolid::getGeometryCommandType() { return FC::FCGeoEnum::FGTRevolSolid; }
+FC::FCGeoEnum::FCGeometryComType FCOCCModelRevolSolid::getGeometryCommandType() { return FC::FCGeoEnum::FGTRevolSolid; }
 bool FCOCCModelRevolSolid::update()
 {
     FC::VirtualShape src = sourceSurface();
@@ -158,7 +158,7 @@ bool FCOCCModelRevolSolid::update()
 }
 
 FCOCCModelSweepSolid::FCOCCModelSweepSolid() : OCCShapeAgent(this) { _shapeAgent = _occShapeAgent; }
-FC::FCGeoEnum::FITKGeometryComType FCOCCModelSweepSolid::getGeometryCommandType() { return FC::FCGeoEnum::FGTSweepSolid; }
+FC::FCGeoEnum::FCGeometryComType FCOCCModelSweepSolid::getGeometryCommandType() { return FC::FCGeoEnum::FGTSweepSolid; }
 bool FCOCCModelSweepSolid::update()
 {
     QList<FC::VirtualShape> pathCurves = curves();
@@ -205,7 +205,7 @@ bool FCOCCModelSweepSolid::update()
 }
 
 FCOCCModelMultiSectionSolid::FCOCCModelMultiSectionSolid() : OCCShapeAgent(this) { _shapeAgent = _occShapeAgent; }
-FC::FCGeoEnum::FITKGeometryComType FCOCCModelMultiSectionSolid::getGeometryCommandType() { return FC::FCGeoEnum::FGTMultiSectionSolid; }
+FC::FCGeoEnum::FCGeometryComType FCOCCModelMultiSectionSolid::getGeometryCommandType() { return FC::FCGeoEnum::FGTMultiSectionSolid; }
 bool FCOCCModelMultiSectionSolid::update()
 {
     QList<FC::VirtualShape> secList = sections();

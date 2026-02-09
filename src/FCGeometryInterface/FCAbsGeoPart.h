@@ -19,7 +19,7 @@ public:
     FCAbsGeoPart() = default;
     ~FCAbsGeoPart() override = default;
 
-    FCGeoEnum::FITKGeometryComType getGeometryCommandType() override;
+    FCGeoEnum::FCGeometryComType getGeometryCommandType() override;
     virtual bool backtrackingShape();
     void setAutoMergeSolid(bool flag);
     bool getAutoMergeSolid();

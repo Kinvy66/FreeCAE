@@ -20,7 +20,7 @@ public:
     FCGeoStiffener() = default;
     ~FCGeoStiffener() override = default;
 
-    FCGeoEnum::FITKGeometryComType getGeometryCommandType() override;
+    FCGeoEnum::FCGeometryComType getGeometryCommandType() override;
     bool update() override;
 
     VirtualShape sourceShape() const { return m_sourceShape; }

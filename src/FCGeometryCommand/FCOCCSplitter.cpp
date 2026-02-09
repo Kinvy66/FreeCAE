@@ -52,7 +52,7 @@ TopoDS_Shape getSubShapeFromVirtualShape(const FC::VirtualShape& vs, FC::FCModel
 } // namespace
 
 FCOCCCurveSplitter::FCOCCCurveSplitter() : OCCShapeAgent(this) { _shapeAgent = _occShapeAgent; }
-FC::FCGeoEnum::FITKGeometryComType FCOCCCurveSplitter::getGeometryCommandType() { return FC::FCGeoEnum::FGTCurveSplitter; }
+FC::FCGeoEnum::FCGeometryComType FCOCCCurveSplitter::getGeometryCommandType() { return FC::FCGeoEnum::FGTCurveSplitter; }
 bool FCOCCCurveSplitter::update()
 {
     if (sourceShape().isNull()) return false;
@@ -89,7 +89,7 @@ bool FCOCCCurveSplitter::update()
 }
 
 FCOCCSurfaceSplitter::FCOCCSurfaceSplitter() : OCCShapeAgent(this) { _shapeAgent = _occShapeAgent; }
-FC::FCGeoEnum::FITKGeometryComType FCOCCSurfaceSplitter::getGeometryCommandType() { return FC::FCGeoEnum::FGTSurfaceSplitter; }
+FC::FCGeoEnum::FCGeometryComType FCOCCSurfaceSplitter::getGeometryCommandType() { return FC::FCGeoEnum::FGTSurfaceSplitter; }
 bool FCOCCSurfaceSplitter::update()
 {
     if (sourceShape().isNull() || toolShape().isNull()) return false;
@@ -119,7 +119,7 @@ bool FCOCCSurfaceSplitter::update()
 }
 
 FCOCCSolidSplitter::FCOCCSolidSplitter() : OCCShapeAgent(this) { _shapeAgent = _occShapeAgent; }
-FC::FCGeoEnum::FITKGeometryComType FCOCCSolidSplitter::getGeometryCommandType() { return FC::FCGeoEnum::FGTSolidSplitter; }
+FC::FCGeoEnum::FCGeometryComType FCOCCSolidSplitter::getGeometryCommandType() { return FC::FCGeoEnum::FGTSolidSplitter; }
 bool FCOCCSolidSplitter::update()
 {
     if (sourceShape().isNull() || toolShape().isNull()) return false;

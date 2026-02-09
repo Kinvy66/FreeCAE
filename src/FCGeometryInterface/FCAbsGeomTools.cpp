@@ -76,7 +76,7 @@ FCAbstractGeomFeatureTool* FCAbstractGeomFeatureTool::createTool()
 {
     return new FCAbstractGeomFeatureTool;
 }
-bool FCAbstractGeomFeatureTool::getFeatures(int, FCGeoEnum::FITKFeatureType, QList<QList<FCAbsVirtualTopo*>>&) { return false; }
+bool FCAbstractGeomFeatureTool::getFeatures(int, FCGeoEnum::FCFeatureType, QList<QList<FCAbsVirtualTopo*>>&) { return false; }
 
 FCAbstractGeomPointTool* FCAbstractGeomToolsCreator::createPointTool() { return FCAbstractGeomPointTool::createTool(); }
 FCAbstractGeomEdgeTool* FCAbstractGeomToolsCreator::createEdgeTool() { return FCAbstractGeomEdgeTool::createTool(); }

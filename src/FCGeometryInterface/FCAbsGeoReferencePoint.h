@@ -20,7 +20,7 @@ class FCGEOMETRYINTERFACE_API FCGeoReferencePoint : public FCAbsGeoDatumPoint
 public:
     FCGeoReferencePoint() = default;
     ~FCGeoReferencePoint() override = default;
-    FCGeoEnum::FITKDatumType getDatumType() override;
+    FCGeoEnum::FCDatumType getDatumType() override;
 
     double x() const { return _pos[0]; }
     void setX(double x) { _pos[0] = x; }
@@ -40,7 +40,7 @@ class FCGEOMETRYINTERFACE_API FCGeoReferenceCurveRadio : public FCGeoReferencePo
 public:
     FCGeoReferenceCurveRadio() = default;
     ~FCGeoReferenceCurveRadio() override = default;
-    FCGeoEnum::FITKDatumType getDatumType() override;
+    FCGeoEnum::FCDatumType getDatumType() override;
 
     VirtualShape sourceCurve() const { return m_sourceCurve; }
     void setSourceCurve(const VirtualShape& curve) { m_sourceCurve = curve; }

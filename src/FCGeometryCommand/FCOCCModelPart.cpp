@@ -18,7 +18,7 @@ FCOCCModelPart::FCOCCModelPart()
     _shapeAgent = _occShapeAgent;
 }
 
-FC::FCGeoEnum::FITKGeometryComType FCOCCModelPart::getGeometryCommandType()
+FC::FCGeoEnum::FCGeometryComType FCOCCModelPart::getGeometryCommandType()
 {
     return FC::FCGeoEnum::FGTPart;
 }

@@ -7,7 +7,7 @@
 
 namespace FC {
 
-FCGeoEnum::FITKGeometryComType FCGeoModelNearestPointLine::getGeometryCommandType()
+FCGeoEnum::FCGeometryComType FCGeoModelNearestPointLine::getGeometryCommandType()
 {
     return FCGeoEnum::FGTNearestPointLine;
 }

@@ -24,7 +24,7 @@
 
 namespace OCC {
 
-FC::FCGeoEnum::FITKGeometryComType FCOCCModelImportFlattenAssembly::getGeometryCommandType()
+FC::FCGeoEnum::FCGeometryComType FCOCCModelImportFlattenAssembly::getGeometryCommandType()
 {
     return FC::FCGeoEnum::FGTImportFlattenAssembly;
 }

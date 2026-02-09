@@ -6,43 +6,43 @@
 
 namespace FC {
 
-FCGeoEnum::FITKGeometryComType FCAbsGeoModelChamferSolid::getGeometryCommandType()
+FCGeoEnum::FCGeometryComType FCAbsGeoModelChamferSolid::getGeometryCommandType()
 {
     return FCGeoEnum::FGTChamferSolid;
 }
 bool FCAbsGeoModelChamferSolid::update() { return true; }
 
-FCGeoEnum::FITKGeometryComType FCAbsGeoModelFilletSolid::getGeometryCommandType()
+FCGeoEnum::FCGeometryComType FCAbsGeoModelFilletSolid::getGeometryCommandType()
 {
     return FCGeoEnum::FGTFilletSolid;
 }
 bool FCAbsGeoModelFilletSolid::update() { return true; }
 
-FCGeoEnum::FITKGeometryComType FCAbsGeoModelDefeatureSolid::getGeometryCommandType()
+FCGeoEnum::FCGeometryComType FCAbsGeoModelDefeatureSolid::getGeometryCommandType()
 {
     return FCGeoEnum::FGTDefeature;
 }
 bool FCAbsGeoModelDefeatureSolid::update() { return true; }
 
-FCGeoEnum::FITKGeometryComType FCAbsGeoModelRemoveChamferSolid::getGeometryCommandType()
+FCGeoEnum::FCGeometryComType FCAbsGeoModelRemoveChamferSolid::getGeometryCommandType()
 {
     return FCGeoEnum::FGTRemoveChamfer;
 }
 bool FCAbsGeoModelRemoveChamferSolid::update() { return true; }
 
-FCGeoEnum::FITKGeometryComType FCAbsGeoModelRemoveFilletSolid::getGeometryCommandType()
+FCGeoEnum::FCGeometryComType FCAbsGeoModelRemoveFilletSolid::getGeometryCommandType()
 {
     return FCGeoEnum::FGTRemoveFillet;
 }
 bool FCAbsGeoModelRemoveFilletSolid::update() { return true; }
 
-FCGeoEnum::FITKGeometryComType FCAbsGeoModelFillHoleSolid::getGeometryCommandType()
+FCGeoEnum::FCGeometryComType FCAbsGeoModelFillHoleSolid::getGeometryCommandType()
 {
     return FCGeoEnum::FGTFillHole;
 }
 bool FCAbsGeoModelFillHoleSolid::update() { return true; }
 
-FCGeoEnum::FITKGeometryComType FCAbsGeoModelCircularHoleSolid::getGeometryCommandType()
+FCGeoEnum::FCGeometryComType FCAbsGeoModelCircularHoleSolid::getGeometryCommandType()
 {
     return FCGeoEnum::FGTCircularHole;
 }

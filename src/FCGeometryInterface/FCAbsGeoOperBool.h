@@ -32,7 +32,7 @@ public:
     explicit FCGeoOperBool() = default;
     ~FCGeoOperBool() override = default;
 
-    FCGeoEnum::FITKGeometryComType getGeometryCommandType() override;
+    FCGeoEnum::FCGeometryComType getGeometryCommandType() override;
     bool update() override;
 
     void setBoolOperType(GeoBoolOperType t);

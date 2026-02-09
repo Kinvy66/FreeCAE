@@ -108,7 +108,7 @@ public:
     explicit FCAbstractGeomFeatureTool() : FCAbstractDataObject(-1) {}
     virtual ~FCAbstractGeomFeatureTool() = default;
     static FCAbstractGeomFeatureTool* createTool();
-    virtual bool getFeatures(int comId, FCGeoEnum::FITKFeatureType featureType, QList<QList<FCAbsVirtualTopo*>>& oFeatures);
+    virtual bool getFeatures(int comId, FCGeoEnum::FCFeatureType featureType, QList<QList<FCAbsVirtualTopo*>>& oFeatures);
 };
 
 /** 几何工具创建器 */

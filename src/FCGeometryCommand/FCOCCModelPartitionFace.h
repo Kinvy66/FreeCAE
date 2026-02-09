@@ -24,7 +24,7 @@ class FCGEOMETRYCMD_API FCOCCModelPartitionFaceWithSketch : public FC::FCGeoMode
 public:
     FCOCCModelPartitionFaceWithSketch();
     ~FCOCCModelPartitionFaceWithSketch() override = default;
-    FC::FCGeoEnum::FITKGeometryComType getGeometryCommandType() override;
+    FC::FCGeoEnum::FCGeometryComType getGeometryCommandType() override;
     bool update() override;
 };
 
@@ -33,7 +33,7 @@ class FCGEOMETRYCMD_API FCOCCModelPartitionFaceWithTwoPoints : public FC::FCGeoM
 public:
     FCOCCModelPartitionFaceWithTwoPoints();
     ~FCOCCModelPartitionFaceWithTwoPoints() override = default;
-    FC::FCGeoEnum::FITKGeometryComType getGeometryCommandType() override;
+    FC::FCGeoEnum::FCGeometryComType getGeometryCommandType() override;
     bool update() override;
 };
 
@@ -42,7 +42,7 @@ class FCGEOMETRYCMD_API FCOCCModelPartitionFaceWithDatumPlane : public FC::FCGeo
 public:
     FCOCCModelPartitionFaceWithDatumPlane();
     ~FCOCCModelPartitionFaceWithDatumPlane() override = default;
-    FC::FCGeoEnum::FITKGeometryComType getGeometryCommandType() override;
+    FC::FCGeoEnum::FCGeometryComType getGeometryCommandType() override;
     bool update() override;
 };
 
@@ -51,7 +51,7 @@ class FCGEOMETRYCMD_API FCOCCModelPartitionFaceWithCurvedPath : public FC::FCGeo
 public:
     FCOCCModelPartitionFaceWithCurvedPath();
     ~FCOCCModelPartitionFaceWithCurvedPath() override = default;
-    FC::FCGeoEnum::FITKGeometryComType getGeometryCommandType() override;
+    FC::FCGeoEnum::FCGeometryComType getGeometryCommandType() override;
     bool update() override;
 };
 
@@ -60,7 +60,7 @@ class FCGEOMETRYCMD_API FCOCCModelPartitionFaceWithExtendFace : public FC::FCGeo
 public:
     FCOCCModelPartitionFaceWithExtendFace();
     ~FCOCCModelPartitionFaceWithExtendFace() override = default;
-    FC::FCGeoEnum::FITKGeometryComType getGeometryCommandType() override;
+    FC::FCGeoEnum::FCGeometryComType getGeometryCommandType() override;
     bool update() override;
 };
 
@@ -69,7 +69,7 @@ class FCGEOMETRYCMD_API FCOCCModelPartitionFaceWithIntersectFace : public FC::FC
 public:
     FCOCCModelPartitionFaceWithIntersectFace();
     ~FCOCCModelPartitionFaceWithIntersectFace() override = default;
-    FC::FCGeoEnum::FITKGeometryComType getGeometryCommandType() override;
+    FC::FCGeoEnum::FCGeometryComType getGeometryCommandType() override;
     bool update() override;
 };
 
@@ -78,7 +78,7 @@ class FCGEOMETRYCMD_API FCOCCModelPartitionFaceWithProjectEdges : public FC::FCG
 public:
     FCOCCModelPartitionFaceWithProjectEdges();
     ~FCOCCModelPartitionFaceWithProjectEdges() override = default;
-    FC::FCGeoEnum::FITKGeometryComType getGeometryCommandType() override;
+    FC::FCGeoEnum::FCGeometryComType getGeometryCommandType() override;
     bool update() override;
 };
 

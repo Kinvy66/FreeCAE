@@ -5,31 +5,31 @@
 
 namespace FC {
 
-FCGeoEnum::FITKGeometryComType FCGeoModelPartitionSolidWithPlane::getGeometryCommandType()
+FCGeoEnum::FCGeometryComType FCGeoModelPartitionSolidWithPlane::getGeometryCommandType()
 {
     return FCGeoEnum::FGTPartitionSolidWithPlane;
 }
 bool FCGeoModelPartitionSolidWithPlane::update() { return true; }
 
-FCGeoEnum::FITKGeometryComType FCGeoModelPartitionSolidWithExtendFace::getGeometryCommandType()
+FCGeoEnum::FCGeometryComType FCGeoModelPartitionSolidWithExtendFace::getGeometryCommandType()
 {
     return FCGeoEnum::FGTPartitionSolidWithExtendFace;
 }
 bool FCGeoModelPartitionSolidWithExtendFace::update() { return true; }
 
-FCGeoEnum::FITKGeometryComType FCGeoModelPartitionSolidWithSketchPlanar::getGeometryCommandType()
+FCGeoEnum::FCGeometryComType FCGeoModelPartitionSolidWithSketchPlanar::getGeometryCommandType()
 {
     return FCGeoEnum::FGTPartitionSolidWithSketchPlanar;
 }
 bool FCGeoModelPartitionSolidWithSketchPlanar::update() { return true; }
 
-FCGeoEnum::FITKGeometryComType FCGeoModelPartitionSolidWithSweepEdge::getGeometryCommandType()
+FCGeoEnum::FCGeometryComType FCGeoModelPartitionSolidWithSweepEdge::getGeometryCommandType()
 {
     return FCGeoEnum::FGTPartitionSolidWithSweepEdge;
 }
 bool FCGeoModelPartitionSolidWithSweepEdge::update() { return true; }
 
-FCGeoEnum::FITKGeometryComType FCGeoModelPartitionSolidWithNSidedPatch::getGeometryCommandType()
+FCGeoEnum::FCGeometryComType FCGeoModelPartitionSolidWithNSidedPatch::getGeometryCommandType()
 {
     return FCGeoEnum::FGTPartitionSolidWithNSidedPatch;
 }

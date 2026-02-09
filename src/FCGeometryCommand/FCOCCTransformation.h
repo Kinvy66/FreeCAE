@@ -24,7 +24,7 @@ class FCGEOMETRYCMD_API FCOCCModelTransform : public FC::FCGeoModelTransform, pu
 public:
     FCOCCModelTransform();
     ~FCOCCModelTransform() override = default;
-    FC::FCGeoEnum::FITKGeometryComType getGeometryCommandType() override;
+    FC::FCGeoEnum::FCGeometryComType getGeometryCommandType() override;
     bool update() override;
 };
 
@@ -33,7 +33,7 @@ class FCGEOMETRYCMD_API FCOCCModelTransformByTwoPoints : public FC::FCGeoModelTr
 public:
     FCOCCModelTransformByTwoPoints();
     ~FCOCCModelTransformByTwoPoints() override = default;
-    FC::FCGeoEnum::FITKGeometryComType getGeometryCommandType() override;
+    FC::FCGeoEnum::FCGeometryComType getGeometryCommandType() override;
     bool update() override;
 };
 
@@ -42,7 +42,7 @@ class FCGEOMETRYCMD_API FCOCCModelTransformByDirAndDis : public FC::FCGeoModelTr
 public:
     FCOCCModelTransformByDirAndDis();
     ~FCOCCModelTransformByDirAndDis() override = default;
-    FC::FCGeoEnum::FITKGeometryComType getGeometryCommandType() override;
+    FC::FCGeoEnum::FCGeometryComType getGeometryCommandType() override;
     bool update() override;
 };
 
@@ -51,7 +51,7 @@ class FCGEOMETRYCMD_API FCOCCModelRotate : public FC::FCGeoModelRotate, public O
 public:
     FCOCCModelRotate();
     ~FCOCCModelRotate() override = default;
-    FC::FCGeoEnum::FITKGeometryComType getGeometryCommandType() override;
+    FC::FCGeoEnum::FCGeometryComType getGeometryCommandType() override;
     bool update() override;
 };
 
@@ -60,7 +60,7 @@ class FCGEOMETRYCMD_API FCOCCModelScale : public FC::FCGeoModelScale, public OCC
 public:
     FCOCCModelScale();
     ~FCOCCModelScale() override = default;
-    FC::FCGeoEnum::FITKGeometryComType getGeometryCommandType() override;
+    FC::FCGeoEnum::FCGeometryComType getGeometryCommandType() override;
     bool update() override;
 };
 
@@ -69,7 +69,7 @@ class FCGEOMETRYCMD_API FCOCCModelMirror : public FC::FCGeoModelMirror, public O
 public:
     FCOCCModelMirror();
     ~FCOCCModelMirror() override = default;
-    FC::FCGeoEnum::FITKGeometryComType getGeometryCommandType() override;
+    FC::FCGeoEnum::FCGeometryComType getGeometryCommandType() override;
     bool update() override;
 };
 
@@ -79,7 +79,7 @@ class FCGEOMETRYCMD_API FCOCCModelRectangularPattern : public FC::FCGeoModelRect
 public:
     FCOCCModelRectangularPattern();
     ~FCOCCModelRectangularPattern() override = default;
-    FC::FCGeoEnum::FITKGeometryComType getGeometryCommandType() override;
+    FC::FCGeoEnum::FCGeometryComType getGeometryCommandType() override;
     bool update() override;
 };
 
@@ -89,7 +89,7 @@ class FCGEOMETRYCMD_API FCOCCModelCircularPattern : public FC::FCGeoModelCircula
 public:
     FCOCCModelCircularPattern();
     ~FCOCCModelCircularPattern() override = default;
-    FC::FCGeoEnum::FITKGeometryComType getGeometryCommandType() override;
+    FC::FCGeoEnum::FCGeometryComType getGeometryCommandType() override;
     bool update() override;
 };
 

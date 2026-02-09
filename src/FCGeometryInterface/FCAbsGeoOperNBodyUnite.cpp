@@ -6,7 +6,7 @@
 
 namespace FC {
 
-FCGeoEnum::FITKGeometryComType FCGeoOperNBodyUnite::getGeometryCommandType()
+FCGeoEnum::FCGeometryComType FCGeoOperNBodyUnite::getGeometryCommandType()
 {
     return FCGeoEnum::FGTNBodyUnite;
 }

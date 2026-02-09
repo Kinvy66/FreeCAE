@@ -37,7 +37,7 @@ static TopoDS_Shape getEdgeShape(const FC::VirtualShape& vs)
     return occ->getShape(FC::FCModelEnum::FMSEdge, vs.VirtualTopoId);
 }
 
-FC::FCGeoEnum::FITKGeometryComType FCOCCModelOperLine::getGeometryCommandType()
+FC::FCGeoEnum::FCGeometryComType FCOCCModelOperLine::getGeometryCommandType()
 {
     return FC::FCGeoEnum::FGTMergeLine;
 }
@@ -64,7 +64,7 @@ bool FCOCCModelOperLine::update()
     return false;
 }
 
-FC::FCGeoEnum::FITKGeometryComType FCOCCModelMiddleOperLine::getGeometryCommandType()
+FC::FCGeoEnum::FCGeometryComType FCOCCModelMiddleOperLine::getGeometryCommandType()
 {
     return FC::FCGeoEnum::FGTSplitByMiddlePositionLine;
 }

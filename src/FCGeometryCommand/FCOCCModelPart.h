@@ -24,7 +24,7 @@ class FCGEOMETRYCMD_API FCOCCModelPart : public FC::FCAbsGeoPart, public OCCShap
 public:
     explicit FCOCCModelPart();
     ~FCOCCModelPart() override = default;
-    FC::FCGeoEnum::FITKGeometryComType getGeometryCommandType() override;
+    FC::FCGeoEnum::FCGeometryComType getGeometryCommandType() override;
     bool update() override;
 };
 

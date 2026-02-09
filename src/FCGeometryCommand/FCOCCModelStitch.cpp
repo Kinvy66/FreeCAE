@@ -49,7 +49,7 @@ static TopoDS_Shape getEdgeShape(const FC::VirtualShape& vs)
     return occ->getShape(FC::FCModelEnum::FMSEdge, vs.VirtualTopoId);
 }
 
-FC::FCGeoEnum::FITKGeometryComType FCOCCModelStitch::getGeometryCommandType()
+FC::FCGeoEnum::FCGeometryComType FCOCCModelStitch::getGeometryCommandType()
 {
     return FC::FCGeoEnum::FGTStitch;
 }

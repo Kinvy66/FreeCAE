@@ -24,7 +24,7 @@ class FCGEOMETRYCMD_API FCOCCModelExtrudeCut : public FC::FCAbsGeoModelExtrudeCu
 public:
     FCOCCModelExtrudeCut();
     ~FCOCCModelExtrudeCut() override = default;
-    FC::FCGeoEnum::FITKGeometryComType getGeometryCommandType() override;
+    FC::FCGeoEnum::FCGeometryComType getGeometryCommandType() override;
     bool update() override;
 };
 
@@ -33,7 +33,7 @@ class FCGEOMETRYCMD_API FCOCCModelRevolCut : public FC::FCAbsGeoModelRevolCut, p
 public:
     FCOCCModelRevolCut();
     ~FCOCCModelRevolCut() override = default;
-    FC::FCGeoEnum::FITKGeometryComType getGeometryCommandType() override;
+    FC::FCGeoEnum::FCGeometryComType getGeometryCommandType() override;
     bool update() override;
 };
 
@@ -42,7 +42,7 @@ class FCGEOMETRYCMD_API FCOCCModelSweepCut : public FC::FCAbsGeoModelSweepCut, p
 public:
     FCOCCModelSweepCut();
     ~FCOCCModelSweepCut() override = default;
-    FC::FCGeoEnum::FITKGeometryComType getGeometryCommandType() override;
+    FC::FCGeoEnum::FCGeometryComType getGeometryCommandType() override;
     bool update() override;
 };
 
@@ -51,7 +51,7 @@ class FCGEOMETRYCMD_API FCOCCModelMultiSectionCut : public FC::FCAbsGeoModelMult
 public:
     FCOCCModelMultiSectionCut();
     ~FCOCCModelMultiSectionCut() override = default;
-    FC::FCGeoEnum::FITKGeometryComType getGeometryCommandType() override;
+    FC::FCGeoEnum::FCGeometryComType getGeometryCommandType() override;
     bool update() override;
 };
 

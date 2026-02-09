@@ -49,7 +49,7 @@ static bool projectOnSurface(const gp_Pnt& point, const TopoDS_Face& face, gp_Pn
     return true;
 }
 
-FC::FCGeoEnum::FITKGeometryComType FCOCCModelNearestPointLine::getGeometryCommandType()
+FC::FCGeoEnum::FCGeometryComType FCOCCModelNearestPointLine::getGeometryCommandType()
 {
     return FC::FCGeoEnum::FGTNearestPointLine;
 }

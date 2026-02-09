@@ -24,7 +24,7 @@ class FCGEOMETRYCMD_API FCOCCModelPartitionEdgeWithParameter : public FC::FCGeoM
 public:
     FCOCCModelPartitionEdgeWithParameter();
     ~FCOCCModelPartitionEdgeWithParameter() override = default;
-    FC::FCGeoEnum::FITKGeometryComType getGeometryCommandType() override;
+    FC::FCGeoEnum::FCGeometryComType getGeometryCommandType() override;
     bool update() override;
 };
 
@@ -33,7 +33,7 @@ class FCGEOMETRYCMD_API FCOCCModelPartitionEdgeWithPoint : public FC::FCGeoModel
 public:
     FCOCCModelPartitionEdgeWithPoint();
     ~FCOCCModelPartitionEdgeWithPoint() override = default;
-    FC::FCGeoEnum::FITKGeometryComType getGeometryCommandType() override;
+    FC::FCGeoEnum::FCGeometryComType getGeometryCommandType() override;
     bool update() override;
 };
 
@@ -42,7 +42,7 @@ class FCGEOMETRYCMD_API FCOCCModelPartitionEdgeWithDatumPlane : public FC::FCGeo
 public:
     FCOCCModelPartitionEdgeWithDatumPlane();
     ~FCOCCModelPartitionEdgeWithDatumPlane() override = default;
-    FC::FCGeoEnum::FITKGeometryComType getGeometryCommandType() override;
+    FC::FCGeoEnum::FCGeometryComType getGeometryCommandType() override;
     bool update() override;
 };
 

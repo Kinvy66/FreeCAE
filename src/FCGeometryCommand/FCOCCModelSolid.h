@@ -24,7 +24,7 @@ class FCGEOMETRYCMD_API FCOCCModelClosedSurfaceSolid : public FC::FCAbsGeoModelC
 public:
     FCOCCModelClosedSurfaceSolid();
     ~FCOCCModelClosedSurfaceSolid() override = default;
-    FC::FCGeoEnum::FITKGeometryComType getGeometryCommandType() override;
+    FC::FCGeoEnum::FCGeometryComType getGeometryCommandType() override;
     bool update() override;
 };
 
@@ -33,7 +33,7 @@ class FCGEOMETRYCMD_API FCOCCModelExtrudeSolid : public FC::FCAbsGeoModelExtrude
 public:
     FCOCCModelExtrudeSolid();
     ~FCOCCModelExtrudeSolid() override = default;
-    FC::FCGeoEnum::FITKGeometryComType getGeometryCommandType() override;
+    FC::FCGeoEnum::FCGeometryComType getGeometryCommandType() override;
     bool update() override;
 };
 
@@ -42,7 +42,7 @@ class FCGEOMETRYCMD_API FCOCCModelRevolSolid : public FC::FCAbsGeoModelRevolSoli
 public:
     FCOCCModelRevolSolid();
     ~FCOCCModelRevolSolid() override = default;
-    FC::FCGeoEnum::FITKGeometryComType getGeometryCommandType() override;
+    FC::FCGeoEnum::FCGeometryComType getGeometryCommandType() override;
     bool update() override;
 };
 
@@ -51,7 +51,7 @@ class FCGEOMETRYCMD_API FCOCCModelSweepSolid : public FC::FCAbsGeoModelSweepSoli
 public:
     FCOCCModelSweepSolid();
     ~FCOCCModelSweepSolid() override = default;
-    FC::FCGeoEnum::FITKGeometryComType getGeometryCommandType() override;
+    FC::FCGeoEnum::FCGeometryComType getGeometryCommandType() override;
     bool update() override;
 };
 
@@ -60,7 +60,7 @@ class FCGEOMETRYCMD_API FCOCCModelMultiSectionSolid : public FC::FCAbsGeoModelMu
 public:
     FCOCCModelMultiSectionSolid();
     ~FCOCCModelMultiSectionSolid() override = default;
-    FC::FCGeoEnum::FITKGeometryComType getGeometryCommandType() override;
+    FC::FCGeoEnum::FCGeometryComType getGeometryCommandType() override;
     bool update() override;
 };
 

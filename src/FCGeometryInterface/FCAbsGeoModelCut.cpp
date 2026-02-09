@@ -6,25 +6,25 @@
 
 namespace FC {
 
-FCGeoEnum::FITKGeometryComType FCAbsGeoModelExtrudeCut::getGeometryCommandType()
+FCGeoEnum::FCGeometryComType FCAbsGeoModelExtrudeCut::getGeometryCommandType()
 {
     return FCGeoEnum::FGTExtrudeCut;
 }
 bool FCAbsGeoModelExtrudeCut::update() { return true; }
 
-FCGeoEnum::FITKGeometryComType FCAbsGeoModelRevolCut::getGeometryCommandType()
+FCGeoEnum::FCGeometryComType FCAbsGeoModelRevolCut::getGeometryCommandType()
 {
     return FCGeoEnum::FGTRevolCut;
 }
 bool FCAbsGeoModelRevolCut::update() { return true; }
 
-FCGeoEnum::FITKGeometryComType FCAbsGeoModelSweepCut::getGeometryCommandType()
+FCGeoEnum::FCGeometryComType FCAbsGeoModelSweepCut::getGeometryCommandType()
 {
     return FCGeoEnum::FGTSweepCut;
 }
 bool FCAbsGeoModelSweepCut::update() { return true; }
 
-FCGeoEnum::FITKGeometryComType FCAbsGeoModelMultiSectionCut::getGeometryCommandType()
+FCGeoEnum::FCGeometryComType FCAbsGeoModelMultiSectionCut::getGeometryCommandType()
 {
     return FCGeoEnum::FGTMultiSectionCut;
 }

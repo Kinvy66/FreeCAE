@@ -42,7 +42,7 @@ TopoDS_Shape getSubShapeFromVirtualShape(const FC::VirtualShape& vs, FC::FCModel
 } // namespace
 
 FCOCCModelPartitionEdgeWithParameter::FCOCCModelPartitionEdgeWithParameter() : OCCShapeAgent(this) { _shapeAgent = _occShapeAgent; }
-FC::FCGeoEnum::FITKGeometryComType FCOCCModelPartitionEdgeWithParameter::getGeometryCommandType() { return FC::FCGeoEnum::FGTPartitionEdgeWithParameter; }
+FC::FCGeoEnum::FCGeometryComType FCOCCModelPartitionEdgeWithParameter::getGeometryCommandType() { return FC::FCGeoEnum::FGTPartitionEdgeWithParameter; }
 bool FCOCCModelPartitionEdgeWithParameter::update()
 {
     const QList<FC::VirtualShape>& edgeList = edges();
@@ -80,11 +80,11 @@ bool FCOCCModelPartitionEdgeWithParameter::update()
 }
 
 FCOCCModelPartitionEdgeWithPoint::FCOCCModelPartitionEdgeWithPoint() : OCCShapeAgent(this) { _shapeAgent = _occShapeAgent; }
-FC::FCGeoEnum::FITKGeometryComType FCOCCModelPartitionEdgeWithPoint::getGeometryCommandType() { return FC::FCGeoEnum::FGTPartitionEdgeWithPoint; }
+FC::FCGeoEnum::FCGeometryComType FCOCCModelPartitionEdgeWithPoint::getGeometryCommandType() { return FC::FCGeoEnum::FGTPartitionEdgeWithPoint; }
 bool FCOCCModelPartitionEdgeWithPoint::update() { return false; }
 
 FCOCCModelPartitionEdgeWithDatumPlane::FCOCCModelPartitionEdgeWithDatumPlane() : OCCShapeAgent(this) { _shapeAgent = _occShapeAgent; }
-FC::FCGeoEnum::FITKGeometryComType FCOCCModelPartitionEdgeWithDatumPlane::getGeometryCommandType() { return FC::FCGeoEnum::FGTPartitionEdgeWithDatumPlane; }
+FC::FCGeoEnum::FCGeometryComType FCOCCModelPartitionEdgeWithDatumPlane::getGeometryCommandType() { return FC::FCGeoEnum::FGTPartitionEdgeWithDatumPlane; }
 bool FCOCCModelPartitionEdgeWithDatumPlane::update() { return false; }
 
 } // namespace OCC

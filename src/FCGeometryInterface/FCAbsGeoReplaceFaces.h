@@ -21,7 +21,7 @@ public:
     FCGeoReplaceFaces() = default;
     ~FCGeoReplaceFaces() override = default;
 
-    FCGeoEnum::FITKGeometryComType getGeometryCommandType() override;
+    FCGeoEnum::FCGeometryComType getGeometryCommandType() override;
     bool update() override;
 
     QList<VirtualShape> faces() const { return m_faces; }

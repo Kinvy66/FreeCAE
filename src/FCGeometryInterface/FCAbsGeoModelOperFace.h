@@ -33,7 +33,7 @@ public:
     FCGeoModelOperFace() = default;
     ~FCGeoModelOperFace() override = default;
 
-    FCGeoEnum::FITKGeometryComType getGeometryCommandType() override;
+    FCGeoEnum::FCGeometryComType getGeometryCommandType() override;
     bool update() override;
 
     void add(const VirtualShape& shape);
@@ -56,7 +56,7 @@ class FCGEOMETRYINTERFACE_API FCGeoModelOperFaceRemoveFace : public FCGeoModelOp
 public:
     FCGeoModelOperFaceRemoveFace() = default;
     ~FCGeoModelOperFaceRemoveFace() override = default;
-    FCGeoEnum::FITKGeometryComType getGeometryCommandType() override;
+    FCGeoEnum::FCGeometryComType getGeometryCommandType() override;
     bool update() override;
 };
 
@@ -67,7 +67,7 @@ class FCGEOMETRYINTERFACE_API FCGeoModelOperFaceExtendFace : public FCGeoModelOp
 public:
     FCGeoModelOperFaceExtendFace() = default;
     ~FCGeoModelOperFaceExtendFace() override = default;
-    FCGeoEnum::FITKGeometryComType getGeometryCommandType() override;
+    FCGeoEnum::FCGeometryComType getGeometryCommandType() override;
     bool update() override;
 };
 

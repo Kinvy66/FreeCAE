@@ -29,7 +29,7 @@ void FCExportFileThread::setFilePath(QString filePath)
     m_filePath = filePath;
 }
 
-void FCExportFileThread::setExportedMethod(FCGeoEnum::FITKGeometryComType type)
+void FCExportFileThread::setExportedMethod(FCGeoEnum::FCGeometryComType type)
 {
     m_ioType = type;
 }

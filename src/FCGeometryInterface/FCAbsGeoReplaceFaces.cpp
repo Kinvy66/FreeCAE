@@ -6,7 +6,7 @@
 
 namespace FC {
 
-FCGeoEnum::FITKGeometryComType FCGeoReplaceFaces::getGeometryCommandType()
+FCGeoEnum::FCGeometryComType FCGeoReplaceFaces::getGeometryCommandType()
 {
     return FCGeoEnum::FGTReplaceFaces;
 }

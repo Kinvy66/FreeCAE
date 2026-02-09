@@ -20,7 +20,7 @@ public:
     explicit FCGeoModelSphere() = default;
     ~FCGeoModelSphere() override = default;
 
-    FCGeoEnum::FITKGeometryComType getGeometryCommandType() override;
+    FCGeoEnum::FCGeometryComType getGeometryCommandType() override;
     bool update() override;
 
     void setLocation(const double* p1);

@@ -21,7 +21,7 @@ public:
     FCAbsGeoInstance() = default;
     ~FCAbsGeoInstance() override = default;
 
-    FCGeoEnum::FITKGeometryComType getGeometryCommandType() override;
+    FCGeoEnum::FCGeometryComType getGeometryCommandType() override;
     bool update() override;
 
     void setPartCommandID(int id);

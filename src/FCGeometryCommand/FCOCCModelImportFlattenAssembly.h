@@ -24,7 +24,7 @@ class FCGEOMETRYCMD_API FCOCCModelImportFlattenAssembly : public FC::FCGeoModelI
 public:
     FCOCCModelImportFlattenAssembly() : OCCShapeAgent(this) { _shapeAgent = _occShapeAgent; }
     ~FCOCCModelImportFlattenAssembly() override = default;
-    FC::FCGeoEnum::FITKGeometryComType getGeometryCommandType() override;
+    FC::FCGeoEnum::FCGeometryComType getGeometryCommandType() override;
     bool update() override;
 };
 

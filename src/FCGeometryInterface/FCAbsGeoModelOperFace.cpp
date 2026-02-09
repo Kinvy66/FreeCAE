@@ -6,7 +6,7 @@
 
 namespace FC {
 
-FCGeoEnum::FITKGeometryComType FCGeoModelOperFace::getGeometryCommandType()
+FCGeoEnum::FCGeometryComType FCGeoModelOperFace::getGeometryCommandType()
 {
     switch (m_operType) {
     case GBTFillHoles: return FCGeoEnum::FGTFillHolesFace;
@@ -49,13 +49,13 @@ void FCGeoModelOperFace::clear()
     m_shapes.clear();
 }
 
-FCGeoEnum::FITKGeometryComType FCGeoModelOperFaceRemoveFace::getGeometryCommandType()
+FCGeoEnum::FCGeometryComType FCGeoModelOperFaceRemoveFace::getGeometryCommandType()
 {
     return FCGeoEnum::FGTRemoveFace;
 }
 bool FCGeoModelOperFaceRemoveFace::update() { return true; }
 
-FCGeoEnum::FITKGeometryComType FCGeoModelOperFaceExtendFace::getGeometryCommandType()
+FCGeoEnum::FCGeometryComType FCGeoModelOperFaceExtendFace::getGeometryCommandType()
 {
     return FCGeoEnum::FGTExtendFace;
 }

@@ -24,7 +24,7 @@ class FCGEOMETRYCMD_API FCOCCOperBool : public FC::FCGeoOperBool, public OCCShap
 public:
     explicit FCOCCOperBool();
     ~FCOCCOperBool() override = default;
-    FC::FCGeoEnum::FITKGeometryComType getGeometryCommandType() override;
+    FC::FCGeoEnum::FCGeometryComType getGeometryCommandType() override;
     bool update() override;
 };
 

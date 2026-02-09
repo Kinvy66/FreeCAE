@@ -23,7 +23,7 @@ public:
     explicit FCGeoModelPoint(double x, double y, double z);
     ~FCGeoModelPoint() override = default;
 
-    FCGeoEnum::FITKGeometryComType getGeometryCommandType() override;
+    FCGeoEnum::FCGeometryComType getGeometryCommandType() override;
     bool update() override;
 
     double x() const { return m_x; }
@@ -50,7 +50,7 @@ public:
     FCGeoModelCurveEnd() = default;
     ~FCGeoModelCurveEnd() override = default;
 
-    FCGeoEnum::FITKGeometryComType getGeometryCommandType() override;
+    FCGeoEnum::FCGeometryComType getGeometryCommandType() override;
     bool update() override;
 
     VirtualShape sourceCurve() const { return m_sourceCurve; }
@@ -72,7 +72,7 @@ public:
     FCGeoModelCurveEndDistance() = default;
     ~FCGeoModelCurveEndDistance() override = default;
 
-    FCGeoEnum::FITKGeometryComType getGeometryCommandType() override;
+    FCGeoEnum::FCGeometryComType getGeometryCommandType() override;
     bool update() override;
 
     VirtualShape sourceCurve() const { return m_sourceCurve; }
@@ -97,7 +97,7 @@ public:
     FCGeoModelCurveRadio() = default;
     ~FCGeoModelCurveRadio() override = default;
 
-    FCGeoEnum::FITKGeometryComType getGeometryCommandType() override;
+    FCGeoEnum::FCGeometryComType getGeometryCommandType() override;
     bool update() override;
 
     VirtualShape sourceCurve() const { return m_sourceCurve; }
@@ -119,7 +119,7 @@ public:
     FCGeoModelInteractionPoint() = default;
     ~FCGeoModelInteractionPoint() override = default;
 
-    FCGeoEnum::FITKGeometryComType getGeometryCommandType() override;
+    FCGeoEnum::FCGeometryComType getGeometryCommandType() override;
     bool update() override;
 
     VirtualShape source() const { return m_source; }
@@ -140,7 +140,7 @@ class FCGEOMETRYINTERFACE_API FCGeoModelPointProjectionOnCurve : public FCGeoMod
 public:
     FCGeoModelPointProjectionOnCurve() = default;
     ~FCGeoModelPointProjectionOnCurve() override = default;
-    FCGeoEnum::FITKGeometryComType getGeometryCommandType() override;
+    FCGeoEnum::FCGeometryComType getGeometryCommandType() override;
     bool update() override;
     VirtualShape sourcePoint() const { return m_sourcePoint; }
     void setSourcePoint(const VirtualShape& s) { m_sourcePoint = s; }
@@ -163,7 +163,7 @@ class FCGEOMETRYINTERFACE_API FCGeoModelTwoCurveIntersectPoint : public FCGeoMod
 public:
     FCGeoModelTwoCurveIntersectPoint() = default;
     ~FCGeoModelTwoCurveIntersectPoint() override = default;
-    FCGeoEnum::FITKGeometryComType getGeometryCommandType() override;
+    FCGeoEnum::FCGeometryComType getGeometryCommandType() override;
     bool update() override;
     VirtualShape sourceCurve1() const { return m_sourceCurve1; }
     VirtualShape sourceCurve2() const { return m_sourceCurve2; }
@@ -188,7 +188,7 @@ class FCGEOMETRYINTERFACE_API FCGeoModelPointProjectionOnSurface : public FCGeoM
 public:
     FCGeoModelPointProjectionOnSurface() = default;
     ~FCGeoModelPointProjectionOnSurface() override = default;
-    FCGeoEnum::FITKGeometryComType getGeometryCommandType() override;
+    FCGeoEnum::FCGeometryComType getGeometryCommandType() override;
     bool update() override;
     VirtualShape sourcePoint() const { return m_sourcePoint; }
     void setSourcePoint(const VirtualShape& s) { m_sourcePoint = s; }
@@ -211,7 +211,7 @@ class FCGEOMETRYINTERFACE_API FCGeoModelCurveIntersectSurface : public FCGeoMode
 public:
     FCGeoModelCurveIntersectSurface() = default;
     ~FCGeoModelCurveIntersectSurface() override = default;
-    FCGeoEnum::FITKGeometryComType getGeometryCommandType() override;
+    FCGeoEnum::FCGeometryComType getGeometryCommandType() override;
     bool update() override;
     VirtualShape sourceCurve() const { return m_sourceCurve; }
     void setSourceCurve(const VirtualShape& s) { m_sourceCurve = s; }

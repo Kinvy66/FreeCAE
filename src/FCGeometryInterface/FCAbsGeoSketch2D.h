@@ -24,7 +24,7 @@ public:
     FCGeoSketch2D();
     ~FCGeoSketch2D() override;
 
-    FCGeoEnum::FITKGeometryComType getGeometryCommandType() override;
+    FCGeoEnum::FCGeometryComType getGeometryCommandType() override;
     bool update() override;
 
     void setPlane(const double* pos, const double* normal, const double* up);

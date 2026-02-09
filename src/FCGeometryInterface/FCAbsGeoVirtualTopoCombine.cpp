@@ -11,7 +11,7 @@ void FCGeoVirtualTopoCombine::removeFromPart(FCAbsGeoCommand* part)
     Q_UNUSED(part);
 }
 
-FCGeoEnum::FITKGeometryComType FCGeoVirtualTopoCombineFaces::getGeometryCommandType()
+FCGeoEnum::FCGeometryComType FCGeoVirtualTopoCombineFaces::getGeometryCommandType()
 {
     return FCGeoEnum::FGTVirtualTopoCombineFaces;
 }
@@ -21,7 +21,7 @@ bool FCGeoVirtualTopoCombineFaces::update()
     return true;
 }
 
-FCGeoEnum::FITKGeometryComType FCGeoVirtualTopoCombineEdges::getGeometryCommandType()
+FCGeoEnum::FCGeometryComType FCGeoVirtualTopoCombineEdges::getGeometryCommandType()
 {
     return FCGeoEnum::FGTVirtualTopoCombineEdges;
 }

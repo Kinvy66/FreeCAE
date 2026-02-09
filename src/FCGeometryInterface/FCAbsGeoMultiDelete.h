@@ -21,7 +21,7 @@ public:
     FCGeoMultiDelete() = default;
     ~FCGeoMultiDelete() override = default;
 
-    FCGeoEnum::FITKGeometryComType getGeometryCommandType() override;
+    FCGeoEnum::FCGeometryComType getGeometryCommandType() override;
     bool update() override;
     bool undo() override;
     bool redo() override;

@@ -48,7 +48,7 @@ static void collectEdges(const FC::VirtualShape& vs, QList<TopoDS_Edge>& out)
             out.append(TopoDS::Edge(exp.Current()));
 }
 
-FC::FCGeoEnum::FITKGeometryComType FCOCCModelCoverEdges::getGeometryCommandType()
+FC::FCGeoEnum::FCGeometryComType FCOCCModelCoverEdges::getGeometryCommandType()
 {
     return FC::FCGeoEnum::FGTCoverEdges;
 }

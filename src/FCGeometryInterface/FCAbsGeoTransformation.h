@@ -40,7 +40,7 @@ class FCGEOMETRYINTERFACE_API FCGeoModelTransform : public FCGeoTransformation
 public:
     FCGeoModelTransform() = default;
     ~FCGeoModelTransform() override = default;
-    FCGeoEnum::FITKGeometryComType getGeometryCommandType() override;
+    FCGeoEnum::FCGeometryComType getGeometryCommandType() override;
     bool update() override;
 
     std::array<double, 3> vector() const { return m_vector; }
@@ -59,7 +59,7 @@ class FCGEOMETRYINTERFACE_API FCGeoModelTransformByTwoPoints : public FCGeoModel
 public:
     FCGeoModelTransformByTwoPoints() = default;
     ~FCGeoModelTransformByTwoPoints() override = default;
-    FCGeoEnum::FITKGeometryComType getGeometryCommandType() override;
+    FCGeoEnum::FCGeometryComType getGeometryCommandType() override;
     bool update() override;
 
     std::array<double, 3> startPoint() const { return m_startPoint; }
@@ -82,7 +82,7 @@ class FCGEOMETRYINTERFACE_API FCGeoModelTransformByDirAndDis : public FCGeoModel
 public:
     FCGeoModelTransformByDirAndDis() = default;
     ~FCGeoModelTransformByDirAndDis() override = default;
-    FCGeoEnum::FITKGeometryComType getGeometryCommandType() override;
+    FCGeoEnum::FCGeometryComType getGeometryCommandType() override;
     bool update() override;
 
     std::array<double, 3> direction() const { return m_direction; }
@@ -104,7 +104,7 @@ class FCGEOMETRYINTERFACE_API FCGeoModelRotate : public FCGeoTransformation
 public:
     FCGeoModelRotate() = default;
     ~FCGeoModelRotate() override = default;
-    FCGeoEnum::FITKGeometryComType getGeometryCommandType() override;
+    FCGeoEnum::FCGeometryComType getGeometryCommandType() override;
     bool update() override;
 
     std::array<double, 3> axisStartPoint() const { return m_axisStartPoint; }
@@ -132,7 +132,7 @@ class FCGEOMETRYINTERFACE_API FCGeoModelScale : public FCGeoTransformation
 public:
     FCGeoModelScale() = default;
     ~FCGeoModelScale() override = default;
-    FCGeoEnum::FITKGeometryComType getGeometryCommandType() override;
+    FCGeoEnum::FCGeometryComType getGeometryCommandType() override;
     bool update() override;
 
     std::array<double, 3> factors() const { return m_factors; }
@@ -155,7 +155,7 @@ class FCGEOMETRYINTERFACE_API FCGeoModelMirror : public FCGeoTransformation
 public:
     FCGeoModelMirror() = default;
     ~FCGeoModelMirror() override = default;
-    FCGeoEnum::FITKGeometryComType getGeometryCommandType() override;
+    FCGeoEnum::FCGeometryComType getGeometryCommandType() override;
     bool update() override;
 
     VirtualShape reference() const { return m_reference; }
@@ -174,7 +174,7 @@ class FCGEOMETRYINTERFACE_API FCGeoModelPattern : public FCGeoTransformation
 public:
     FCGeoModelPattern() = default;
     ~FCGeoModelPattern() override = default;
-    FCGeoEnum::FITKGeometryComType getGeometryCommandType() override;
+    FCGeoEnum::FCGeometryComType getGeometryCommandType() override;
     bool update() override;
 
     enum Definition {
@@ -202,7 +202,7 @@ class FCGEOMETRYINTERFACE_API FCGeoModelRectangularPattern : public FCGeoModelPa
 public:
     FCGeoModelRectangularPattern() = default;
     ~FCGeoModelRectangularPattern() override = default;
-    FCGeoEnum::FITKGeometryComType getGeometryCommandType() override;
+    FCGeoEnum::FCGeometryComType getGeometryCommandType() override;
     bool update() override;
 
     std::array<double, 3> firstDirection() const { return m_firstDirection; }
@@ -244,7 +244,7 @@ class FCGEOMETRYINTERFACE_API FCGeoModelCircularPattern : public FCGeoModelPatte
 public:
     FCGeoModelCircularPattern() = default;
     ~FCGeoModelCircularPattern() override = default;
-    FCGeoEnum::FITKGeometryComType getGeometryCommandType() override;
+    FCGeoEnum::FCGeometryComType getGeometryCommandType() override;
     bool update() override;
 
     VirtualShape axis() const { return m_axisShape; }

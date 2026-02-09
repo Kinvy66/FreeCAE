@@ -6,7 +6,7 @@
 
 namespace FC {
 
-FCGeoEnum::FITKGeometryComType FCGeoStiffener::getGeometryCommandType()
+FCGeoEnum::FCGeometryComType FCGeoStiffener::getGeometryCommandType()
 {
     return FCGeoEnum::FGTStiffener;
 }

@@ -29,7 +29,7 @@
 
 namespace OCC {
 
-FC::FCGeoEnum::FITKGeometryComType FCOCCModelExtractCenter::getGeometryCommandType()
+FC::FCGeoEnum::FCGeometryComType FCOCCModelExtractCenter::getGeometryCommandType()
 {
     return FC::FCGeoEnum::FGTExtractCenter;
 }

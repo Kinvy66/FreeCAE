@@ -54,13 +54,13 @@ public:
     explicit FCAbsGeoCommand();
     ~FCAbsGeoCommand() override = 0;
 
-    virtual FCGeoEnum::FITKGeometryComType getGeometryCommandType() = 0;
+    virtual FCGeoEnum::FCGeometryComType getGeometryCommandType() = 0;
     FCGeoCommandProp* getCommandProp() { return _prop; }
     virtual bool update() = 0;
     virtual bool undo();
     virtual bool redo();
-    void setCommandStatus(FCGeoEnum::FITKGeoStatus status);
-    FCGeoEnum::FITKGeoStatus getCommandStatus();
+    void setCommandStatus(FCGeoEnum::FCGeoStatus status);
+    FCGeoEnum::FCGeoStatus getCommandStatus();
     FCAbsGeoShapeAgent* getShapeAgent();
     template<class T> T* getTShapeAgent() { return dynamic_cast<T*>(_shapeAgent); }
     FCVirtualTopoManager* getVirtualTopoManager();
@@ -79,7 +79,7 @@ public:
 
 protected:
     FCAbsGeoShapeAgent* _shapeAgent{};
-    FCGeoEnum::FITKGeoStatus _status{ FCGeoEnum::FGSNormal };
+    FCGeoEnum::FCGeoStatus _status{ FCGeoEnum::FGSNormal };
     FCGeoCommandProp* _prop{};
 };
 

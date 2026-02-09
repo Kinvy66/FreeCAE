@@ -22,7 +22,7 @@ FCOCCNBodyUnite::FCOCCNBodyUnite()
     _shapeAgent = _occShapeAgent;
 }
 
-FC::FCGeoEnum::FITKGeometryComType FCOCCNBodyUnite::getGeometryCommandType()
+FC::FCGeoEnum::FCGeometryComType FCOCCNBodyUnite::getGeometryCommandType()
 {
     return FC::FCGeoEnum::FGTNBodyUnite;
 }

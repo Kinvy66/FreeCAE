@@ -24,7 +24,7 @@ class FCGEOMETRYCMD_API FCOCCNBodyUnite : public FC::FCGeoOperNBodyUnite, public
 public:
     explicit FCOCCNBodyUnite();
     ~FCOCCNBodyUnite() override = default;
-    FC::FCGeoEnum::FITKGeometryComType getGeometryCommandType() override;
+    FC::FCGeoEnum::FCGeometryComType getGeometryCommandType() override;
     bool update() override;
 };
 

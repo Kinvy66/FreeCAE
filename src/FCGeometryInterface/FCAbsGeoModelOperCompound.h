@@ -21,7 +21,7 @@ public:
     FCGeoModelOperCompound() = default;
     ~FCGeoModelOperCompound() override = default;
 
-    FCGeoEnum::FITKGeometryComType getGeometryCommandType() override;
+    FCGeoEnum::FCGeometryComType getGeometryCommandType() override;
     bool update() override;
 
     void setInputCmdId(const VirtualShape& cmdId) { m_solidCmdId = cmdId; }

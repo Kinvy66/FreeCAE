@@ -6,21 +6,21 @@
 
 namespace FC {
 
-FCGeoEnum::FITKGeometryComType FCGeoCurveSplitter::getGeometryCommandType()
+FCGeoEnum::FCGeometryComType FCGeoCurveSplitter::getGeometryCommandType()
 {
     return FCGeoEnum::FGTCurveSplitter;
 }
 
 bool FCGeoCurveSplitter::update() { return true; }
 
-FCGeoEnum::FITKGeometryComType FCGeoSurfaceSplitter::getGeometryCommandType()
+FCGeoEnum::FCGeometryComType FCGeoSurfaceSplitter::getGeometryCommandType()
 {
     return FCGeoEnum::FGTSurfaceSplitter;
 }
 
 bool FCGeoSurfaceSplitter::update() { return true; }
 
-FCGeoEnum::FITKGeometryComType FCGeoSolidSplitter::getGeometryCommandType()
+FCGeoEnum::FCGeometryComType FCGeoSolidSplitter::getGeometryCommandType()
 {
     return FCGeoEnum::FGTSolidSplitter;
 }

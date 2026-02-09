@@ -24,7 +24,7 @@ public:
 
     void run() override;
     void setFilePath(QString filePath);
-    void setExportedMethod(FCGeoEnum::FITKGeometryComType type);
+    void setExportedMethod(FCGeoEnum::FCGeometryComType type);
     void addExportCmdId(int cmdId);
     bool isRunning() const { return m_isRunning; }
 
@@ -33,7 +33,7 @@ signals:
 
 protected:
     QString m_filePath;
-    FCGeoEnum::FITKGeometryComType m_ioType{ FCGeoEnum::FGTExport };
+    FCGeoEnum::FCGeometryComType m_ioType{ FCGeoEnum::FGTExport };
     QList<int> m_cmdIds;
     bool m_isRunning{ false };
 };

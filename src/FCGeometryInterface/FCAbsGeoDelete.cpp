@@ -6,7 +6,7 @@
 
 namespace FC {
 
-FCGeoEnum::FITKGeometryComType FCGeoDelete::getGeometryCommandType()
+FCGeoEnum::FCGeometryComType FCGeoDelete::getGeometryCommandType()
 {
     return FCGeoEnum::FGTDelete;
 }

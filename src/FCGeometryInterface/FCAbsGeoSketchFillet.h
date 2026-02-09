@@ -20,7 +20,7 @@ public:
     FCGeoSketchFillet() = default;
     ~FCGeoSketchFillet() override = default;
 
-    FCGeoEnum::FITKGeometryComType getGeometryCommandType() override;
+    FCGeoEnum::FCGeometryComType getGeometryCommandType() override;
     bool update() override;
 
     VirtualShape firstEdge() const { return m_firstEdge; }

@@ -22,7 +22,7 @@ public:
     explicit FCGeoOperNBodyUnite() = default;
     ~FCGeoOperNBodyUnite() override = default;
 
-    FCGeoEnum::FITKGeometryComType getGeometryCommandType() override;
+    FCGeoEnum::FCGeometryComType getGeometryCommandType() override;
     bool update() override;
 
     void addShape(const VirtualShape& shape);

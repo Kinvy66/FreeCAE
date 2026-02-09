@@ -21,7 +21,7 @@ public:
     FCGeoSketchDeleter() = default;
     ~FCGeoSketchDeleter() override = default;
 
-    FCGeoEnum::FITKGeometryComType getGeometryCommandType() override;
+    FCGeoEnum::FCGeometryComType getGeometryCommandType() override;
     bool update() override;
 
     QList<VirtualShape> toBeRemovedEntities() const { return m_toBeRemovedEntities; }

@@ -108,7 +108,7 @@ const TopoDS_Shape FCAbstractOCCModel::getShape(FC::FCModelEnum::FITKModelSetTyp
     return map.FindKey(id);
 }
 
-FC::FCGeoEnum::FITKGeoEngine FCAbstractOCCModel::getGeoEngine()
+FC::FCGeoEnum::FCGeoEngine FCAbstractOCCModel::getGeoEngine()
 {
     return FC::FCGeoEnum::FGEOCC;
 }

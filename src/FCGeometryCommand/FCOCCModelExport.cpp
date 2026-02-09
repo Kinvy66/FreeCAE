@@ -18,7 +18,7 @@
 
 namespace OCC {
 
-FC::FCGeoEnum::FITKGeometryComType FCOCCModelExport::getGeometryCommandType()
+FC::FCGeoEnum::FCGeometryComType FCOCCModelExport::getGeometryCommandType()
 {
     return FC::FCGeoEnum::FGTExport;
 }

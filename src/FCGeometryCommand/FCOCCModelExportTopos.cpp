@@ -61,7 +61,7 @@ static bool writeExportFile(const QString& fileName, const TopoDS_Shape& shape)
     return false;
 }
 
-FC::FCGeoEnum::FITKGeometryComType FCOCCModelExportTopos::getGeometryCommandType()
+FC::FCGeoEnum::FCGeometryComType FCOCCModelExportTopos::getGeometryCommandType()
 {
     return FC::FCGeoEnum::FGTExportTopos;
 }

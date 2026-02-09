@@ -24,7 +24,7 @@ class FCGEOMETRYCMD_API FCOCCModelChamferSolid : public FC::FCAbsGeoModelChamfer
 public:
     FCOCCModelChamferSolid();
     ~FCOCCModelChamferSolid() override = default;
-    FC::FCGeoEnum::FITKGeometryComType getGeometryCommandType() override;
+    FC::FCGeoEnum::FCGeometryComType getGeometryCommandType() override;
     bool update() override;
 };
 
@@ -33,7 +33,7 @@ class FCGEOMETRYCMD_API FCOCCModelFilletSolid : public FC::FCAbsGeoModelFilletSo
 public:
     FCOCCModelFilletSolid();
     ~FCOCCModelFilletSolid() override = default;
-    FC::FCGeoEnum::FITKGeometryComType getGeometryCommandType() override;
+    FC::FCGeoEnum::FCGeometryComType getGeometryCommandType() override;
     bool update() override;
 };
 
@@ -42,7 +42,7 @@ class FCGEOMETRYCMD_API FCOCCModelDefeatureSolid : public FC::FCAbsGeoModelDefea
 public:
     FCOCCModelDefeatureSolid();
     ~FCOCCModelDefeatureSolid() override = default;
-    FC::FCGeoEnum::FITKGeometryComType getGeometryCommandType() override;
+    FC::FCGeoEnum::FCGeometryComType getGeometryCommandType() override;
     bool update() override;
 };
 
@@ -51,7 +51,7 @@ class FCGEOMETRYCMD_API FCOCCModelRemoveChamferSolid : public FC::FCAbsGeoModelR
 public:
     FCOCCModelRemoveChamferSolid();
     ~FCOCCModelRemoveChamferSolid() override = default;
-    FC::FCGeoEnum::FITKGeometryComType getGeometryCommandType() override;
+    FC::FCGeoEnum::FCGeometryComType getGeometryCommandType() override;
     bool update() override;
 };
 
@@ -60,7 +60,7 @@ class FCGEOMETRYCMD_API FCOCCModelRemoveFilletSolid : public FC::FCAbsGeoModelRe
 public:
     FCOCCModelRemoveFilletSolid();
     ~FCOCCModelRemoveFilletSolid() override = default;
-    FC::FCGeoEnum::FITKGeometryComType getGeometryCommandType() override;
+    FC::FCGeoEnum::FCGeometryComType getGeometryCommandType() override;
     bool update() override;
 };
 
@@ -69,7 +69,7 @@ class FCGEOMETRYCMD_API FCOCCModelFillHoleSolid : public FC::FCAbsGeoModelFillHo
 public:
     FCOCCModelFillHoleSolid();
     ~FCOCCModelFillHoleSolid() override = default;
-    FC::FCGeoEnum::FITKGeometryComType getGeometryCommandType() override;
+    FC::FCGeoEnum::FCGeometryComType getGeometryCommandType() override;
     bool update() override;
 };
 
@@ -78,7 +78,7 @@ class FCGEOMETRYCMD_API FCOCCModelCircularHole : public FC::FCAbsGeoModelCircula
 public:
     FCOCCModelCircularHole();
     ~FCOCCModelCircularHole() override = default;
-    FC::FCGeoEnum::FITKGeometryComType getGeometryCommandType() override;
+    FC::FCGeoEnum::FCGeometryComType getGeometryCommandType() override;
     bool update() override;
 };
 

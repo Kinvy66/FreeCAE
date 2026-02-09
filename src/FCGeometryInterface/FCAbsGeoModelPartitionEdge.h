@@ -39,7 +39,7 @@ public:
     FCGeoModelPartitionEdgeWithParameter() = default;
     ~FCGeoModelPartitionEdgeWithParameter() override = default;
 
-    FCGeoEnum::FITKGeometryComType getGeometryCommandType() override;
+    FCGeoEnum::FCGeometryComType getGeometryCommandType() override;
     bool update() override;
 
     void setParameter(double p) { m_parameter = p; }
@@ -58,7 +58,7 @@ public:
     FCGeoModelPartitionEdgeWithPoint() = default;
     ~FCGeoModelPartitionEdgeWithPoint() override = default;
 
-    FCGeoEnum::FITKGeometryComType getGeometryCommandType() override;
+    FCGeoEnum::FCGeometryComType getGeometryCommandType() override;
     bool update() override;
 
     void setPoint(const QVector<double>& p) { m_point = p; }
@@ -77,7 +77,7 @@ public:
     FCGeoModelPartitionEdgeWithDatumPlane() = default;
     ~FCGeoModelPartitionEdgeWithDatumPlane() override = default;
 
-    FCGeoEnum::FITKGeometryComType getGeometryCommandType() override;
+    FCGeoEnum::FCGeometryComType getGeometryCommandType() override;
     bool update() override;
 
     FCAbsGeoDatumPlane* datumPlane() const { return m_datumPlane; }

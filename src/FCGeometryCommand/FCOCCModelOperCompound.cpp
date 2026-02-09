@@ -31,7 +31,7 @@ static TopoDS_Shape getShapeFromSource(const FC::VirtualShape& vs)
     return *occ->getShape();
 }
 
-FC::FCGeoEnum::FITKGeometryComType FCOCCModelOperAddCompound::getGeometryCommandType()
+FC::FCGeoEnum::FCGeometryComType FCOCCModelOperAddCompound::getGeometryCommandType()
 {
     return FC::FCGeoEnum::FGTCompoundAppendShape;
 }
@@ -63,7 +63,7 @@ bool FCOCCModelOperAddCompound::update()
     return true;
 }
 
-FC::FCGeoEnum::FITKGeometryComType FCOCCModelOperRemoveCompound::getGeometryCommandType()
+FC::FCGeoEnum::FCGeometryComType FCOCCModelOperRemoveCompound::getGeometryCommandType()
 {
     return FC::FCGeoEnum::FGTCompoundRemoveShape;
 }

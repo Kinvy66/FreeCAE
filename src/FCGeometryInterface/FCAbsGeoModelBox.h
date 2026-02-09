@@ -20,7 +20,7 @@ public:
     explicit FCGeoModelBox() = default;
     ~FCGeoModelBox() override = default;
 
-    FCGeoEnum::FITKGeometryComType getGeometryCommandType() override;
+    FCGeoEnum::FCGeometryComType getGeometryCommandType() override;
     bool update() override;
 
     void setPoint1(const double* p1);

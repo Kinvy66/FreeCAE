@@ -53,7 +53,7 @@ static bool writeSTL(const QString& path,
     return true;
 }
 
-FC::FCGeoEnum::FITKGeometryComType FCOCCModelFromMesh::getGeometryCommandType()
+FC::FCGeoEnum::FCGeometryComType FCOCCModelFromMesh::getGeometryCommandType()
 {
     return FC::FCGeoEnum::FGTModelFromMesh;
 }

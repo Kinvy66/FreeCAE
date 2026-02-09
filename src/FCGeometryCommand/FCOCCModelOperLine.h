@@ -24,7 +24,7 @@ class FCGEOMETRYCMD_API FCOCCModelOperLine : public FC::FCGeoModelOperLine, publ
 public:
     FCOCCModelOperLine() : OCCShapeAgent(this) { _shapeAgent = _occShapeAgent; }
     ~FCOCCModelOperLine() override = default;
-    FC::FCGeoEnum::FITKGeometryComType getGeometryCommandType() override;
+    FC::FCGeoEnum::FCGeometryComType getGeometryCommandType() override;
     bool update() override;
 };
 
@@ -33,7 +33,7 @@ class FCGEOMETRYCMD_API FCOCCModelMiddleOperLine : public FC::FCGeoModelOperLine
 public:
     FCOCCModelMiddleOperLine() : OCCShapeAgent(this) { _shapeAgent = _occShapeAgent; }
     ~FCOCCModelMiddleOperLine() override = default;
-    FC::FCGeoEnum::FITKGeometryComType getGeometryCommandType() override;
+    FC::FCGeoEnum::FCGeometryComType getGeometryCommandType() override;
     bool update() override;
 };
 

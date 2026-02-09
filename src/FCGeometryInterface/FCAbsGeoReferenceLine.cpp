@@ -6,12 +6,12 @@
 
 namespace FC {
 
-FCGeoEnum::FITKDatumType FCGeoReferenceLine::getDatumType()
+FCGeoEnum::FCDatumType FCGeoReferenceLine::getDatumType()
 {
     return FCGeoEnum::FDTLine;
 }
 
-FCGeoEnum::FITKDatumType FCGeoReferenceSegment::getDatumType()
+FCGeoEnum::FCDatumType FCGeoReferenceSegment::getDatumType()
 {
     return FCGeoEnum::FDTSegment;
 }
@@ -36,12 +36,12 @@ void FCGeoReferenceSegment::setEndPoint(std::array<double, 3> xyz)
     _pos2[0] = xyz[0]; _pos2[1] = xyz[1]; _pos2[2] = xyz[2];
 }
 
-FCGeoEnum::FITKDatumType FCGeoReferenceLineByIntersectPlanes::getDatumType()
+FCGeoEnum::FCDatumType FCGeoReferenceLineByIntersectPlanes::getDatumType()
 {
     return FCGeoEnum::FDTLineByIntersectPlanes;
 }
 
-FCGeoEnum::FITKDatumType FCGeoReferenceLineByRotateLine::getDatumType()
+FCGeoEnum::FCDatumType FCGeoReferenceLineByRotateLine::getDatumType()
 {
     return FCGeoEnum::FDTLineByRotateLine;
 }

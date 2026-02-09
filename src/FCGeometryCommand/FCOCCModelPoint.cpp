@@ -22,7 +22,7 @@ FCOCCModelPoint::FCOCCModelPoint()
     _shapeAgent = _occShapeAgent;
 }
 
-FC::FCGeoEnum::FITKGeometryComType FCOCCModelPoint::getGeometryCommandType()
+FC::FCGeoEnum::FCGeometryComType FCOCCModelPoint::getGeometryCommandType()
 {
     return FC::FCGeoEnum::FGTPoint;
 }
@@ -41,7 +41,7 @@ FCOCCModelInteractionPoint::FCOCCModelInteractionPoint()
     _shapeAgent = _occShapeAgent;
 }
 
-FC::FCGeoEnum::FITKGeometryComType FCOCCModelInteractionPoint::getGeometryCommandType()
+FC::FCGeoEnum::FCGeometryComType FCOCCModelInteractionPoint::getGeometryCommandType()
 {
     return FC::FCGeoEnum::FGTInteractionPoint;
 }

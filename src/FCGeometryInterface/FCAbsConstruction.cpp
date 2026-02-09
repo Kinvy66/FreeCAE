@@ -7,12 +7,12 @@
 
 namespace FC {
 
-FCGeoConstruction::FCGeoConstruction(FCGeoEnum::FITKConstructionType type)
+FCGeoConstruction::FCGeoConstruction(FCGeoEnum::FCConstructionType type)
     : m_type(type)
 {
 }
 
-FCGeoEnum::FITKGeometryComType FCGeoConstruction::getGeometryCommandType()
+FCGeoEnum::FCGeometryComType FCGeoConstruction::getGeometryCommandType()
 {
     return FCGeoEnum::FGTConstruction;
 }

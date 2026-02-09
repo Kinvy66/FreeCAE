@@ -21,7 +21,7 @@ class FCGEOMETRYINTERFACE_API FCGeoReferenceLine : public FCAbsGeoDatumLine
 public:
     FCGeoReferenceLine() = default;
     ~FCGeoReferenceLine() override = default;
-    FCGeoEnum::FITKDatumType getDatumType() override;
+    FCGeoEnum::FCDatumType getDatumType() override;
 };
 
 /**
@@ -33,7 +33,7 @@ class FCGEOMETRYINTERFACE_API FCGeoReferenceSegment : public FCGeoReferenceLine
 public:
     FCGeoReferenceSegment() = default;
     ~FCGeoReferenceSegment() override = default;
-    FCGeoEnum::FITKDatumType getDatumType() override;
+    FCGeoEnum::FCDatumType getDatumType() override;
 
     std::array<double, 3> startPoint() const { return { _pos[0], _pos[1], _pos[2] }; }
     void setStartPoint(double x, double y, double z);
@@ -52,7 +52,7 @@ class FCGEOMETRYINTERFACE_API FCGeoReferenceLineByIntersectPlanes : public FCGeo
 public:
     FCGeoReferenceLineByIntersectPlanes() = default;
     ~FCGeoReferenceLineByIntersectPlanes() override = default;
-    FCGeoEnum::FITKDatumType getDatumType() override;
+    FCGeoEnum::FCDatumType getDatumType() override;
 
     void setPlane1(const QVector<double>& plane) { m_plane1 = plane; }
     QVector<double> plane1() const { return m_plane1; }
@@ -72,7 +72,7 @@ class FCGEOMETRYINTERFACE_API FCGeoReferenceLineByRotateLine : public FCGeoRefer
 public:
     FCGeoReferenceLineByRotateLine() = default;
     ~FCGeoReferenceLineByRotateLine() override = default;
-    FCGeoEnum::FITKDatumType getDatumType() override;
+    FCGeoEnum::FCDatumType getDatumType() override;
 
     void setLine(const QVector<double>& start, const QVector<double>& end);
     std::array<double, 3> lineStart() const { return m_lineStart; }

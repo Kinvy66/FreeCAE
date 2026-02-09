@@ -20,7 +20,7 @@ public:
     FCGeoImportedPart() = default;
     ~FCGeoImportedPart() override = default;
 
-    FCGeoEnum::FITKGeometryComType getGeometryCommandType() override;
+    FCGeoEnum::FCGeometryComType getGeometryCommandType() override;
     bool update() override;
 };
 

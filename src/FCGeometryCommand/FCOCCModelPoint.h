@@ -24,7 +24,7 @@ class FCGEOMETRYCMD_API FCOCCModelPoint : public FC::FCGeoModelPoint, public OCC
 public:
     FCOCCModelPoint();
     ~FCOCCModelPoint() override = default;
-    FC::FCGeoEnum::FITKGeometryComType getGeometryCommandType() override;
+    FC::FCGeoEnum::FCGeometryComType getGeometryCommandType() override;
     bool update() override;
 };
 
@@ -34,7 +34,7 @@ class FCGEOMETRYCMD_API FCOCCModelInteractionPoint : public FC::FCGeoModelIntera
 public:
     FCOCCModelInteractionPoint();
     ~FCOCCModelInteractionPoint() override = default;
-    FC::FCGeoEnum::FITKGeometryComType getGeometryCommandType() override;
+    FC::FCGeoEnum::FCGeometryComType getGeometryCommandType() override;
     bool update() override;
 };
 

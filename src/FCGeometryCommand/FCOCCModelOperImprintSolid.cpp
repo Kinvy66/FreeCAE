@@ -32,7 +32,7 @@ static TopoDS_Shape getSolidFromSource(const FC::VirtualShape& vs)
     return s;
 }
 
-FC::FCGeoEnum::FITKGeometryComType FCOCCModelOperImprintSolid::getGeometryCommandType()
+FC::FCGeoEnum::FCGeometryComType FCOCCModelOperImprintSolid::getGeometryCommandType()
 {
     return FC::FCGeoEnum::FGTImprintSolid;
 }

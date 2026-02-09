@@ -104,7 +104,7 @@ static bool getUByCrossPoint(TopoDS_Shape& shape, TopoDS_Shape& edge, double& u1
     return true;
 }
 
-FC::FCGeoEnum::FITKGeometryComType FCOCCStiffener::getGeometryCommandType()
+FC::FCGeoEnum::FCGeometryComType FCOCCStiffener::getGeometryCommandType()
 {
     return FC::FCGeoEnum::FGTStiffener;
 }
