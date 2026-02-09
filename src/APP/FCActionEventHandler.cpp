@@ -34,6 +34,18 @@ void FCActionEventHandler::execOperator()
     QString objName = obj->objectName();
     
     // TODO
+    
+    // Core::FITKActionOperator* actOper = this->getOperator(obj);
+    // if (actOper != nullptr) actOper->setEmitter(obj);
+    
+    // if (actOper == nullptr)
+    // {
+    //     //错误提示
+    //     QString error = QString("%1 Operator create failed !").arg(objName);
+    //     AppFrame::FITKMessageError(error);
+    // }
+    // else
+    //     actOper->actionTriggered();
 
 }
 

@@ -73,6 +73,26 @@ public:
     bool update() override;
 };
 
+/** 矩形阵列（移植自 FITKOCCTransformation） */
+class FCGEOMETRYCMD_API FCOCCModelRectangularPattern : public FC::FCGeoModelRectangularPattern, public OCCShapeAgent
+{
+public:
+    FCOCCModelRectangularPattern();
+    ~FCOCCModelRectangularPattern() override = default;
+    FC::FCGeoEnum::FITKGeometryComType getGeometryCommandType() override;
+    bool update() override;
+};
+
+/** 圆形阵列（移植自 FITKOCCTransformation） */
+class FCGEOMETRYCMD_API FCOCCModelCircularPattern : public FC::FCGeoModelCircularPattern, public OCCShapeAgent
+{
+public:
+    FCOCCModelCircularPattern();
+    ~FCOCCModelCircularPattern() override = default;
+    FC::FCGeoEnum::FITKGeometryComType getGeometryCommandType() override;
+    bool update() override;
+};
+
 } // namespace OCC
 
 #endif // FCOCCTRANSFORMATION_H

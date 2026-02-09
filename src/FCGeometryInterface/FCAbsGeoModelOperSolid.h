@@ -159,7 +159,10 @@ public:
     VirtualShape getOperEdge2() const { return _operEdge2; }
     void setDistanceLocateHole2(double d) { _distanceLocateHole2 = d; }
     double getDistanceLocateHole2() const { return _distanceLocateHole2; }
+    void setInputCmdId(int cmdId) { _inputCmdId = cmdId; }
+    int getInputCmdId() const { return _inputCmdId; }
 protected:
+    int _inputCmdId{ -1 };
     double _holePoint[3]{};
     bool _flip{ false };
     double _diameter{ 0.6 };

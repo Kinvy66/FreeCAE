@@ -7,27 +7,230 @@
  */
 
 #include "FCOCCModelSolid.h"
+#include <FCData/FCDataRepo.h>
+#include <FCModelInterface/FCModelEnum.h>
+#include <gp_Vec.hxx>
+#include <gp_Ax1.hxx>
+#include <BRepPrimAPI_MakePrism.hxx>
+#include <BRepPrimAPI_MakeRevol.hxx>
+#include <BRepBuilderAPI_Sewing.hxx>
+#include <BRepBuilderAPI_MakeSolid.hxx>
+#include <BRepBuilderAPI_MakeWire.hxx>
+#include <BRepOffsetAPI_MakePipeShell.hxx>
+#include <BRepOffsetAPI_ThruSections.hxx>
+#include <ShapeAnalysis.hxx>
+#include <TopExp_Explorer.hxx>
+#include <TopoDS_Face.hxx>
+#include <TopoDS_Shell.hxx>
+#include <TopoDS_Wire.hxx>
+#include <TopoDS.hxx>
+#include <Precision.hxx>
 
 namespace OCC {
 
+namespace {
+
+TopoDS_Shape getSubShapeFromVirtualShape(const FC::VirtualShape& vs, FC::FCModelEnum::FITKModelSetType type)
+{
+    if (vs.isNull() || vs.CmdId <= 0) return TopoDS_Shape();
+    FC::FCAbsGeoCommand* cmd = FC::FCDataRepo::instance()->getDataAs<FC::FCAbsGeoCommand>(vs.CmdId);
+    if (!cmd) return TopoDS_Shape();
+    FCAbstractOCCModel* occ = cmd->getTShapeAgent<FCAbstractOCCModel>();
+    if (!occ || !occ->getShape() || occ->getShape()->IsNull()) return TopoDS_Shape();
+    return occ->getShape(type, vs.VirtualTopoId);
+}
+
+TopoDS_Shape getSolidFromCommand(int cmdId)
+{
+    if (cmdId <= 0) return TopoDS_Shape();
+    FC::FCAbsGeoCommand* cmd = FC::FCDataRepo::instance()->getDataAs<FC::FCAbsGeoCommand>(cmdId);
+    if (!cmd) return TopoDS_Shape();
+    FCAbstractOCCModel* occ = cmd->getTShapeAgent<FCAbstractOCCModel>();
+    if (!occ || !occ->getShape() || occ->getShape()->IsNull()) return TopoDS_Shape();
+    return *occ->getShape();
+}
+
+TopoDS_Wire shapeToWire(const TopoDS_Shape& s)
+{
+    if (s.IsNull()) return TopoDS_Wire();
+    if (s.ShapeType() == TopAbs_WIRE) return TopoDS::Wire(s);
+    if (s.ShapeType() == TopAbs_EDGE) return BRepBuilderAPI_MakeWire(TopoDS::Edge(s)).Wire();
+    if (s.ShapeType() == TopAbs_FACE) return ShapeAnalysis::OuterWire(TopoDS::Face(s));
+    if (s.ShapeType() == TopAbs_COMPOUND) {
+        BRepBuilderAPI_MakeWire mw;
+        for (TopExp_Explorer exp(s, TopAbs_EDGE); exp.More(); exp.Next())
+            mw.Add(TopoDS::Edge(exp.Current()));
+        return mw.IsDone() ? TopoDS::Wire(mw.Shape()) : TopoDS_Wire();
+    }
+    return TopoDS_Wire();
+}
+
+} // namespace
+
 FCOCCModelClosedSurfaceSolid::FCOCCModelClosedSurfaceSolid() : OCCShapeAgent(this) { _shapeAgent = _occShapeAgent; }
 FC::FCGeoEnum::FITKGeometryComType FCOCCModelClosedSurfaceSolid::getGeometryCommandType() { return FC::FCGeoEnum::FGTClosedSurfaceSolid; }
-bool FCOCCModelClosedSurfaceSolid::update() { return false; }
+bool FCOCCModelClosedSurfaceSolid::update()
+{
+    QList<FC::VirtualShape> faceList = faces();
+    if (faceList.isEmpty()) return false;
+
+    BRepBuilderAPI_Sewing sewing;
+    for (const FC::VirtualShape& vs : faceList) {
+        if (vs.isNull()) continue;
+        TopoDS_Shape s = getSubShapeFromVirtualShape(vs, FC::FCModelEnum::FMSSurface);
+        if (s.IsNull() || s.ShapeType() != TopAbs_FACE) continue;
+        TopoDS_Face f = TopoDS::Face(s);
+        if (f.Orientation() == TopAbs_REVERSED)
+            f.Reverse();
+        sewing.Add(f);
+    }
+    sewing.Perform();
+    TopoDS_Shape sewed = sewing.SewedShape();
+    if (sewed.IsNull() || sewed.ShapeType() != TopAbs_SHELL) return false;
+    TopoDS_Shell shell = TopoDS::Shell(sewed);
+    if (shell.IsNull() || !shell.Closed()) return false;
+    try {
+        BRepBuilderAPI_MakeSolid mkSolid(shell);
+        if (!mkSolid.IsDone()) return false;
+        _occShapeAgent->updateShape(mkSolid.Shape());
+        return true;
+    } catch (...) {
+        return false;
+    }
+}
 
 FCOCCModelExtrudeSolid::FCOCCModelExtrudeSolid() : OCCShapeAgent(this) { _shapeAgent = _occShapeAgent; }
 FC::FCGeoEnum::FITKGeometryComType FCOCCModelExtrudeSolid::getGeometryCommandType() { return FC::FCGeoEnum::FGTExtrudeSolid; }
-bool FCOCCModelExtrudeSolid::update() { return false; }
+bool FCOCCModelExtrudeSolid::update()
+{
+    FC::VirtualShape src = sourceSurface();
+    if (src.isNull()) return false;
+    TopoDS_Shape faceShape = getSubShapeFromVirtualShape(src, FC::FCModelEnum::FMSSurface);
+    if (faceShape.IsNull() || faceShape.ShapeType() != TopAbs_FACE) return false;
+    TopoDS_Face face = TopoDS::Face(faceShape);
+
+    std::array<double, 3> dir = direction();
+    gp_Vec vec(dir[0], dir[1], dir[2]);
+    double mag = vec.Magnitude();
+    if (mag <= Precision::Confusion()) return false;
+
+    if (extrudeType() != 1) return false;
+    vec.Scale(length() / mag);
+
+    try {
+        TopoDS_Shape result = BRepPrimAPI_MakePrism(face, vec).Shape();
+        if (result.IsNull()) return false;
+        _occShapeAgent->updateShape(result);
+        return true;
+    } catch (...) {
+        return false;
+    }
+}
 
 FCOCCModelRevolSolid::FCOCCModelRevolSolid() : OCCShapeAgent(this) { _shapeAgent = _occShapeAgent; }
 FC::FCGeoEnum::FITKGeometryComType FCOCCModelRevolSolid::getGeometryCommandType() { return FC::FCGeoEnum::FGTRevolSolid; }
-bool FCOCCModelRevolSolid::update() { return false; }
+bool FCOCCModelRevolSolid::update()
+{
+    FC::VirtualShape src = sourceSurface();
+    if (src.isNull()) return false;
+    TopoDS_Shape faceShape = getSubShapeFromVirtualShape(src, FC::FCModelEnum::FMSSurface);
+    if (faceShape.IsNull() || faceShape.ShapeType() != TopAbs_FACE) return false;
+    TopoDS_Face face = TopoDS::Face(faceShape);
+
+    std::array<double, 3> p1 = rotateAxisPoint1(), p2 = rotateAxisPoint2();
+    gp_Pnt origin(p1[0], p1[1], p1[2]);
+    gp_Vec axisVec(p2[0] - p1[0], p2[1] - p1[1], p2[2] - p1[2]);
+    if (axisVec.Magnitude() <= Precision::Confusion()) return false;
+    gp_Ax1 axis(origin, gp_Dir(axisVec));
+
+    double angleDeg = angle();
+    if (angleDeg <= 0.0 || angleDeg >= 360.0) return false;
+    double angleRad = angleDeg * 3.14159265358979323846 / 180.0;
+
+    try {
+        TopoDS_Shape result = BRepPrimAPI_MakeRevol(face, axis, angleRad).Shape();
+        if (result.IsNull()) return false;
+        _occShapeAgent->updateShape(result);
+        return true;
+    } catch (...) {
+        return false;
+    }
+}
 
 FCOCCModelSweepSolid::FCOCCModelSweepSolid() : OCCShapeAgent(this) { _shapeAgent = _occShapeAgent; }
 FC::FCGeoEnum::FITKGeometryComType FCOCCModelSweepSolid::getGeometryCommandType() { return FC::FCGeoEnum::FGTSweepSolid; }
-bool FCOCCModelSweepSolid::update() { return false; }
+bool FCOCCModelSweepSolid::update()
+{
+    QList<FC::VirtualShape> pathCurves = curves();
+    if (pathCurves.isEmpty()) return false;
+    FC::VirtualShape prof = profile();
+    if (prof.isNull()) return false;
+
+    TopoDS_Shape pathShape;
+    if (pathCurves.size() == 1) {
+        pathShape = getSubShapeFromVirtualShape(pathCurves.first(), FC::FCModelEnum::FMSEdge);
+        if (pathShape.IsNull()) return false;
+    } else {
+        BRepBuilderAPI_MakeWire mw;
+        for (const FC::VirtualShape& vs : pathCurves) {
+            TopoDS_Shape e = getSubShapeFromVirtualShape(vs, FC::FCModelEnum::FMSEdge);
+            if (!e.IsNull() && e.ShapeType() == TopAbs_EDGE) mw.Add(TopoDS::Edge(e));
+        }
+        if (!mw.IsDone()) return false;
+        pathShape = mw.Wire();
+    }
+    TopoDS_Wire pathWire = shapeToWire(pathShape);
+    if (pathWire.IsNull()) return false;
+
+    TopoDS_Shape profShape = getSubShapeFromVirtualShape(prof, FC::FCModelEnum::FMSSurface);
+    if (profShape.IsNull()) profShape = getSubShapeFromVirtualShape(prof, FC::FCModelEnum::FMSEdge);
+    TopoDS_Wire profWire = shapeToWire(profShape);
+    if (profWire.IsNull()) return false;
+
+    try {
+        BRepOffsetAPI_MakePipeShell pipe(pathWire);
+        pipe.Add(profWire);
+        pipe.SetTransitionMode(BRepBuilderAPI_RightCorner);
+        pipe.SetDiscreteMode();
+        pipe.Build();
+        if (!pipe.IsDone()) return false;
+        if (!pipe.MakeSolid()) return false;
+        TopoDS_Shape result = pipe.Shape();
+        if (result.IsNull()) return false;
+        _occShapeAgent->updateShape(result);
+        return true;
+    } catch (...) {
+        return false;
+    }
+}
 
 FCOCCModelMultiSectionSolid::FCOCCModelMultiSectionSolid() : OCCShapeAgent(this) { _shapeAgent = _occShapeAgent; }
 FC::FCGeoEnum::FITKGeometryComType FCOCCModelMultiSectionSolid::getGeometryCommandType() { return FC::FCGeoEnum::FGTMultiSectionSolid; }
-bool FCOCCModelMultiSectionSolid::update() { return false; }
+bool FCOCCModelMultiSectionSolid::update()
+{
+    QList<FC::VirtualShape> secList = sections();
+    if (secList.size() < 2) return false;
+
+    BRepOffsetAPI_ThruSections thruSection(true);
+    for (const FC::VirtualShape& vs : secList) {
+        if (vs.isNull()) return false;
+        TopoDS_Shape s = getSubShapeFromVirtualShape(vs, FC::FCModelEnum::FMSSurface);
+        if (s.IsNull()) s = getSubShapeFromVirtualShape(vs, FC::FCModelEnum::FMSEdge);
+        if (s.IsNull()) return false;
+        TopoDS_Wire w = shapeToWire(s);
+        if (w.IsNull()) return false;
+        thruSection.AddWire(w);
+    }
+    try {
+        thruSection.Build();
+        if (!thruSection.IsDone()) return false;
+        TopoDS_Shape result = thruSection.Shape();
+        if (result.IsNull()) return false;
+        _occShapeAgent->updateShape(result);
+        return true;
+    } catch (...) {
+        return false;
+    }
+}
 
 } // namespace OCC

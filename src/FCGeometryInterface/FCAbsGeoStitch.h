@@ -28,9 +28,13 @@ public:
     void setTolerance(double tol) { m_tolerance = tol; }
     QList<VirtualShape> edges() const { return m_edges; }
     void setEdges(const QList<VirtualShape>& edges) { m_edges = edges; }
+    /** 基准形状来源（提供待缝合的体/壳）；若无效则仅对 edges 做缝合 */
+    void setInputCmdId(const VirtualShape& vs) { m_inputCmdId = vs; }
+    const VirtualShape& getInputCmdId() const { return m_inputCmdId; }
 protected:
     double m_tolerance{};
     QList<VirtualShape> m_edges;
+    VirtualShape m_inputCmdId{};
 };
 
 } // namespace FC

@@ -27,6 +27,7 @@
 
 #include <QHash>
 #include <limits>
+#include <functional>
 
 namespace OCC {
 
@@ -133,12 +134,18 @@ bool FCAbstractOCCModel::getBoundaryBox(double* minPt, double* maxPt)
     }
 }
 
+static int shapeHashCode(const TopoDS_Shape& s)
+{
+    if (s.IsNull()) return 0;
+    return static_cast<int>(std::hash<TopoDS_Shape>{}(s) & 0x7FFFFFFF);
+}
+
 void FCAbstractOCCModel::updateShape(const TopoDS_Shape& shape, bool buildVTopo)
 {
-    if (_hashCode != -1 && _shape && !_shape->IsNull() && shape.HashCode(std::numeric_limits<int>::max()) == _shape->HashCode(std::numeric_limits<int>::max()))
+    if (_shape && !_shape->IsNull() && !shape.IsNull() && shape.IsSame(*_shape))
         return;
     *_shape = shape;
-    _hashCode = shape.HashCode(std::numeric_limits<int>::max());
+    _hashCode = shapeHashCode(shape);
     if (_buildingTopo) return;
     if (_vtmanager && buildVTopo) _vtmanager->clear();
     if (_meshVS && buildVTopo) _meshVS->clear();
@@ -169,8 +176,8 @@ int FCAbstractOCCModel::getDim()
 
 bool FCAbstractOCCModel::createShapeState(QVariant& stateVal)
 {
-    if (!_shape) return false;
-    stateVal = _shape->HashCode(std::numeric_limits<int>::max());
+    if (!_shape || _shape->IsNull()) return false;
+    stateVal = shapeHashCode(*_shape);
     return true;
 }
 

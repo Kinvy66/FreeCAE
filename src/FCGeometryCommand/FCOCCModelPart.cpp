@@ -7,6 +7,8 @@
  */
 
 #include "FCOCCModelPart.h"
+#include "FCAbstractOCCModel.h"
+#include <TopoDS_Shape.hxx>
 
 namespace OCC {
 
@@ -23,7 +25,27 @@ FC::FCGeoEnum::FITKGeometryComType FCOCCModelPart::getGeometryCommandType()
 
 bool FCOCCModelPart::update()
 {
-    return false;
+    int n = getDataCount();
+    if (n <= 0) {
+        _occShapeAgent->updateShape(TopoDS_Shape());
+        _occShapeAgent->buildVirtualTopo(false);
+        _occShapeAgent->triangulation();
+        return true;
+    }
+    FC::FCAbsGeoCommand* lastCmd = getDataByIndex(n - 1);
+    if (!lastCmd) {
+        _occShapeAgent->updateShape(TopoDS_Shape());
+        return true;
+    }
+    FCAbstractOCCModel* occModel = lastCmd->getTShapeAgent<FCAbstractOCCModel>();
+    if (!occModel || !occModel->getShape() || occModel->getShape()->IsNull()) {
+        _occShapeAgent->updateShape(TopoDS_Shape());
+        return true;
+    }
+    _occShapeAgent->updateShape(*occModel->getShape());
+    _occShapeAgent->buildVirtualTopo(false);
+    _occShapeAgent->triangulation();
+    return true;
 }
 
 } // namespace OCC

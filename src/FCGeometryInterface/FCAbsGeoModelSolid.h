@@ -1,9 +1,9 @@
 /**
  * @file FCAbsGeoModelSolid.h
- * @brief 实体几何命令接口（移Щ自 FITKInterfaceGeometry FITKAbsGeoModelSolid）
+ * @brief 实体几何命令接口（移植自 FITKInterfaceGeometry FITKAbsGeoModelSolid）
  */
-#ifndef FCABSGEO MODELSOLID_H
-#define FCABSGEO MODELSOLID_H
+#ifndef FCABSGEOMODELSOLID_H
+#define FCABSGEOMODELSOLID_H
 
 #include "FCGeometryInterfaceAPI.h"
 #include "FCAbsGeoCommand.h"
@@ -13,7 +13,7 @@
 namespace FC {
 
 /**
- * @brief 实体抽象基类
+ * @brief 实体抽象基类（抽象）
  */
 class FCGEOMETRYINTERFACE_API FCAbsGeoModelSolid : public FCAbsGeoCommand
 {
@@ -106,7 +106,7 @@ protected:
 };
 
 /**
- * @brief 鎵暐浣?
+ * @brief 扫掠实体命令
  */
 class FCGEOMETRYINTERFACE_API FCAbsGeoModelSweepSolid : public FCAbsGeoModelSolid
 {
@@ -153,5 +153,5 @@ protected:
 
 } // namespace FC
 
-#endif // FCABSGEO MODELSOLID_H
+#endif // FCABSGEOMODELSOLID_H
 

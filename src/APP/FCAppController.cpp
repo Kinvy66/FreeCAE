@@ -63,202 +63,200 @@ QMessageBox::                                                                   
     
     namespace FC 
 {
-    FCAppController::FCAppController(QObject* par) : QObject(par)
-    {
-    }
+FCAppController::FCAppController(QObject* par) : QObject(par)
+{
+}
+
+FCAppController::~FCAppController()
+{
+}
+
+/**
+* @brief 设置AppMainWindow
+* @param mainWindow
+* @return 返回自身引用,方便链式调用
+*/
+FCAppController &FCAppController::setAppMainWindow(AppMainWindow *mainWindow)
+{
+    mMainWindow = mainWindow;
+    return (*this);
+}
+
+/**
+* @brief 设置core
+* @param core
+* @return
+*/
+FCAppController &FCAppController::setAppCore(FCAppCore *core)
+{
+    mCore    = core;
+    mProject = mCore->getProjectInterface();
+    return (*this);
+}
+
+/**
+* @brief 设置ribbon
+* @param ribbon
+* @return 返回自身引用,方便链式调用
+*/
+FCAppController &FCAppController::setAppRibbonArea(FCAppRibbonArea *ribbon)
+{
+    mRibbon = ribbon;
+    return (*this);
+}
+
+/**
+* @brief 设置dock
+* @param dock
+* @return 返回自身引用,方便链式调用
+*/
+FCAppController &FCAppController::setAppDockingArea(FCAppDockingArea *dock)
+{
+    mDock = dock;
     
-    FCAppController::~FCAppController()
-    {
+    return (*this);
+}
+
+/**
+* @brief 设置AppCommand
+* @param cmd
+* @return 返回自身引用,方便链式调用
+*/
+FCAppController &FCAppController::setAppCommand(FCAppCommand *cmd)
+{
+    mCommand = cmd;
+    return (*this);
+}
+
+/**
+* @brief 设置AppActions
+* @param act
+* @return 返回自身引用,方便链式调用
+*/
+FCAppController &FCAppController::setAppActions(FCAppActions *act)
+{
+    mActions = act;
+    return (*this);
+}
+
+FCAppController &FCAppController::setActionHandler(FCActionEventHandler *handler)
+{
+    mActionHandler = handler;
+    return (*this);        
+}
+
+/**
+* @brief 设置app数据管理
+* @param d
+* @return 
+*/
+FCAppController &FCAppController::setAppDataManager(FCAppDataManager *d)
+{
+    mDatas = d;
+    return (*this);
+}
+
+/**
+* @brief 获取app
+* @return
+*/
+AppMainWindow *FCAppController::app() const
+{
+    return mMainWindow;
+}
+
+/**
+* @brief 控制层初始化
+*/
+void FCAppController::initialize()
+{
+    initConnection();
+    registeActionsOperator();
+}
+
+/**
+* @brief action和slot connect
+*/
+void FCAppController::initConnection()
+{
+    QList<QAction*> actionList = mActions->getAllActions();
+    for (QAction* action : actionList) {
+        if (action == nullptr)continue;
+        connect(action, &QAction::triggered, mActionHandler, &FCActionEventHandler::execOperator);
     }
-    
-    /**
- * @brief 设置AppMainWindow
- * @param mainWindow
- * @return 返回自身引用,方便链式调用
+}
+
+/**
+ * @brief 注册action的操作器
  */
-    FCAppController &FCAppController::setAppMainWindow(AppMainWindow *mainWindow)
-    {
-        mMainWindow = mainWindow;
-        return (*this);
-    }
+void FCAppController::registeActionsOperator()
+{
     
-    /**
- * @brief 设置core
- * @param core
- * @return
- */
-    FCAppController &FCAppController::setAppCore(FCAppCore *core)
-    {
-        mCore    = core;
-        mProject = mCore->getProjectInterface();
-        return (*this);
-    }
-    
-    /**
- * @brief 设置ribbon
- * @param ribbon
- * @return 返回自身引用,方便链式调用
- */
-    FCAppController &FCAppController::setAppRibbonArea(FCAppRibbonArea *ribbon)
-    {
-        mRibbon = ribbon;
-        return (*this);
-    }
-    
-    /**
- * @brief 设置dock
- * @param dock
- * @return 返回自身引用,方便链式调用
- */
-    FCAppController &FCAppController::setAppDockingArea(FCAppDockingArea *dock)
-    {
-        mDock = dock;
-        
-        return (*this);
-    }
-    
-    /**
- * @brief 设置AppCommand
- * @param cmd
- * @return 返回自身引用,方便链式调用
- */
-    FCAppController &FCAppController::setAppCommand(FCAppCommand *cmd)
-    {
-        mCommand = cmd;
-        return (*this);
-    }
-    
-    /**
- * @brief 设置AppActions
- * @param act
- * @return 返回自身引用,方便链式调用
- */
-    FCAppController &FCAppController::setAppActions(FCAppActions *act)
-    {
-        mActions = act;
-        return (*this);
-    }
-    
-    FCAppController &FCAppController::setActionHandler(FCActionEventHandler *handler)
-    {
-        mActionHandler = handler;
-        return (*this);        
-    }
-    
-    /**
- * @brief 设置app数据管理
- * @param d
- * @return 
- */
-    FCAppController &FCAppController::setAppDataManager(FCAppDataManager *d)
-    {
-        mDatas = d;
-        return (*this);
-    }
-    
-    /**
- * @brief 获取app
- * @return
- */
-    AppMainWindow *FCAppController::app() const
-    {
-        return mMainWindow;
-    }
-    
-    /**
- * @brief 控制层初始化
- */
-    void FCAppController::initialize()
-    {
-        initConnection();
-    }
-    
-    /**
- * @brief action和slot connect
- */
-    void FCAppController::initConnection()
-    {
-        QList<QAction*> actionList = mActions->getAllActions();
-        for (QAction* action : actionList) {
-            if (action == nullptr)continue;
-            connect(action, &QAction::triggered, mActionHandler, &FCActionEventHandler::execOperator);
-        }
-    }
-    
-    
-    /**
- * @brief 设置工程为脏
- *
- * @note 如果工程状态已经是脏，此函数不会做任何动作也不会触发任何信号
- * @param on
- */
-    void FCAppController::setDirty(bool on)
-    {
-        // if (mProject) {
-        //     mProject->setModified(on);
-        // }
-    }
-    
-    /**
- * @brief 工程是否为脏
- * @return
- */
-    bool FCAppController::isDirty() const
-    {
-        // if (mProject) {
-        //     return mProject->isDirty();
-        // }
-        return false;
-    }
-    
-    /**
- * @brief 更新窗口标题
- */
-    void FCAppController::updateWindowTitle()
-    {
-        // FCAppProject* project = FC_APP_CORE.getAppProject();
-        // if (!project || project->isEmpty()) {
-        //     app()->setWindowTitle(makeWindowTitle());
-        //     return;
-        // }
-        // app()->setWindowTitle(makeWindowTitle(project));
-    }
-    
-    /**
- * @brief 生成窗口标题
- * @return
- */
-    QString FCAppController::makeWindowTitle()
-    {
-        return QString("%1 [*]").arg(FCAPPRIBBONAREA_WINDOW_NAME);
-    }
-    
-    /**
- * @brief 生成当前项目下的窗口标题
- * @return
- */
-    QString FCAppController::makeWindowTitle(FCProjectInterface *proj)
-    {
-        return QString("%1 [*]").arg(FCAPPRIBBONAREA_WINDOW_NAME);    
-    }
-    
- 
-    
-    void FCAppController::onActionAddDataTriggered()
-    {
-        FCAPPCONTROLLER_PASS();
-    }
-    
-    void FCAppController::onTestSlot(const IdType id, bool r)
-    {
-        qDebug() << "test mesh id: " << id;
-    }
-    
-    void FCAppController::onFocusedDockWidgetChanged(ads::CDockWidget *old, ads::CDockWidget *now)
-    {
-        FCAPPCONTROLLER_PASS();
-    }
-    
+}
+
+
+/**
+* @brief 设置工程为脏
+*
+* @note 如果工程状态已经是脏，此函数不会做任何动作也不会触发任何信号
+* @param on
+*/
+void FCAppController::setDirty(bool on)
+{
+    // if (mProject) {
+    //     mProject->setModified(on);
+    // }
+}
+
+/**
+* @brief 工程是否为脏
+* @return
+*/
+bool FCAppController::isDirty() const
+{
+    // if (mProject) {
+    //     return mProject->isDirty();
+    // }
+    return false;
+}
+
+/**
+* @brief 更新窗口标题
+*/
+void FCAppController::updateWindowTitle()
+{
+    // FCAppProject* project = FC_APP_CORE.getAppProject();
+    // if (!project || project->isEmpty()) {
+    //     app()->setWindowTitle(makeWindowTitle());
+    //     return;
+    // }
+    // app()->setWindowTitle(makeWindowTitle(project));
+}
+
+/**
+* @brief 生成窗口标题
+* @return
+*/
+QString FCAppController::makeWindowTitle()
+{
+    return QString("%1 [*]").arg(FCAPPRIBBONAREA_WINDOW_NAME);
+}
+
+/**
+* @brief 生成当前项目下的窗口标题
+* @return
+*/
+QString FCAppController::makeWindowTitle(FCProjectInterface *proj)
+{
+    return QString("%1 [*]").arg(FCAPPRIBBONAREA_WINDOW_NAME);
+}
+
+
+void FCAppController::onFocusedDockWidgetChanged(ads::CDockWidget *old, ads::CDockWidget *now)
+{
+    FCAPPCONTROLLER_PASS();
+}
+
     
 } // namespace FC
 

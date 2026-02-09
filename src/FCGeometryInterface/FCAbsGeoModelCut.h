@@ -1,9 +1,9 @@
 /**
  * @file FCAbsGeoModelCut.h
- * @brief 切割几何命令接口（移植自 FITKInterfaceGeometry FITKAbsGeoModelCut）
+ * @brief ???????????? FITKInterfaceGeometry FITKAbsGeoModelCut?
  */
-#ifndef FCABSGEO MODELCUT_H
-#define FCABSGEO MODELCUT_H
+#ifndef FCABSGEOMODELCUT_H
+#define FCABSGEOMODELCUT_H
 
 #include "FCGeometryInterfaceAPI.h"
 #include "FCAbsGeoCommand.h"
@@ -13,7 +13,8 @@
 namespace FC {
 
 /**
- * @brief 切割几何命令抽象基类
+ * @brief ??????????
+ * 切割命令基类，setInputCmdId 设置输入命令ID，getInputCmdId 获取输入命令ID，getPart 获取切割后的部分
  */
 class FCGEOMETRYINTERFACE_API FCAbsGeoModelCut : public FCAbsGeoCommand
 {
@@ -21,6 +22,11 @@ class FCGEOMETRYINTERFACE_API FCAbsGeoModelCut : public FCAbsGeoCommand
 public:
     FCAbsGeoModelCut() = default;
     ~FCAbsGeoModelCut() override = default;
+
+    void setInputCmdId(int cmdId) { m_inputCmdId = cmdId; }
+    int getInputCmdId() const { return m_inputCmdId; }
+protected:
+    int m_inputCmdId{ -1 };
 };
 
 /**
@@ -134,6 +140,6 @@ protected:
 
 } // namespace FC
 
-#endif // FCABSGEO MODELCUT_H
+#endif // FCABSGEOMODELCUT_H
 
 

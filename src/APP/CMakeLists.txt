@@ -126,6 +126,7 @@ find_package(${FC_PROJECT_NAME} COMPONENTS
     FCUtils
     FCMessageHandler
     FCGUI
+    FCActionsOperator
 )
 
 # if(${FC_PROJECT_NAME}_FOUND)
@@ -138,6 +139,7 @@ target_link_libraries(${FC_APP_NAME} PUBLIC
     ${FC_PROJECT_NAME}::FCUtils
     ${FC_PROJECT_NAME}::FCMessageHandler
     ${FC_PROJECT_NAME}::FCGUI
+    ${FC_PROJECT_NAME}::FCActionsOperator
 )
 
 

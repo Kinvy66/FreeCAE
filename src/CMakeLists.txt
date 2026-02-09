@@ -17,6 +17,8 @@ add_subdirectory(FCModelInterface)
 add_subdirectory(FCGeometryInterface)
 add_subdirectory(FCGeometryCommand)
 add_subdirectory(FCGUI)
+add_subdirectory(FCActionsOperator)
+
 
 add_subdirectory(APP)
 

@@ -100,13 +100,6 @@ public:
     // 生成窗口标题
     static QString makeWindowTitle();
     static QString makeWindowTitle(FCProjectInterface* proj);
-    
-private Q_SLOTS:
-   
-    void onActionAddDataTriggered();
-    
-    void onTestSlot(const IdType id, bool r);
-    
    
 private slots:
     
@@ -115,6 +108,7 @@ private slots:
 private:
     // 初始化信号槽
     void initConnection();
+    void registeActionsOperator();
   
 private:
     AppMainWindow* mMainWindow { nullptr };

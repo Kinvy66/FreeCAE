@@ -8,6 +8,7 @@
 
 #include "FCOCCModelImport.h"
 #include <BRepTools.hxx>
+#include <BRep_Builder.hxx>
 #include <TopoDS_Shape.hxx>
 #include <QFile>
 
@@ -28,14 +29,14 @@ bool FCOCCModelImport::update()
 {
     QString path = getFileName();
     if (path.isEmpty()) return false;
+    if (!path.endsWith(QStringLiteral("brep"), Qt::CaseInsensitive))
+        return false;
     QByteArray ba = path.toUtf8();
     const char* cpath = ba.constData();
     TopoDS_Shape shape;
-    if (path.endsWith(QStringLiteral("brep"), Qt::CaseInsensitive)) {
-        if (!BRepTools::Read(shape, cpath)) return false;
-    } else {
-        return false;
-    }
+    BRep_Builder builder;
+    // 本 OCC 签名为 Read(TopoDS_Shape& Sh, const char* File, const BRep_Builder& B)
+    if (!BRepTools::Read(shape, cpath, builder)) return false;
     if (shape.IsNull()) return false;
     _occShapeAgent->updateShape(shape);
     return true;
