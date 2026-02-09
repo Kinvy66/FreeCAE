@@ -1,6 +1,6 @@
 /**
  * @file FCGeoRepairSmallEdges.cpp
- * @brief 修复小边命令实现（接口层�?
+ * @brief 修复小边命令实现（接口层）
  */
 #include "FCAbsGeoRepairSmallEdges.h"
 

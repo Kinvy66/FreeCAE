@@ -1,6 +1,6 @@
 /**
  * @file FCGeoSketchDeleter.h
- * @brief 草图删除命令（移植自 FITKInterfaceGeometry FITKAbsGeoSketchDeleter�?
+ * @brief 草图删除命令（移植自 FITKInterfaceGeometry FITKAbsGeoSketchDeleter）
  */
 #ifndef FCGEOSKETCHDELETER_H
 #define FCGEOSKETCHDELETER_H
@@ -12,7 +12,7 @@
 namespace FC {
 
 /**
- * @brief 草图删除：移除指定草图实�?
+ * @brief 草图删除命令
  */
 class FCGEOMETRYINTERFACE_API FCGeoSketchDeleter : public FCAbsGeoCommand
 {

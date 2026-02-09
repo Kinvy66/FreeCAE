@@ -1,6 +1,6 @@
 /**
  * @file FCGeoModelImportFlattenAssembly.h
- * @brief 拆分平铺装配模式导入（移植自 FITKInterfaceGeometry FITKAbsGeoModelImportFlattenAssembly�?
+ * @brief 拆分扁平装配模式导入（移Щ自 FITKInterfaceGeometry FITKAbsGeoModelImportFlattenAssembly）
  */
 #ifndef FCGEOMODELIMPORTFLATTENASSEMBLY_H
 #define FCGEOMODELIMPORTFLATTENASSEMBLY_H
@@ -11,7 +11,7 @@
 namespace FC {
 
 /**
- * @brief 拆分平铺装配模式读取几何
+ * @brief 拆分扁平装配模式璇诲彇几何
  */
 class FCGEOMETRYINTERFACE_API FCGeoModelImportFlattenAssembly : public FCGeoImportBase
 {

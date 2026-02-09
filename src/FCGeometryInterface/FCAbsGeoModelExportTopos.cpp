@@ -1,6 +1,6 @@
 /**
  * @file FCGeoModelExportTopos.cpp
- * @brief 导出几何拓扑命令实现（接口层�?
+ * @brief 导出几何拓扑命令实现（接口层）
  */
 #include "FCAbsGeoModelExportTopos.h"
 

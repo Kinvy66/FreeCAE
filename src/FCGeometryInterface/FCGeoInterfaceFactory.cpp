@@ -1,6 +1,7 @@
 /**
  * @file FCGeoInterfaceFactory.cpp
- * @brief 几何接口工厂实现（移植自 FITKInterfaceGeometry�? */
+ * @brief 几何命令/基准创建工厂实现（接口层）
+ */
 #include "FCGeoInterfaceFactory.h"
 #include <QMutexLocker>
 

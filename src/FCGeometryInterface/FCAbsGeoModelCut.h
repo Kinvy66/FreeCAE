@@ -1,6 +1,6 @@
 /**
  * @file FCAbsGeoModelCut.h
- * @brief 实体切割命令接口（移植自 FITKInterfaceGeometry FITKAbsGeoModelCut�?
+ * @brief 切割几何命令接口（移植自 FITKInterfaceGeometry FITKAbsGeoModelCut）
  */
 #ifndef FCABSGEO MODELCUT_H
 #define FCABSGEO MODELCUT_H
@@ -13,7 +13,7 @@
 namespace FC {
 
 /**
- * @brief 实体切割抽象基类
+ * @brief 切割几何命令抽象基类
  */
 class FCGEOMETRYINTERFACE_API FCAbsGeoModelCut : public FCAbsGeoCommand
 {
@@ -24,7 +24,7 @@ public:
 };
 
 /**
- * @brief 拉伸切割
+ * @brief 拉伸切割命令
  */
 class FCGEOMETRYINTERFACE_API FCAbsGeoModelExtrudeCut : public FCAbsGeoModelCut
 {
@@ -56,7 +56,7 @@ protected:
 };
 
 /**
- * @brief 旋转切割
+ * @brief 旋转切割命令
  */
 class FCGEOMETRYINTERFACE_API FCAbsGeoModelRevolCut : public FCAbsGeoModelCut
 {
@@ -86,7 +86,7 @@ protected:
 };
 
 /**
- * @brief 扫略切割
+ * @brief 扫掠切割命令
  */
 class FCGEOMETRYINTERFACE_API FCAbsGeoModelSweepCut : public FCAbsGeoModelCut
 {
@@ -111,7 +111,7 @@ protected:
 };
 
 /**
- * @brief 多截面扫略切�?
+ * @brief 多截面切割命令
  */
 class FCGEOMETRYINTERFACE_API FCAbsGeoModelMultiSectionCut : public FCAbsGeoModelCut
 {

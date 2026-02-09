@@ -1,6 +1,6 @@
 /**
  * @file FCGeoReplaceFaces.h
- * @brief 替换面命令（移植�?FITKInterfaceGeometry FITKAbsGeoReplaceFaces�?
+ * @brief 替换面命令（移植自 FITKInterfaceGeometry FITKAbsGeoReplaceFaces）
  */
 #ifndef FCGEOREPLACEFACES_H
 #define FCGEOREPLACEFACES_H
@@ -12,7 +12,7 @@
 namespace FC {
 
 /**
- * @brief 替换�?
+ * @brief 替换面命令
  */
 class FCGEOMETRYINTERFACE_API FCGeoReplaceFaces : public FCAbsGeoCommand
 {

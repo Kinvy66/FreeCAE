@@ -1,6 +1,6 @@
 /**
  * @file FCExtendTool.cpp
- * @brief 构造辅助静态工具实�?
+  * @brief 构造辅助几何工具实现
  */
 #include "FCAbsExtendTool.h"
 

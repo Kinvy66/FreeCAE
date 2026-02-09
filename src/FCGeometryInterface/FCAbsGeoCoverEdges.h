@@ -1,6 +1,6 @@
 /**
  * @file FCGeoCoverEdges.h
- * @brief 覆盖面命令（移植�?FITKInterfaceGeometry FITKAbsGeoCoverEdges�?
+ * @brief 覆盖面命令接口（移植自 FITKInterfaceGeometry FITKAbsGeoCoverEdges）
  */
 #ifndef FCGEOCOVEREDGES_H
 #define FCGEOCOVEREDGES_H
@@ -12,7 +12,7 @@
 namespace FC {
 
 /**
- * @brief 覆盖�?
+ * @brief 覆盖面命令
  */
 class FCGEOMETRYINTERFACE_API FCGeoCoverEdges : public FCAbsGeoCommand
 {

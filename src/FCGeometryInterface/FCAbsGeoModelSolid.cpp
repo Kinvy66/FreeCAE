@@ -1,6 +1,6 @@
 /**
  * @file FCGeoModelSolid.cpp
- * @brief хо?ф╜?х?аф╜?х?╜ф╗дхо?ч?░я╝?ц?ех?гх▒?я╝?
+ * @brief хоЮф╜УхЗаф╜ХхС╜ф╗дхоЮчО░я╝ИцОехПгх▒Вя╝Й
  */
 #include "FCAbsGeoModelSolid.h"
 

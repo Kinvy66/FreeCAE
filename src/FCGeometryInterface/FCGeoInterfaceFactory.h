@@ -1,6 +1,7 @@
 /**
  * @file FCGeoInterfaceFactory.h
- * @brief 几何接口工厂（移植自 FITKInterfaceGeometry�? */
+ * @brief 几何接口工厂（移植自 FITKInterfaceGeometry） 
+ */
 #ifndef FCGEOINTERFACEFACTORY_H
 #define FCGEOINTERFACEFACTORY_H
 

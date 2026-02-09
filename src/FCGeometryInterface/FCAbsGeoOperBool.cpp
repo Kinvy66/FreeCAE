@@ -1,6 +1,6 @@
 /**
  * @file FCGeoOperBool.cpp
- * @brief 布尔运算几何命令实现（接口层�?
+ * @brief 布尔运算几何命令实现（接口层）
  */
 #include "FCAbsGeoOperBool.h"
 #include "FCAbsGeoShapeAgent.h"

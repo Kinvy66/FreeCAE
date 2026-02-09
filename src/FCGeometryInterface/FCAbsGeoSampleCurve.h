@@ -1,6 +1,6 @@
 /**
  * @file FCGeoSampleCurve.h
- * @brief 曲线采样命令（移植自 FITKInterfaceGeometry FITKAbsGeoSampleCurve�?
+ * @brief 曲线采样命令（移Щ自 FITKInterfaceGeometry FITKAbsGeoSampleCurve）
  */
 #ifndef FCGEOSAMPLECURVE_H
 #define FCGEOSAMPLECURVE_H
@@ -12,7 +12,7 @@
 namespace FC {
 
 /**
- * @brief 曲线采样（等�?等弧�?等弦长）
+ * @brief 曲线采样（移瓑鍙?等弧长/等弧长匡級
  */
 class FCGEOMETRYINTERFACE_API FCGeoSampleCurve : public FCAbsGeoCommand
 {

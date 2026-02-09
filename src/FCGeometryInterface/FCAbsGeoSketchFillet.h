@@ -1,6 +1,6 @@
 /**
  * @file FCGeoSketchFillet.h
- * @brief 草图倒角命令（移植自 FITKInterfaceGeometry FITKAbsGeoSketchFillet�?
+ * @brief 草图圆角命令（移植自 FITKInterfaceGeometry FITKAbsGeoSketchFillet）
  */
 #ifndef FCGEOSKETCHFILLET_H
 #define FCGEOSKETCHFILLET_H
@@ -11,7 +11,7 @@
 namespace FC {
 
 /**
- * @brief 草图倒角
+ * @brief 草图圆角命令
  */
 class FCGEOMETRYINTERFACE_API FCGeoSketchFillet : public FCAbsGeoCommand
 {

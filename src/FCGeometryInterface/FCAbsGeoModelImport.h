@@ -1,6 +1,6 @@
 /**
  * @file FCGeoModelImport.h
- * @brief 几何导入命令接口（移植自 FITKInterfaceGeometry FITKAbsGeoModelImport�?
+ * @brief 几何导入命令接口（移Щ自 FITKInterfaceGeometry FITKAbsGeoModelImport）
  */
 #ifndef FCGEOMODELIMPORT_H
 #define FCGEOMODELIMPORT_H

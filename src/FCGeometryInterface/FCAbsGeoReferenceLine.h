@@ -1,6 +1,6 @@
 /**
  * @file FCGeoReferenceLine.h
- * @brief 参考线基准（移植自 FITKInterfaceGeometry FITKAbsGeoReferenceLine�?
+  * @brief 参考线命令（移植自 FITKInterfaceGeometry FITKAbsGeoReferenceLine）
  */
 #ifndef FCGEOREFERENCELINE_H
 #define FCGEOREFERENCELINE_H
@@ -13,7 +13,7 @@
 namespace FC {
 
 /**
- * @brief 参考线基类
+  * @brief 参考线（直线、圆、样条等）
  */
 class FCGEOMETRYINTERFACE_API FCGeoReferenceLine : public FCAbsGeoDatumLine
 {
@@ -44,7 +44,7 @@ public:
 };
 
 /**
- * @brief 平面相交�?
+ * @brief 平面相交命令
  */
 class FCGEOMETRYINTERFACE_API FCGeoReferenceLineByIntersectPlanes : public FCGeoReferenceLine
 {
@@ -64,7 +64,7 @@ protected:
 };
 
 /**
- * @brief 旋转�?
+ * @brief 旋转�?
  */
 class FCGEOMETRYINTERFACE_API FCGeoReferenceLineByRotateLine : public FCGeoReferenceLine
 {

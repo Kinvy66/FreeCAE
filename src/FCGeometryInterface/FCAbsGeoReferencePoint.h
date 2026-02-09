@@ -1,6 +1,6 @@
 /**
  * @file FCGeoReferencePoint.h
- * @brief 参考点基准（移植自 FITKInterfaceGeometry FITKAbsGeoReferencePoint�?
+  * @brief 参考点命令（移植自 FITKInterfaceGeometry FITKAbsGeoReferencePoint）
  */
 #ifndef FCGEOREFERENCEPOINT_H
 #define FCGEOREFERENCEPOINT_H
@@ -12,7 +12,7 @@
 namespace FC {
 
 /**
- * @brief 坐标参考点
+  * @brief 参考点
  */
 class FCGEOMETRYINTERFACE_API FCGeoReferencePoint : public FCAbsGeoDatumPoint
 {

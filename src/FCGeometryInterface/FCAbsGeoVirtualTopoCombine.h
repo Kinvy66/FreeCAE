@@ -1,6 +1,6 @@
 /**
  * @file FCGeoVirtualTopoCombine.h
- * @brief 虚拓扑合并命令（移植�?FITKInterfaceGeometry FITKAbsGeoVirtualTopoCombine�?
+ * @brief 虚拓扑合并命令（移植自 FITKInterfaceGeometry FITKAbsGeoVirtualTopoCombine）
  */
 #ifndef FCGEOVIRTUALTOPOCOMBINE_H
 #define FCGEOVIRTUALTOPOCOMBINE_H
@@ -12,7 +12,7 @@
 namespace FC {
 
 /**
- * @brief 虚拓扑合并基�?
+ * @brief 虚拓扑合并基类
  */
 class FCGEOMETRYINTERFACE_API FCGeoVirtualTopoCombine : public FCAbsGeoCommand
 {

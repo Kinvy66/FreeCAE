@@ -1,6 +1,6 @@
 /**
  * @file FCGeoConstruction.h
- * @brief 构造线命令（移植自 FITKInterfaceGeometry FITKAbsConstruction�?
+ * @brief 构造线命令接口（移植自 FITKInterfaceGeometry FITKAbsConstruction）
  */
 #ifndef FCGEOCONSTRUCTION_H
 #define FCGEOCONSTRUCTION_H
@@ -13,7 +13,7 @@
 namespace FC {
 
 /**
- * @brief 构造线（直�?圆等辅助线）
+ * @brief 构造线命令
  */
 class FCGEOMETRYINTERFACE_API FCGeoConstruction : public FCAbsGeoCommand
 {

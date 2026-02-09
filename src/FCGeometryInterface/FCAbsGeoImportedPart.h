@@ -1,6 +1,6 @@
 /**
  * @file FCGeoImportedPart.h
- * @brief 导入的模型部件命令（移植�?FITKInterfaceGeometry FITKAbsGeoImportedPart�?
+ * @brief 
  */
 #ifndef FCGEOIMPORTEDPART_H
 #define FCGEOIMPORTEDPART_H
@@ -11,7 +11,7 @@
 namespace FC {
 
 /**
- * @brief 导入的模型部件命�?
+ * @brief 导入几何部件命令
  */
 class FCGEOMETRYINTERFACE_API FCGeoImportedPart : public FCAbsGeoCommand
 {

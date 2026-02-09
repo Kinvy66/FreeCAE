@@ -1,6 +1,6 @@
 /**
  * @file FCGeoSampleCurve.cpp
- * @brief 曲线采样命令实现（接口层�?
+ * @brief 曲线采样命令实现（接口层）
  */
 #include "FCAbsGeoSampleCurve.h"
 

@@ -8,47 +8,53 @@
 
 /**
  * @file FCOCCModelCut.h
- * @brief OCC 切削功能（与 FreeCAE FCGeoModelCut 接口关联）
+ * @brief OCC 切削命令（拉伸/旋转/扫掠/多截面）（移植自 FITKGeoCompOCC FITKOCCModelCut）
  */
 #ifndef FCOCCMODELCUT_H
 #define FCOCCMODELCUT_H
 
 #include "FCAbstractOCCModel.h"
-#include "FCAbsGeoModelCut.h"
+#include "FCGeometryCommandAPI.h"
+#include <FCGeometryInterface/FCAbsGeoModelCut.h>
 
-namespace OCC
+namespace OCC {
+
+class FCGEOMETRYCMD_API FCOCCModelExtrudeCut : public FC::FCAbsGeoModelExtrudeCut, public OCCShapeAgent
 {
-    class FCGEOMETRYCMD_API FCOCCModelExtrudeCut : public FC::FCAbsGeoModelExtrudeCut, public OCCShapeAgent
-    {
-    public:
-        FCOCCModelExtrudeCut();
-        ~FCOCCModelExtrudeCut() override = default;
-        bool update() override;
-    };
+public:
+    FCOCCModelExtrudeCut();
+    ~FCOCCModelExtrudeCut() override = default;
+    FC::FCGeoEnum::FITKGeometryComType getGeometryCommandType() override;
+    bool update() override;
+};
 
-    class FCGEOMETRYCMD_API FCOCCModelRevolCut : public FC::FCAbsGeoModelRevolCut, public OCCShapeAgent
-    {
-    public:
-        FCOCCModelRevolCut();
-        ~FCOCCModelRevolCut() override = default;
-        bool update() override;
-    };
+class FCGEOMETRYCMD_API FCOCCModelRevolCut : public FC::FCAbsGeoModelRevolCut, public OCCShapeAgent
+{
+public:
+    FCOCCModelRevolCut();
+    ~FCOCCModelRevolCut() override = default;
+    FC::FCGeoEnum::FITKGeometryComType getGeometryCommandType() override;
+    bool update() override;
+};
 
-    class FCGEOMETRYCMD_API FCOCCModelSweepCut : public FC::FCAbsGeoModelSweepCut, public OCCShapeAgent
-    {
-    public:
-        FCOCCModelSweepCut();
-        ~FCOCCModelSweepCut() override = default;
-        bool update() override;
-    };
+class FCGEOMETRYCMD_API FCOCCModelSweepCut : public FC::FCAbsGeoModelSweepCut, public OCCShapeAgent
+{
+public:
+    FCOCCModelSweepCut();
+    ~FCOCCModelSweepCut() override = default;
+    FC::FCGeoEnum::FITKGeometryComType getGeometryCommandType() override;
+    bool update() override;
+};
 
-    class FCGEOMETRYCMD_API FCOCCModelMultiSectionCut : public FC::FCAbsGeoModelMultiSectionCut, public OCCShapeAgent
-    {
-    public:
-        FCOCCModelMultiSectionCut();
-        ~FCOCCModelMultiSectionCut() override = default;
-        bool update() override;
-    };
-}
+class FCGEOMETRYCMD_API FCOCCModelMultiSectionCut : public FC::FCAbsGeoModelMultiSectionCut, public OCCShapeAgent
+{
+public:
+    FCOCCModelMultiSectionCut();
+    ~FCOCCModelMultiSectionCut() override = default;
+    FC::FCGeoEnum::FITKGeometryComType getGeometryCommandType() override;
+    bool update() override;
+};
 
-#endif
+} // namespace OCC
+
+#endif // FCOCCMODELCUT_H

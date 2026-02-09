@@ -1,6 +1,6 @@
 /**
  * @file FCGeoReferencePoint.cpp
- * @brief 参考点基准实现（接口层�?
+  * @brief 参考点命令实现（接口层）
  */
 #include "FCAbsGeoReferencePoint.h"
 

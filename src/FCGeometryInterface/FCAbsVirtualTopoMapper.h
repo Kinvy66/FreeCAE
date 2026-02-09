@@ -1,6 +1,6 @@
 /**
  * @file FCVirtualTopoMapper.h
- * @brief 虚拓扑关系查询（移植�?FITKInterfaceGeometry FITKAbsVirtualTopoMapper�?
+ * @brief 虚拓扑映射关系查询（移植自 FITKInterfaceGeometry FITKAbsVirtualTopoMapper）
  */
 #ifndef FCVIRTUALTOPOMAPPER_H
 #define FCVIRTUALTOPOMAPPER_H
@@ -13,7 +13,7 @@
 namespace FC {
 
 /**
- * @brief 拓扑关系查询：按形状类型向下/向上迭代子拓扑或父拓�?
+ * @brief 拓扑关系查询：按形状类型向下/向上迭代子拓扑或父拓扑
  */
 class FCGEOMETRYINTERFACE_API FCVirtualTopoMapper
 {
@@ -26,7 +26,7 @@ public:
     int length() const;
     FCAbsVirtualTopo* virtualTopo(int index) const;
 
-    /** 注入�?ID 解析虚拓扑的回调（如�?FCDataRepo 查询），未设置时 mapTopo(int) 仅清空结�?*/
+    /** 注入按 ID 解析虚拓扑的回调（如从 FCDataRepo 查询），未设置时 mapTopo(int) 仅清空结果 */
     using VirtualTopoResolver = FCAbsVirtualTopo* (*)(int id);
     static void setVirtualTopoResolver(VirtualTopoResolver resolver);
     static VirtualTopoResolver getVirtualTopoResolver();

@@ -1,6 +1,6 @@
 /**
  * @file FCGeoOperNBodyUnite.h
- * @brief 多实体布尔求和命令接口（移植�?FITKInterfaceGeometry FITKAbsGeoOperNBodyUnite�?
+ * @brief 多实体布尔求和命令（移植自 FITKInterfaceGeometry FITKAbsGeoOperNBodyUnite）
  */
 #ifndef FCGEOOPERNBODYUNITE_H
 #define FCGEOOPERNBODYUNITE_H
@@ -12,7 +12,7 @@
 namespace FC {
 
 /**
- * @brief 多实体布尔求�?
+ * @brief 多实体布尔求和命令
  */
 class FCGEOMETRYINTERFACE_API FCGeoOperNBodyUnite : public FCAbsGeoCommand
 {

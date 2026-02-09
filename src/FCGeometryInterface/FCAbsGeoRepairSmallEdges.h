@@ -1,6 +1,6 @@
 /**
  * @file FCGeoRepairSmallEdges.h
- * @brief 修复小边命令（移植自 FITKInterfaceGeometry FITKAbsGeoRepairSmallEdges�?
+ * @brief 修复小边命令（移植自 FITKInterfaceGeometry FITKAbsGeoRepairSmallEdges）
  */
 #ifndef FCGEOREPAIRSMALLEDGES_H
 #define FCGEOREPAIRSMALLEDGES_H
@@ -12,7 +12,7 @@
 namespace FC {
 
 /**
- * @brief 修复小边
+ * @brief 修复小边命令
  */
 class FCGEOMETRYINTERFACE_API FCGeoRepairSmallEdges : public FCAbsGeoCommand
 {

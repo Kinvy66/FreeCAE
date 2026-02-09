@@ -1,6 +1,6 @@
 /**
  * @file FCGeoTransformation.h
- * @brief 几何变换命令接口（移植自 FITKInterfaceGeometry FITKAbsGeoTransformation�?
+ * @brief 几何变换命令接口（移植自 FITKInterfaceGeometry FITKAbsGeoTransformation）
  */
 #ifndef FCGEOTRANSFORMATION_H
 #define FCGEOTRANSFORMATION_H
@@ -51,7 +51,7 @@ protected:
 };
 
 /**
- * @brief 通过两个点平移变�?
+ * @brief 通过两个点平移变换
  */
 class FCGEOMETRYINTERFACE_API FCGeoModelTransformByTwoPoints : public FCGeoModelTransform
 {
@@ -74,7 +74,7 @@ protected:
 };
 
 /**
- * @brief 通过方向和距离平移变�?
+ * @brief 通过方向和距离平移变换
  */
 class FCGEOMETRYINTERFACE_API FCGeoModelTransformByDirAndDis : public FCGeoModelTransform
 {
@@ -96,7 +96,7 @@ protected:
 };
 
 /**
- * @brief 旋转变换
+ * @brief 旋转变换命令
  */
 class FCGEOMETRYINTERFACE_API FCGeoModelRotate : public FCGeoTransformation
 {
@@ -124,7 +124,7 @@ protected:
 };
 
 /**
- * @brief 缩放变换
+ * @brief 缩放变换命令
  */
 class FCGEOMETRYINTERFACE_API FCGeoModelScale : public FCGeoTransformation
 {
@@ -147,7 +147,7 @@ protected:
 };
 
 /**
- * @brief 镜像变换
+ * @brief 镜像变换命令
  */
 class FCGEOMETRYINTERFACE_API FCGeoModelMirror : public FCGeoTransformation
 {
@@ -165,7 +165,7 @@ protected:
 };
 
 /**
- * @brief 阵列变换基类
+ * @brief 阵列变换基类（抽象）
  */
 class FCGEOMETRYINTERFACE_API FCGeoModelPattern : public FCGeoTransformation
 {
@@ -194,7 +194,7 @@ protected:
 };
 
 /**
- * @brief 矩形阵列变换
+ * @brief 矩形阵列变换命令
  */
 class FCGEOMETRYINTERFACE_API FCGeoModelRectangularPattern : public FCGeoModelPattern
 {
@@ -236,7 +236,7 @@ protected:
 };
 
 /**
- * @brief 环形阵列变换
+ * @brief 圆形阵列变换命令
  */
 class FCGEOMETRYINTERFACE_API FCGeoModelCircularPattern : public FCGeoModelPattern
 {

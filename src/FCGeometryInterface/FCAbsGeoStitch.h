@@ -1,6 +1,6 @@
 /**
  * @file FCGeoStitch.h
- * @brief 缝合面命令（移植�?FITKInterfaceGeometry FITKAbsGeoStitch�?
+ * @brief 缝合面命令（移植自 FITKInterfaceGeometry FITKAbsGeoStitch）
  */
 #ifndef FCGEOSTITCH_H
 #define FCGEOSTITCH_H
@@ -12,7 +12,7 @@
 namespace FC {
 
 /**
- * @brief 缝合�?
+ * @brief 缝合面命令
  */
 class FCGEOMETRYINTERFACE_API FCGeoStitch : public FCAbsGeoCommand
 {

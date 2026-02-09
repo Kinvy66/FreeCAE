@@ -1,6 +1,6 @@
 /**
  * @file FCGeoReferencePlane.cpp
- * @brief 参考面基准实现（接口层�?
+  * @brief 参考面命令实现（接口层）
  */
 #include "FCAbsGeoReferencePlane.h"
 

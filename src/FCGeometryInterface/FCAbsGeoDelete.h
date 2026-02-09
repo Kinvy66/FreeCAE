@@ -1,6 +1,6 @@
 /**
  * @file FCGeoDelete.h
- * @brief 模型删除命令接口（移植自 FITKInterfaceGeometry FITKAbsGeoDelete�?
+  * @brief 删除几何命令（移植自 FITKInterfaceGeometry FITKGeoDelete）
  */
 #ifndef FCGEODELETE_H
 #define FCGEODELETE_H
@@ -11,7 +11,7 @@
 namespace FC {
 
 /**
- * @brief 模型删除命令：将指定命令置为删除状�?
+ * @brief 模型删除命令：将指定命令置为删除状�?
  */
 class FCGEOMETRYINTERFACE_API FCGeoDelete : public FCAbsGeoCommand
 {

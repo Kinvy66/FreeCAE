@@ -1,6 +1,6 @@
 /**
  * @file FCAbsGeoModelCut.cpp
- * @brief å®?ä½?å??å?²å?½ä»¤å®?ç?°ï¼?æ?¥å?£å±?ï¼?
+ * @brief åˆ‡å‰²å‡ ä½•å‘½ä»¤æ¥å£å®ç°ï¼ˆç§»æ¤è‡ª FITKInterfaceGeometry FITKAbsGeoModelCutï¼‰
  */
 #include "FCAbsGeoModelCut.h"
 

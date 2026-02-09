@@ -1,6 +1,6 @@
 /**
  * @file FCGeoTransformation.cpp
- * @brief 几何变换命令实现（接口层�?
+ * @brief 几何变换命令实现（接口层）
  */
 #include "FCAbsGeoTransformation.h"
 

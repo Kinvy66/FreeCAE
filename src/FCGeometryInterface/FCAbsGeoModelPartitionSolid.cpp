@@ -1,6 +1,6 @@
 /**
  * @file FCGeoModelPartitionSolid.cpp
- * @brief 实体分块命令实现（接口层�? */
+ * @brief 实体分块命令实现（接口层） */
 #include "FCAbsGeoModelPartitionSolid.h"
 
 namespace FC {

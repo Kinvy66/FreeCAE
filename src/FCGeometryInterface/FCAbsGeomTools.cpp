@@ -1,6 +1,6 @@
 /**
  * @file FCAbstractGeomTools.cpp
- * @brief 几何查询工具桩实�?
+ * @brief 几何查询工具集实现
  */
 #include "FCAbsGeomTools.h"
 

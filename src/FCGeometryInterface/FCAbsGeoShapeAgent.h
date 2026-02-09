@@ -10,6 +10,7 @@
 #include "FCGeometryMeshVS.h"
 #include <FCModelInterface/FCAbstractGeoModel.h>
 #include <FCData/FCMacros.h>
+#include <QVariant>
 
 namespace FC {
 
@@ -29,6 +30,9 @@ public:
     virtual void buildVirtualTopo(bool keepTopos = false) = 0;
     FCVirtualTopoManager* getVirtualTopoManager();
     virtual void triangulation() = 0;
+    virtual int getDim() = 0;
+    virtual bool createShapeState(QVariant& stateVal) = 0;
+    virtual bool isSameState(QVariant& stateVal1, QVariant& stateVal2);
     void updateVS();
     FCGeometryMeshVS* getMeshVS();
     bool writeSTLFile(QString filePath) override;

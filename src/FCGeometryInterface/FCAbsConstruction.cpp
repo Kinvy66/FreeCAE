@@ -1,6 +1,6 @@
 /**
  * @file FCGeoConstruction.cpp
- * @brief 构造线命令实现（接口层�?
+ * @brief 构造线命令实现（接口层）
  */
 #include "FCAbsConstruction.h"
 #include <FCModelInterface/FCAbstractModel.h>

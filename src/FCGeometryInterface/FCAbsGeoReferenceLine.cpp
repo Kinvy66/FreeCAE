@@ -1,6 +1,6 @@
 /**
  * @file FCGeoReferenceLine.cpp
- * @brief 参考线基准实现（接口层�?
+  * @brief 参考线命令实现（接口层）
  */
 #include "FCAbsGeoReferenceLine.h"
 

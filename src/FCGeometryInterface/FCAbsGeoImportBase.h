@@ -1,6 +1,6 @@
 /**
  * @file FCGeoImportBase.h
- * @brief 几何导入命令抽象基类（移植自 FITKInterfaceGeometry FITKAbsGeoImportBase�?
+ * @brief 几何导入命令抽象基类（移植自 FITKInterfaceGeometry FITKAbsGeoImportBase）
  */
 #ifndef FCGEOIMPORTBASE_H
 #define FCGEOIMPORTBASE_H
@@ -12,7 +12,7 @@
 namespace FC {
 
 /**
- * @brief 几何导入命令抽象基类，子类实�?getGeometryCommandType/update
+ * @brief 几何导入命令抽象基类
  */
 class FCGEOMETRYINTERFACE_API FCGeoImportBase : public FCAbsGeoCommand
 {

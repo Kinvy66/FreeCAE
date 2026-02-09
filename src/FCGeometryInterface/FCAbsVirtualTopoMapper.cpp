@@ -1,6 +1,6 @@
 /**
  * @file FCVirtualTopoMapper.cpp
- * @brief 虚拓扑关系查询实�?
+ * @brief 虚拓扑映射关系查询实现
  */
 #include "FCAbsVirtualTopoMapper.h"
 

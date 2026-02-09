@@ -1,6 +1,6 @@
 /**
  * @file FCGeoReferencePlane.h
- * @brief 参考面基准（移植自 FITKInterfaceGeometry FITKAbsGeoReferencePlane�?
+  * @brief 参考面命令（移植自 FITKInterfaceGeometry FITKAbsGeoReferencePlane）
  */
 #ifndef FCGEOREFERENCEPLANE_H
 #define FCGEOREFERENCEPLANE_H
@@ -13,7 +13,7 @@
 namespace FC {
 
 /**
- * @brief 参考面基类
+  * @brief 参考平面
  */
 class FCGEOMETRYINTERFACE_API FCGeoReferencePlane : public FCAbsGeoDatumPlane
 {

@@ -1,6 +1,6 @@
 /**
  * @file FCGeoMultiDelete.h
- * @brief 多选模型删除命令接口（移植�?FITKInterfaceGeometry FITKAbsGeoMultiDelete�?
+  * @brief 多重删除几何命令（移植自 FITKInterfaceGeometry FITKAbsGeoMultiDelete）
  */
 #ifndef FCGEOMULTIDELETE_H
 #define FCGEOMULTIDELETE_H
@@ -12,7 +12,7 @@
 namespace FC {
 
 /**
- * @brief 多选模型删除命�?
+ * @brief 多重删除几何命令
  */
 class FCGEOMETRYINTERFACE_API FCGeoMultiDelete : public FCAbsGeoCommand
 {

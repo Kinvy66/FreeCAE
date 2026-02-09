@@ -1,6 +1,6 @@
 /**
  * @file FCGeoSketchFillet.cpp
- * @brief 草图倒角命令实现（接口层�?
+ * @brief 草图圆角命令实现（接口层）
  */
 #include "FCAbsGeoSketchFillet.h"
 

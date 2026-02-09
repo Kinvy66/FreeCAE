@@ -1,6 +1,6 @@
 /**
  * @file FCGeoSketch2D.cpp
- * @brief 2D 草图命令实现（接口层�?
+ * @brief 2D 草图命令实现（接口层）
  */
 #include "FCAbsGeoSketch2D.h"
 #include <FCModelInterface/FCAbstractModel.h>

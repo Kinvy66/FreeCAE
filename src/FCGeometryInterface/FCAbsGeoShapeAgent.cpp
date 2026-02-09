@@ -5,6 +5,7 @@
 #include "FCAbsGeoShapeAgent.h"
 #include "FCAbsGeoCommand.h"
 #include "FCVirtualTopoManager.h"
+#include <QVariant>
 
 namespace FC {
 
@@ -44,6 +45,13 @@ FCGeometryMeshVS* FCAbsGeoShapeAgent::getMeshVS()
 bool FCAbsGeoShapeAgent::writeSTLFile(QString filePath)
 {
     Q_UNUSED(filePath);
+    return false;
+}
+
+bool FCAbsGeoShapeAgent::isSameState(QVariant& stateVal1, QVariant& stateVal2)
+{
+    Q_UNUSED(stateVal1);
+    Q_UNUSED(stateVal2);
     return false;
 }
 

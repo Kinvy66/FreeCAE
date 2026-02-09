@@ -1,6 +1,6 @@
 /**
  * @file FCGeoModelSurface.cpp
- * @brief 曲面几何命令实现（接口层�?
+ * @brief 曲面几何命令实现（接口层）
  */
 #include "FCAbsGeoModelSurface.h"
 

@@ -1,6 +1,6 @@
 /**
  * @file FCAbsGeoModelSolid.h
- * @brief 实体几何命令接口（移植自 FITKInterfaceGeometry FITKAbsGeoModelSolid�?
+ * @brief 实体几何命令接口（移Щ自 FITKInterfaceGeometry FITKAbsGeoModelSolid）
  */
 #ifndef FCABSGEO MODELSOLID_H
 #define FCABSGEO MODELSOLID_H
@@ -106,7 +106,7 @@ protected:
 };
 
 /**
- * @brief 扫略�?
+ * @brief 鎵暐浣?
  */
 class FCGEOMETRYINTERFACE_API FCAbsGeoModelSweepSolid : public FCAbsGeoModelSolid
 {
@@ -130,7 +130,7 @@ protected:
 };
 
 /**
- * @brief 多截面扫略体
+ * @brief 多截面扫掠体
  */
 class FCGEOMETRYINTERFACE_API FCAbsGeoModelMultiSectionSolid : public FCAbsGeoModelSolid
 {

@@ -1,6 +1,6 @@
 /**
  * @file FCGeoDelete.cpp
- * @brief 模型删除命令实现（undo/redo 需与命令管理器/Repo 集成后实现）
+  * @brief 删除几何命令实现（接口层）
  */
 #include "FCAbsGeoDelete.h"
 
@@ -18,13 +18,13 @@ bool FCGeoDelete::update()
 
 bool FCGeoDelete::undo()
 {
-    // 需通过 FCGeoCommandManager/Repo 获取命令�?setCommandStatus(FGSNormal) �?
+    // 需通过 FCGeoCommandManager/Repo 获取命令并设置命令状态为 FGSNormal
     return true;
 }
 
 bool FCGeoDelete::redo()
 {
-    // 需通过 FCGeoCommandManager/Repo 获取命令�?setCommandStatus(FGSDeleted) �?
+    // 需通过 FCGeoCommandManager/Repo 获取命令并设置命令状态为 FGSDeleted
     return true;
 }
 

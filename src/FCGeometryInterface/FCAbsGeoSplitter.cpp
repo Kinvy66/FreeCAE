@@ -1,6 +1,6 @@
 /**
  * @file FCGeoSplitter.cpp
- * @brief 模型分割命令实现（接口层�?
+ * @brief 模型分割命令实现（接口层）
  */
 #include "FCAbsGeoSplitter.h"
 

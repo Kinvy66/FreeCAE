@@ -1,6 +1,6 @@
 /**
  * @file FCGeoModelSphere.cpp
- * @brief 球体几何命令实现（接口层�?
+ * @brief 球体几何命令实现（接口层）
  */
 #include "FCAbsGeoModelSphere.h"
 #include <FCModelInterface/FCAbstractModel.h>

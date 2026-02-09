@@ -1,6 +1,6 @@
 /**
  * @file FCAbstractGeomTools.h
- * @brief 几何查询工具抽象接口（移植自 FITKInterfaceGeometry FITKAbsGeomTools，接口层桩实现）
+ * @brief 几何工具集接口（移植自 FITKInterfaceGeometry FITKAbsGeomTools）
  */
 #ifndef FCABSTRACTGEOMTOOLS_H
 #define FCABSTRACTGEOMTOOLS_H
@@ -15,7 +15,7 @@
 
 namespace FC {
 
-/** 点查询工�?*/
+/** 点工具 */
 class FCGEOMETRYINTERFACE_API FCAbstractGeomPointTool : public FCAbstractDataObject
 {
 public:
@@ -26,7 +26,7 @@ public:
     virtual bool getXYZ(FCAbsVirtualTopo* vtp, double* oXyz, int modelId = -1);
 };
 
-/** 边查询工�?*/
+/** 边工具 */
 class FCGEOMETRYINTERFACE_API FCAbstractGeomEdgeTool : public FCAbstractDataObject
 {
 public:
@@ -38,7 +38,7 @@ public:
     virtual bool getLengthByID(const int& id, double& oLen);
     virtual bool getMidPointByID(const int& id, double* oPos, int iModelId = -1);
     virtual bool isLineByID(const int& id);
-    // vtp-based API（OCC 等后端实现）
+    // vtp-based API
     virtual bool getStartPointDirection(FCAbsVirtualTopo* vtp, double* oPos, double* oDir, int iModelId = -1);
     virtual bool getEndPointDirection(FCAbsVirtualTopo* vtp, double* oPos, double* oDir, int iModelId = -1);
     virtual bool getDirection(FCAbsVirtualTopo* vtp, double* iPos, double* oDir, int iModelId = -1);
@@ -54,7 +54,7 @@ public:
     virtual QList<int> getEdgesOnPlane(int cmdId, double* iOrg, double* iNor);
 };
 
-/** 面查询工�?*/
+/** 面工具 */
 class FCGEOMETRYINTERFACE_API FCAbstractGeomFaceTool : public FCAbstractDataObject
 {
 public:
@@ -65,7 +65,7 @@ public:
     virtual bool getPlaneByID(const int& id, double* oPos, double* oNormal, double* oUp, int iModelId = -1);
     virtual bool getNormalByID(const int& id, double* oPos, double* oNormal, int iModelId = -1);
     virtual bool isPlaneByID(const int& id);
-    // vtp-based API（OCC 等后端实现）
+    // vtp-based API
     virtual bool getArea(FCAbsVirtualTopo* vtp, double& oArea);
     virtual bool getMeanCurvatureAtPos(FCAbsVirtualTopo* vtp, double* iPos, double& oCur);
     virtual bool getCurvatureAtPos(FCAbsVirtualTopo* vtp, double* iPos, double& oCur1, double& oCur2, double* oDir1, double* oDir2);
@@ -81,7 +81,7 @@ public:
     virtual bool isSameSurface(QList<int> ids);
 };
 
-/** 通用查询工具 */
+/** 通用工具 */
 class FCGEOMETRYINTERFACE_API FCAbstractGeomCommonTool : public FCAbstractDataObject
 {
 public:
@@ -90,7 +90,7 @@ public:
     static FCAbstractGeomCommonTool* createTool();
     virtual bool getDistanceByTopoIDs(int vTopoId_1, int vTopoId_2, double& oDist, double oPos_1[3], double oPos_2[3]);
     virtual bool getFaceSamplePointsByID(int vTopoId, QList<QList<double>>& oPoses, int iSpacing = 5, int iModelId = -1);
-    // vtp-based API（OCC 等后端实现）
+    // vtp-based API
     virtual bool getDistanceByTopos(FCAbsVirtualTopo* vtp_1, FCAbsVirtualTopo* vtp_2, double& oDist, double oPos_1[3], double oPos_2[3]);
     virtual bool getDistanceByTopoAndPos(FCAbsVirtualTopo* vtp, double iPos3[3], double& oDist, double oPos[3]);
     virtual void canCheckTopos(bool& oInvalid, bool& oImprecise);
@@ -101,7 +101,7 @@ public:
     virtual bool getFaceSamplePoints(FCAbsVirtualTopo* vtp, QList<QList<double>>& oPoses, int iSpacing = 5, int iModelId = -1);
 };
 
-/** 特征查询工具 */
+/** 特征工具 */
 class FCGEOMETRYINTERFACE_API FCAbstractGeomFeatureTool : public FCAbstractDataObject
 {
 public:
@@ -111,7 +111,7 @@ public:
     virtual bool getFeatures(int comId, FCGeoEnum::FITKFeatureType featureType, QList<QList<FCAbsVirtualTopo*>>& oFeatures);
 };
 
-/** 几何查询工具创建�?*/
+/** 几何工具创建器 */
 class FCGEOMETRYINTERFACE_API FCAbstractGeomToolsCreator
 {
 public:

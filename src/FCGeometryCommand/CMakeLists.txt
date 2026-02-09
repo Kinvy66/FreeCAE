@@ -45,9 +45,10 @@ add_library(${FC_PROJECT_NAME}::${FC_LIB_NAME} ALIAS ${FC_LIB_NAME})
 ########################################################
 # 依赖：FCGeometryInterface（几何接口）、OCC、VTK
 ########################################################
-find_package(${FC_PROJECT_NAME} COMPONENTS FCGeometryInterface FCData REQUIRED)
+find_package(${FC_PROJECT_NAME} COMPONENTS FCGeometryInterface FCModelInterface FCData REQUIRED)
 target_link_libraries(${FC_LIB_NAME} PRIVATE
     ${FC_PROJECT_NAME}::FCGeometryInterface
+    ${FC_PROJECT_NAME}::FCModelInterface
     ${FC_PROJECT_NAME}::FCData
     Qt${QT_VERSION_MAJOR}::Core
     Qt${QT_VERSION_MAJOR}::Gui

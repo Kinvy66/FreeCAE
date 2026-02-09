@@ -1,6 +1,6 @@
 /**
  * @file FCGeoOperBool.h
- * @brief 布尔运算几何命令接口（移植自 FITKInterfaceGeometry FITKAbsGeoOperBool�?
+ * @brief 布尔运算几何命令接口（移植自 FITKInterfaceGeometry FITKAbsGeoOperBool）
  */
 #ifndef FCGEOOPERBOOL_H
 #define FCGEOOPERBOOL_H
@@ -13,7 +13,7 @@ namespace FC {
 class FCAbsGeoShapeAgent;
 
 /**
- * @brief 布尔运算几何命令（交/�?并）
+ * @brief 布尔运算几何命令（交集/差集/并集）
  */
 class FCGEOMETRYINTERFACE_API FCGeoOperBool : public FCAbsGeoCommand
 {
@@ -23,9 +23,9 @@ public:
     enum GeoBoolOperType
     {
         GBTNone,
-        GBTCommon,  // �?
-        GBTCut,     // �?
-        GBTAdd,     // �?
+        GBTCommon,  // 交集
+        GBTCut,     // 差集
+        GBTAdd,     // 并集
     };
     Q_ENUM(GeoBoolOperType)
 

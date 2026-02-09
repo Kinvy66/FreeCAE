@@ -1,6 +1,6 @@
 /**
  * @file FCGeoSketch2D.h
- * @brief 2D 草图命令（移植自 FITKInterfaceGeometry FITKAbsGeoSketch2D，接口层不含曲线依赖�?
+ * @brief 2D 草图命令（移植自 FITKInterfaceGeometry FITKAbsGeoSketch2D）
  */
 #ifndef FCGEOSKETCH2D_H
 #define FCGEOSKETCH2D_H
@@ -14,7 +14,7 @@
 namespace FC {
 
 /**
- * @brief 2D 草图：命�?+ 子命令容器，平面与尺寸接�?
+ * @brief 2D 草图命令
  */
 class FCGEOMETRYINTERFACE_API FCGeoSketch2D : public FCAbsGeoCommand, public FCGeoCommandManager
 {

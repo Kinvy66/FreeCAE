@@ -1,6 +1,6 @@
 /**
  * @file FCGeoRepairSmallFaces.cpp
- * @brief 修复小面命令实现（接口层�?
+ * @brief 修复小面命令实现（接口层）
  */
 #include "FCAbsGeoRepairSmallFaces.h"
 

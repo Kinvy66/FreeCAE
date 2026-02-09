@@ -1,6 +1,6 @@
 /**
  * @file FCGeoSplitter.h
- * @brief 模型分割命令（移植自 FITKInterfaceGeometry FITKAbsGeoSplitter�?
+ * @brief 模型分割命令（移植自 FITKInterfaceGeometry FITKAbsGeoSplitter）
  */
 #ifndef FCGEOSPLITTER_H
 #define FCGEOSPLITTER_H
@@ -34,7 +34,7 @@ protected:
 };
 
 /**
- * @brief 曲线分割
+ * @brief 曲线分割命令
  */
 class FCGEOMETRYINTERFACE_API FCGeoCurveSplitter : public FCGeoSplitter
 {
@@ -54,7 +54,7 @@ protected:
 };
 
 /**
- * @brief 面分�?
+ * @brief 面分割命令
  */
 class FCGEOMETRYINTERFACE_API FCGeoSurfaceSplitter : public FCGeoSplitter
 {
@@ -68,7 +68,7 @@ public:
 };
 
 /**
- * @brief 体分�?
+ * @brief 体分割命令
  */
 class FCGEOMETRYINTERFACE_API FCGeoSolidSplitter : public FCGeoSplitter
 {

@@ -1,6 +1,6 @@
 /**
  * @file FCExtendTool.h
- * @brief 构造辅助静态工具（移植�?FITKInterfaceGeometry FITKAbsExtendTool�?
+  * @brief 构造辅助几何工具（移植自 FITKInterfaceGeometry FITKAbsExtendTool）
  */
 #ifndef FC_EXTEND_TOOL_H
 #define FC_EXTEND_TOOL_H
