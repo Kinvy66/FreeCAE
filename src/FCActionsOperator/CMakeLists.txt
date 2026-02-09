@@ -65,13 +65,17 @@ message(STATUS "${FC_LIB_NAME} Qt${QT_VERSION_MAJOR}.${QT_VERSION_MINOR}.${QT_VE
 find_package(${FC_PROJECT_NAME} COMPONENTS 
     FCUtils
     FCData
+    FCGeometryInterface
 )
 if(${FC_PROJECT_NAME}_FOUND)
     message(STATUS "  |-linked ${FC_PROJECT_NAME}::FCUtils")
+    message(STATUS "  |-linked ${FC_PROJECT_NAME}::FCData")
+    message(STATUS "  |-linked ${FC_PROJECT_NAME}::FCGeometryInterface")
 endif()
 target_link_libraries(${FC_LIB_NAME} PUBLIC
     ${FC_PROJECT_NAME}::FCUtils
     ${FC_PROJECT_NAME}::FCData
+    ${FC_PROJECT_NAME}::FCGeometryInterface
 )
 
 ########################################################

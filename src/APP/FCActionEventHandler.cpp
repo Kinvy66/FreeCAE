@@ -7,9 +7,13 @@
  * @copyright Copyright (c) 2026 Kinvy. All rights reserved.
  */
 #include "FCActionEventHandler.h"
-
 #include <QMessageBox>
 #include <QCoreApplication>
+
+#include <FCActionsOperator/FCOperatorRepo.h>
+#include <QAction>
+#include <QDebug>
+#include "FCActionOperator.h"
 
 #define FCAPPCONTROLLER_PASS()                                                                                         \
 QMessageBox::                                                                                                      \
@@ -20,38 +24,47 @@ QMessageBox::                                                                   
                                         "please pay attention: https://github.com/Kinvy66/FreeCAE",         \
                                         nullptr))
 
+
 namespace FC 
 {
 
 void FCActionEventHandler::execOperator()
 {
-    
-    FCAPPCONTROLLER_PASS();
-    
-  
     QObject* obj = this->sender();
     if (obj == nullptr) return;
-    QString objName = obj->objectName();
     
-    // TODO
+    QAction* action = qobject_cast<QAction*>(obj);
+    if (action == nullptr) return;
     
-    // Core::FITKActionOperator* actOper = this->getOperator(obj);
-    // if (actOper != nullptr) actOper->setEmitter(obj);
+    QString objName = action->objectName();
+    if (objName.isEmpty()) return;
     
-    // if (actOper == nullptr)
-    // {
-    //     //错误提示
-    //     QString error = QString("%1 Operator create failed !").arg(objName);
-    //     AppFrame::FITKMessageError(error);
-    // }
-    // else
-    //     actOper->actionTriggered();
-
+    // 获取操作器
+    FCActionOperator* actOper = this->getOperator(action);
+    if (actOper != nullptr) {
+        actOper->setEmitter(action);
+        actOper->actionTriggered();
+    } else {
+        // 错误提示
+        FCAPPCONTROLLER_PASS();
+        qWarning() << "FCActionEventHandler: Operator not found for action:" << objName;
+    }
 }
 
-FCActionOperator *FCActionEventHandler::getOperator(QObject *object)
-{    
-    return nullptr;
+FCActionOperator* FCActionEventHandler::getOperator(QObject* object)
+{
+    QAction* action = qobject_cast<QAction*>(object);
+    if (action == nullptr) return nullptr;
+    
+    QString objName = action->objectName();
+    if (objName.isEmpty()) return nullptr;
+    
+    // 从操作器仓库获取操作器
+    FCOperatorRepo* repo = FCOPERATORREPO;
+    if (!repo) return nullptr;
+    
+    FCActionOperator* oper = repo->getOperatorT<FCActionOperator>(objName);
+    return oper;
 }
 
 } // namespace FC

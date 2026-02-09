@@ -43,6 +43,9 @@
 // #include "FCModelBuilderWidget.h"
 // sub module
 
+#include "FCOperatorRepo.h"
+
+#include "FCActionCreateCubeOperator.h"
 
 #ifndef FCAPPRIBBONAREA_WINDOW_NAME
 #define FCAPPRIBBONAREA_WINDOW_NAME QCoreApplication::translate("FCAppController", "FC", nullptr)
@@ -188,10 +191,21 @@ void FCAppController::initConnection()
 
 /**
  * @brief 注册action的操作器
+ * 
+ * 注意：使用 Register2FCOperatorRepo 宏的操作器会在静态初始化时自动注册，
+ * 这里主要用于确保操作器仓库已初始化，以及可以添加其他手动注册逻辑。
  */
 void FCAppController::registeActionsOperator()
 {
+    // 确保操作器仓库已初始化（通过访问单例）
+    FCOPERATORREPO;
     
+    // 如果需要手动注册操作器，可以在这里添加：
+    FCOPERATORREPO->registerOperatorFunction("actionCreateCUbe",
+                                             []() { return new FCActionCreateCubeOperator; });
+    
+    // 目前 FCActionCreateCubeOperator 已通过 Register2FCOperatorRepo 宏自动注册
+    // 注册键为 "actionCreateCUbe"（注意大小写，与 FCAppActions.cpp 中的 objectName 一致）
 }
 
 
