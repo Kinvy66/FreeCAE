@@ -22,12 +22,6 @@
 #include <QActionGroup>
 #include <QDebug>
 
-#include <vtkDataSet.h>
-#include <vtkCubeSource.h>
-#include <vtkPolyDataMapper.h>
-#include <vtkActor.h>
-#include <vtkProperty.h>
-
 // API
 #include "AppMainWindow.h"
 #include "FCAppCore.h"
@@ -56,6 +50,8 @@
 #include "FCGraph3DWindowVTK.h"
 #include "FCGraphObjectVTK.h"
 #include "FCOCCGeoCompRegister.h"
+#include <FCVTKGraphAdaptor/FCVTKViewAdaptorModelCmd.h>
+#include <FCVTKGraphAdaptor/FCVTKGraphObject3D.h>
 
 #ifndef FCAPPRIBBONAREA_WINDOW_NAME
 #define FCAPPRIBBONAREA_WINDOW_NAME QCoreApplication::translate("FCAppController", "FC", nullptr)
@@ -284,7 +280,7 @@ QString FCAppController::makeWindowTitle(FCProjectInterface *proj)
 
 void FCAppController::testCreatorGeometry()
 {
-    // ---------- 1. 几何创建（几何模块测试）----------
+    // ---------- 1. OCC 几何创建并三角化 ----------
     FCGeoInterfaceFactory* factory = FCGeoInterfaceFactory::instance();
     if (!factory) {
         qWarning() << "testCreatorGeometry: FCGeoInterfaceFactory is null";
@@ -302,12 +298,27 @@ void FCAppController::testCreatorGeometry()
     boxCmd->setPoint1(point1);
     boxCmd->setLength(length);
     if (!boxCmd->update()) {
-        qWarning() << "testCreatorGeometry: boxCmd->update() failed";
+        qWarning() << "testCreatorGeometry: boxCmd->update() failed (OCC triangulation)";
         delete boxCmd;
         return;
     }
 
-    // ---------- 2. VTK 显示（渲染模块测试）----------
+    // ---------- 2. 适配器：OCC 命令 -> VTK 图元（三角化结果经适配层显示，不再用 vtk 重建）----------
+    FCVTKViewAdaptorModelCmd adaptor;
+    adaptor.setDataObject(boxCmd);
+    if (!adaptor.update()) {
+        qWarning() << "testCreatorGeometry: adaptor.update() failed (no VTK graph object)";
+        delete boxCmd;
+        return;
+    }
+    FCVTKGraphObject3D* graphObj = adaptor.getOutputData();
+    if (!graphObj || graphObj->getActorCount() == 0) {
+        qWarning() << "testCreatorGeometry: adaptor output invalid or no actors";
+        delete boxCmd;
+        return;
+    }
+
+    // ---------- 3. 加入 VTK 渲染窗口 ----------
     if (!mDock) {
         qWarning() << "testCreatorGeometry: mDock is null";
         delete boxCmd;
@@ -326,34 +337,12 @@ void FCAppController::testCreatorGeometry()
         return;
     }
 
-    // 使用与几何一致的尺寸在 VTK 中创建立方体并显示（当前 OCC 三角化为空，用 VTK 源做显示测试）
-    vtkCubeSource* cubeSource = vtkCubeSource::New();
-    cubeSource->SetXLength(length[0]);
-    cubeSource->SetYLength(length[1]);
-    cubeSource->SetZLength(length[2]);
-    cubeSource->SetCenter(point1[0] + length[0] * 0.5,
-                          point1[1] + length[1] * 0.5,
-                          point1[2] + length[2] * 0.5);
-    cubeSource->Update();
-
-    vtkPolyDataMapper* mapper = vtkPolyDataMapper::New();
-    mapper->SetInputData(cubeSource->GetOutput());
-    cubeSource->Delete();
-
-    vtkActor* actor = vtkActor::New();
-    actor->SetMapper(mapper);
-    mapper->Delete();
-    actor->GetProperty()->SetColor(0.2, 0.6, 0.9);
-
-    FCGraphObjectVTK* graphObj = new FCGraphObjectVTK(nullptr);
-    graphObj->addActor(actor);
-    // 不要调用 actor->Delete()：FCGraphObjectVTK 拥有 actor，析构时会统一 Delete
-
     graphWin->addObject(0, graphObj, true);
     graphWin->reRender();
 
-    // 测试用不保存到命令列表，仅创建几何并显示；boxCmd 此处不再使用可释放
-    delete boxCmd;
+    // 测试用不保存到命令列表；boxCmd 保留给图元内部引用（ModelCmd 持有 command），此处不 delete
+    // 若需彻底释放几何且不再显示，应先从 graphWin 移除 graphObj 再 delete boxCmd
+    (void)boxCmd;
 }
 
 

@@ -63,6 +63,14 @@ public:
         Others
     };
 
+    /** 测量工具类型（用于 FCVTKGraphObjectMeasureTools） */
+    enum MeasureType
+    {
+        MT_None = -1,
+        MT_Distance = 0,
+        MT_Angle
+    };
+
     struct ShapeInfo
     {
         ShapeDataType Type = OtherShape;
