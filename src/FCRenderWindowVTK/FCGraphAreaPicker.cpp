@@ -38,7 +38,10 @@ void FCGraphAreaPicker::setPickerRender(vtkRenderer* render)
     mRender = render;
     initRectangle();
     if (mPickActor)
+    {
         mRender->AddViewProp(mPickActor);
+        mPickActor->SetVisibility(0);  // 初始为禁用，避免首次左键拖动误显示框选矩形
+    }
 }
 
 void FCGraphAreaPicker::enable(bool state)
