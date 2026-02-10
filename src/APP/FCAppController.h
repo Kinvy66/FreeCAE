@@ -103,6 +103,8 @@ public:
    
 private slots:
     
+    void testCreatorGeometry();
+    
     void onFocusedDockWidgetChanged(ads::CDockWidget* old, ads::CDockWidget* now);    
     
 private:

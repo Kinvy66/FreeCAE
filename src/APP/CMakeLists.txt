@@ -127,6 +127,8 @@ find_package(${FC_PROJECT_NAME} COMPONENTS
     FCMessageHandler
     FCGUI
     FCActionsOperator
+    FCGeometryInterface
+    FCGeometryCommand
 )
 
 # if(${FC_PROJECT_NAME}_FOUND)
@@ -140,6 +142,8 @@ target_link_libraries(${FC_APP_NAME} PUBLIC
     ${FC_PROJECT_NAME}::FCMessageHandler
     ${FC_PROJECT_NAME}::FCGUI
     ${FC_PROJECT_NAME}::FCActionsOperator
+    ${FC_PROJECT_NAME}::FCGeometryInterface
+    ${FC_PROJECT_NAME}::FCGeometryCommand
 )
 
 

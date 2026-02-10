@@ -42,7 +42,7 @@ TopoDS_Shape getSubShapeFromVirtualShape(const FC::VirtualShape& vs, FC::FCModel
 } // namespace
 
 #define FCOCC_PARTITION_FACE_CTOR(Class) Class::Class() : OCCShapeAgent(this) { _shapeAgent = _occShapeAgent; }
-#define FCOCC_PARTITION_FACE_GET_TYPE(Class, Enum) FC::FCGeoEnum::FITKGeometryComType Class::getGeometryCommandType() { return FC::FCGeoEnum::Enum; }
+#define FCOCC_PARTITION_FACE_GET_TYPE(Class, Enum) FC::FCGeoEnum::FCGeometryComType Class::getGeometryCommandType() { return FC::FCGeoEnum::Enum; }
 #define FCOCC_PARTITION_FACE_UPDATE_STUB(Class) bool Class::update() { return false; }
 
 FCOCC_PARTITION_FACE_CTOR(FCOCCModelPartitionFaceWithSketch)

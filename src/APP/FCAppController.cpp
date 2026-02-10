@@ -23,6 +23,10 @@
 #include <QDebug>
 
 #include <vtkDataSet.h>
+#include <vtkCubeSource.h>
+#include <vtkPolyDataMapper.h>
+#include <vtkActor.h>
+#include <vtkProperty.h>
 
 // API
 #include "AppMainWindow.h"
@@ -46,6 +50,12 @@
 #include "FCOperatorRepo.h"
 
 #include "FCActionCreateCubeOperator.h"
+#include <FCGeometryInterface/FCGeoInterfaceFactory.h>
+#include <FCGeometryInterface/FCAbsGeoModelBox.h>
+#include "FCRenderWidget.h"
+#include "FCGraph3DWindowVTK.h"
+#include "FCGraphObjectVTK.h"
+#include "FCOCCGeoCompRegister.h"
 
 #ifndef FCAPPRIBBONAREA_WINDOW_NAME
 #define FCAPPRIBBONAREA_WINDOW_NAME QCoreApplication::translate("FCAppController", "FC", nullptr)
@@ -173,6 +183,9 @@ AppMainWindow *FCAppController::app() const
 */
 void FCAppController::initialize()
 {
+    // 注册 OCC 几何命令到工厂，否则 createCommandT<FCGeoModelBox>(FGTBox) 等会返回 nullptr
+    OCC::registerOCCGeometryCommands();
+
     initConnection();
     registeActionsOperator();
 }
@@ -182,11 +195,15 @@ void FCAppController::initialize()
 */
 void FCAppController::initConnection()
 {
-    QList<QAction*> actionList = mActions->getAllActions();
-    for (QAction* action : actionList) {
-        if (action == nullptr)continue;
-        connect(action, &QAction::triggered, mActionHandler, &FCActionEventHandler::execOperator);
-    }
+    
+    // QList<QAction*> actionList = mActions->getAllActions();
+    // for (QAction* action : actionList) {
+    //     if (action == nullptr)continue;
+    //     connect(action, &QAction::triggered, mActionHandler, &FCActionEventHandler::execOperator);
+    // }
+    
+    // 测试使用
+    connect(mActions->actionCreateCube, &QAction::triggered, this, &FCAppController::testCreatorGeometry);
 }
 
 /**
@@ -263,6 +280,80 @@ QString FCAppController::makeWindowTitle()
 QString FCAppController::makeWindowTitle(FCProjectInterface *proj)
 {
     return QString("%1 [*]").arg(FCAPPRIBBONAREA_WINDOW_NAME);
+}
+
+void FCAppController::testCreatorGeometry()
+{
+    // ---------- 1. 几何创建（几何模块测试）----------
+    FCGeoInterfaceFactory* factory = FCGeoInterfaceFactory::instance();
+    if (!factory) {
+        qWarning() << "testCreatorGeometry: FCGeoInterfaceFactory is null";
+        return;
+    }
+
+    FCGeoModelBox* boxCmd = factory->createCommandT<FCGeoModelBox>(FCGeoEnum::FGTBox);
+    if (!boxCmd) {
+        qWarning() << "testCreatorGeometry: Failed to create FCGeoModelBox";
+        return;
+    }
+
+    double point1[3] = { 0.0, 0.0, 0.0 };
+    double length[3] = { 100.0, 100.0, 100.0 };
+    boxCmd->setPoint1(point1);
+    boxCmd->setLength(length);
+    if (!boxCmd->update()) {
+        qWarning() << "testCreatorGeometry: boxCmd->update() failed";
+        delete boxCmd;
+        return;
+    }
+
+    // ---------- 2. VTK 显示（渲染模块测试）----------
+    if (!mDock) {
+        qWarning() << "testCreatorGeometry: mDock is null";
+        delete boxCmd;
+        return;
+    }
+    FCRenderWidget* renderWidget = mDock->getGraphicOperateWidget();
+    if (!renderWidget) {
+        qWarning() << "testCreatorGeometry: getGraphicOperateWidget is null";
+        delete boxCmd;
+        return;
+    }
+    FCGraph3DWindowVTK* graphWin = renderWidget->getGraph3DWindow();
+    if (!graphWin) {
+        qWarning() << "testCreatorGeometry: getGraph3DWindow is null";
+        delete boxCmd;
+        return;
+    }
+
+    // 使用与几何一致的尺寸在 VTK 中创建立方体并显示（当前 OCC 三角化为空，用 VTK 源做显示测试）
+    vtkCubeSource* cubeSource = vtkCubeSource::New();
+    cubeSource->SetXLength(length[0]);
+    cubeSource->SetYLength(length[1]);
+    cubeSource->SetZLength(length[2]);
+    cubeSource->SetCenter(point1[0] + length[0] * 0.5,
+                          point1[1] + length[1] * 0.5,
+                          point1[2] + length[2] * 0.5);
+    cubeSource->Update();
+
+    vtkPolyDataMapper* mapper = vtkPolyDataMapper::New();
+    mapper->SetInputData(cubeSource->GetOutput());
+    cubeSource->Delete();
+
+    vtkActor* actor = vtkActor::New();
+    actor->SetMapper(mapper);
+    mapper->Delete();
+    actor->GetProperty()->SetColor(0.2, 0.6, 0.9);
+
+    FCGraphObjectVTK* graphObj = new FCGraphObjectVTK(nullptr);
+    graphObj->addActor(actor);
+    // 不要调用 actor->Delete()：FCGraphObjectVTK 拥有 actor，析构时会统一 Delete
+
+    graphWin->addObject(0, graphObj, true);
+    graphWin->reRender();
+
+    // 测试用不保存到命令列表，仅创建几何并显示；boxCmd 此处不再使用可释放
+    delete boxCmd;
 }
 
 
