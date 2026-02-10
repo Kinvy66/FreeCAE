@@ -14,6 +14,7 @@
 #include "FCOCCVirtualTopoCreator.h"
 #include "FCOCCShapeTriangulate.h"
 #include <FCGeometryInterface/FCVirtualTopoManager.h>
+#include <FCGeometryInterface/FCGeometryMeshVS.h>
 
 #include <TopoDS_Shape.hxx>
 #include <TopExp_Explorer.hxx>
@@ -44,6 +45,7 @@ FCAbstractOCCModel::FCAbstractOCCModel(FC::FCAbsGeoCommand* command)
     : FC::FCAbsGeoShapeAgent(command)
 {
     _shape = new TopoDS_Shape();
+    _meshVS = new FC::FCGeometryMeshVS();
 }
 
 FCAbstractOCCModel::~FCAbstractOCCModel()

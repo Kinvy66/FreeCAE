@@ -28,4 +28,10 @@ void FCAbstractGraphObject::removeFromGraphWidget()
         mGraphWidget = nullptr;
     }
 }
+
+void FCAbstractGraphObject::update(bool mandatory)
+{
+    Q_UNUSED(mandatory);
+}
+
 } // namespace FC

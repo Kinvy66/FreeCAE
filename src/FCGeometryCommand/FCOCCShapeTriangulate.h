@@ -15,12 +15,15 @@
 
 #include "FCGeometryCommandAPI.h"
 
+class TopoDS_Shape;
+
 namespace OCC {
 
 class FCAbstractOCCModel;
 
 /**
- * @brief OCC 形状三角化
+ * @brief OCC 形状三角化（移植自 FITKGeoCompOCC FITKOCCShapeTriangulate）
+ * 对形状做 BRepMesh 后，将顶点/边/面离散数据写入 FCGeometryMeshVS 供 VTK 显示。
  */
 class FCGEOMETRYCMD_API FCOCCShapeTriangulate
 {
@@ -32,6 +35,10 @@ public:
 
 private:
     void triangulateShape(double factor = 0.001);
+    void triangulate(const TopoDS_Shape& shape, double factor = 0.001);
+    void discretePoint(int id, const TopoDS_Shape& shape);
+    void discreteEdge(int id, const TopoDS_Shape& shape);
+    void discreteFace(int id, const TopoDS_Shape& shape);
 
     FCAbstractOCCModel* _occModel{};
 };

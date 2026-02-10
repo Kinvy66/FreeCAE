@@ -8,11 +8,21 @@
 
 #include "FCOCCShapeTriangulate.h"
 #include "FCAbstractOCCModel.h"
+#include "FCOCCVirtualTopoCreator.h"
+#include <FCGeometryInterface/FCVirtualTopoManager.h>
+#include <FCGeometryInterface/FCGeometryMeshVS.h>
+#include <FCGeometryInterface/FCGeometryMeshEntity.h>
+#include <FCGeometryInterface/FCGeoEnum.h>
 
 #include <TopoDS_Shape.hxx>
+#include <TopoDS_Vertex.hxx>
+#include <TopoDS_Edge.hxx>
+#include <TopoDS_Face.hxx>
+#include <TopoDS.hxx>
 #include <Bnd_Box.hxx>
 #include <BRepBndLib.hxx>
 #include <BRepMesh_IncrementalMesh.hxx>
+#include <BRep_Tool.hxx>
 #include <IMeshTools_Parameters.hxx>
 #include <cmath>
 
@@ -25,20 +35,62 @@ FCOCCShapeTriangulate::FCOCCShapeTriangulate(FCAbstractOCCModel* occModel)
 void FCOCCShapeTriangulate::triangulate()
 {
     if (!_occModel) return;
+    FC::FCVirtualTopoManager* vtmanager = _occModel->getVirtualTopoManager();
+    FC::FCGeometryMeshVS* meshVS = _occModel->getMeshVS();
+    if (!meshVS || !vtmanager) return;
+
     TopoDS_Shape* shape = _occModel->getShape();
     if (!shape || shape->IsNull()) return;
-    triangulateShape(0.001);
+
+    meshVS->clear();
+    triangulate(*shape, 0.001);
+
+    FC::FCShapeVirtualTopoManager* sm = vtmanager->getShapeVirtualTopoManager(FC::FCGeoEnum::VSPoint);
+    if (sm) {
+        for (int i = 0, n = sm->getDataCount(); i < n; ++i) {
+            FC::FCAbsVirtualTopo* vtopo = sm->getDataByIndex(i);
+            if (!vtopo) continue;
+            FCOCCTopoShape* occShape = vtopo->getShapeT<FCOCCTopoShape>();
+            if (!occShape) continue;
+            const TopoDS_Shape& s = occShape->getTopoShape();
+            if (s.IsNull()) continue;
+            discretePoint(vtopo->getDataObjectID(), s);
+        }
+    }
+
+    sm = vtmanager->getShapeVirtualTopoManager(FC::FCGeoEnum::VSEdge);
+    if (sm) {
+        for (int i = 0, n = sm->getDataCount(); i < n; ++i) {
+            FC::FCAbsVirtualTopo* vtopo = sm->getDataByIndex(i);
+            if (!vtopo) continue;
+            FCOCCTopoShape* occShape = vtopo->getShapeT<FCOCCTopoShape>();
+            if (!occShape) continue;
+            const TopoDS_Shape& s = occShape->getTopoShape();
+            if (s.IsNull()) continue;
+            discreteEdge(vtopo->getDataObjectID(), s);
+        }
+    }
+
+    sm = vtmanager->getShapeVirtualTopoManager(FC::FCGeoEnum::VSFace);
+    if (sm) {
+        for (int i = 0, n = sm->getDataCount(); i < n; ++i) {
+            FC::FCAbsVirtualTopo* vtopo = sm->getDataByIndex(i);
+            if (!vtopo) continue;
+            FCOCCTopoShape* occShape = vtopo->getShapeT<FCOCCTopoShape>();
+            if (!occShape) continue;
+            const TopoDS_Shape& s = occShape->getTopoShape();
+            if (s.IsNull()) continue;
+            discreteFace(vtopo->getDataObjectID(), s);
+        }
+    }
 }
 
-void FCOCCShapeTriangulate::triangulateShape(double factor)
+void FCOCCShapeTriangulate::triangulate(const TopoDS_Shape& shape, double factor)
 {
-    if (!_occModel) return;
-    TopoDS_Shape* shape = _occModel->getShape();
-    if (!shape || shape->IsNull()) return;
-    try
-    {
+    if (shape.IsNull()) return;
+    try {
         Bnd_Box box;
-        BRepBndLib::Add(*shape, box);
+        BRepBndLib::Add(shape, box);
         double xMin, xMax, yMin, yMax, zMin, zMax;
         box.Get(xMin, yMin, zMin, xMax, yMax, zMax);
         double sizeFactor = std::sqrt(
@@ -46,9 +98,78 @@ void FCOCCShapeTriangulate::triangulateShape(double factor)
         double deflection = factor * (sizeFactor < 1e-6 ? 1.0 : sizeFactor);
         IMeshTools_Parameters params;
         params.Deflection = deflection;
-        BRepMesh_IncrementalMesh(*shape, params);
+        BRepMesh_IncrementalMesh(const_cast<TopoDS_Shape&>(shape), params);
+    } catch (...) {}
+}
+
+void FCOCCShapeTriangulate::triangulateShape(double factor)
+{
+    if (!_occModel) return;
+    TopoDS_Shape* shape = _occModel->getShape();
+    if (!shape || shape->IsNull()) return;
+    triangulate(*shape, factor);
+}
+
+void FCOCCShapeTriangulate::discretePoint(int id, const TopoDS_Shape& shape)
+{
+    TopoDS_Vertex vertex = TopoDS::Vertex(shape);
+    gp_Pnt pt = BRep_Tool::Pnt(vertex);
+    FC::FCGeoMeshVSPt* vpt = new FC::FCGeoMeshVSPt();
+    vpt->setXYZ(static_cast<float>(pt.X()), static_cast<float>(pt.Y()), static_cast<float>(pt.Z()));
+    _occModel->getMeshVS()->insertPoint(id, vpt);
+}
+
+void FCOCCShapeTriangulate::discreteEdge(int id, const TopoDS_Shape& shape)
+{
+    triangulate(shape, 0.0005);
+    TopLoc_Location loc;
+    const TopoDS_Edge& edge = TopoDS::Edge(shape);
+    const Handle(Poly_Polygon3D)& mesh = BRep_Tool::Polygon3D(edge, loc);
+    if (mesh.IsNull()) return;
+    int nPts = mesh->NbNodes();
+    gp_Trsf trans(loc.Transformation());
+    FC::FCGeoMeshVSEdgeEntity* vsedge = new FC::FCGeoMeshVSEdgeEntity();
+    const TColgp_Array1OfPnt& nodes = mesh->Nodes();
+    for (int i = 1; i <= nPts; ++i) {
+        gp_Pnt pt = nodes.Value(i);
+        pt.Transform(trans);
+        FC::FCGeoMeshVSPt* vpt = new FC::FCGeoMeshVSPt();
+        vpt->setXYZ(static_cast<float>(pt.X()), static_cast<float>(pt.Y()), static_cast<float>(pt.Z()));
+        vsedge->appendPoint(vpt);
     }
-    catch (...) { }
+    _occModel->getMeshVS()->insertEdge(id, vsedge);
+}
+
+void FCOCCShapeTriangulate::discreteFace(int id, const TopoDS_Shape& shape)
+{
+    const TopoDS_Face& face = TopoDS::Face(shape);
+    TopLoc_Location loc;
+    const Handle(Poly_Triangulation)& mesh = BRep_Tool::Triangulation(face, loc);
+    if (mesh.IsNull()) return;
+
+    int nPts = mesh->NbNodes();
+    int nCells = mesh->NbTriangles();
+    gp_Trsf trans(loc.Transformation());
+    FC::FCGeoMeshVSFaceEntity* vsface = new FC::FCGeoMeshVSFaceEntity();
+
+    // 使用 Node(i) / Triangle(i) 接口（OCC 7.6+ 及当前版本已移除 Nodes()/Triangles()）
+    for (int i = 1; i <= nPts; ++i) {
+        gp_Pnt pt = mesh->Node(i);
+        pt.Transform(trans);
+        FC::FCGeoMeshVSPt* vpt = new FC::FCGeoMeshVSPt();
+        vpt->setXYZ(static_cast<float>(pt.X()), static_cast<float>(pt.Y()), static_cast<float>(pt.Z()));
+        vsface->appendPoint(vpt);
+    }
+    for (int i = 1; i <= nCells; ++i) {
+        const Poly_Triangle& tri = mesh->Triangle(i);
+        int pt1, pt2, pt3;
+        tri.Get(pt1, pt2, pt3);
+        if (face.Orientation() == TopAbs_REVERSED)
+            vsface->appendMeshTri(new FC::FCGeoMeshVSTri(pt3 - 1, pt2 - 1, pt1 - 1));
+        else
+            vsface->appendMeshTri(new FC::FCGeoMeshVSTri(pt1 - 1, pt2 - 1, pt3 - 1));
+    }
+    _occModel->getMeshVS()->insertFace(id, vsface);
 }
 
 } // namespace OCC

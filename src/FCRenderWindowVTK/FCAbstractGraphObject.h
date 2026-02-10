@@ -25,6 +25,8 @@ public:
     void setGraphWidget(FCGraph3DWindowVTK* w);
     FCGraph3DWindowVTK* getGraphWidget() const;
     virtual void removeFromGraphWidget();
+    /** 更新对象（与 FITKAbstractGraphObject 接口一致，供 FCVTKGraphAdaptor 等重写） */
+    virtual void update(bool mandatory = false);
 
 protected:
     FCGraph3DWindowVTK* mGraphWidget = nullptr;
