@@ -42,6 +42,11 @@
 #include "FCOCCModelRepairSmallFaces.h"
 #include "FCOCCModelCoverEdges.h"
 #include "FCOCCModelReplaceFaces.h"
+#include "FCOCCModelCurve.h"
+#include "FCOCCModelSurface.h"
+#include "FCOCCModelSketch2D.h"
+#include "FCOCCModelImportedPart.h"
+#include "FCOCCSampleCurve.h"
 #include <FCGeometryInterface/FCGeoInterfaceFactory.h>
 #include <FCGeometryInterface/FCGeoEnum.h>
 #include <FCGeometryInterface/FCAbsGeoDelete.h>
@@ -70,8 +75,57 @@ void registerOCCGeometryCommands()
     // 部件
     fac->insertCommandCreateFun(FC::FCGeoEnum::FGTPart, []() { return new FCOCCModelPart; });
 
+    // 2D 草图
+    fac->insertCommandCreateFun(FC::FCGeoEnum::FGTSketch2D, []() { return new FCOCCModelSketch2D; });
+
     // 点
     fac->insertCommandCreateFun(FC::FCGeoEnum::FGTPoint, []() { return new FCOCCModelPoint; });
+    fac->insertCommandCreateFun(FC::FCGeoEnum::FGTCurveEnd, []() { return new FCOCCModelCurveEnd; });
+    fac->insertCommandCreateFun(FC::FCGeoEnum::FGTCurveEndDistance, []() { return new FCOCCModelCurveEndDistance; });
+    fac->insertCommandCreateFun(FC::FCGeoEnum::FGTCurveRadio, []() { return new FCOCCModelCurveRadio; });
+    fac->insertCommandCreateFun(FC::FCGeoEnum::FGTPointProjectionOnCurve, []() { return new FCOCCModelPointProjectionOnCurve; });
+    fac->insertCommandCreateFun(FC::FCGeoEnum::FGTTwoCurveIntersectPoint, []() { return new FCOCCModelTwoCurveIntersectPoint; });
+    fac->insertCommandCreateFun(FC::FCGeoEnum::FGTPointProjectionOnSurface, []() { return new FCOCCModelPointProjectionOnSurface; });
+    fac->insertCommandCreateFun(FC::FCGeoEnum::FGTCurveIntersectSurface, []() { return new FCOCCModelCurveIntersectSurface; });
+
+    // 曲线
+    fac->insertCommandCreateFun(FC::FCGeoEnum::FGTLine, []() { return new FCOCCModelLine; });
+    fac->insertCommandCreateFun(FC::FCGeoEnum::FGTSegment, []() { return new FCOCCModelSegment; });
+    fac->insertCommandCreateFun(FC::FCGeoEnum::FGTWire, []() { return new FCOCCModelWire; });
+    fac->insertCommandCreateFun(FC::FCGeoEnum::FGTCircle, []() { return new FCOCCModelCircle; });
+    fac->insertCommandCreateFun(FC::FCGeoEnum::FGTThreePointsCircle, []() { return new FCOCCModelThreePointsCircle; });
+    fac->insertCommandCreateFun(FC::FCGeoEnum::FGTCircleArc, []() { return new FCOCCModelCircleArc; });
+    fac->insertCommandCreateFun(FC::FCGeoEnum::FGTEllipse, []() { return new FCOCCModelEllipse; });
+    fac->insertCommandCreateFun(FC::FCGeoEnum::FGTThreePointsEllipse, []() { return new FCOCCModelThreePointsEllipse; });
+    fac->insertCommandCreateFun(FC::FCGeoEnum::FGTEllipseArc, []() { return new FCOCCModelEllipseArc; });
+    fac->insertCommandCreateFun(FC::FCGeoEnum::FGTHyperbola, []() { return new FCOCCModelHyperbola; });
+    fac->insertCommandCreateFun(FC::FCGeoEnum::FGTThreePointsHyperbola, []() { return new FCOCCModelThreePointsHyperbola; });
+    fac->insertCommandCreateFun(FC::FCGeoEnum::FGTHyperbolaArc, []() { return new FCOCCModelHyperbolaArc; });
+    fac->insertCommandCreateFun(FC::FCGeoEnum::FGTParabola, []() { return new FCOCCModelParabola; });
+    fac->insertCommandCreateFun(FC::FCGeoEnum::FGTThreePointsParabola, []() { return new FCOCCModelThreePointsParabola; });
+    fac->insertCommandCreateFun(FC::FCGeoEnum::FGTParabolaArc, []() { return new FCOCCModelParabolaArc; });
+    fac->insertCommandCreateFun(FC::FCGeoEnum::FGTBezierByControlPoints, []() { return new FCOCCModelBezierByControlPoints; });
+    fac->insertCommandCreateFun(FC::FCGeoEnum::FGTBSplineByThroughPoints, []() { return new FCOCCModelBsplineByThroughPoints; });
+    fac->insertCommandCreateFun(FC::FCGeoEnum::FGTTrimmed, []() { return new FCOCCModelTrimmedCurve; });
+    fac->insertCommandCreateFun(FC::FCGeoEnum::FGTOffsetCurve, []() { return new FCOCCModelOffsetCurve; });
+    fac->insertCommandCreateFun(FC::FCGeoEnum::FGTCurveProjectionOnSurface, []() { return new FCOCCModelCurveProjectionOnSurface; });
+    fac->insertCommandCreateFun(FC::FCGeoEnum::FGTSurfaceIntersectSurface, []() { return new FCOCCModelSurfaceIntersectionSurface; });
+    fac->insertCommandCreateFun(FC::FCGeoEnum::FGTBridgeCurve, []() { return new FCOCCModelBridgeCurve; });
+    fac->insertCommandCreateFun(FC::FCGeoEnum::FGTCurveFromSurface, []() { return new FCOCCModelSurfaceEdge; });
+    fac->insertCommandCreateFun(FC::FCGeoEnum::FGTSampleCurve, []() { return new FCOCCSampleCurve; });
+
+    // 曲面
+    fac->insertCommandCreateFun(FC::FCGeoEnum::FGTClosedWireSurface, []() { return new FCOCCModelClosedWireSurface; });
+    fac->insertCommandCreateFun(FC::FCGeoEnum::FGTOffsetSurface, []() { return new FCOCCModelOffsetSurface; });
+    fac->insertCommandCreateFun(FC::FCGeoEnum::FGTExtrudeSurface, []() { return new FCOCCModelExtrudeSurface; });
+    fac->insertCommandCreateFun(FC::FCGeoEnum::FGTRevolSurface, []() { return new FCOCCModelRevolSurface; });
+    fac->insertCommandCreateFun(FC::FCGeoEnum::FGTSweepSurface, []() { return new FCOCCModelSweepSurface; });
+    fac->insertCommandCreateFun(FC::FCGeoEnum::FGTMultiSectionSurface, []() { return new FCOCCModelMultiSectionSurface; });
+    fac->insertCommandCreateFun(FC::FCGeoEnum::FGTBridgeSurface, []() { return new FCOCCModelBridgeSurface; });
+    fac->insertCommandCreateFun(FC::FCGeoEnum::FGTSurfaceFromSolid, []() { return new FCOCCModelSolidSurface; });
+
+    // 导入部件
+    fac->insertCommandCreateFun(FC::FCGeoEnum::FGTImportPart, []() { return new FCOCCModelImportedPart; });
 
     // 基本体
     fac->insertCommandCreateFun(FC::FCGeoEnum::FGTBox, []() { return new FCOCCModelBox; });
@@ -144,6 +198,8 @@ void registerOCCGeometryCommands()
     fac->insertCommandCreateFun(FC::FCGeoEnum::FGTMergeLine, []() { return new FCOCCModelOperLine; });
     fac->insertCommandCreateFun(FC::FCGeoEnum::FGTRemoveFace, []() { return new FCOCCModelOperFaceRemoveFace; });
     fac->insertCommandCreateFun(FC::FCGeoEnum::FGTFillGapsFace, []() { return new FCOCCModelOperFaceFillGaps; });
+    fac->insertCommandCreateFun(FC::FCGeoEnum::FGTFillHolesFace, []() { return new FCOCCModelOperFaceFillHoles; });
+    fac->insertCommandCreateFun(FC::FCGeoEnum::FGTExtendFace, []() { return new FCOCCModelExtendFace; });
     fac->insertCommandCreateFun(FC::FCGeoEnum::FGTDeleteFloatingEdge, []() { return new FCOCCModelOperFaceDeleteFloatingEdge; });
     fac->insertCommandCreateFun(FC::FCGeoEnum::FGTImprintSolid, []() { return new FCOCCModelOperImprintSolid; });
     fac->insertCommandCreateFun(FC::FCGeoEnum::FGTCompoundAppendShape, []() { return new FCOCCModelOperAddCompound; });

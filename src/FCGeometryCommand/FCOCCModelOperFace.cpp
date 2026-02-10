@@ -33,8 +33,14 @@
 #include <BRepOffsetAPI_Sewing.hxx>
 #include <ShapeUpgrade_UnifySameDomain.hxx>
 #include <TopTools_IndexedDataMapOfShapeListOfShape.hxx>
+#include <BRepFill_Filling.hxx>
+#include <BRep_Builder.hxx>
 
 #include <QSet>
+
+namespace {
+const double kFillHolesSewingTolerance = 1e-6;
+}
 
 namespace OCC {
 
@@ -211,6 +217,67 @@ bool FCOCCModelOperFaceDeleteFloatingEdge::update()
     unif.Build();
     _occShapeAgent->updateShape(unif.Shape());
     return true;
+}
+
+// ----- FillHoles -----
+FC::FCGeoEnum::FCGeometryComType FCOCCModelOperFaceFillHoles::getGeometryCommandType()
+{
+    return FC::FCGeoEnum::FGTFillHolesFace;
+}
+
+bool FCOCCModelOperFaceFillHoles::update()
+{
+    QList<FC::VirtualShape> vshapes = getVShapes();
+    if (vshapes.size() < 2) return false;  // 至少一个面 + 一条边（孔边界）
+
+    // 第一个为面，其余为孔边
+    TopoDS_Shape faceShape = getSubShape(vshapes[0], FC::FCModelEnum::FMSSurface);
+    if (faceShape.IsNull() || faceShape.ShapeType() != TopAbs_FACE) return false;
+    TopoDS_Face face = TopoDS::Face(faceShape);
+
+    QList<TopoDS_Edge> holes;
+    for (int i = 1; i < vshapes.size(); ++i)
+    {
+        TopoDS_Shape sEdge = getSubShape(vshapes[i], FC::FCModelEnum::FMSEdge);
+        if (sEdge.IsNull() || sEdge.ShapeType() != TopAbs_EDGE) return false;
+        holes.append(TopoDS::Edge(sEdge));
+    }
+
+    BRepFill_Filling fill;
+    fill.LoadInitSurface(face);
+    for (const TopoDS_Edge& e : holes)
+        fill.Add(e, GeomAbs_C0);
+    fill.Build();
+    TopoDS_Face filledFace = fill.Face();
+    if (filledFace.IsNull()) return false;
+
+    BRep_Builder builder;
+    TopoDS_Compound comp;
+    builder.MakeCompound(comp);
+    builder.Add(comp, face);
+    builder.Add(comp, filledFace);
+
+    BRepOffsetAPI_Sewing sewing;
+    sewing.Init(kFillHolesSewingTolerance, Standard_True);
+    sewing.Load(comp);
+    sewing.Perform();
+    if (!sewing.IsModified(sewing.SewedShape())) return false;
+    ShapeUpgrade_UnifySameDomain unif(sewing.SewedShape(), true, true, false);
+    unif.Build();
+    _occShapeAgent->updateShape(unif.Shape());
+    return true;
+}
+
+// ----- ExtendFace (stub) -----
+FC::FCGeoEnum::FCGeometryComType FCOCCModelExtendFace::getGeometryCommandType()
+{
+    return FC::FCGeoEnum::FGTExtendFace;
+}
+
+bool FCOCCModelExtendFace::update()
+{
+    (void)this;
+    return true;  // 桩实现，与 FITK 源中注释掉的逻辑一致
 }
 
 } // namespace OCC

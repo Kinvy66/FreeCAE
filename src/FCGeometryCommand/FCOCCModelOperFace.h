@@ -46,6 +46,26 @@ public:
     bool update() override;
 };
 
+/** 填补面孔洞（OCC 实现，移植自 FITKOCCModelOperFaceFillHoles） */
+class FCGEOMETRYCMD_API FCOCCModelOperFaceFillHoles : public FC::FCGeoModelOperFace, public OCCShapeAgent
+{
+public:
+    FCOCCModelOperFaceFillHoles() : OCCShapeAgent(this) { _shapeAgent = _occShapeAgent; }
+    ~FCOCCModelOperFaceFillHoles() override = default;
+    FC::FCGeoEnum::FCGeometryComType getGeometryCommandType() override;
+    bool update() override;
+};
+
+/** 延伸面（OCC 实现，移植自 FITKOCCModelExtendFace；当前为桩实现） */
+class FCGEOMETRYCMD_API FCOCCModelExtendFace : public FC::FCGeoModelOperFaceExtendFace, public OCCShapeAgent
+{
+public:
+    FCOCCModelExtendFace() : OCCShapeAgent(this) { _shapeAgent = _occShapeAgent; }
+    ~FCOCCModelExtendFace() override = default;
+    FC::FCGeoEnum::FCGeometryComType getGeometryCommandType() override;
+    bool update() override;
+};
+
 } // namespace OCC
 
 #endif // FCOCCMODELOPERFACE_H

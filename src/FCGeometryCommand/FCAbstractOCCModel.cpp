@@ -11,6 +11,8 @@
  * @brief OCC 模型基类实现（移植自 FITKGeoCompOCC FITKAbstractOCCModel）
  */
 #include "FCAbstractOCCModel.h"
+#include "FCOCCVirtualTopoCreator.h"
+#include "FCOCCShapeTriangulate.h"
 #include <FCGeometryInterface/FCVirtualTopoManager.h>
 
 #include <TopoDS_Shape.hxx>
@@ -159,14 +161,16 @@ void FCAbstractOCCModel::updateShape(const TopoDS_Shape& shape, bool buildVTopo)
 void FCAbstractOCCModel::buildVirtualTopo(bool keepTopos)
 {
     Q_UNUSED(keepTopos);
-    if (_buildingTopo || !_vtmanager) return;
-    _vtmanager->clear();
-    // 完整虚拓扑创建可后续移植 FITKOCCVirtualTopoCreator
+    if (_buildingTopo || !_vtmanager || !_shape || _shape->IsNull()) return;
+    _buildingTopo = true;
+    FCOCCVirtualTopoCreator::createOCCTopos(*_shape, _vtmanager);
+    _buildingTopo = false;
 }
 
 void FCAbstractOCCModel::triangulation()
 {
-    // 完整三角化可后续移植 FITKOCCShapeTriangulate
+    FCOCCShapeTriangulate tri(this);
+    tri.triangulate();
 }
 
 int FCAbstractOCCModel::getDim()
