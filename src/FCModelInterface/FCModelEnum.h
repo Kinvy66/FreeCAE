@@ -85,6 +85,7 @@ public:
         AMTunstructuredMesh,
         AMTStructuredMesh,
         AMTunstructuredMeshvtk,
+        AMTStructuredMeshvtk,
         AMTGeometry = 200,
         AMTOCC,
         AssInstance = 300,

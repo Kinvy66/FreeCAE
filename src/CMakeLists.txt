@@ -19,7 +19,8 @@ add_subdirectory(FCGeometryCommand)
 add_subdirectory(FCGUI)
 add_subdirectory(FCVTKGraphAdaptor)
 add_subdirectory(FCActionsOperator)
-
+add_subdirectory(FCMeshGenInterface)
+add_subdirectory(FCMeshInterface)
 
 add_subdirectory(APP)
 
