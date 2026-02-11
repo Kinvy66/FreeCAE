@@ -1,0 +1,11 @@
+#ifndef FCMESHGENGMSHAPI_H
+#define FCMESHGENGMSHAPI_H
+#include <QtCore/QtGlobal>
+
+
+#if defined(FCMESHGENGMSH_BUILDLIB)
+#  define FCMESHGENGMSH_API Q_DECL_EXPORT
+#else
+#  define FCMESHGENGMSH_API Q_DECL_IMPORT
+#endif
+#endif // FCMESHGENGMSHAPI_H

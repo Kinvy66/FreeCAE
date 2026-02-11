@@ -42,6 +42,7 @@
 // sub module
 
 #include "FCOperatorRepo.h"
+#include <FCMeshGenGmsh/FCGmshMeshGenInterface.h>
 
 #include "FCActionCreateCubeOperator.h"
 #include <FCGeometryInterface/FCGeoInterfaceFactory.h>
@@ -181,6 +182,9 @@ void FCAppController::initialize()
 {
     // 注册 OCC 几何命令到工厂，否则 createCommandT<FCGeoModelBox>(FGTBox) 等会返回 nullptr
     OCC::registerOCCGeometryCommands();
+
+    // 注册 Gmsh 网格生成引擎
+    FCGmshMeshGenInterface::initialize();
 
     initConnection();
     registeActionsOperator();

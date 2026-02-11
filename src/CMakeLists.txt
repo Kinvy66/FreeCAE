@@ -21,7 +21,9 @@ add_subdirectory(FCVTKGraphAdaptor)
 add_subdirectory(FCActionsOperator)
 add_subdirectory(FCMeshGenInterface)
 add_subdirectory(FCMeshInterface)
+add_subdirectory(FCMeshGenGmsh)
 
 add_subdirectory(APP)
+
 
 

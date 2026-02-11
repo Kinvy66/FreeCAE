@@ -6,7 +6,7 @@ include(CMakeFindDependencyMacro)
 set(_package_name @PROJECT_NAME@)
 
 # 支持的组件列表
-set(_${_package_name}_supported_components FCInterface FCUtils FCGUI  FCRenderWindowVTK FCData FCModelInterface FCModelInterface FCGeometryInterface FCGeometryCommand)
+set(_${_package_name}_supported_components FCInterface FCUtils FCGUI FCRenderWindowVTK FCData FCModelInterface FCGeometryInterface FCGeometryCommand FCMeshGenInterface FCMeshInterface FCMeshGenGmsh FCActionsOperator FCVTKGraphAdaptor)
 set(_${_package_name}_available_components "")
 
 # 把FC_ENABLE_PYTHON变量传递到此处
