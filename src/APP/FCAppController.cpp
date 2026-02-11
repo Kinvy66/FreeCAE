@@ -43,14 +43,33 @@
 
 #include "FCOperatorRepo.h"
 #include <FCMeshGenGmsh/FCGmshMeshGenInterface.h>
+#include <FCMeshGenInterface/FCMeshGenInterface.h>
+#include <FCMeshGenInterface/FCAbstractMesherDriver.h>
+#include <FCMeshGenInterface/FCAbstractMeshProcessor.h>
+#include <FCMeshInterface/FCUnstructuredMeshVTK.h>
+#include <FCRenderWindowVTK/FCGraphObjectVTK.h>
 
 #include "FCActionCreateCubeOperator.h"
+
+#include <vtkDataSetMapper.h>
+#include <vtkActor.h>
+#include <vtkDataSetSurfaceFilter.h>
+#include <vtkUnstructuredGrid.h>
+#include <vtkNew.h>
+#include <vtkProperty.h>
+
+#include <QDir>
+#include <QFileInfo>
+#include <QSharedPointer>
+#include <QTemporaryDir>
 #include <FCGeometryInterface/FCGeoInterfaceFactory.h>
 #include <FCGeometryInterface/FCAbsGeoModelBox.h>
 #include "FCRenderWidget.h"
 #include "FCGraph3DWindowVTK.h"
 #include "FCGraphObjectVTK.h"
 #include "FCOCCGeoCompRegister.h"
+#include <FCGeometryCommand/FCAbstractOCCModel.h>
+#include <TopoDS_Shape.hxx>
 #include <FCVTKGraphAdaptor/FCVTKViewAdaptorModelCmd.h>
 #include <FCVTKGraphAdaptor/FCVTKGraphObject3D.h>
 
@@ -307,46 +326,113 @@ void FCAppController::testCreatorGeometry()
         return;
     }
 
-    // ---------- 2. 适配器：OCC 命令 -> VTK 图元（三角化结果经适配层显示，不再用 vtk 重建）----------
+    // ---------- 2. 导出几何供 Gmsh 使用 ----------
+    OCC::FCAbstractOCCModel* occModel = boxCmd->getTShapeAgent<OCC::FCAbstractOCCModel>();
+    if (!occModel || !occModel->getShape() || occModel->getShape()->IsNull()) {
+        qWarning() << "testCreatorGeometry: OCC model invalid, skip mesh gen";
+        delete boxCmd;
+        return;
+    }
+
+    QSharedPointer<QTemporaryDir> tmpDir(new QTemporaryDir);
+    if (!tmpDir->isValid()) {
+        qWarning() << "testCreatorGeometry: Cannot create temp dir";
+        delete boxCmd;
+        return;
+    }
+    QString workDir = tmpDir->path();
+    QString geoFile = workDir + "/box.stl";  // STL 无需 Gmsh 编译 OpenCASCADE
+    if (!occModel->writeToFile(geoFile)) {
+        qWarning() << "testCreatorGeometry: Failed to export geometry to STEP";
+        delete boxCmd;
+        return;
+    }
+
+    // ---------- 3. Gmsh 网格生成（异步）----------
+    FCMeshGenInterface* meshIface = FCMeshGenInterface::instance();
+    FCAbstractMesherDriver* driver = meshIface ? meshIface->getMesherDriver("Gmsh") : nullptr;
+    if (!driver) {
+        qWarning() << "testCreatorGeometry: Gmsh driver not found";
+        delete boxCmd;
+        return;
+    }
+
+    QString meshFile = workDir + "/mesh.msh";
+    driver->setValue("WorkDir", workDir);
+    driver->setValue("GeometryFile", geoFile);
+    driver->setValue("OutputMeshFile", meshFile);
+
+    FCUnstructuredMeshVTK* meshVTK = new FCUnstructuredMeshVTK;
+
+    // mesherFinished 后读取网格并显示（tmpDir 需被 lambda 持有，避免临时目录提前被删）
+    connect(driver, &FCAbstractMesherDriver::mesherFinished, this, [this, driver, meshVTK, workDir, meshFile, tmpDir]() {
+        disconnect(driver, &FCAbstractMesherDriver::mesherFinished, this, nullptr);
+
+        FCAbstractMeshProcessor* proc = FCMeshGenInterface::instance()->getMeshProcessor("Gmsh");
+        if (!proc || !QFileInfo::exists(meshFile)) {
+            qWarning() << "testCreatorGeometry: mesh file not found or processor null";
+            delete meshVTK;
+            return;
+        }
+        proc->setValue("WorkDir", workDir);
+        proc->setValue("OutputMeshFile", meshFile);
+        proc->insertDataObject("Mesh", meshVTK);
+        proc->start();
+
+        if (meshVTK->getNumberOfCells() == 0) {
+            qWarning() << "testCreatorGeometry: mesh is empty";
+            delete meshVTK;
+            return;
+        }
+
+        // 创建网格显示对象
+        vtkUnstructuredGrid* grid = meshVTK->getGrid();
+        if (!grid) {
+            delete meshVTK;
+            return;
+        }
+        vtkNew<vtkDataSetSurfaceFilter> surfaceFilter;
+        surfaceFilter->SetInputData(grid);
+        surfaceFilter->Update();
+        vtkNew<vtkDataSetMapper> mapper;
+        mapper->SetInputConnection(surfaceFilter->GetOutputPort());
+        mapper->ScalarVisibilityOff();
+        vtkNew<vtkActor> meshActor;
+        meshActor->SetMapper(mapper);
+        meshActor->GetProperty()->SetColor(0.8, 0.4, 0.2);  // 橙黄色区分几何
+        meshActor->GetProperty()->SetEdgeVisibility(true);
+        meshActor->GetProperty()->SetLineWidth(0.5);
+
+        FCGraphObjectVTK* meshGraphObj = new FCGraphObjectVTK(meshVTK);
+        meshGraphObj->addActor(meshActor);
+
+        if (!mDock) { delete meshGraphObj; delete meshVTK; return; }
+        FCRenderWidget* rw = mDock->getGraphicOperateWidget();
+        if (!rw) { delete meshGraphObj; delete meshVTK; return; }
+        FCGraph3DWindowVTK* graphWin = rw->getGraph3DWindow();
+        if (!graphWin) { delete meshGraphObj; delete meshVTK; return; }
+
+        graphWin->addObject(1, meshGraphObj, true);
+        graphWin->reRender();
+    });
+
+    // ---------- 4. 先显示几何体 ----------
     FCVTKViewAdaptorModelCmd adaptor;
     adaptor.setDataObject(boxCmd);
-    if (!adaptor.update()) {
-        qWarning() << "testCreatorGeometry: adaptor.update() failed (no VTK graph object)";
-        delete boxCmd;
-        return;
-    }
-    FCVTKGraphObject3D* graphObj = adaptor.getOutputData();
-    if (!graphObj || graphObj->getActorCount() == 0) {
-        qWarning() << "testCreatorGeometry: adaptor output invalid or no actors";
-        delete boxCmd;
-        return;
-    }
-
-    // ---------- 3. 加入 VTK 渲染窗口 ----------
-    if (!mDock) {
-        qWarning() << "testCreatorGeometry: mDock is null";
-        delete boxCmd;
-        return;
-    }
-    FCRenderWidget* renderWidget = mDock->getGraphicOperateWidget();
-    if (!renderWidget) {
-        qWarning() << "testCreatorGeometry: getGraphicOperateWidget is null";
-        delete boxCmd;
-        return;
-    }
-    FCGraph3DWindowVTK* graphWin = renderWidget->getGraph3DWindow();
-    if (!graphWin) {
-        qWarning() << "testCreatorGeometry: getGraph3DWindow is null";
-        delete boxCmd;
-        return;
+    if (adaptor.update()) {
+        FCVTKGraphObject3D* graphObj = adaptor.getOutputData();
+        if (graphObj && graphObj->getActorCount() > 0 && mDock) {
+            FCRenderWidget* rw = mDock->getGraphicOperateWidget();
+            if (rw) {
+                FCGraph3DWindowVTK* graphWin = rw->getGraph3DWindow();
+                if (graphWin) {
+                    graphWin->addObject(0, graphObj, true);
+                }
+            }
+        }
     }
 
-    graphWin->addObject(0, graphObj, true);
-    graphWin->reRender();
-
-    // 测试用不保存到命令列表；boxCmd 保留给图元内部引用（ModelCmd 持有 command），此处不 delete
-    // 若需彻底释放几何且不再显示，应先从 graphWin 移除 graphObj 再 delete boxCmd
-    (void)boxCmd;
+    driver->startMesher();
 }
 
 

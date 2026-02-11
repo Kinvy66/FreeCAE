@@ -87,7 +87,7 @@ void FCGmshMesherDriver::startMesher(QStringList info)
 
     int nThreads = _numThreads > 0 ? _numThreads : 0;
 
-    _worker = new FCGmshMesherWorker(this);
+    _worker = new FCGmshMesherWorker();  // 无 parent，否则 moveToThread 报错
     _worker->setDriver(this);
     _worker->setStopFlag(&_stopRequested);
 
@@ -112,6 +112,8 @@ void FCGmshMesherDriver::onWorkerFinished(bool success, const QString& errorMsg)
 {
     if (_worker) {
         disconnect(_worker, &FCGmshMesherWorker::finished, this, &FCGmshMesherDriver::onWorkerFinished);
+        _worker->deleteLater();  // 无 parent，需手动释放
+        _worker = nullptr;
     }
     if (_workerThread && _workerThread->isRunning()) {
         _workerThread->quit();

@@ -131,6 +131,7 @@ find_package(${FC_PROJECT_NAME} COMPONENTS
     FCGeometryCommand
     FCRenderWindowVTK
     FCVTKGraphAdaptor
+    FCMeshInterface
     FCMeshGenGmsh
 )
 
@@ -149,6 +150,7 @@ target_link_libraries(${FC_APP_NAME} PUBLIC
     ${FC_PROJECT_NAME}::FCGeometryCommand
     ${FC_PROJECT_NAME}::FCRenderWindowVTK
     ${FC_PROJECT_NAME}::FCVTKGraphAdaptor
+    ${FC_PROJECT_NAME}::FCMeshInterface
     ${FC_PROJECT_NAME}::FCMeshGenGmsh
 )
 
