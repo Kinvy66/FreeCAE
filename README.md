@@ -13,3 +13,17 @@ option(FC_COPY_THIRDPARTY_DLLS
     "This option controls whether to copy third-party DLLs to build directory. If ON, only copy when source DLL is newer than target DLL"
     ON)
 ```
+
+第三方库版本
+|    名称  | 版本 |
+|---|----|
+|SARibbon    |2.5.7  |
+|VTK         |9.4.1  |
+|OCC         |7.9.3  |
+|spdlog      |1.16.0 |
+|qwk         |1.4.0.0|
+|ADS         |4.4.1  |
+|quazip      |1.5    |
+|zlib        |1.4.1.1|
+|gmsh        |4.15.0|
+
