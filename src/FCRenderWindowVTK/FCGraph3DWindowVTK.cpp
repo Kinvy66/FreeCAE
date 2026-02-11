@@ -27,6 +27,7 @@
 #include <vtkSmartPointer.h>
 
 #include <QGridLayout>
+#include <QVBoxLayout>
 #include <QToolBar>
 #include <QToolButton>
 #include <QLabel>
@@ -56,8 +57,9 @@ FCGraph3DWindowVTK::FCGraph3DWindowVTK(FCGraph3DWindowInitializer* ini)
     if (!mInitializer)
         return;
 
-    QGridLayout* mainLayout = new QGridLayout(this);
+    QVBoxLayout* mainLayout = new QVBoxLayout(this);
     mainLayout->setContentsMargins(0, 0, 0, 0);
+    mainLayout->setSpacing(0);
 
 #if defined(VTK_MAJOR_VERSION) && VTK_MAJOR_VERSION >= 8
     QVTKOpenGLNativeWidget* vtkWidget = new QVTKOpenGLNativeWidget(this);
@@ -75,7 +77,23 @@ FCGraph3DWindowVTK::FCGraph3DWindowVTK(FCGraph3DWindowInitializer* ini)
     mVtkWidget = vtkWidget;
 #endif
 
-    mainLayout->addWidget(mVtkWidget, 0, 0);
+    mToolbarRowWidget = new QWidget(this);
+    mToolbarRowWidget->setStyleSheet("border: none; background-color: rgb(250, 251, 254);");
+    mToolbarRowWidget->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Minimum);
+    mRenderToolBarLayout = new QGridLayout(mToolbarRowWidget);
+    mRenderToolBarLayout->setContentsMargins(2, 2, 2, 2);
+    mRenderToolBarLayout->setSpacing(3);
+    mRenderToolBar = new QToolBar(mToolbarRowWidget);
+    mRenderToolBar->setContentsMargins(0, 0, 0, 0);
+    mRenderToolBar->setIconSize(QSize(20, 20));
+    mRenderToolBar->setStyleSheet("QToolBar { border: none; background: transparent; }");
+    mRenderIconToolBar = new QToolBar(mToolbarRowWidget);
+    mRenderIconToolBar->setContentsMargins(0, 0, 0, 0);
+    mRenderIconToolBar->setStyleSheet("QToolBar { border: none; background: transparent; }");
+    
+    mRenderToolBar->raise();
+    mainLayout->addWidget(mToolbarRowWidget);
+    mainLayout->addWidget(mVtkWidget, 1);
 
     mCamera = vtkCamera::New();
 #ifdef QT_DEBUG
@@ -113,20 +131,12 @@ FCGraph3DWindowVTK::FCGraph3DWindowVTK(FCGraph3DWindowInitializer* ini)
     setFocusPolicy(Qt::ClickFocus);
     setWindowTitle(QString("View Port-%1").arg(getGraphWidgetID()));
 
-    mRenderToolBarLayout = new QGridLayout(mVtkWidget);
-    mRenderToolBarLayout->setContentsMargins(0, 0, 0, 0);
-    mRenderToolBar = new QToolBar(mVtkWidget);
-    mRenderToolBar->setContentsMargins(0, 0, 0, 0);
-    mRenderToolBar->setIconSize(QSize(20, 20));
-    mRenderIconToolBar = new QToolBar(mVtkWidget);
-    mRenderIconToolBar->setContentsMargins(0, 0, 0, 0);
     initActions();
     setIsShowActions(true);
 
     mTimerView.setInterval(mInterval);
     mTimerView.setSingleShot(true);
     connect(&mTimerView, &QTimer::timeout, this, &FCGraph3DWindowVTK::slot_changingView);
-    mRenderToolBar->raise();
 }
 
 FCGraph3DWindowVTK::~FCGraph3DWindowVTK()
@@ -362,6 +372,13 @@ void FCGraph3DWindowVTK::setBackground(double topValue[3], double bottomValue[3]
             render->getRenderer()->SetBackground2(bottomValue);
         }
     }
+    if (mToolbarRowWidget && topValue)
+    {
+        int r = qBound(0, static_cast<int>(topValue[0] * 255), 255);
+        int g = qBound(0, static_cast<int>(topValue[1] * 255), 255);
+        int b = qBound(0, static_cast<int>(topValue[2] * 255), 255);
+        mToolbarRowWidget->setStyleSheet(QString("border: none; background-color: rgb(%1, %2, %3);").arg(r).arg(g).arg(b));
+    }
 }
 
 void FCGraph3DWindowVTK::fitView()
@@ -407,6 +424,13 @@ void FCGraph3DWindowVTK::setBackgroundColor(float* rgb1, float* rgb2)
     {
         if (render)
             render->setBackgroundColor(rgb1, rgb2);
+    }
+    if (mToolbarRowWidget)
+    {
+        int r = qBound(0, static_cast<int>(rgb1[0] * 255), 255);
+        int g = qBound(0, static_cast<int>(rgb1[1] * 255), 255);
+        int b = qBound(0, static_cast<int>(rgb1[2] * 255), 255);
+        mToolbarRowWidget->setStyleSheet(QString("border: none; background-color: rgb(%1, %2, %3);").arg(r).arg(g).arg(b));
     }
 }
 
@@ -652,7 +676,7 @@ void FCGraph3DWindowVTK::initRenderIcon(const QPixmap& image, FCGraphWinToolBarP
     if (!mRenderIconToolBar || !mRenderToolBarLayout)
         return;
     mRenderIconToolBar->clear();
-    QLabel* label = new QLabel(mVtkWidget);
+    QLabel* label = new QLabel(mToolbarRowWidget);
     label->setPixmap(image);
     mRenderIconToolBar->addWidget(label);
     switch (pos)
@@ -949,62 +973,62 @@ void FCGraph3DWindowVTK::initActions()
 {
     QList<QAction*> actions;
     QAction* a = nullptr;
-    a = new QAction(mVtkWidget);
+    a = new QAction(this);
     a->setObjectName("actionViewFront");
     a->setIcon(QIcon(":/icon/icoR_viewFront.svg"));
     connect(a, &QAction::triggered, this, &FCGraph3DWindowVTK::slotActionViewFrontEvent);
     actions.append(a);
-    a = new QAction(mVtkWidget);
+    a = new QAction(this);
     a->setObjectName("actionViewBack");
     a->setIcon(QIcon(":/icon/icoR_viewBack.svg"));
     connect(a, &QAction::triggered, this, &FCGraph3DWindowVTK::slotActionViewBackEvent);
     actions.append(a);
-    a = new QAction(mVtkWidget);
+    a = new QAction(this);
     a->setObjectName("actionViewTop");
     a->setIcon(QIcon(":/icon/icoR_viewTop.svg"));
     connect(a, &QAction::triggered, this, &FCGraph3DWindowVTK::slotActionViewTopEvent);
     actions.append(a);
-    a = new QAction(mVtkWidget);
+    a = new QAction(this);
     a->setObjectName("actionViewBottom");
     a->setIcon(QIcon(":/icon/icoR_viewBottom.svg"));
     connect(a, &QAction::triggered, this, &FCGraph3DWindowVTK::slotActionViewBottomEvent);
     actions.append(a);
-    a = new QAction(mVtkWidget);
+    a = new QAction(this);
     a->setObjectName("actionViewLeft");
     a->setIcon(QIcon(":/icon/icoR_viewLeft.svg"));
     connect(a, &QAction::triggered, this, &FCGraph3DWindowVTK::slotActionViewLeftEvent);
     actions.append(a);
-    a = new QAction(mVtkWidget);
+    a = new QAction(this);
     a->setObjectName("actionViewRight");
     a->setIcon(QIcon(":/icon/icoR_viewRight.svg"));
     connect(a, &QAction::triggered, this, &FCGraph3DWindowVTK::slotActionViewRightEvent);
     actions.append(a);
-    a = new QAction(mVtkWidget);
+    a = new QAction(this);
     a->setObjectName("actionViewIso");
     a->setIcon(QIcon(":/icon/icoR_viewIso.svg"));
     connect(a, &QAction::triggered, this, &FCGraph3DWindowVTK::slotActionViewIsoEvent);
     actions.append(a);
-    a = new QAction(mVtkWidget);
+    a = new QAction(this);
     a->setObjectName("actionViewAuto");
     a->setIcon(QIcon(":/icon/icoR_autofit.png"));
     connect(a, &QAction::triggered, this, &FCGraph3DWindowVTK::slotActionViewPanEvent);
     actions.append(a);
-    a = new QAction(mVtkWidget);
+    a = new QAction(this);
     a->setObjectName("actionSaveImage");
     a->setIcon(QIcon(":/icon/icoR_saveimage.png"));
     connect(a, &QAction::triggered, this, &FCGraph3DWindowVTK::slotActionSaveImageEvent);
     actions.append(a);
-    a = new QAction(mVtkWidget);
+    a = new QAction(this);
     a->setObjectName("actionViewParallel");
     a->setIcon(QIcon(":/icon/icoR_viewParallel.svg"));
     connect(a, &QAction::triggered, this, &FCGraph3DWindowVTK::slotActionViewParallelEvent);
     actions.append(a);
-    a = new QAction(mVtkWidget);
+    a = new QAction(this);
     a->setObjectName("actionViewPerspective");
     a->setIcon(QIcon(":/icon/icoR_viewPerspective.svg"));
     connect(a, &QAction::triggered, this, &FCGraph3DWindowVTK::slotActionViewPerspectiveEvent);
     actions.append(a);
-    a = new QAction(mVtkWidget);
+    a = new QAction(this);
     a->setObjectName("actionRenderClip");
     a->setIcon(QIcon(":/icon/icoR_clip.png"));
     a->setVisible(false);

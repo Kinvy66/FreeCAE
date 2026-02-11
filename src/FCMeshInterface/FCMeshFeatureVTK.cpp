@@ -8,7 +8,7 @@
 #include <vtkCellData.h>
 #include <vtkDataArray.h>
 #include <vtkAlgorithmOutput.h>
-#include <vtkIdFilter.h>
+#include <vtkGenerateIds.h>
 #include <vtkPassThrough.h>
 #include <vtkDataSetSurfaceFilter.h>
 #include <vtkFeatureEdges.h>
@@ -59,7 +59,7 @@ void FCMeshFeatureVTK::initialize()
 {
     _passThrough = vtkPassThrough::New();
 
-    _idFilter = vtkIdFilter::New();
+    _idFilter = vtkGenerateIds::New();
     _idFilter->SetInputConnection(_passThrough->GetOutputPort());
     _idFilter->SetCellIds(true);
     _idFilter->SetPointIds(true);
@@ -126,8 +126,8 @@ void FCMeshFeatureVTK::reset(vtkAlgorithmOutput* connection)
 void FCMeshFeatureVTK::setCellAndPointIdsEnable(bool pointIdsOn, bool cellIdsOn)
 {
     if (_idFilter) {
-        _idFilter->SetPointIds(pointIdsOn ? 1 : 0);
-        _idFilter->SetCellIds(cellIdsOn ? 1 : 0);
+        _idFilter->SetPointIds(pointIdsOn);
+        _idFilter->SetCellIds(cellIdsOn);
     }
 }
 
@@ -145,7 +145,7 @@ vtkPassThrough* FCMeshFeatureVTK::getMeshPassThrough()
     return _passThrough;
 }
 
-vtkIdFilter* FCMeshFeatureVTK::getIdFilter()
+vtkGenerateIds* FCMeshFeatureVTK::getIdFilter()
 {
     return _idFilter;
 }

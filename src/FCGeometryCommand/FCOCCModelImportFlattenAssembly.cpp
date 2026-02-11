@@ -14,15 +14,43 @@
 #include <FCGeometryInterface/FCGeoEnum.h>
 
 #include <TopoDS_Shape.hxx>
+#include <TopoDS_Compound.hxx>
 #include <BRep_Builder.hxx>
 #include <BRepTools.hxx>
-#include <StlAPI.hxx>
+#include <BRepBuilderAPI_MakeFace.hxx>
+#include <BRepBuilderAPI_MakePolygon.hxx>
+#include <RWStl.hxx>
+#include <Poly_Triangulation.hxx>
 #include <STEPControl_Reader.hxx>
 #include <IGESControl_Reader.hxx>
 
 #include <QFile>
 
 namespace OCC {
+
+/** Read STL via RWStl and build TopoDS_Shape from triangulation (replacement for deprecated StlAPI::Read). */
+static bool readStlToShape(const char* path, TopoDS_Shape& shape)
+{
+    Handle(Poly_Triangulation) mesh = RWStl::ReadFile(path);
+    if (mesh.IsNull()) return false;
+    BRep_Builder builder;
+    TopoDS_Compound compound;
+    builder.MakeCompound(compound);
+    const int nTri = mesh->NbTriangles();
+    for (int i = 1; i <= nTri; ++i)
+    {
+        int n1, n2, n3;
+        mesh->Triangle(i).Get(n1, n2, n3);
+        gp_Pnt p1 = mesh->Node(n1), p2 = mesh->Node(n2), p3 = mesh->Node(n3);
+        BRepBuilderAPI_MakePolygon poly(p1, p2, p3, Standard_True);
+        if (!poly.IsDone()) continue;
+        BRepBuilderAPI_MakeFace mkFace(poly.Wire());
+        if (!mkFace.IsDone()) continue;
+        builder.Add(compound, mkFace.Face());
+    }
+    shape = compound;
+    return true;
+}
 
 FC::FCGeoEnum::FCGeometryComType FCOCCModelImportFlattenAssembly::getGeometryCommandType()
 {
@@ -51,7 +79,7 @@ bool FCOCCModelImportFlattenAssembly::update()
         if (suffix == "stl")
         {
             TopoDS_Shape shape;
-            if (!StlAPI::Read(shape, cpath)) return false;
+            if (!readStlToShape(cpath, shape)) return false;
             _occShapeAgent->updateShape(shape);
             return true;
         }

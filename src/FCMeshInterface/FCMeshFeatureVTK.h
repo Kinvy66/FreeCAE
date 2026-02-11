@@ -13,7 +13,7 @@ class vtkDataSet;
 class vtkPolyData;
 class vtkDataArray;
 class vtkAlgorithmOutput;
-class vtkIdFilter;
+class vtkGenerateIds;
 class vtkPassThrough;
 class vtkDataSetSurfaceFilter;
 class vtkFeatureEdges;
@@ -43,7 +43,7 @@ public:
     void setSurfEdgesEnable(bool isOn);
 
     vtkPassThrough* getMeshPassThrough();
-    vtkIdFilter* getIdFilter();
+    vtkGenerateIds* getIdFilter();
     vtkDataSetSurfaceFilter* getSurfaceFilter();
     vtkFeatureEdges* getFeatureEdgeFilter();
     vtkFeatureEdges* getShellEdgeFilter();
@@ -59,7 +59,7 @@ private:
     vtkDataSet* _dataSet{};
     vtkAlgorithmOutput* _connection{};
     vtkPassThrough* _passThrough{};
-    vtkIdFilter* _idFilter{};
+    vtkGenerateIds* _idFilter{};
     vtkDataSetSurfaceFilter* _surfaceFilter{};
     vtkPolyDataNormals* _normalFilter{};
     vtkFeatureEdges* _featureEdgeFilter{};

@@ -157,6 +157,7 @@ protected:
     FCBoundaryActor* mActorBound = nullptr;
     QVariant mUserInfo;
     bool mInitFlag = false;
+    QWidget* mToolbarRowWidget = nullptr;
     QGridLayout* mRenderToolBarLayout = nullptr;
     QToolBar* mRenderToolBar = nullptr;
     QToolBar* mRenderIconToolBar = nullptr;

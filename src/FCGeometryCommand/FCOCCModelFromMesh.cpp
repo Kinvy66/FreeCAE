@@ -14,7 +14,12 @@
 #include <FCGeometryInterface/FCGeoEnum.h>
 
 #include <TopoDS_Shape.hxx>
-#include <StlAPI.hxx>
+#include <TopoDS_Compound.hxx>
+#include <BRep_Builder.hxx>
+#include <BRepBuilderAPI_MakeFace.hxx>
+#include <BRepBuilderAPI_MakePolygon.hxx>
+#include <RWStl.hxx>
+#include <Poly_Triangulation.hxx>
 
 #include <QDir>
 #include <QFile>
@@ -53,6 +58,30 @@ static bool writeSTL(const QString& path,
     return true;
 }
 
+/** Read STL via RWStl and build TopoDS_Shape from triangulation (replacement for deprecated StlAPI::Read). */
+static bool readStlToShape(const char* path, TopoDS_Shape& shape)
+{
+    Handle(Poly_Triangulation) mesh = RWStl::ReadFile(path);
+    if (mesh.IsNull()) return false;
+    BRep_Builder builder;
+    TopoDS_Compound compound;
+    builder.MakeCompound(compound);
+    const int nTri = mesh->NbTriangles();
+    for (int i = 1; i <= nTri; ++i)
+    {
+        int n1, n2, n3;
+        mesh->Triangle(i).Get(n1, n2, n3);
+        gp_Pnt p1 = mesh->Node(n1), p2 = mesh->Node(n2), p3 = mesh->Node(n3);
+        BRepBuilderAPI_MakePolygon poly(p1, p2, p3, Standard_True);
+        if (!poly.IsDone()) continue;
+        BRepBuilderAPI_MakeFace mkFace(poly.Wire());
+        if (!mkFace.IsDone()) continue;
+        builder.Add(compound, mkFace.Face());
+    }
+    shape = compound;
+    return true;
+}
+
 FC::FCGeoEnum::FCGeometryComType FCOCCModelFromMesh::getGeometryCommandType()
 {
     return FC::FCGeoEnum::FGTModelFromMesh;
@@ -69,8 +98,7 @@ bool FCOCCModelFromMesh::update()
 
     QByteArray ba = path.toUtf8();
     TopoDS_Shape shape;
-    bool ok = StlAPI::Read(shape, ba.constData());
-    if (!ok) return false;
+    if (!readStlToShape(ba.constData(), shape)) return false;
     _occShapeAgent->updateShape(shape);
     return true;
 }
