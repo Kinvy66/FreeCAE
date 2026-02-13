@@ -373,18 +373,19 @@ macro(fcmacro_app_install)
             foreach(_config ${CMAKE_CONFIGURATION_TYPES})
                 # 为每个配置创建独立的脚本文件来传递参数
                 # 使用 file(GENERATE) 以便在生成时展开生成器表达式
+                # CONTENT 只接受一个参数，必须合并为单字符串
                 set(_deploy_script "${CMAKE_BINARY_DIR}/deploy_dlls_${_config}.cmake")
+                set(_gen_content "set(_TARGET_NAME ${FC_APP_NAME})\n")
+                set(_gen_content "${_gen_content}set(_BUILD_TYPE ${_config})\n")
+                set(_gen_content "${_gen_content}set(_CMAKE_BINARY_DIR ${CMAKE_BINARY_DIR})\n")
+                set(_gen_content "${_gen_content}set(_FC_CMAKE_DIR ${FC_CMAKE_DIR})\n")
+                set(_gen_content "${_gen_content}set(_FC_THIRDLIB_DIR ${FC_THIRDLIB_DIR})\n")
+                set(_gen_content "${_gen_content}set(_WINDEPLOYQT_EXE \"${WINDEPLOYQT_EXECUTABLE}\")\n")
+                set(_gen_content "${_gen_content}set(_TARGET_EXE \"$<TARGET_FILE:${FC_APP_NAME}>\")\n")
+                set(_gen_content "${_gen_content}set(FC_COPY_THIRDPARTY_DLLS ${FC_COPY_THIRDPARTY_DLLS})\n")
+                set(_gen_content "${_gen_content}include(\${_FC_CMAKE_DIR}/freecae_deployqt.cmake)\n")
                 file(GENERATE OUTPUT ${_deploy_script}
-                    CONTENT
-                    "set(_TARGET_NAME ${FC_APP_NAME})\n"
-                    "set(_BUILD_TYPE ${_config})\n"
-                    "set(_CMAKE_BINARY_DIR ${CMAKE_BINARY_DIR})\n"
-                    "set(_FC_CMAKE_DIR ${FC_CMAKE_DIR})\n"
-                    "set(_FC_THIRDLIB_DIR ${FC_THIRDLIB_DIR})\n"
-                    "set(_WINDEPLOYQT_EXE \"${WINDEPLOYQT_EXECUTABLE}\")\n"
-                    "set(_TARGET_EXE \"$<TARGET_FILE:${FC_APP_NAME}>\")\n"
-                    "set(FC_COPY_THIRDPARTY_DLLS ${FC_COPY_THIRDPARTY_DLLS})\n"
-                    "include(\${_FC_CMAKE_DIR}/freecae_deployqt.cmake)\n"
+                    CONTENT "${_gen_content}"
                     CONDITION $<CONFIG:${_config}>
                 )
                 add_custom_command(TARGET ${FC_APP_NAME} POST_BUILD
