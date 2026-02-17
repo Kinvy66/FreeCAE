@@ -122,6 +122,7 @@ endif()
 # 树内构建：直接链接同工程目标，不依赖 find_package，确保 exe 真正依赖 FCActionsOperator.dll
 # （find_package 在树内可能未正确解析，导致链接未建立，运行时 DLL 未加载、静态注册不执行）
 find_package(${FC_PROJECT_NAME} COMPONENTS
+    FCData
     FCInterface
     FCUtils
     FCMessageHandler
@@ -141,6 +142,7 @@ find_package(${FC_PROJECT_NAME} COMPONENTS
 #     message(STATUS "  |-linked ${FC_PROJECT_NAME}::FCMessageHandler")
 # endif()
 target_link_libraries(${FC_APP_NAME} PUBLIC
+    ${FC_PROJECT_NAME}::FCData
     ${FC_PROJECT_NAME}::FCInterface
     ${FC_PROJECT_NAME}::FCUtils
     ${FC_PROJECT_NAME}::FCMessageHandler

@@ -185,6 +185,12 @@ FCAppController &FCAppController::setAppDataManager(FCAppDataManager *d)
     return (*this);
 }
 
+FCAppController &FCAppController::setDataFactory(FCGlobalDataFactory *d)
+{
+    mDataFactory = d;
+    return (*this);
+}
+
 /**
 * @brief 获取app
 * @return

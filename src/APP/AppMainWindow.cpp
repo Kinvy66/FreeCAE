@@ -38,6 +38,7 @@
 #include "FCAppUI.h"
 #include "FCAppDockingArea.h"
 #include "FCAppRibbonArea.h"
+#include "FCGlobalDataFactory.h"
 // 对话框
 
 // 节点相关
@@ -82,7 +83,7 @@ AppMainWindow::AppMainWindow(QWidget *parent)
         .setAppActions(mUI->getAppActions())          // action
         .setActionHandler(mUI->getActionHandler())
         .setAppCommand(mUI->getAppCmd())              // cmd
-        .setAppDataManager(core.getAppDatas())        // data
+        .setDataFactory(mCore->getDataFactory())        // data
         .setAppDockingArea(mUI->getAppDockingArea())  // dock
         .setAppRibbonArea(mUI->getAppRibbonArea())    // ribbon
         ;

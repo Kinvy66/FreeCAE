@@ -40,6 +40,7 @@ class FCAppCommand;
 class FCAppActions;
 class FCAppDataManager;
 class FCActionEventHandler;
+class FCGlobalDataFactory;
 
 class FCAppController : public QObject
 {
@@ -82,6 +83,8 @@ public:
     // 设置AppDataManager
     FCAppController& setAppDataManager(FCAppDataManager* d);
     
+    FCAppController& setDataFactory(FCGlobalDataFactory* d);
+    
     // 获取app
     AppMainWindow* app() const;
     // 初始化--必须初始化才能生效
@@ -122,6 +125,7 @@ private:
     FCAppCommand* mCommand { nullptr };
     FCAppActions* mActions { nullptr };
     FCAppDataManager* mDatas { nullptr };
+    FCGlobalDataFactory* mDataFactory { nullptr };
     
     FCActionEventHandler* mActionHandler;
     

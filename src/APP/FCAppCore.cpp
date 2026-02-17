@@ -20,6 +20,8 @@
 #include "FCCommandInterface.h"
 #include "FCProjectInterface.h"
 #include "FCAppCommand.h"
+#include "FCGlobalData.h"
+#include "FCGlobalDataFactory.h"
 // #if DA_ENABLE_PYTHON
 // // DA Python
 // #include "DAPyInterpreter.h"
@@ -46,6 +48,8 @@ FCAppCore::FCAppCore(QObject* p)
     , mProject(nullptr)
 {
     mDataManager = nullptr;
+    mGlobalData = new FCGlobalData();
+    mDataFactory= new FCGlobalDataFactory();
 }
 
 FCAppCore& FCAppCore::getInstance()
@@ -68,6 +72,7 @@ bool FCAppCore::initialized()
     // qDebug() << "core have been initialized App Data Manager";
     // mProject = new FCAppProject(this, this);
     // mProject->setDataManagerInterface(mDataManager);
+    mDataFactory->createGlobalData(mGlobalData);
     return true;
 }
 
@@ -147,5 +152,15 @@ FCAppDataManager* FCAppCore::getAppDatas()
 FCAppCommand* FCAppCore::getAppCmd()
 {
     return mAppCmd;
+}
+
+FCGlobalDataFactory *FCAppCore::getDataFactory()
+{
+    return mDataFactory;
+}
+
+FCGlobalData *FCAppCore::getGlobalData()
+{
+    return mGlobalData;
 }
 

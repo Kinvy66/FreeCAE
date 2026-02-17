@@ -19,6 +19,8 @@ class FCAppUI;
 class FCAppRibbonArea;
 class FCAppDataManager;
 class FCAppProject;
+class FCGlobalData;
+class FCGlobalDataFactory;
 
 class FCAppCore : public FCCoreInterface
 {
@@ -50,6 +52,10 @@ public:
     FCAppDataManager* getAppDatas();
     // 获取DAAppCommand，省去qobject_cast
     FCAppCommand* getAppCmd();
+    FCGlobalDataFactory* getDataFactory();
+    
+    FCGlobalData* getGlobalData();
+    
     
 private:
     FCAppCommand* mAppCmd;
@@ -57,6 +63,9 @@ private:
     FCAppDataManager* mDataManager;
     bool mIsPythonInterpreterInitialized;
     FCAppProject* mProject;
+    FCGlobalData* mGlobalData;
+    FCGlobalDataFactory* mDataFactory;
+    
 };
 
 } // namespace FC

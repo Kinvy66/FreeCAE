@@ -35,6 +35,7 @@ class FCAppController;
 class FCAppConfig;
 class FCConfigsManager;
 class FCAppSettingDialog;
+class FCGlobalData;
 
 class AppMainWindow : public SARibbonMainWindow
 {
@@ -43,8 +44,6 @@ class AppMainWindow : public SARibbonMainWindow
 public:
     AppMainWindow(QWidget* parent = nullptr);
     ~AppMainWindow();
-    
-
     
 private:
     // 初始化
@@ -59,7 +58,6 @@ private:
     FCAppUI* mUI { nullptr };
     FCAppDockingArea* mDockArea { nullptr };
     FCAppController* mController { nullptr };
-    bool mFirstShow { true };  // 标记是否是首次显示
 };
 
 }  // namespace FC
