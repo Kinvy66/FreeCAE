@@ -77,6 +77,8 @@ void FCAppUI::createUi()
     createDockingArea();
     createRibbonArea();
     mRibbonArea->setDockingArea(mDockingArea);
+    if (mActionHandler)
+        mActionHandler->setUIInterface(this);
     createStatusBar();
 }
 

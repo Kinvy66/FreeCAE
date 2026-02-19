@@ -8,6 +8,8 @@
 
 namespace FC {
 
+QMutex FCGlobalData::_mutex;
+
 FCGlobalData::FCGlobalData()
 {
     

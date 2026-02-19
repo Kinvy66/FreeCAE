@@ -18,7 +18,10 @@ class FCGUI_API FCPropertyWidget : public QWidget
     Q_OBJECT
 public:
     explicit FCPropertyWidget(QWidget *parent = nullptr);
-    
+
+    /** 设置参数区内容窗口（如 FCCubeInfoWidget），替换当前显示的内容 */
+    void setContentWidget(QWidget* w);
+
 signals:
 };
 

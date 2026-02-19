@@ -4,17 +4,32 @@
 #include <QObject>
 #include <QHash>
 #include <QVariant>
+#include <QWidget>
 #include "FCActionsOperatorAPI.h"
 #include "FCAbstractObject.hpp"
+#include <FCUIInterface.h>
 
 namespace FC 
 {
+/**
+ * 操作器通过注入的 FCUIInterface 统一访问主界面与 Docking，避免对 APP 的依赖与多重 setX 注入。
+ * 由 FCActionEventHandler 在 execOperator 时注入，子类可调用 mainWindow()、dockingArea()、uiInterface()。
+ */
 class FCACTIONSOPERATOR_API FCAbstractOperator : public QObject, public FCAbstractObject
 {
     Q_OBJECT
 public:
     FCAbstractOperator();
     virtual ~FCAbstractOperator() = 0;
+
+    /** 设置 UI 上下文（由事件处理在触发时注入），子类通过 mainWindow/dockingArea/ribbonArea 访问主界面 */
+    void setUIInterface(FCUIInterface* ui) { _uiInterface = ui; }
+    /** 获取当前 UI 上下文，未设置时返回 nullptr */
+    FCUIInterface* uiInterface() const { return _uiInterface; }
+    /** 主窗口（弹窗父窗口、居中显示等），等价于 uiInterface() ? uiInterface()->getMainWindow() : nullptr */
+    QMainWindow* mainWindow() const { return _uiInterface ? _uiInterface->getMainWindow() : nullptr; }
+    /** Docking 区域（获取 CDockManager、各 Dock 窗口、raise 等），未设置时返回 nullptr */
+    FCDockingAreaInterface* dockingArea() const { return _uiInterface ? _uiInterface->getDockingArea() : nullptr; }
 
     /**
      * @brief 设置触发对象
@@ -92,6 +107,8 @@ protected:
      * @brief 触发器
      */
     QObject* _emitter{};
+    /** UI 上下文（由 APP 在触发操作时注入），用于 mainWindow/dockingArea 等访问 */
+    FCUIInterface* _uiInterface{ nullptr };
 };
 } // namespace FC
 

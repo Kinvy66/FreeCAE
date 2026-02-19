@@ -4,6 +4,9 @@
  * @copyright Copyright (c) 2025 Kinvy. All rights reserved.
  */
 #include "FCGlobalDataFactory.h"
+#include <FCGeometryInterface/FCGeoCommandList.h>
+#include <FCGeometryEntity/FCGeometryEntityBuilder.h>
+#include <FCGeometryEntity/FCGeometryEntityModel.h>
 
 namespace FC {
 
@@ -14,7 +17,7 @@ FCGlobalDataFactory::~FCGlobalDataFactory()
 
 FCAbstractDataObject *FCGlobalDataFactory::createGeoData()
 {
-    return nullptr;
+    return new FCGeoCommandList();
 }
 
 FCAbstractDataObject *FCGlobalDataFactory::createPhysicsData()
@@ -40,5 +43,13 @@ QHash<int, FCAbstractDataObject *> FCGlobalDataFactory::createOtherData()
     return QHash<int, FCAbstractDataObject *>();
 }
 
+FCAbstractDataObject* FCGlobalDataFactory::createGeometryEntityModel(FCGlobalData* globalData)
+{
+    if (!globalData) return nullptr;
+    FCGeoCommandList* geoList = globalData->getData<FCGeoCommandList>(GDTGeom);
+    FCGeometryEntityBuilder builder;
+    FCGeometryEntityModel* model = builder.build(geoList);
+    return model;
+}
 
 } // namespace FC

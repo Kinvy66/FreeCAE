@@ -67,6 +67,13 @@ private:
      */
     virtual QHash< int,FCAbstractDataObject*> createOtherData();
 
+    /**
+     * @brief 创建几何实体层（Domain/Boundary/Edge/Point），由 FCGeometryEntity 构建
+     * @param globalData 当前全局数据，用于取 GDTGeom 得到 FCGeoCommandList
+     * @return 新建的 FCGeometryEntityModel 或 nullptr（默认不创建）
+     */
+    virtual FCAbstractDataObject* createGeometryEntityModel(FCGlobalData* globalData);
+
 };
 
 } // namespace FC

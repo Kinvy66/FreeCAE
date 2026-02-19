@@ -56,26 +56,30 @@ target_link_libraries(${FC_LIB_NAME} PRIVATE
 )
 message(STATUS "${FC_LIB_NAME} Qt${QT_VERSION_MAJOR}.${QT_VERSION_MINOR}.${QT_VERSION_PATCH}")
 
-# -------------link 3rdparty spdlog--------------------------
-# FCMessageHandler依赖spdlog
-# spdlog是header only
-# fcmacro_import_spdlog(${FC_LIB_NAME})
+# -------------link 3rdparty--------------------------
+fcmacro_import_QtAdvancedDocking(${FC_LIB_NAME})
 
-# 依赖模块
+# 依赖模块（FCInterface 提供 UI 上下文；FCGUI 供创建立方体时挂接 FCCubeInfoWidget / FCPropertyWidget）
 find_package(${FC_PROJECT_NAME} COMPONENTS 
     FCUtils
     FCData
     FCGeometryInterface
+    FCInterface
+    FCGUI
 )
 if(${FC_PROJECT_NAME}_FOUND)
     message(STATUS "  |-linked ${FC_PROJECT_NAME}::FCUtils")
     message(STATUS "  |-linked ${FC_PROJECT_NAME}::FCData")
     message(STATUS "  |-linked ${FC_PROJECT_NAME}::FCGeometryInterface")
+    message(STATUS "  |-linked ${FC_PROJECT_NAME}::FCInterface")
+    message(STATUS "  |-linked ${FC_PROJECT_NAME}::FCGUI")
 endif()
 target_link_libraries(${FC_LIB_NAME} PUBLIC
     ${FC_PROJECT_NAME}::FCUtils
     ${FC_PROJECT_NAME}::FCData
     ${FC_PROJECT_NAME}::FCGeometryInterface
+    ${FC_PROJECT_NAME}::FCInterface
+    ${FC_PROJECT_NAME}::FCGUI
 )
 
 ########################################################

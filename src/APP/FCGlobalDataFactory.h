@@ -56,7 +56,8 @@ private:
      */
     virtual QHash< int,FCAbstractDataObject*> createOtherData() override;
 
-
+    /** 从当前几何命令列表构建几何实体层（Domain/Boundary/Edge/Point） */
+    FCAbstractDataObject* createGeometryEntityModel(FCGlobalData* globalData) override;
 };
 
 } // namespace FC

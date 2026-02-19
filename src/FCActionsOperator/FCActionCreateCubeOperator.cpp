@@ -1,11 +1,14 @@
 #include "FCActionCreateCubeOperator.h"
+#include <FCDockingAreaInterface.h>
 #include <FCGeometryInterface/FCGeoInterfaceFactory.h>
 #include <FCGeometryInterface/FCGeoCommandList.h>
 #include <FCGeometryInterface/FCAbsGeoModelBox.h>
 #include <FCData/FCDataRepo.h>
+#include <FCGUI/FCPropertyWidget.h>
+#include <FCGUI/FCGeometryProperty/FCCubeInfoWidget.h>
 #include <QDebug>
 
-namespace FC 
+namespace FC
 {
 
 FCActionCreateCubeOperator::FCActionCreateCubeOperator()
@@ -14,36 +17,60 @@ FCActionCreateCubeOperator::FCActionCreateCubeOperator()
 
 bool FCActionCreateCubeOperator::execGUI()
 {
-    // 目前简化实现，直接返回true，后续可以添加对话框等UI交互
+    FCDockingAreaInterface* docking = dockingArea();
+    if (!docking || !_currentBoxCmd) return true;
+
+    FCPropertyWidget* propWidget = docking->getSettingParametersWidget();
+    if (!propWidget) return true;
+
+    // 1. 创建 FCCubeInfoWidget 并放入 FCPropertyWidget（参数设置 Dock）内
+    FCCubeInfoWidget* cubeWidget = new FCCubeInfoWidget(propWidget);
+    propWidget->setContentWidget(cubeWidget);
+
+    // 2. 根据 boxCmd 将默认参数设置到 UI 对应区域
+    cubeWidget->setBoxCommand(_currentBoxCmd);
+
+    docking->raiseDockingArea(FCDockingAreaInterface::DockingAreaSetting);
     return true;
 }
 
 bool FCActionCreateCubeOperator::execProfession()
 {
-    // 获取几何接口工厂
+    _currentBoxCmd = nullptr;
+
     FCGeoInterfaceFactory* factory = FCGeoInterfaceFactory::instance();
     if (!factory) {
         qWarning() << "FCActionCreateCubeOperator: FCGeoInterfaceFactory is null";
         return false;
     }
 
-    // 创建Box几何命令
     FCGeoModelBox* boxCmd = factory->createCommandT<FCGeoModelBox>(FCGeoEnum::FGTBox);
     if (!boxCmd) {
         qWarning() << "FCActionCreateCubeOperator: Failed to create FCGeoModelBox";
         return false;
     }
 
-    // 设置默认参数：基点(0,0,0)，长度(100,100,100)
+    FCGeoCommandList* geoList = FCDATAREPO->getFirstDataByType<FCGeoCommandList>();
+    if (!geoList) {
+        qWarning() << "FCActionCreateCubeOperator: FCGeoCommandList not found (ensure createGeoData() creates it)";
+        return false;
+    }
+
     double point1[3] = { 0.0, 0.0, 0.0 };
     double length[3] = { 100.0, 100.0, 100.0 };
     boxCmd->setPoint1(point1);
     boxCmd->setLength(length);
 
-    // 设置名称
     QString name = QString("Box_%1").arg(boxCmd->getDataObjectID());
+    boxCmd->setDataObjectName(geoList->checkName(name));
 
+    if (!boxCmd->update()) {
+        qWarning() << "FCActionCreateCubeOperator: boxCmd->update() failed";
+        return false;
+    }
 
+    geoList->appendDataObj(boxCmd);
+    _currentBoxCmd = boxCmd;
     return true;
 }
 

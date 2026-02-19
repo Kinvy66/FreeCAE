@@ -24,6 +24,8 @@ enum  FCGlobalDT
     GDTNone = 0,
     GDTMesh,
     GDTGeom,
+    /** 几何实体层（Domain/Boundary/Edge/Point），由 FCGeometryEntity 模块构建 */
+    GDTGeomEntity,
     GDTPhysics,
     GDTPost, 
     GDTOther = 1000,

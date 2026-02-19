@@ -7,6 +7,7 @@
 
 namespace FC 
 {
+class FCGeoModelBox;
 /**
  * @brief 创建立方体操作器
  */
@@ -17,19 +18,12 @@ public:
     FCActionCreateCubeOperator();
     ~FCActionCreateCubeOperator() override = default;
 
-    /**
-     * @brief 界面逻辑，生成UI交互
-     * @return true 执行成功
-     * @return false 执行失败
-     */
     bool execGUI() override;
-
-    /**
-     * @brief 业务处理逻辑，在execGUI后执行
-     * @return true 执行成功
-     * @return false 执行失败
-     */
     bool execProfession() override;
+
+private:
+    /** 本次 execProfession 创建的 Box 命令，供 execGUI 绑定到 FCCubeInfoWidget */
+    FCGeoModelBox* _currentBoxCmd{ nullptr };
 };
 
 // 注册操作器

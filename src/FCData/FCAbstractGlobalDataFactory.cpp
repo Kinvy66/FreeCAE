@@ -23,6 +23,9 @@ void FCAbstractGlobalDataFactory::createGlobalData(FCGlobalData *globalData)
     //创建几何
     d = this->createGeoData();
     globalData->insertData(GDTGeom, d);
+    //创建几何实体层（可选，应用层可重写 createGeometryEntityModel 从几何命令列表构建）
+    d = this->createGeometryEntityModel(globalData);
+    if (d) globalData->insertData(GDTGeomEntity, d);
     //创建物理数据
     d = this->createPhysicsData();
     globalData->insertData(GDTPhysics, d);
@@ -65,6 +68,11 @@ FCAbstractDataObject *FCAbstractGlobalDataFactory::createPostData()
 QHash<int, FCAbstractDataObject *> FCAbstractGlobalDataFactory::createOtherData()
 {
     return QHash<int, FCAbstractDataObject*>();
+}
+
+FCAbstractDataObject* FCAbstractGlobalDataFactory::createGeometryEntityModel(FCGlobalData*)
+{
+    return nullptr;
 }
 
 FCAbstractGlobalDataFactory::~FCAbstractGlobalDataFactory() = default;

@@ -7,9 +7,9 @@
  * @copyright Copyright (c) 2026 Kinvy. All rights reserved.
  */
 #include "FCActionEventHandler.h"
+#include <FCUIInterface.h>
 #include <QMessageBox>
 #include <QCoreApplication>
-
 #include <FCActionsOperator/FCOperatorRepo.h>
 #include <QAction>
 #include <QDebug>
@@ -43,6 +43,7 @@ void FCActionEventHandler::execOperator()
     FCActionOperator* actOper = this->getOperator(action);
     if (actOper != nullptr) {
         actOper->setEmitter(action);
+        actOper->setUIInterface(m_uiInterface);
         actOper->actionTriggered();
     } else {
         // 错误提示

@@ -221,14 +221,14 @@ void FCAppController::initialize()
 void FCAppController::initConnection()
 {
     
-    // QList<QAction*> actionList = mActions->getAllActions();
-    // for (QAction* action : actionList) {
-    //     if (action == nullptr)continue;
-    //     connect(action, &QAction::triggered, mActionHandler, &FCActionEventHandler::execOperator);
-    // }
+    QList<QAction*> actionList = mActions->getAllActions();
+    for (QAction* action : actionList) {
+        if (action == nullptr)continue;
+        connect(action, &QAction::triggered, mActionHandler, &FCActionEventHandler::execOperator);
+    }
     
     // 测试使用
-    connect(mActions->actionCreateCube, &QAction::triggered, this, &FCAppController::testCreatorGeometry);
+    // connect(mActions->actionCreateCube, &QAction::triggered, this, &FCAppController::testCreatorGeometry);
 }
 
 /**

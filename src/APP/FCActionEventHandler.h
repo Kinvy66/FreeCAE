@@ -14,13 +14,19 @@
 namespace FC 
 {
 
+class FCUIInterface;
 class FCActionOperator;
 
+/** 通过注入 FCUIInterface，操作器可统一访问主窗口与 Docking，无需 APP 多重 setX。 */
 class FCActionEventHandler : public QObject
 {
 public:
     FCActionEventHandler() = default;
     ~FCActionEventHandler() = default;
+
+    /** 设置 UI 上下文，触发操作时会注入到 Operator（setUIInterface），供其访问 mainWindow/dockingArea 等 */
+    void setUIInterface(FCUIInterface* ui) { m_uiInterface = ui; }
+    FCUIInterface* uiInterface() const { return m_uiInterface; }
     
 public slots:
     
@@ -30,14 +36,9 @@ public slots:
     void execOperator();
     
 private:
-    
-    /**
-     * @brief getOperator 获取执行对象
-     * @param object 触发的对象
-     * @return 
-     */
     FCActionOperator* getOperator(QObject* object);
 
+    FCUIInterface* m_uiInterface{ nullptr };
 };
 } // namespace FC
 

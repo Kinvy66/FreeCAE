@@ -130,6 +130,7 @@ find_package(${FC_PROJECT_NAME} COMPONENTS
     FCActionsOperator
     FCGeometryInterface
     FCGeometryCommand
+    FCGeometryEntity
     FCRenderWindowVTK
     FCVTKGraphAdaptor
     FCMeshInterface
@@ -150,6 +151,7 @@ target_link_libraries(${FC_APP_NAME} PUBLIC
     ${FC_PROJECT_NAME}::FCActionsOperator
     ${FC_PROJECT_NAME}::FCGeometryInterface
     ${FC_PROJECT_NAME}::FCGeometryCommand
+    ${FC_PROJECT_NAME}::FCGeometryEntity
     ${FC_PROJECT_NAME}::FCRenderWindowVTK
     ${FC_PROJECT_NAME}::FCVTKGraphAdaptor
     ${FC_PROJECT_NAME}::FCMeshInterface
