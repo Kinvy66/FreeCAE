@@ -38,7 +38,7 @@ class FCGraphicOperateWidget;
 class FCMessageLogViewWidget;
 
 // 模型窗口
-class FCProjectTreeWidget;
+class FCMainTreeWidget;
 // 图形窗口
 class FCRenderWidget;
 // 属性窗口
@@ -214,7 +214,7 @@ public:
 	 */
     
     // 获取模型窗口
-    virtual FCProjectTreeWidget* getModelBuilderWidget() const = 0;
+    virtual FCMainTreeWidget* getModelBuilderWidget() const = 0;
     
     // 获取设置窗口
     virtual FCPropertyWidget* getSettingParametersWidget() const = 0;

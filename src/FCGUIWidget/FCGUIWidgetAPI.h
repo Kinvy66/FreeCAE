@@ -1,0 +1,14 @@
+#ifndef FCGUIWIDGETAPI_H
+#define FCGUIWIDGETAPI_H
+#include <QtCore/QtGlobal>
+
+#if defined(FCGUIWIDGET_BUILDLIB)
+#define FCGUIWIDGET_API Q_DECL_EXPORT
+#else
+#ifdef Q_CC_MSVC
+#define FCGUIWIDGET_API Q_DECL_IMPORT
+#else
+#define FCGUIWIDGET_API Q_DECL_IMPORT
+#endif
+#endif
+#endif // FCGUIWIDGETAPI_H

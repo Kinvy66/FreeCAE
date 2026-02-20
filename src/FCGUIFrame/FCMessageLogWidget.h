@@ -9,7 +9,7 @@
 #ifndef FCMESSAGELOGWIDGET_H
 #define FCMESSAGELOGWIDGET_H
 
-#include "FCGUIAPI.h"
+#include "FCGUIFrameAPI.h"
 #include <QWidget>
 
 class QVBoxLayout;
@@ -19,7 +19,7 @@ namespace FC
 
 class FCMessageLogView;
 
-class FCGUI_API FCMessageLogWidget :public QWidget
+class FCGUIFRAME_API FCMessageLogWidget :public QWidget
 {
     Q_OBJECT
 public:

@@ -4,8 +4,8 @@
 #include <FCGeometryInterface/FCGeoCommandList.h>
 #include <FCGeometryInterface/FCAbsGeoModelBox.h>
 #include <FCData/FCDataRepo.h>
-#include <FCGUI/FCPropertyWidget.h>
-#include <FCGUI/FCGeometryProperty/FCCubeInfoWidget.h>
+#include <FCPropertyWidget.h>
+#include <FCCubeInfoWidget.h>
 #include <QDebug>
 
 namespace FC

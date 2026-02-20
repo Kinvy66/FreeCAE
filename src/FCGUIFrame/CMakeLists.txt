@@ -1,13 +1,13 @@
 
 # Cmake的命令不区分大小写，例如message，set等命令；但Cmake的变量区分大小写
 # 为统一风格，本项目的Cmake命令全部采用小写，变量全部采用大写加下划线组合。
-# FCGUI 库
+# FCGUIFrame 库
 
 cmake_minimum_required(VERSION 3.12)
 
 fcmacro_lib_setting(
-    "FCActionsOperator"
-    "FCGUI | https://github.com/kinvy66"
+    "FCGUIFrame"
+    "FCGUIFrame | https://github.com/kinvy66"
     0
     0
     1
@@ -42,7 +42,7 @@ add_library(${FC_LIB_NAME} SHARED
             ${FC_LIB_QT_RC_FILES}
 )	
 # 构建库定义的宏,必须为Private
-target_compile_definitions(${FC_LIB_NAME} PRIVATE FCACTIONSOPERATOR_BUILDLIB)
+target_compile_definitions(${FC_LIB_NAME} PRIVATE FCGUIFRAME_BUILDLIB)
 # 定义别名让DAWorkbench::${DA_LIB_NAME}也能获取到
 add_library(${FC_PROJECT_NAME}::${FC_LIB_NAME} ALIAS ${FC_LIB_NAME})
 ########################################################
@@ -56,32 +56,27 @@ target_link_libraries(${FC_LIB_NAME} PRIVATE
 )
 message(STATUS "${FC_LIB_NAME} Qt${QT_VERSION_MAJOR}.${QT_VERSION_MINOR}.${QT_VERSION_PATCH}")
 
-# -------------link 3rdparty--------------------------
-fcmacro_import_QtAdvancedDocking(${FC_LIB_NAME})
+# -------------link 3rdparty spdlog--------------------------
+# FCMessageHandler依赖spdlog
+# spdlog是header only
+# fcmacro_import_spdlog(${FC_LIB_NAME})
 
-# 依赖模块（FCInterface/FCGUIFrame 提供 UI；FCGUIWidget 提供 FCCubeInfoWidget，已移至 FCGUIWidget/FCGeometryProperty）
+# 依赖模块（FCGeometryProperty 已移至 FCGUIWidget）
 find_package(${FC_PROJECT_NAME} COMPONENTS 
     FCUtils
-    FCData
-    FCGeometryInterface
     FCInterface
-    FCGUIFrame
+    FCMessageHandler
+    FCRenderWindowVTK
     FCGUIWidget
 )
 if(${FC_PROJECT_NAME}_FOUND)
     message(STATUS "  |-linked ${FC_PROJECT_NAME}::FCUtils")
-    message(STATUS "  |-linked ${FC_PROJECT_NAME}::FCData")
-    message(STATUS "  |-linked ${FC_PROJECT_NAME}::FCGeometryInterface")
-    message(STATUS "  |-linked ${FC_PROJECT_NAME}::FCInterface")
-    message(STATUS "  |-linked ${FC_PROJECT_NAME}::FCGUIFrame")
-    message(STATUS "  |-linked ${FC_PROJECT_NAME}::FCGUIWidget")
 endif()
 target_link_libraries(${FC_LIB_NAME} PUBLIC
     ${FC_PROJECT_NAME}::FCUtils
-    ${FC_PROJECT_NAME}::FCData
-    ${FC_PROJECT_NAME}::FCGeometryInterface
     ${FC_PROJECT_NAME}::FCInterface
-    ${FC_PROJECT_NAME}::FCGUIFrame
+    ${FC_PROJECT_NAME}::FCMessageHandler
+    ${FC_PROJECT_NAME}::FCRenderWindowVTK
     ${FC_PROJECT_NAME}::FCGUIWidget
 )
 

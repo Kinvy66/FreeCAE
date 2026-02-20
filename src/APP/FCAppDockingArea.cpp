@@ -23,11 +23,12 @@
 // #include "FCAppDataManager.h"
 
 // docking ui
-#include "FCProjectTreeWidget.h"
+// #include "FCProjectTreeWidget.h"
 #include "FCRenderWidget.h"
 #include "FCPropertyWidget.h"
 #include "FCMessageLogWidget.h"
 #include "FCProgressWidget.h"
+#include "FCMainTreeWidget.h"
 
 
 //===================================================
@@ -76,7 +77,7 @@ void FCAppDockingArea::resetText()
  * @brief 获取模型构建窗口
  * @return 
  */
-FCProjectTreeWidget *FCAppDockingArea::getModelBuilderWidget() const
+FCMainTreeWidget *FCAppDockingArea::getModelBuilderWidget() const
 {
     return mModelBuilderWidget;   
 }
@@ -186,7 +187,7 @@ void FCAppDockingArea::buildDockingArea()
  */
 void FCAppDockingArea::buildModelBuilderWidget()
 {
-    mModelBuilderWidget = new FCProjectTreeWidget(mApp);
+    mModelBuilderWidget = new FCMainTreeWidget(mApp);
     mModelBuilderWidget->setObjectName("fc_modelBuilderWidgetDock");
 }
 

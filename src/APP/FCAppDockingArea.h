@@ -29,7 +29,7 @@ class FCAppDataManager;
 class FCAppCommand;
 
 // 模型窗口
-class FCProjectTreeWidget;
+class FCMainTreeWidget;
 // 图形窗口
 class FCRenderWidget;
 // 属性窗口
@@ -55,7 +55,7 @@ public:
     
 public:
     // 获取模型窗口
-    virtual FCProjectTreeWidget* getModelBuilderWidget() const override;
+    virtual FCMainTreeWidget* getModelBuilderWidget() const override;
     
     // 获取设置窗口
     virtual FCPropertyWidget* getSettingParametersWidget() const override;
@@ -116,7 +116,7 @@ private:
     // FCAppDataManager* mDataMgr;
     
     // 模型构建窗口
-    FCProjectTreeWidget* mModelBuilderWidget;                  ///< 模型构建窗口
+    FCMainTreeWidget* mModelBuilderWidget;                  ///< 模型构建窗口
     ads::CDockWidget* mModelBuilderDock;                        ///< mModelBuilderWidget对应的docking
     
     // 参数设置构建窗口

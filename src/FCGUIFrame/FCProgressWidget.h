@@ -9,12 +9,12 @@
 #ifndef FCPROGRESSWIDGET_H
 #define FCPROGRESSWIDGET_H
 
-#include "FCGUIAPI.h"
+#include "FCGUIFrameAPI.h"
 #include <QWidget>
 
 namespace FC 
 {
-class FCGUI_API FCProgressWidget : public QWidget
+class FCGUIFRAME_API FCProgressWidget : public QWidget
 {
     Q_OBJECT
 public:

@@ -126,7 +126,7 @@ find_package(${FC_PROJECT_NAME} COMPONENTS
     FCInterface
     FCUtils
     FCMessageHandler
-    FCGUI
+    FCGUIFrame
     FCActionsOperator
     FCGeometryInterface
     FCGeometryCommand
@@ -135,6 +135,7 @@ find_package(${FC_PROJECT_NAME} COMPONENTS
     FCVTKGraphAdaptor
     FCMeshInterface
     FCMeshGenGmsh
+    FCGUIWidget
 )
 
 # if(${FC_PROJECT_NAME}_FOUND)
@@ -147,7 +148,7 @@ target_link_libraries(${FC_APP_NAME} PUBLIC
     ${FC_PROJECT_NAME}::FCInterface
     ${FC_PROJECT_NAME}::FCUtils
     ${FC_PROJECT_NAME}::FCMessageHandler
-    ${FC_PROJECT_NAME}::FCGUI
+    ${FC_PROJECT_NAME}::FCGUIFrame
     ${FC_PROJECT_NAME}::FCActionsOperator
     ${FC_PROJECT_NAME}::FCGeometryInterface
     ${FC_PROJECT_NAME}::FCGeometryCommand
@@ -156,6 +157,7 @@ target_link_libraries(${FC_APP_NAME} PUBLIC
     ${FC_PROJECT_NAME}::FCVTKGraphAdaptor
     ${FC_PROJECT_NAME}::FCMeshInterface
     ${FC_PROJECT_NAME}::FCMeshGenGmsh
+    ${FC_PROJECT_NAME}::FCGUIWidget
 )
 
 

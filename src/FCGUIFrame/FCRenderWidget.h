@@ -8,7 +8,7 @@
 #ifndef FCRENDERWIDGET_H
 #define FCRENDERWIDGET_H
 
-#include "FCGUIAPI.h"
+#include "FCGUIFrameAPI.h"
 #include <QWidget>
 
 namespace FC
@@ -19,7 +19,7 @@ class FCGraph3DWindowInitializer;
 
 namespace FC
 {
-class FCGUI_API FCRenderWidget : public QWidget
+class FCGUIFRAME_API FCRenderWidget : public QWidget
 {
     Q_OBJECT
 public:

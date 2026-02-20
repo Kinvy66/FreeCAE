@@ -1,7 +1,7 @@
 #ifndef FCCUBEINFOWIDGET_H
 #define FCCUBEINFOWIDGET_H
 
-#include "../FCGUIAPI.h"
+#include "../FCGUIWidgetAPI.h"
 #include <QWidget>
 
 namespace Ui {
@@ -12,7 +12,7 @@ namespace FC {
 class FCGeoModelBox;
 }
 
-class FCGUI_API FCCubeInfoWidget : public QWidget
+class FCGUIWIDGET_API FCCubeInfoWidget : public QWidget
 {
     Q_OBJECT
 

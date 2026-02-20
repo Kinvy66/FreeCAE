@@ -8,12 +8,12 @@
  */
 #ifndef FCPROPERTYWIDGET_H
 #define FCPROPERTYWIDGET_H
-#include "FCGUIAPI.h"
+#include "FCGUIFrameAPI.h"
 #include <QWidget>
 
 namespace FC 
 {
-class FCGUI_API FCPropertyWidget : public QWidget
+class FCGUIFRAME_API FCPropertyWidget : public QWidget
 {
     Q_OBJECT
 public:
