@@ -1,13 +1,10 @@
-
-# Cmake的命令不区分大小写，例如message，set等命令；但Cmake的变量区分大小写
-# 为统一风格，本项目的Cmake命令全部采用小写，变量全部采用大写加下划线组合。
-# FCGUI 库
+# FCGUIWidget 库
 
 cmake_minimum_required(VERSION 3.12)
 
 fcmacro_lib_setting(
-    "FCGUI"
-    "FCGUI | https://github.com/kinvy66"
+    "FCGUIWidget"
+    "FCGUIWidget | https://github.com/kinvy66"
     0
     0
     1
@@ -50,7 +47,7 @@ add_library(${FC_LIB_NAME} SHARED
             ${FC_GEO_LIB_UI_FILES}
 )	
 # 构建库定义的宏,必须为Private
-target_compile_definitions(${FC_LIB_NAME} PRIVATE FCGUI_BUILDLIB)
+target_compile_definitions(${FC_LIB_NAME} PRIVATE FCGUIWIDGET_BUILDLIB)
 # 定义别名让DAWorkbench::${DA_LIB_NAME}也能获取到
 add_library(${FC_PROJECT_NAME}::${FC_LIB_NAME} ALIAS ${FC_LIB_NAME})
 ########################################################
@@ -74,8 +71,7 @@ find_package(${FC_PROJECT_NAME} COMPONENTS
     FCUtils
     FCInterface
     FCGeometryInterface
-    FCMessageHandler
-    FCRenderWindowVTK
+
 )
 if(${FC_PROJECT_NAME}_FOUND)
     message(STATUS "  |-linked ${FC_PROJECT_NAME}::FCUtils")
@@ -85,8 +81,6 @@ target_link_libraries(${FC_LIB_NAME} PUBLIC
     ${FC_PROJECT_NAME}::FCUtils
     ${FC_PROJECT_NAME}::FCInterface
     ${FC_PROJECT_NAME}::FCGeometryInterface
-    ${FC_PROJECT_NAME}::FCMessageHandler
-    ${FC_PROJECT_NAME}::FCRenderWindowVTK
 )
 
 ########################################################
