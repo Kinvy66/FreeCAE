@@ -90,6 +90,12 @@ public:
      */
     QString checkName(const QString& name) const;
 
+    /**
+     * @brief 设置下一节点 ID 的起始值（反序列化后调用，避免新节点 ID 与已加载冲突）
+     * @param atLeastId 下一 ID 将 >= atLeastId + 1
+     */
+    void setNextNodeId(int atLeastId);
+
 private:
     /**
      * @brief 拓扑排序 DFS 访问

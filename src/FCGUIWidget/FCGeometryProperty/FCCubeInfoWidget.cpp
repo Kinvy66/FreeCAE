@@ -1,7 +1,6 @@
 #include "FCCubeInfoWidget.h"
 #include "ui_FCCubeInfoWidget.h"
 #include <FCGeometryInterface/FCAbsGeoModelBox.h>
-#include <FCGeometryInterface/FCGeoCommandList.h>
 #include <FCGeometryInterface/FCAbsGeoCommand.h>
 #include <FCGeometryEntity/FCGeometryDAGData.h>
 #include <FCGeometryEntity/FCGeometryEntityBuilder.h>
@@ -131,35 +130,12 @@ void FCCubeInfoWidget::onBuildClicked()
 
 void FCCubeInfoWidget::onBuildAllClicked()
 {
-    if (m_dagData) {
-        m_dagData->ensureBuild();
-        rebuildGeometryEntityModel();
-        emit geometrySequenceBuilt(QList<FC::FCAbsGeoCommand*>());
-        return;
-    }
     FC::FCGlobalData* globalData = FC::FCGlobalData::getGlobalData();
-    FC::FCGeoCommandList* geoList = globalData ? globalData->getData<FC::FCGeoCommandList>(FC::GDTGeom) : nullptr;
-    if (!geoList) return;
-    QList<FC::FCAbsGeoCommand*> rootCmds = geoList->getRootCommandList();
-    int currentIndex = -1;
-    for (int i = 0; i < rootCmds.size(); ++i) {
-        if (rootCmds.at(i) == m_boxCmd) {
-            currentIndex = i;
-            break;
-        }
-    }
-    if (currentIndex < 0)
-        currentIndex = rootCmds.size() - 1;
-    QList<FC::FCAbsGeoCommand*> builtCmds;
-    for (int i = 0; i <= currentIndex && i < rootCmds.size(); ++i) {
-        FC::FCAbsGeoCommand* cmd = rootCmds.at(i);
-        if (cmd) {
-            cmd->update();
-            builtCmds.append(cmd);
-        }
-    }
+    FC::FCGeometryDAGData* dagData = globalData ? globalData->getData<FC::FCGeometryDAGData>(FC::GDTGeom) : m_dagData;
+    if (!dagData) return;
+    dagData->ensureBuild();
     rebuildGeometryEntityModel();
-    emit geometrySequenceBuilt(builtCmds);
+    emit geometrySequenceBuilt(QList<FC::FCAbsGeoCommand*>());
 }
 
 void FCCubeInfoWidget::rebuildGeometryEntityModel()
@@ -169,16 +145,9 @@ void FCCubeInfoWidget::rebuildGeometryEntityModel()
     FC::FCGeometryEntityModel* entityModel = globalData->getData<FC::FCGeometryEntityModel>(FC::GDTGeomEntity);
     if (!entityModel) return;
     FC::FCGeometryDAGData* dagData = m_dagData ? m_dagData : globalData->getData<FC::FCGeometryDAGData>(FC::GDTGeom);
-    if (dagData) {
-        dagData->ensureBuild();
-        FC::FCGeometryEntityBuilder builder;
-        if (!builder.rebuild(dagData->getGlobalGeoCompManager(), entityModel))
-            qWarning() << "FCCubeInfoWidget: Failed to rebuild FCGeometryEntityModel from DAG";
-        return;
-    }
-    FC::FCGeoCommandList* geoList = globalData->getData<FC::FCGeoCommandList>(FC::GDTGeom);
-    if (!geoList) return;
+    if (!dagData) return;
+    dagData->ensureBuild();
     FC::FCGeometryEntityBuilder builder;
-    if (!builder.rebuild(geoList, entityModel))
-        qWarning() << "FCCubeInfoWidget: Failed to rebuild FCGeometryEntityModel";
+    if (!builder.rebuild(dagData->getGlobalGeoCompManager(), entityModel))
+        qWarning() << "FCCubeInfoWidget: Failed to rebuild FCGeometryEntityModel from DAG";
 }

@@ -10,6 +10,12 @@ namespace FC {
 
 static int s_nextNodeId = 1;
 
+void FCGeometryTree::setNextNodeId(int atLeastId)
+{
+    if (atLeastId >= s_nextNodeId)
+        s_nextNodeId = atLeastId + 1;
+}
+
 int FCGeometryTree::addNode(const FCGeoNode& node)
 {
     FCGeoNode n = node;

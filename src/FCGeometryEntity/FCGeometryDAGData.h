@@ -9,8 +9,10 @@
 #include "FCGeometryEntityAPI.h"
 #include "FCGeometryModule.h"
 #include "FCGeometryBuildEngine.h"
+#include "FCGeoNode.h"
 #include <FCData/FCAbstractDataObject.h>
 #include <FCData/FCMacros.h>
+#include <QList>
 #include <QObject>
 #include <QScopedPointer>
 #include <QVariant>
@@ -61,6 +63,13 @@ public:
      */
     using BuildResultFiller = std::function<void(const QVariant& shape, FCGlobalGeoComponentManager* compMgr)>;
     void setBuildResultFiller(BuildResultFiller filler) { m_buildResultFiller = std::move(filler); }
+
+    /**
+     * @brief 几何序列：当前 DAG 中所有节点（每项 = 操作类型 FCGeoOpType + 参数 params + 依赖 inputs）
+     * 对应 COMSOL 式“只保存操作与参数、不保存实体”的几何序列
+     * @return 按节点 ID 顺序的节点列表（拓扑序可用 module()->tree()->topoSort()）
+     */
+    QList<FCGeoNode> getGeometrySequence() const;
 
     QString serialize(int label = -1) override;
     bool deserialize(const QString& text, int label = -1) override;
