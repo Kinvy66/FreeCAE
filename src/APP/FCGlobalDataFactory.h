@@ -58,6 +58,13 @@ private:
 
     /** 从当前几何命令列表构建几何实体层（Domain/Boundary/Edge/Point） */
     FCAbstractDataObject* createGeometryEntityModel(FCGlobalData* globalData) override;
+
+public:
+    /**
+     * @brief 根据当前几何命令列表重建几何实体层（COMSOL 式关联更新）
+     * 几何变更后（Build/Build All/撤销重做等）调用，使 GDTGeomEntity 与 GDTGeom 一致
+     */
+    static void refreshGeometryEntityModel(FCGlobalData* globalData);
 };
 
 } // namespace FC

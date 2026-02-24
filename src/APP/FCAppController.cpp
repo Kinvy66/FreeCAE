@@ -41,9 +41,12 @@
 // #include "FCModelBuilderWidget.h"
 // sub module
 
+// 操作器
 #include "FCOperatorRepo.h"
 #include "FCActionCreateCubeOperator.h"
 #include "FCProjectTreeEventOperator.h"
+#include "FCGraphPreprocessOperator.h"
+
 #include <FCMeshGenGmsh/FCGmshMeshGenInterface.h>
 #include <FCMeshGenInterface/FCMeshGenInterface.h>
 #include <FCMeshGenInterface/FCAbstractMesherDriver.h>
@@ -241,6 +244,7 @@ void FCAppController::registeActionsOperator()
     FCOPERATORREPO;  // 确保操作器仓库已初始化
     Register2FCOperatorRepo(actionCreateCUbe, FCActionCreateCubeOperator);
     Register2FCOperatorRepo(ProjectTreeEvent, FCProjectTreeEventOperator);
+    Register2FCOperatorRepo(GraphPreprocessEvent, FCGraphPreprocessOperator);
     
 }
 

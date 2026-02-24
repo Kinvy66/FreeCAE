@@ -67,13 +67,13 @@ void FCCubeInfoWidget::onBuildClicked()
 
 void FCCubeInfoWidget::onBuildAllClicked()
 {
-    // FC::FCGeoCommandList* geoList = FC::FCDATAREPO->getFirstDataByType<FC::FCGeoCommandList>();
-    // if (!geoList) return;
-    // QList<FC::FCAbsGeoCommand*> rootCmds = geoList->getRootCommandList();
-    // for (FC::FCAbsGeoCommand* cmd : rootCmds) {
-    //     if (cmd) cmd->update();
-    // }
-    // rebuildGeometryEntityModel();
+    FC::FCGeoCommandList* geoList = FCDATAREPO->getFirstDataByType<FC::FCGeoCommandList>();
+    if (!geoList) return;
+    QList<FC::FCAbsGeoCommand*> rootCmds = geoList->getRootCommandList();
+    for (FC::FCAbsGeoCommand* cmd : rootCmds) {
+        if (cmd) cmd->update();
+    }
+    rebuildGeometryEntityModel();
 }
 
 void FCCubeInfoWidget::rebuildGeometryEntityModel()

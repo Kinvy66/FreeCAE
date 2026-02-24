@@ -74,7 +74,6 @@ bool FCActionCreateCubeOperator::execProfession()
     QString name = QString("Box_1");//.arg(boxCmd->getDataObjectID());
     boxCmd->setDataObjectName(geoList->checkName(name));
 
-    // 函数式几何：仅将命令追加到序列（FCGeoCommandList），不保存具体几何实体；构建由 FCCubeInfoWidget「构建」触发并更新 FCGeometryEntityModel
     geoList->appendDataObj(boxCmd);
     _currentBoxCmd = boxCmd;
     return true;
