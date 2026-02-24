@@ -9,6 +9,17 @@
 namespace FC {
 
 QMutex FCGlobalData::_mutex;
+FCGlobalData* FCGlobalData::s_currentGlobalData = nullptr;
+
+FCGlobalData* FCGlobalData::getGlobalData()
+{
+    return s_currentGlobalData;
+}
+
+void FCGlobalData::setCurrentGlobalData(FCGlobalData* g)
+{
+    s_currentGlobalData = g;
+}
 
 FCGlobalData::FCGlobalData()
 {

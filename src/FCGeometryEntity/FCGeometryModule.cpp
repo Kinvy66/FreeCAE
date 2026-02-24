@@ -25,7 +25,8 @@ void FCGeometryModule::setExecutor(FCGeometryNodeExecutor* executor)
 
 int FCGeometryModule::appendNode(FCGeoOpType type, const QList<int>& inputs, const FCGeoParamSet& params, const QString& name)
 {
-    FCGeoNode node(-1, type, name.isEmpty() ? QStringLiteral("Node%1").arg(m_tree->nodeCount() + 1) : name);
+    QString nodeName = name.isEmpty() ? m_tree->checkName(QStringLiteral("Node")) : m_tree->checkName(name);
+    FCGeoNode node(-1, type, nodeName);
     node.inputs = inputs;
     node.params = params;
     int id = m_tree->addNode(node);

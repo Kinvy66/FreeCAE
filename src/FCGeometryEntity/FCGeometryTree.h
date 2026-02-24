@@ -11,6 +11,7 @@
 #include <QHash>
 #include <QList>
 #include <QSet>
+#include <QString>
 
 namespace FC {
 
@@ -81,6 +82,13 @@ public:
 
     /** @brief 清空所有节点与邻接关系 */
     void clear();
+
+    /**
+     * @brief 检查名称并返回不重复的名称（后缀递增，如 Box_1、Box_2）
+     * @param name 期望名称，可为 "Box" 或 "Box_1"
+     * @return 与现有节点名称不冲突的名称（同前缀取最大编号+1）
+     */
+    QString checkName(const QString& name) const;
 
 private:
     /**

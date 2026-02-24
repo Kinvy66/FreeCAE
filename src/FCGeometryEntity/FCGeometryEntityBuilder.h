@@ -50,6 +50,14 @@ public:
      */
     bool rebuild(FCGeoCommandList* geoCommandList, FCGeometryEntityModel* existingModel);
 
+    /**
+     * @brief 从全局几何分组管理器重建已有实体模型（供 DAG 几何等使用）
+     * @param compMgr 全局几何分组管理器
+     * @param existingModel 已存在的几何实体模型，将被清空并重新填充
+     * @return 成功返回 true
+     */
+    bool rebuild(FCGlobalGeoComponentManager* compMgr, FCGeometryEntityModel* existingModel);
+
 private:
     /**
      * @brief 从全局几何组件填充实体 ID 与 member 映射到模型

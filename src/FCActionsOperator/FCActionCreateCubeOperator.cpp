@@ -2,11 +2,13 @@
 #include <FCDockingAreaInterface.h>
 #include <FCGUIFrame/FCMainTreeWidget.h>
 #include <FCGUIWidget/FCProjectTreeWidget.h>
-#include <FCGeometryInterface/FCGeoInterfaceFactory.h>
-#include <FCGeometryInterface/FCGeoCommandList.h>
+#include <FCGeometryEntity/FCGeometryDAGData.h>
+#include <FCGeometryEntity/FCGeoNode.h>
 #include <FCGeometryInterface/FCAbsGeoModelBox.h>
-#include <FCGeometryInterface/FCAbsGeoCommand.h>
-#include <FCData/FCDataRepo.h>
+#include <FCGeometryInterface/FCGeoInterfaceFactory.h>
+#include <FCGeometryInterface/FCGeoEnum.h>
+#include <FCData/FCGlobalData.h>
+#include <FCData/FCAbstractDataObject.h>
 #include <FCPropertyWidget.h>
 #include <FCCubeInfoWidget.h>
 #include <FCRenderWidget.h>
@@ -30,7 +32,8 @@ FCActionCreateCubeOperator::FCActionCreateCubeOperator()
 bool FCActionCreateCubeOperator::execGUI()
 {
     FCDockingAreaInterface* docking = dockingArea();
-    if (!docking || !_currentBoxCmd) return true;
+    if (!docking) return true;
+    if (_currentNodeId < 0 && !_currentBoxCmd) return true;
 
     FCPropertyWidget* propWidget = docking->getSettingParametersWidget();
     if (!propWidget) return true;
@@ -41,20 +44,27 @@ bool FCActionCreateCubeOperator::execGUI()
         treeOper->setUIInterface(uiInterface());
         treeOper->updateTree();
     }
-    // 展开几何节点并选中新建的几何体节点
-    if (_currentBoxCmd && docking) {
+    // 展开几何节点并选中新建的节点（DAG 节点 ID 或旧版命令 ID）
+    int selectId = _currentNodeId >= 0 ? _currentNodeId : (_currentBoxCmd ? _currentBoxCmd->getDataObjectID() : -1);
+    if (selectId >= 0 && docking) {
         FCMainTreeWidget* modelWidget = docking->getModelBuilderWidget();
         FCProjectTreeWidget* treeWidget = modelWidget ? modelWidget->getTreeWidget() : nullptr;
         if (treeWidget)
-            treeWidget->expandGeometryAndSelectCommand(_currentBoxCmd->getDataObjectID());
+            treeWidget->expandGeometryAndSelectCommand(selectId);
     }
 
     // 1. 创建 FCCubeInfoWidget 并放入 FCPropertyWidget（参数设置 Dock）内
     FCCubeInfoWidget* cubeWidget = new FCCubeInfoWidget(propWidget);
     propWidget->setContentWidget(cubeWidget);
 
-    // 2. 根据 boxCmd 将默认参数设置到 UI 对应区域
-    cubeWidget->setBoxCommand(_currentBoxCmd);
+    // 2. 绑定 DAG 节点（及用于 VTK 显示的 Box 命令）或旧版 box 命令到 UI
+    if (FC::FCGlobalData* g = FC::FCGlobalData::getGlobalData()) {
+        if (FC::FCGeometryDAGData* dagData = g->getGeometryData<FC::FCGeometryDAGData>()) {
+            cubeWidget->setDAGNode(dagData, _currentNodeId, _currentBoxCmd);
+        }
+    }
+    if (_currentNodeId < 0 && _currentBoxCmd)
+        cubeWidget->setBoxCommand(_currentBoxCmd);
 
     connect(cubeWidget, &FCCubeInfoWidget::geometryBuilt, this, &FCActionCreateCubeOperator::onGeometryBuilt);
     connect(cubeWidget, &FCCubeInfoWidget::geometrySequenceBuilt, this, &FCActionCreateCubeOperator::onGeometrySequenceBuilt);
@@ -65,7 +75,7 @@ bool FCActionCreateCubeOperator::execGUI()
 
 void FCActionCreateCubeOperator::onGeometryBuilt(FC::FCAbsGeoCommand* cmd)
 {
-    if (!cmd) return;
+    if (!cmd) return;  // DAG 路径不发射 cmd，由 ensureBuild + 实体模型刷新处理
     FCDockingAreaInterface* docking = dockingArea();
     if (!docking) return;
     FCRenderWidget* rw = docking->getGraphicOperateWidget();
@@ -74,7 +84,7 @@ void FCActionCreateCubeOperator::onGeometryBuilt(FC::FCAbsGeoCommand* cmd)
     if (!graphWin) return;
 
     FCVTKViewAdaptorModelCmd adaptor;
-    adaptor.setDataObject(cmd);
+    adaptor.setDataObject(static_cast<FC::FCAbstractDataObject*>(cmd));
     if (!adaptor.update()) return;
     FCVTKGraphObject3D* graphObj = adaptor.getOutputData();
     if (!graphObj || graphObj->getActorCount() == 0) return;
@@ -105,7 +115,7 @@ void FCActionCreateCubeOperator::onGeometrySequenceBuilt(const QList<FC::FCAbsGe
     for (FC::FCAbsGeoCommand* cmd : cmds) {
         if (!cmd) continue;
         FCVTKViewAdaptorModelCmd adaptor;
-        adaptor.setDataObject(cmd);
+        adaptor.setDataObject(static_cast<FC::FCAbstractDataObject*>(cmd));
         if (!adaptor.update()) continue;
         FCVTKGraphObject3D* graphObj = adaptor.getOutputData();
         if (graphObj && graphObj->getActorCount() > 0)
@@ -119,35 +129,42 @@ void FCActionCreateCubeOperator::onGeometrySequenceBuilt(const QList<FC::FCAbsGe
 bool FCActionCreateCubeOperator::execProfession()
 {
     _currentBoxCmd = nullptr;
+    _currentNodeId = -1;
 
-    FCGeoInterfaceFactory* factory = FCGeoInterfaceFactory::instance();
-    if (!factory) {
-        qWarning() << "FCActionCreateCubeOperator: FCGeoInterfaceFactory is null";
+    FC::FCGlobalData* globalData = FC::FCGlobalData::getGlobalData();
+    if (!globalData) {
+        qWarning() << "FCActionCreateCubeOperator: FCGlobalData not found";
+        return false;
+    }
+    FC::FCGeometryDAGData* dagData = globalData->getGeometryData<FC::FCGeometryDAGData>();
+    if (!dagData) {
+        qWarning() << "FCActionCreateCubeOperator: FCGeometryDAGData not found (ensure createGeoData() creates it)";
         return false;
     }
 
-    FCGeoModelBox* boxCmd = factory->createCommandT<FCGeoModelBox>(FCGeoEnum::FGTBox);
-    if (!boxCmd) {
-        qWarning() << "FCActionCreateCubeOperator: Failed to create FCGeoModelBox";
-        return false;
+    FC::FCGeoParamSet params;
+    params[QStringLiteral("length")] = 100.0;
+    params[QStringLiteral("width")]  = 100.0;
+    params[QStringLiteral("height")] = 100.0;
+    QString name = QStringLiteral("Box_1");
+    _currentNodeId = dagData->module()->addBlock(params, name);
+    dagData->ensureBuild();
+
+    // 创建用于 VTK 显示的 Box 命令（不加入命令列表），点击「构建」时用其驱动 3D 显示
+    FC::FCGeoInterfaceFactory* factory = FC::FCGeoInterfaceFactory::instance();
+    if (factory) {
+        FC::FCGeoModelBox* boxCmd = factory->createCommandT<FC::FCGeoModelBox>(FC::FCGeoEnum::FGTBox);
+        if (boxCmd) {
+            double point1[3] = { 0.0, 0.0, 0.0 };
+            double length[3] = { 100.0, 100.0, 100.0 };
+            boxCmd->setPoint1(point1);
+            boxCmd->setLength(length);
+            if (boxCmd->update())
+                _currentBoxCmd = boxCmd;
+            else
+                delete boxCmd;
+        }
     }
-
-    FCGeoCommandList* geoList = FCDATAREPO->getFirstDataByType<FCGeoCommandList>();
-    if (!geoList) {
-        qWarning() << "FCActionCreateCubeOperator: FCGeoCommandList not found (ensure createGeoData() creates it)";
-        return false;
-    }
-
-    double point1[3] = { 0.0, 0.0, 0.0 };
-    double length[3] = { 100.0, 100.0, 100.0 };
-    boxCmd->setPoint1(point1);
-    boxCmd->setLength(length);
-    
-    QString name = QString("Box_1");//.arg(boxCmd->getDataObjectID());
-    boxCmd->setDataObjectName(geoList->checkName(name));
-
-    geoList->appendDataObj(boxCmd);
-    _currentBoxCmd = boxCmd;
     return true;
 }
 

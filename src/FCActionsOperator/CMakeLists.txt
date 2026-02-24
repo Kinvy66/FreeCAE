@@ -59,11 +59,12 @@ message(STATUS "${FC_LIB_NAME} Qt${QT_VERSION_MAJOR}.${QT_VERSION_MINOR}.${QT_VE
 # -------------link 3rdparty--------------------------
 fcmacro_import_QtAdvancedDocking(${FC_LIB_NAME})
 
-# 依赖模块（FCInterface/FCGUIFrame 提供 UI；FCGUIWidget 提供 FCCubeInfoWidget）
+# 依赖模块（FCGeometryEntity 提供 FCGeometryDAGData；FCGUIWidget 提供 FCCubeInfoWidget）
 find_package(${FC_PROJECT_NAME} COMPONENTS 
     FCUtils
     FCData
     FCGeometryInterface
+    FCGeometryEntity
     FCInterface
     FCGUIFrame
     FCGUIWidget
@@ -74,6 +75,7 @@ if(${FC_PROJECT_NAME}_FOUND)
     message(STATUS "  |-linked ${FC_PROJECT_NAME}::FCUtils")
     message(STATUS "  |-linked ${FC_PROJECT_NAME}::FCData")
     message(STATUS "  |-linked ${FC_PROJECT_NAME}::FCGeometryInterface")
+    message(STATUS "  |-linked ${FC_PROJECT_NAME}::FCGeometryEntity")
     message(STATUS "  |-linked ${FC_PROJECT_NAME}::FCInterface")
     message(STATUS "  |-linked ${FC_PROJECT_NAME}::FCGUIFrame")
     message(STATUS "  |-linked ${FC_PROJECT_NAME}::FCGUIWidget")
@@ -83,6 +85,7 @@ target_link_libraries(${FC_LIB_NAME} PUBLIC
     ${FC_PROJECT_NAME}::FCUtils
     ${FC_PROJECT_NAME}::FCData
     ${FC_PROJECT_NAME}::FCGeometryInterface
+    ${FC_PROJECT_NAME}::FCGeometryEntity
     ${FC_PROJECT_NAME}::FCInterface
     ${FC_PROJECT_NAME}::FCGUIFrame
     ${FC_PROJECT_NAME}::FCGUIWidget

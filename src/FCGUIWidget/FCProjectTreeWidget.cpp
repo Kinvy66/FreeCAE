@@ -7,9 +7,12 @@
  * @copyright Copyright (c) 2026. All rights reserved.
  */
 #include "FCProjectTreeWidget.h"
-#include <FCData/FCDataRepo.h>
+#include <FCData/FCGlobalData.h>
+#include <FCGeometryEntity/FCGeometryDAGData.h>
+#include <FCGeometryEntity/FCGeoNode.h>
 #include <FCGeometryInterface/FCGeoCommandList.h>
 #include <FCGeometryInterface/FCAbsGeoCommand.h>
+#include <algorithm>
 #include <QMenu>
 #include <QTreeWidgetItem>
 #include <QHeaderView>
@@ -211,13 +214,27 @@ void FCProjectTreeWidget::updateComponentItems()
 void FCProjectTreeWidget::updateGeometryItems()
 {
     if (!mComponentGeometry) return;
-    FC::FCGeoCommandList* geoList = FCDATAREPO->getFirstDataByType<FC::FCGeoCommandList>();
-    if (!geoList) return;
-
     while (mComponentGeometry->childCount() > 0) {
         QTreeWidgetItem* child = mComponentGeometry->takeChild(0);
         delete child;
     }
+    FC::FCGlobalData* globalData = FC::FCGlobalData::currentGlobalData();
+    if (!globalData) return;
+    FC::FCGeometryDAGData* dagData = globalData->getData<FC::FCGeometryDAGData>(FC::GDTGeom);
+    if (dagData && dagData->module() && dagData->module()->tree()) {
+        QList<int> ids = dagData->module()->tree()->nodeIds();
+        std::sort(ids.begin(), ids.end());
+        for (int id : ids) {
+            FC::FCGeoNode node = dagData->module()->tree()->node(id);
+            QTreeWidgetItem* item = new QTreeWidgetItem(mComponentGeometry);
+            item->setText(0, node.name.isEmpty() ? QStringLiteral("Node%1").arg(id) : node.name);
+            item->setData(1, 0, id);
+            item->setData(2, 0, QVariant::fromValue(ProjectTreeEnum::ProjectTree_GeometryEntity));
+        }
+        return;
+    }
+    FC::FCGeoCommandList* geoList = globalData->getData<FC::FCGeoCommandList>(FC::GDTGeom);
+    if (!geoList) return;
     QList<FC::FCAbsGeoCommand*> rootCmds = geoList->getRootCommandList();
     for (FC::FCAbsGeoCommand* cmd : rootCmds) {
         if (!cmd) continue;

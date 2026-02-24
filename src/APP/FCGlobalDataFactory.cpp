@@ -1,11 +1,11 @@
 /**
  * @file FCGlobalDataFactory.cpp
- * @brief 应用层全局数据工厂实现（移植自 APPFlow GlobalDataFactory）
+ * @brief 应用层全局数据工厂实现（COMSOL 式函数式几何：GDTGeom 使用 FCGeometryDAGData）
  * @copyright Copyright (c) 2025 Kinvy. All rights reserved.
  */
 #include "FCGlobalDataFactory.h"
 #include <FCData/FCGlobalData.h>
-#include <FCGeometryInterface/FCGeoCommandList.h>
+#include <FCGeometryEntity/FCGeometryDAGData.h>
 #include <FCGeometryEntity/FCGeometryEntityBuilder.h>
 #include <FCGeometryEntity/FCGeometryEntityModel.h>
 
@@ -13,12 +13,11 @@ namespace FC {
 
 FCGlobalDataFactory::~FCGlobalDataFactory()
 {
-    
 }
 
-FCAbstractDataObject *FCGlobalDataFactory::createGeoData()
+FCAbstractDataObject* FCGlobalDataFactory::createGeoData()
 {
-    return new FCGeoCommandList();
+    return new FCGeometryDAGData();
 }
 
 FCAbstractDataObject *FCGlobalDataFactory::createPhysicsData()
@@ -47,20 +46,23 @@ QHash<int, FCAbstractDataObject *> FCGlobalDataFactory::createOtherData()
 FCAbstractDataObject* FCGlobalDataFactory::createGeometryEntityModel(FCGlobalData* globalData)
 {
     if (!globalData) return nullptr;
-    FCGeoCommandList* geoList = globalData->getData<FCGeoCommandList>(GDTGeom);
+    FCGeometryDAGData* dagData = globalData->getData<FCGeometryDAGData>(GDTGeom);
+    if (!dagData) return nullptr;
+    dagData->ensureBuild();
     FCGeometryEntityBuilder builder;
-    FCGeometryEntityModel* model = builder.build(geoList);
+    FCGeometryEntityModel* model = builder.buildFromGlobalGeoComponentManager(dagData->getGlobalGeoCompManager());
     return model;
 }
 
 void FCGlobalDataFactory::refreshGeometryEntityModel(FCGlobalData* globalData)
 {
     if (!globalData) return;
-    FCGeoCommandList* geoList = globalData->getData<FCGeoCommandList>(GDTGeom);
+    FCGeometryDAGData* dagData = globalData->getData<FCGeometryDAGData>(GDTGeom);
     FCGeometryEntityModel* entityModel = globalData->getData<FCGeometryEntityModel>(GDTGeomEntity);
-    if (!geoList || !entityModel) return;
+    if (!dagData || !entityModel) return;
+    dagData->ensureBuild();
     FCGeometryEntityBuilder builder;
-    builder.rebuild(geoList, entityModel);
+    builder.rebuild(dagData->getGlobalGeoCompManager(), entityModel);
 }
 
 } // namespace FC

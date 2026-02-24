@@ -12,6 +12,7 @@ class FCCubeInfoWidget;
 namespace FC {
 class FCGeoModelBox;
 class FCAbsGeoCommand;
+class FCGeometryDAGData;
 }
 
 class FCGUIWIDGET_API FCCubeInfoWidget : public QWidget
@@ -24,6 +25,8 @@ public:
 
     /** 根据 boxCmd 将基点与长宽高设置到 UI 对应控件，并保存引用供「构建」按钮使用 */
     void setBoxCommand(FC::FCGeoModelBox* boxCmd);
+    /** COMSOL 式：绑定 DAG 节点；displayBoxCmd 用于「构建」后在 VTK 中显示（可为 nullptr） */
+    void setDAGNode(FC::FCGeometryDAGData* dagData, int nodeId, FC::FCGeoModelBox* displayBoxCmd = nullptr);
 
 signals:
     /** 构建了单个几何体，供在 VTK 中显示 */
@@ -42,6 +45,10 @@ private:
 
     Ui::FCCubeInfoWidget *ui;
     FC::FCGeoModelBox* m_boxCmd{ nullptr };
+    FC::FCGeometryDAGData* m_dagData{ nullptr };
+    int m_nodeId{ -1 };
+    /** DAG 路径下仅用于 VTK 显示的 Box 命令（不加入命令列表） */
+    FC::FCGeoModelBox* m_displayBoxCmd{ nullptr };
 };
 
 #endif // FCCUBEINFOWIDGET_H

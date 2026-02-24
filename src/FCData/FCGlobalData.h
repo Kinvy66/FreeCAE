@@ -44,6 +44,17 @@ public:
      * @return T*
      */
     template<class T>
+    T* getGeometryData()
+    {
+        return dynamic_cast<T*>(_gData.value(GDTGeom));
+    }
+    
+    
+    /**
+     * @brief 获取物理数据并进行类型转换
+     * @return T*
+     */
+    template<class T>
     T* getPhysicsData()
     {
         return dynamic_cast<T*>(_gData.value(GDTPhysics));
@@ -89,7 +100,12 @@ public:
      * @return QList<int>
      */
     QList<int> getGlobalDataIDs();
-    
+
+    /** @brief 获取当前会话的全局数据（由 APP 在 createGlobalData 后设置） */
+    static FCGlobalData* getGlobalData();
+    /** @brief 设置当前会话的全局数据 */
+    static void setCurrentGlobalData(FCGlobalData* g);
+
 private:
     
     /**
@@ -115,7 +131,7 @@ private:
      */
     QHash<int, FCAbstractDataObject*> _gData{};
 
-
+    static FCGlobalData* s_currentGlobalData;
 };
 
 } // namespace FC

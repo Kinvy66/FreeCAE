@@ -96,6 +96,39 @@ bool FCGeometryEntityBuilder::rebuild(FCGeoCommandList* geoCommandList, FCGeomet
     return true;
 }
 
+bool FCGeometryEntityBuilder::rebuild(FCGlobalGeoComponentManager* compMgr, FCGeometryEntityModel* existingModel)
+{
+    if (!compMgr || !existingModel) return false;
+    existingModel->clear();
+    QList<int> domainIds, boundaryIds, edgeIds, pointIds;
+    const int n = compMgr->getDataCount();
+    for (int i = 0; i < n; ++i) {
+        FCGlobalGeoComponent* globalComp = compMgr->getDataByIndex(i);
+        if (!globalComp) continue;
+        switch (globalComp->getGeoType()) {
+        case FCModelEnum::FMSSolid:
+            fillFromComponent(globalComp, FCGeometryEntityLevel::Domain, &domainIds, existingModel);
+            break;
+        case FCModelEnum::FMSSurface:
+            fillFromComponent(globalComp, FCGeometryEntityLevel::Boundary, &boundaryIds, existingModel);
+            break;
+        case FCModelEnum::FMSEdge:
+            fillFromComponent(globalComp, FCGeometryEntityLevel::Edge, &edgeIds, existingModel);
+            break;
+        case FCModelEnum::FMSPoint:
+            fillFromComponent(globalComp, FCGeometryEntityLevel::Point, &pointIds, existingModel);
+            break;
+        default:
+            break;
+        }
+    }
+    existingModel->setDomainIds(domainIds);
+    existingModel->setBoundaryIds(boundaryIds);
+    existingModel->setEdgeIds(edgeIds);
+    existingModel->setPointIds(pointIds);
+    return true;
+}
+
 /**
  * @brief 从全局几何组件填充实体 ID 与 member 映射到模型
  */

@@ -73,6 +73,7 @@ bool FCAppCore::initialized()
     // mProject = new FCAppProject(this, this);
     // mProject->setDataManagerInterface(mDataManager);
     mDataFactory->createGlobalData(mGlobalData);
+    FC::FCGlobalData::setCurrentGlobalData(mGlobalData);
     return true;
 }
 

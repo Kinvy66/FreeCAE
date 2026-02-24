@@ -4,6 +4,7 @@
  * @copyright Copyright (c) 2026 Kinvy. All rights reserved.
  */
 #include "FCGeometryTree.h"
+#include <QRegularExpression>
 
 namespace FC {
 
@@ -105,6 +106,48 @@ void FCGeometryTree::clear()
 {
     m_nodes.clear();
     m_downstream.clear();
+}
+
+QString FCGeometryTree::checkName(const QString& name) const
+{
+    // 与 FCAbstractDataManagerHelper 一致：支持 "前缀_数字" 或 "前缀-数字"，取同前缀最大编号+1
+    QString simplified = name.simplified();
+    if (simplified.isEmpty())
+        return QStringLiteral("Node_1");
+
+    QRegularExpression suffixRegex(QStringLiteral("^(.+)[_\\-](\\d+)$"));
+    QRegularExpressionMatch m = suffixRegex.match(simplified);
+    QString prefix;
+    int suggestedNum = 1;
+    if (m.hasMatch()) {
+        prefix = m.captured(1);
+        suggestedNum = m.captured(2).toInt();
+    } else {
+        prefix = simplified;
+    }
+
+    int maxNum = 0;
+    QRegularExpression prefixNumRegex(QStringLiteral("^(.+)[_\\-](\\d+)$"));
+    for (const FCGeoNode& n : m_nodes) {
+        QRegularExpressionMatch om = prefixNumRegex.match(n.name);
+        if (!om.hasMatch()) continue;
+        if (om.captured(1).compare(prefix, Qt::CaseInsensitive) != 0) continue;
+        int num = om.captured(2).toInt();
+        if (num > maxNum) maxNum = num;
+    }
+    int nextNum = (maxNum >= suggestedNum) ? (maxNum + 1) : suggestedNum;
+    QString candidate = prefix + QLatin1Char('_') + QString::number(nextNum);
+    for (;;) {
+        bool taken = false;
+        for (const FCGeoNode& n : m_nodes) {
+            if (n.name.compare(candidate, Qt::CaseInsensitive) == 0) {
+                taken = true;
+                break;
+            }
+        }
+        if (!taken) return candidate;
+        candidate = prefix + QLatin1Char('_') + QString::number(++nextNum);
+    }
 }
 
 } // namespace FC
