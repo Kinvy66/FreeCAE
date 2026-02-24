@@ -121,6 +121,8 @@ public:
     void updateComponentItems();
     
     void updateGeometryItems();
+    /** 展开几何节点并选中指定命令 ID 对应的子项 */
+    void expandGeometryAndSelectCommand(int cmdId);
     
     void updateMaterialItems();
     

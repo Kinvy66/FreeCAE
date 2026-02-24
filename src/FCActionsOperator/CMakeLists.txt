@@ -68,6 +68,7 @@ find_package(${FC_PROJECT_NAME} COMPONENTS
     FCGUIFrame
     FCGUIWidget
     FCRenderWindowVTK
+    FCVTKGraphAdaptor
 )
 if(${FC_PROJECT_NAME}_FOUND)
     message(STATUS "  |-linked ${FC_PROJECT_NAME}::FCUtils")
@@ -76,6 +77,7 @@ if(${FC_PROJECT_NAME}_FOUND)
     message(STATUS "  |-linked ${FC_PROJECT_NAME}::FCInterface")
     message(STATUS "  |-linked ${FC_PROJECT_NAME}::FCGUIFrame")
     message(STATUS "  |-linked ${FC_PROJECT_NAME}::FCGUIWidget")
+    message(STATUS "  |-linked ${FC_PROJECT_NAME}::FCVTKGraphAdaptor")
 endif()
 target_link_libraries(${FC_LIB_NAME} PUBLIC
     ${FC_PROJECT_NAME}::FCUtils
@@ -83,8 +85,9 @@ target_link_libraries(${FC_LIB_NAME} PUBLIC
     ${FC_PROJECT_NAME}::FCGeometryInterface
     ${FC_PROJECT_NAME}::FCInterface
     ${FC_PROJECT_NAME}::FCGUIFrame
-    ${FC_PROJECT_NAME}::FCGUIWidget     
+    ${FC_PROJECT_NAME}::FCGUIWidget
     ${FC_PROJECT_NAME}::FCRenderWindowVTK
+    ${FC_PROJECT_NAME}::FCVTKGraphAdaptor
 )
 
 ########################################################

@@ -32,7 +32,6 @@ void FCGraphPreprocessOperator::updateGraph(int dataObjId, bool forceUpdate)
 void FCGraphPreprocessOperator::updateGraph()
 {
     
-    
     // todo: 更新vtk渲染窗口
     
 }

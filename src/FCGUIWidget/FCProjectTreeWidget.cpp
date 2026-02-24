@@ -228,6 +228,20 @@ void FCProjectTreeWidget::updateGeometryItems()
     }
 }
 
+void FCProjectTreeWidget::expandGeometryAndSelectCommand(int cmdId)
+{
+    if (!mComponentGeometry || cmdId < 0) return;
+    setExpanded(indexFromItem(mComponentGeometry), true);
+    for (int i = 0; i < mComponentGeometry->childCount(); ++i) {
+        QTreeWidgetItem* child = mComponentGeometry->child(i);
+        if (child->data(1, 0).toInt() == cmdId) {
+            setCurrentItem(child);
+            scrollToItem(child);
+            break;
+        }
+    }
+}
+
 void FCProjectTreeWidget::updateMaterialItems()
 {
     

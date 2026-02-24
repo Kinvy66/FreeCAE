@@ -63,6 +63,7 @@ void FCCubeInfoWidget::onBuildClicked()
         return;
     }
     rebuildGeometryEntityModel();
+    emit geometryBuilt(m_boxCmd);
 }
 
 void FCCubeInfoWidget::onBuildAllClicked()
@@ -70,10 +71,26 @@ void FCCubeInfoWidget::onBuildAllClicked()
     FC::FCGeoCommandList* geoList = FCDATAREPO->getFirstDataByType<FC::FCGeoCommandList>();
     if (!geoList) return;
     QList<FC::FCAbsGeoCommand*> rootCmds = geoList->getRootCommandList();
-    for (FC::FCAbsGeoCommand* cmd : rootCmds) {
-        if (cmd) cmd->update();
+    // COMSOL 方式：只构建几何序列中“当前节点”及之前的命令（当前 = 本属性页对应的 m_boxCmd）
+    int currentIndex = -1;
+    for (int i = 0; i < rootCmds.size(); ++i) {
+        if (rootCmds.at(i) == m_boxCmd) {
+            currentIndex = i;
+            break;
+        }
+    }
+    if (currentIndex < 0)
+        currentIndex = rootCmds.size() - 1;
+    QList<FC::FCAbsGeoCommand*> builtCmds;
+    for (int i = 0; i <= currentIndex && i < rootCmds.size(); ++i) {
+        FC::FCAbsGeoCommand* cmd = rootCmds.at(i);
+        if (cmd) {
+            cmd->update();
+            builtCmds.append(cmd);
+        }
     }
     rebuildGeometryEntityModel();
+    emit geometrySequenceBuilt(builtCmds);
 }
 
 void FCCubeInfoWidget::rebuildGeometryEntityModel()

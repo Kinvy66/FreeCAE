@@ -11,7 +11,7 @@
 #include <FCData/FCAbstractDataObject.h>
 #include <QHash>
 #include <QList>
-#include <vtkObject.h>
+// #include <vtkObject.h>
 
 class vtkDataSet;
 class vtkProp;
