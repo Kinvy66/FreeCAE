@@ -66,21 +66,26 @@ message(STATUS "${FC_LIB_NAME} Qt${QT_VERSION_MAJOR}.${QT_VERSION_MINOR}.${QT_VE
 # spdlog是header only
 # fcmacro_import_spdlog(${FC_LIB_NAME})
 
-# 依赖模块（FCGeometryInterface 供 FCCubeInfoWidget 绑定 FCGeoModelBox）
+# 依赖模块（FCGeometryInterface 供 FCCubeInfoWidget 绑定 FCGeoModelBox；FCGeometryEntity/FCData 供构建按钮重建实体模型）
 find_package(${FC_PROJECT_NAME} COMPONENTS 
     FCUtils
+    FCData
     FCInterface
     FCGeometryInterface
-
+    FCGeometryEntity
 )
 if(${FC_PROJECT_NAME}_FOUND)
     message(STATUS "  |-linked ${FC_PROJECT_NAME}::FCUtils")
+    message(STATUS "  |-linked ${FC_PROJECT_NAME}::FCData")
     message(STATUS "  |-linked ${FC_PROJECT_NAME}::FCGeometryInterface")
+    message(STATUS "  |-linked ${FC_PROJECT_NAME}::FCGeometryEntity")
 endif()
 target_link_libraries(${FC_LIB_NAME} PUBLIC
     ${FC_PROJECT_NAME}::FCUtils
+    ${FC_PROJECT_NAME}::FCData
     ${FC_PROJECT_NAME}::FCInterface
     ${FC_PROJECT_NAME}::FCGeometryInterface
+    ${FC_PROJECT_NAME}::FCGeometryEntity
 )
 
 ########################################################

@@ -7,6 +7,8 @@
 #include <FCPropertyWidget.h>
 #include <FCCubeInfoWidget.h>
 #include <QDebug>
+#include "FCOperatorRepo.h"
+#include "FCProjectTreeEventOperator.h"
 
 namespace FC
 {
@@ -22,7 +24,15 @@ bool FCActionCreateCubeOperator::execGUI()
 
     FCPropertyWidget* propWidget = docking->getSettingParametersWidget();
     if (!propWidget) return true;
-
+    
+    // 更新工程树：几何序列（命令列表）在「几何」节点下显示，符合函数式几何设计（只保存序列，不保存具体实体）
+    auto treeOper = FCOPERATORREPO->getOperatorT<FCProjectTreeEventOperator>("ProjectTreeEvent");
+    if (treeOper) {
+        treeOper->setUIInterface(uiInterface());
+        treeOper->updateTree();
+    }
+    
+    
     // 1. 创建 FCCubeInfoWidget 并放入 FCPropertyWidget（参数设置 Dock）内
     FCCubeInfoWidget* cubeWidget = new FCCubeInfoWidget(propWidget);
     propWidget->setContentWidget(cubeWidget);
@@ -60,15 +70,11 @@ bool FCActionCreateCubeOperator::execProfession()
     double length[3] = { 100.0, 100.0, 100.0 };
     boxCmd->setPoint1(point1);
     boxCmd->setLength(length);
-
-    QString name = QString("Box_%1").arg(boxCmd->getDataObjectID());
+    
+    QString name = QString("Box_1");//.arg(boxCmd->getDataObjectID());
     boxCmd->setDataObjectName(geoList->checkName(name));
 
-    if (!boxCmd->update()) {
-        qWarning() << "FCActionCreateCubeOperator: boxCmd->update() failed";
-        return false;
-    }
-
+    // 函数式几何：仅将命令追加到序列（FCGeoCommandList），不保存具体几何实体；构建由 FCCubeInfoWidget「构建」触发并更新 FCGeometryEntityModel
     geoList->appendDataObj(boxCmd);
     _currentBoxCmd = boxCmd;
     return true;

@@ -59,7 +59,7 @@ message(STATUS "${FC_LIB_NAME} Qt${QT_VERSION_MAJOR}.${QT_VERSION_MINOR}.${QT_VE
 # -------------link 3rdparty--------------------------
 fcmacro_import_QtAdvancedDocking(${FC_LIB_NAME})
 
-# 依赖模块（FCInterface/FCGUIFrame 提供 UI；FCGUIWidget 提供 FCCubeInfoWidget，已移至 FCGUIWidget/FCGeometryProperty）
+# 依赖模块（FCInterface/FCGUIFrame 提供 UI；FCGUIWidget 提供 FCCubeInfoWidget）
 find_package(${FC_PROJECT_NAME} COMPONENTS 
     FCUtils
     FCData

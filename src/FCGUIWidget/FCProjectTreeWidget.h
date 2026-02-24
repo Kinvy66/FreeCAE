@@ -109,13 +109,7 @@ private slots:
      */
     void soltIconButtonClicked();
     
-private:
-    
-    /**
-     * @brief 构建一级类别目录
-     */
-    void buildCategoryItems();
-    
+public:
     /**
      * @brief 更新全局定义子节点（与 FCProjectTree 一致：参数1、变量1、函数1）
      */
@@ -149,6 +143,15 @@ private:
     void update3DPlot();
     void update2DPlot();
     void update1DPlot();
+    
+private:
+    
+    /**
+     * @brief 构建一级类别目录
+     */
+    void buildCategoryItems();
+    
+  
     
     /**
      * @brief 添加右键菜单动作（与 TreeWidget::addMenuActions 一致）

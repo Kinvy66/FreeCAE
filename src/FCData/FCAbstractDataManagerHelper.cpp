@@ -4,6 +4,7 @@
  */
 #include "FCAbstractDataManagerHelper.h"
 #include <algorithm>
+#include <QRegularExpression>
 
 namespace FC {
 
@@ -157,10 +158,39 @@ int FCAbstractDataManagerHelper::getParentDataID() const
 
 QString FCAbstractDataManagerHelper::checkName(const QString& name)
 {
-    QString base = name;
-    int n = 0;
-    while (getDataByName(base, false)) base = name + QString::number(++n);
-    return base;
+    // 与 AppFlow 一致：支持 "前缀+数字"（如 Box_1、Box-1），扫描现有名称取最大编号+1，保证连续创建时 1,2,3 递增
+    QString simplified = name.simplified();
+    if (simplified.isEmpty()) return name;
+
+    QRegularExpression suffixRegex(QStringLiteral("^(.+)[_\\-](\\d+)$"));
+    QRegularExpressionMatch m = suffixRegex.match(simplified);
+    QString prefix;
+    int suggestedNum = 1;
+    if (m.hasMatch()) {
+        prefix = m.captured(1);
+        suggestedNum = m.captured(2).toInt();
+    } else {
+        prefix = simplified;
+    }
+
+    int maxId = 0;
+    QRegularExpression prefixNumRegex(QStringLiteral("^(.+)[_\\-](\\d+)$"));
+    for (FCAbstractDataObject* a : _dataList) {
+        FCAbstractNamedDataObject* named = dynamic_cast<FCAbstractNamedDataObject*>(a);
+        if (!named) continue;
+        QString objName = named->getDataObjectName();
+        QRegularExpressionMatch om = prefixNumRegex.match(objName);
+        if (!om.hasMatch()) continue;
+        QString objPrefix = om.captured(1);
+        if (objPrefix.compare(prefix, Qt::CaseInsensitive) != 0) continue;
+        int num = om.captured(2).toInt();
+        if (num > maxId) maxId = num;
+    }
+    int nextNum = (maxId >= suggestedNum) ? (maxId + 1) : suggestedNum;
+    QString candidate = prefix + QLatin1Char('_') + QString::number(nextNum);
+    if (!getDataByName(candidate, false)) return candidate;
+    while (getDataByName(candidate, false)) candidate = prefix + QLatin1Char('_') + QString::number(++nextNum);
+    return candidate;
 }
 
 int FCAbstractDataManagerHelper::getIndexByID(int dataId) const

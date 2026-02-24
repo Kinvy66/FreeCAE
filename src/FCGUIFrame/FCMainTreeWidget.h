@@ -24,7 +24,10 @@ public:
     ~FCMainTreeWidget();
     
     void init();
-    
+
+    /** @brief 获取工程树控件，供操作器刷新几何/网格等节点 */
+    FCProjectTreeWidget* getTreeWidget() const { return mTreeWidget; }
+
 private:
     FCProjectTreeWidget* mTreeWidget = nullptr;  
 };

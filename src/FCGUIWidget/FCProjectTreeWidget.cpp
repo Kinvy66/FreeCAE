@@ -7,6 +7,9 @@
  * @copyright Copyright (c) 2026. All rights reserved.
  */
 #include "FCProjectTreeWidget.h"
+#include <FCData/FCDataRepo.h>
+#include <FCGeometryInterface/FCGeoCommandList.h>
+#include <FCGeometryInterface/FCAbsGeoCommand.h>
 #include <QMenu>
 #include <QTreeWidgetItem>
 #include <QHeaderView>
@@ -207,7 +210,22 @@ void FCProjectTreeWidget::updateComponentItems()
 
 void FCProjectTreeWidget::updateGeometryItems()
 {
-    
+    if (!mComponentGeometry) return;
+    FC::FCGeoCommandList* geoList = FCDATAREPO->getFirstDataByType<FC::FCGeoCommandList>();
+    if (!geoList) return;
+
+    while (mComponentGeometry->childCount() > 0) {
+        QTreeWidgetItem* child = mComponentGeometry->takeChild(0);
+        delete child;
+    }
+    QList<FC::FCAbsGeoCommand*> rootCmds = geoList->getRootCommandList();
+    for (FC::FCAbsGeoCommand* cmd : rootCmds) {
+        if (!cmd) continue;
+        QTreeWidgetItem* item = new QTreeWidgetItem(mComponentGeometry);
+        item->setText(0, cmd->getDataObjectName());
+        item->setData(1, 0, cmd->getDataObjectID());
+        item->setData(2, 0, QVariant::fromValue(ProjectTreeEnum::ProjectTree_GeometryEntity));
+    }
 }
 
 void FCProjectTreeWidget::updateMaterialItems()

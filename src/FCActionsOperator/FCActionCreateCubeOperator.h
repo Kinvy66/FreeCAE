@@ -3,7 +3,6 @@
 
 #include "FCActionsOperatorAPI.h"
 #include "FCActionOperator.h"
-#include "FCOperatorRepo.h"
 
 namespace FC 
 {
@@ -25,9 +24,6 @@ private:
     /** 本次 execProfession 创建的 Box 命令，供 execGUI 绑定到 FCCubeInfoWidget */
     FCGeoModelBox* _currentBoxCmd{ nullptr };
 };
-
-// 注册操作器
-Register2FCOperatorRepo(actionCreateCUbe, FCActionCreateCubeOperator);
 
 } // namespace FC
 

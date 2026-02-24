@@ -40,6 +40,14 @@ public:
      */
     FCGeometryEntityModel* buildFromGlobalGeoComponentManager(FCGlobalGeoComponentManager* compMgr);
 
+    /**
+     * @brief 从几何命令列表重建已有实体模型（清空后按当前几何重新填充）
+     * @param geoCommandList 当前几何命令列表
+     * @param existingModel 已存在的几何实体模型，将被清空并重新填充
+     * @return 成功返回 true
+     */
+    bool rebuild(FCGeoCommandList* geoCommandList, FCGeometryEntityModel* existingModel);
+
 private:
     void fillFromComponent(FCGlobalGeoComponent* globalComp,
                            FCGeometryEntityLevel level,

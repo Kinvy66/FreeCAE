@@ -60,6 +60,42 @@ FCGeometryEntityModel* FCGeometryEntityBuilder::buildFromGlobalGeoComponentManag
     return model;
 }
 
+bool FCGeometryEntityBuilder::rebuild(FCGeoCommandList* geoCommandList, FCGeometryEntityModel* existingModel)
+{
+    if (!geoCommandList || !existingModel) return false;
+    FCGlobalGeoComponentManager* compMgr = geoCommandList->getGlobalGeoCompManager();
+    if (!compMgr) return false;
+
+    existingModel->clear();
+    QList<int> domainIds, boundaryIds, edgeIds, pointIds;
+    const int n = compMgr->getDataCount();
+    for (int i = 0; i < n; ++i) {
+        FCGlobalGeoComponent* globalComp = compMgr->getDataByIndex(i);
+        if (!globalComp) continue;
+        switch (globalComp->getGeoType()) {
+        case FCModelEnum::FMSSolid:
+            fillFromComponent(globalComp, FCGeometryEntityLevel::Domain, &domainIds, existingModel);
+            break;
+        case FCModelEnum::FMSSurface:
+            fillFromComponent(globalComp, FCGeometryEntityLevel::Boundary, &boundaryIds, existingModel);
+            break;
+        case FCModelEnum::FMSEdge:
+            fillFromComponent(globalComp, FCGeometryEntityLevel::Edge, &edgeIds, existingModel);
+            break;
+        case FCModelEnum::FMSPoint:
+            fillFromComponent(globalComp, FCGeometryEntityLevel::Point, &pointIds, existingModel);
+            break;
+        default:
+            break;
+        }
+    }
+    existingModel->setDomainIds(domainIds);
+    existingModel->setBoundaryIds(boundaryIds);
+    existingModel->setEdgeIds(edgeIds);
+    existingModel->setPointIds(pointIds);
+    return true;
+}
+
 void FCGeometryEntityBuilder::fillFromComponent(FCGlobalGeoComponent* globalComp,
                                                 FCGeometryEntityLevel level,
                                                 QList<int>* entityIds,

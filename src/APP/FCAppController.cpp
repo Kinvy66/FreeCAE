@@ -42,6 +42,8 @@
 // sub module
 
 #include "FCOperatorRepo.h"
+#include "FCActionCreateCubeOperator.h"
+#include "FCProjectTreeEventOperator.h"
 #include <FCMeshGenGmsh/FCGmshMeshGenInterface.h>
 #include <FCMeshGenInterface/FCMeshGenInterface.h>
 #include <FCMeshGenInterface/FCAbstractMesherDriver.h>
@@ -49,7 +51,6 @@
 #include <FCMeshInterface/FCUnstructuredMeshVTK.h>
 #include <FCRenderWindowVTK/FCGraphObjectVTK.h>
 
-#include "FCActionCreateCubeOperator.h"
 
 #include <vtkDataSetMapper.h>
 #include <vtkActor.h>
@@ -232,22 +233,15 @@ void FCAppController::initConnection()
 }
 
 /**
- * @brief 注册action的操作器
- * 
- * 注意：使用 Register2FCOperatorRepo 宏的操作器会在静态初始化时自动注册，
- * 这里主要用于确保操作器仓库已初始化，以及可以添加其他手动注册逻辑。
+ * @brief 注册 action 的操作器
+ * 在此处集中使用 Register2FCOperatorRepo 宏注册，保证仓库已初始化后再注册。
  */
 void FCAppController::registeActionsOperator()
 {
-    // 确保操作器仓库已初始化（通过访问单例）
-    FCOPERATORREPO;
+    FCOPERATORREPO;  // 确保操作器仓库已初始化
+    Register2FCOperatorRepo(actionCreateCUbe, FCActionCreateCubeOperator);
+    Register2FCOperatorRepo(ProjectTreeEvent, FCProjectTreeEventOperator);
     
-    // 如果需要手动注册操作器，可以在这里添加：
-    FCOPERATORREPO->registerOperatorFunction("actionCreateCUbe",
-                                             []() { return new FCActionCreateCubeOperator; });
-    
-    // 目前 FCActionCreateCubeOperator 已通过 Register2FCOperatorRepo 宏自动注册
-    // 注册键为 "actionCreateCUbe"（注意大小写，与 FCAppActions.cpp 中的 objectName 一致）
 }
 
 
