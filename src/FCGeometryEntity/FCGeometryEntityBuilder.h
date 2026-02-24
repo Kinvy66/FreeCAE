@@ -37,6 +37,8 @@ public:
 
     /**
      * @brief 从全局几何分组管理器构建实体模型（供无命令列表时使用）
+     * @param compMgr 全局几何分组管理器，可为 nullptr
+     * @return 新建的 FCGeometryEntityModel，调用方负责释放；失败返回 nullptr
      */
     FCGeometryEntityModel* buildFromGlobalGeoComponentManager(FCGlobalGeoComponentManager* compMgr);
 
@@ -49,6 +51,13 @@ public:
     bool rebuild(FCGeoCommandList* geoCommandList, FCGeometryEntityModel* existingModel);
 
 private:
+    /**
+     * @brief 从全局几何组件填充实体 ID 与 member 映射到模型
+     * @param globalComp 全局几何组件
+     * @param level 实体层级（Domain/Boundary/Edge/Point）
+     * @param entityIds 当前层级已收集的实体 ID 列表（会追加）
+     * @param model 目标几何实体模型
+     */
     void fillFromComponent(FCGlobalGeoComponent* globalComp,
                            FCGeometryEntityLevel level,
                            QList<int>* entityIds,

@@ -28,14 +28,36 @@ public:
     explicit FCGeometryBuildEngine(QObject* parent = nullptr);
     ~FCGeometryBuildEngine() override;
 
+    /**
+     * @brief 设置几何 DAG 树
+     * @param tree 几何树，可为 nullptr
+     */
     void setTree(FCGeometryTree* tree);
+
+    /** @brief 获取几何 DAG 树 */
     FCGeometryTree* tree() const { return m_tree; }
-    /** 设置节点执行器（OCC 层注入） */
+
+    /**
+     * @brief 设置节点执行器（OCC 层注入）
+     * @param executor 节点执行器
+     */
     void setExecutor(FCGeometryNodeExecutor* executor);
+
+    /** @brief 获取当前节点执行器 */
     FCGeometryNodeExecutor* executor() const { return m_executor; }
 
-    /** 为需要规则的操作（如 Fillet）绑定 Selection 规则 */
+    /**
+     * @brief 为需要规则的操作（如 Fillet）绑定 Selection 规则
+     * @param nodeId 节点 ID
+     * @param rule 选择规则，nullptr 表示移除
+     */
     void setSelectionRuleForNode(int nodeId, FCSelectionRule* rule);
+
+    /**
+     * @brief 获取节点绑定的选择规则
+     * @param nodeId 节点 ID
+     * @return 规则指针，未绑定为 nullptr
+     */
     FCSelectionRule* selectionRuleForNode(int nodeId) const;
 
     /**
@@ -44,28 +66,56 @@ public:
      */
     QVariant build();
 
-    /** 仅重算 dirty 节点及其下游（局部重建） */
+    /**
+     * @brief 仅重算 dirty 节点及其下游（局部重建）
+     * @return 末节点输出形状；无节点或失败为无效 QVariant
+     */
     QVariant buildDirty();
 
-    /** 某节点结果（缓存） */
+    /**
+     * @brief 获取某节点缓存结果
+     * @param nodeId 节点 ID
+     * @return 该节点的输出形状（QVariant），未计算为无效 QVariant
+     */
     QVariant nodeResult(int nodeId) const { return m_nodeResults.value(nodeId); }
+
+    /** @brief 所有节点 ID 到结果的缓存 */
     const QHash<int, QVariant>& nodeResults() const { return m_nodeResults; }
 
-    /** 标记节点及其所有下游为 dirty（修改中间步骤时调用） */
+    /**
+     * @brief 标记节点及其所有下游为 dirty（修改中间步骤时调用）
+     * @param nodeId 被修改的节点 ID
+     */
     void markDirty(int nodeId);
-    /** 当前 dirty 节点集合 */
+
+    /** @brief 当前 dirty 节点集合 */
     QSet<int> dirtyNodes() const { return m_dirtyNodes; }
+
+    /** @brief 清空 dirty 集合 */
     void clearDirty() { m_dirtyNodes.clear(); }
 
-    /** 清除某节点及其下游的缓存（与 markDirty 一致） */
+    /**
+     * @brief 清除某节点及其下游的缓存（与 markDirty 一致）
+     * @param nodeId 节点 ID
+     */
     void invalidateDownstream(int nodeId);
 
 signals:
+    /** @brief 构建成功完成时发射 */
     void buildFinished();
+
+    /**
+     * @brief 构建失败时发射
+     * @param nodeId 失败的节点 ID
+     */
     void buildFailed(int nodeId);
 
 private:
-    /** 对单个节点执行并写入 m_nodeResults */
+    /**
+     * @brief 对单个节点执行并写入 m_nodeResults
+     * @param nodeId 节点 ID
+     * @return 成功 true，失败 false
+     */
     bool applyNode(int nodeId);
 
     FCGeometryTree* m_tree{ nullptr };

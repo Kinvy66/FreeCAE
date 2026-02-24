@@ -96,6 +96,9 @@ bool FCGeometryEntityBuilder::rebuild(FCGeoCommandList* geoCommandList, FCGeomet
     return true;
 }
 
+/**
+ * @brief 从全局几何组件填充实体 ID 与 member 映射到模型
+ */
 void FCGeometryEntityBuilder::fillFromComponent(FCGlobalGeoComponent* globalComp,
                                                 FCGeometryEntityLevel level,
                                                 QList<int>* entityIds,

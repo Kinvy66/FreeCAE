@@ -32,6 +32,12 @@ enum class FCGeoOpType
     Sweep
 };
 
+/**
+ * @brief 供 QHash 等使用的 qHash 重载
+ * @param type 几何操作类型
+ * @param seed 哈希种子
+ * @return 哈希值
+ */
 inline uint qHash(FCGeoOpType type, uint seed = 0)
 {
     return seed ^ static_cast<uint>(static_cast<int>(type));

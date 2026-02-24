@@ -35,7 +35,11 @@ public:
                              const QHash<int, QVariant>& nodeResults,
                              FCSelectionRule* selectionRule = nullptr) const = 0;
 
-    /** 该执行器是否支持指定操作类型 */
+    /**
+     * @brief 该执行器是否支持指定操作类型
+     * @param type 几何操作类型
+     * @return 支持返回 true，否则 false
+     */
     virtual bool supports(FCGeoOpType type) const = 0;
 };
 

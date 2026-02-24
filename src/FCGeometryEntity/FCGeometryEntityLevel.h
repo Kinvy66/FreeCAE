@@ -17,15 +17,11 @@ namespace FC {
  */
 enum class FCGeometryEntityLevel
 {
-    None = 0,
-    /** 体（3D）或面（2D）或线（1D）*/
-    Domain = 1,
-    /** 面（3D）或边（2D）或点（1D）*/
-    Boundary = 2,
-    /** 边（3D）或点（2D）*/
-    Edge = 3,
-    /** 点 */
-    Point = 4
+    None = 0,       /**< 无/未指定 */
+    Domain = 1,     /**< 体（3D）或面（2D）或线（1D）*/
+    Boundary = 2,   /**< 面（3D）或边（2D）或点（1D）*/
+    Edge = 3,       /**< 边（3D）或点（2D）*/
+    Point = 4       /**< 点 */
 };
 
 } // namespace FC

@@ -28,41 +28,122 @@ public:
     explicit FCGeometryModule(QObject* parent = nullptr);
     ~FCGeometryModule() override;
 
-    /** 设置节点执行器（OCC 等内核实现） */
+    /**
+     * @brief 设置节点执行器（OCC 等内核实现）
+     * @param executor 节点执行器，由 OCC 等几何内核实现
+     */
     void setExecutor(FCGeometryNodeExecutor* executor);
 
-    /** 添加 Block 节点，返回节点 ID */
+
+    /**
+     * @brief 添加 Block 节点，返回节点 ID
+     * @param params 节点参数集（如长宽高）
+     * @param name 节点名称，为空则自动生成
+     * @return 新节点 ID
+     */
     int addBlock(const FCGeoParamSet& params, const QString& name = QString());
-    /** 添加 Cylinder 节点 */
+
+    /**
+     * @brief 添加 Cylinder 节点
+     * @param params 节点参数集（如半径、高度）
+     * @param name 节点名称，为空则自动生成
+     * @return 新节点 ID
+     */
     int addCylinder(const FCGeoParamSet& params, const QString& name = QString());
-    /** 添加 Sphere 节点 */
+
+    /**
+     * @brief 添加 Sphere 节点
+     * @param params 节点参数集（如半径）
+     * @param name 节点名称，为空则自动生成
+     * @return 新节点 ID
+     */
     int addSphere(const FCGeoParamSet& params, const QString& name = QString());
-    /** 添加 Union 节点，inputs = [a, b] */
+
+    /**
+     * @brief 添加 Union 节点，inputs = [a, b]
+     * @param a 第一个输入节点 ID
+     * @param b 第二个输入节点 ID
+     * @param name 节点名称，为空则自动生成
+     * @return 新节点 ID
+     */
     int addUnion(int a, int b, const QString& name = QString());
-    /** 添加 Difference 节点 */
+
+    /**
+     * @brief 添加 Difference 节点（a 减 b）
+     * @param a 被减形状节点 ID
+     * @param b 减去形状节点 ID
+     * @param name 节点名称，为空则自动生成
+     * @return 新节点 ID
+     */
     int addDifference(int a, int b, const QString& name = QString());
-    /** 添加 Intersection 节点 */
+
+    /**
+     * @brief 添加 Intersection 节点
+     * @param a 第一个输入节点 ID
+     * @param b 第二个输入节点 ID
+     * @param name 节点名称，为空则自动生成
+     * @return 新节点 ID
+     */
     int addIntersection(int a, int b, const QString& name = QString());
-    /** 添加 Fillet 节点，input 为要倒角的形状节点，rule 为选边/选面规则 */
+
+    /**
+     * @brief 添加 Fillet 节点，input 为要倒角的形状节点，rule 为选边/选面规则
+     * @param input 要倒角的形状节点 ID
+     * @param rule 选边/选面规则，每次重建时求值
+     * @param params 倒角参数（如半径）
+     * @param name 节点名称，为空则自动生成
+     * @return 新节点 ID
+     */
     int addFillet(int input, FCSelectionRule* rule, const FCGeoParamSet& params = FCGeoParamSet(), const QString& name = QString());
-    /** 添加 Import 节点（如从文件） */
+
+    /**
+     * @brief 添加 Import 节点（如从文件导入）
+     * @param params 导入参数（如文件路径）
+     * @param name 节点名称，为空则自动生成
+     * @return 新节点 ID
+     */
     int addImport(const FCGeoParamSet& params, const QString& name = QString());
 
-    /** 更新节点参数并标记 dirty，触发后续 buildDirty 时重算 */
+    /**
+     * @brief 更新节点参数并标记 dirty，触发后续 buildDirty 时重算
+     * @param id 节点 ID
+     * @param params 新的参数集
+     */
     void updateNode(int id, const FCGeoParamSet& params);
 
-    /** 全量构建，返回最终形状 */
+    /**
+     * @brief 全量构建，返回最终形状
+     * @return 末节点输出形状（QVariant），无节点或失败时为无效 QVariant
+     */
     QVariant build();
-    /** 仅重算 dirty 节点（修改中间步骤后调用） */
+
+    /**
+     * @brief 仅重算 dirty 节点（修改中间步骤后调用）
+     * @return 末节点输出形状（QVariant），无节点或失败时为无效 QVariant
+     */
     QVariant buildDirty();
 
+    /** @brief 获取几何 DAG 树 */
     FCGeometryTree* tree() const { return m_tree.get(); }
+
+    /** @brief 获取构建引擎 */
     FCGeometryBuildEngine* engine() const { return m_engine.get(); }
 
-    /** 获取末节点 ID（build 的输出节点），用于多输出时扩展 */
+    /**
+     * @brief 获取末节点 ID（build 的输出节点），用于多输出时扩展
+     * @return 最后一次添加/构建的节点 ID，无节点时为 -1
+     */
     int lastOutputNodeId() const;
 
 private:
+    /**
+     * @brief 内部添加节点
+     * @param type 操作类型
+     * @param inputs 输入节点 ID 列表
+     * @param params 参数集
+     * @param name 节点名称
+     * @return 新节点 ID
+     */
     int appendNode(FCGeoOpType type, const QList<int>& inputs, const FCGeoParamSet& params, const QString& name);
 
     QScopedPointer<FCGeometryTree> m_tree;
