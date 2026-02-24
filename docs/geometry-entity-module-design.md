@@ -1,5 +1,7 @@
 # FreeCAE 几何模块分析与 COMSOL 式运行期几何管理方案
 
+**状态**：运行期几何实体层已实现，见工程 `src/FCGeometryEntity` 与全局数据槽位 `GDTGeomEntity`；几何变更后需调用刷新接口以保持实体层与命令列表一致（见下文「关联更新」）。
+
 ## 一、FreeCAE 中与几何创建/管理相关的模块
 
 ### 1.1 模块划分与职责
@@ -40,7 +42,11 @@ FCGeoCommandList（由 FCGlobalDataFactory::createGeoData() 创建并插入）
 
 ---
 
-## 二、新增模块：运行期几何实体层（建议名：FCGeometryEntity 或 FCGeometryRuntime）
+## 二、新增模块：运行期几何实体层（FCGeometryEntity）【已实现】
+
+- **库**：`src/FCGeometryEntity`，依赖 FCData、FCGeometryInterface、FCModelInterface。
+- **全局槽位**：`FCGlobalDT::GDTGeomEntity`，由 `FCGlobalDataFactory::createGeometryEntityModel()` 在 `createGlobalData()` 时创建并插入。
+- **刷新**：几何重建后调用 `FCGlobalDataFactory::refreshGeometryEntityModel(globalData)` 或 `FCGeometryEntityBuilder::rebuild(geoList, entityModel)` 更新实体层。
 
 ### 2.1 目标
 
@@ -106,6 +112,7 @@ FCGeoCommandList（由 FCGlobalDataFactory::createGeoData() 创建并插入）
 
 6. **关联更新（Associative）**  
    - 当用户修改几何（撤销/重做、编辑参数、增删命令）并触发几何重建时，重新执行 GeometryEntityBuilder 更新 GeometryEntityModel；若采用“稳定 ID”策略（如按拓扑或名称），可尽量保持同一逻辑实体的 ID 不变，以便物理/网格选择保持有效。
+   - **已实现**：`FCGlobalDataFactory::refreshGeometryEntityModel(FCGlobalData* globalData)` 根据当前 `GDTGeom`（FCGeoCommandList）重建 `GDTGeomEntity`（FCGeometryEntityModel）。在「构建」「构建所有」等几何重建后应调用此接口（或直接使用 `FCGeometryEntityBuilder::rebuild`）；当前在单命令构建（FCCubeInfoWidget::onBuildClicked）与「构建所有」（onBuildAllClicked）后会刷新实体层。
 
 ---
 
