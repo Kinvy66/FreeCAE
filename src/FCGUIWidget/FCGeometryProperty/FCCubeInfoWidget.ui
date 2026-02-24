@@ -55,7 +55,11 @@
       </widget>
      </item>
      <item>
-      <widget class="QLineEdit" name="lineEdit_length1_2"/>
+      <widget class="QLineEdit" name="lineEdit_name">
+       <property name="placeholderText">
+        <string>几何体名称，如 Box_1</string>
+       </property>
+      </widget>
      </item>
     </layout>
    </item>

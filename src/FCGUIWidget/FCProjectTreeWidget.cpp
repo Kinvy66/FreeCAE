@@ -218,7 +218,7 @@ void FCProjectTreeWidget::updateGeometryItems()
         QTreeWidgetItem* child = mComponentGeometry->takeChild(0);
         delete child;
     }
-    FC::FCGlobalData* globalData = FC::FCGlobalData::currentGlobalData();
+    FC::FCGlobalData* globalData = FC::FCGlobalData::getGlobalData();
     if (!globalData) return;
     FC::FCGeometryDAGData* dagData = globalData->getData<FC::FCGeometryDAGData>(FC::GDTGeom);
     if (dagData && dagData->module() && dagData->module()->tree()) {
