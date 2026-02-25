@@ -57,11 +57,7 @@ target_link_libraries(${FC_LIB_NAME} PRIVATE
 )
 message(STATUS "${FC_LIB_NAME} Qt${QT_VERSION_MAJOR}.${QT_VERSION_MINOR}.${QT_VERSION_PATCH}")
 
-# -------------link 3rdparty spdlog--------------------------
-# FCMessageHandler依赖spdlog
-# spdlog是header only
-# fcmacro_import_spdlog(${FC_LIB_NAME})
-# 仅依赖 VTK 和 Qt，不依赖 OCC 及其他 FreeCAE 内部库
+# -------------link 3rdparty--------------------------
 fcmacro_import_vtk(${FC_LIB_NAME})
 
 

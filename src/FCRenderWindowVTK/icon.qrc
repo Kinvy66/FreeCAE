@@ -68,5 +68,6 @@
         <file>icon/icoR_viewZoomRectangle.svg</file>
         <file>icon/icoR_xyData.svg</file>
         <file>icon/icoR_xyData_manager.svg</file>
+        <file>icon/transparent.svg</file>
     </qresource>
 </RCC>

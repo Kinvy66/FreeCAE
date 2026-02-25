@@ -341,10 +341,9 @@ void FCVTKGraphObjectModelBase::setViewMode(FCVTKCommons::ShapeMeshViewMode type
 
 void FCVTKGraphObjectModelBase::setTransparent(bool isOn)
 {
+    // 只设置面透明度，点和线始终不透明
     double opa = isOn ? 1.0 - FCVTKCommons::s_transparency : 1.0;
     if (vtkActor* a = vtkActor::SafeDownCast(m_fActorFace)) a->GetProperty()->SetOpacity(opa);
-    if (vtkActor* a = vtkActor::SafeDownCast(m_fActorEdge)) a->GetProperty()->SetOpacity(opa);
-    if (vtkActor* a = vtkActor::SafeDownCast(m_fActorVertex)) a->GetProperty()->SetOpacity(opa);
 }
 
 void FCVTKGraphObjectModelBase::setColor(QColor color, FCVTKCommons::ShapeType type, int index)

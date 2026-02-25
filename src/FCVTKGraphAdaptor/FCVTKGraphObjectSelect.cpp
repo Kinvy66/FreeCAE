@@ -64,8 +64,8 @@ void FCVTKGraphObjectSelect::setVisible(bool visibility)
 
 void FCVTKGraphObjectSelect::setTransparent(bool isOn)
 {
-    vtkActor* a = vtkActor::SafeDownCast(m_fActor);
-    if (a) a->GetProperty()->SetOpacity(isOn ? 1.0 - FCVTKCommons::s_transparency : 1.0);
+    // 选择高亮始终不透明，不随透明 action 改变
+    Q_UNUSED(isOn);
 }
 
 void FCVTKGraphObjectSelect::setViewMode(FCVTKCommons::ShapeMeshViewMode type, bool visible)

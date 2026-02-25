@@ -87,6 +87,12 @@ void FCGraphObjectVTK::setCustomClipPlane(double* org, double* nor)
     }
 }
 
+void FCGraphObjectVTK::setTransparent(bool isOn)
+{
+    // 由派生类（如 FCVTKGraphObjectModelBase）用 s_transparency 控制，与创建时初始透明度一致，避免锯齿
+    Q_UNUSED(isOn);
+}
+
 void FCGraphObjectVTK::addActor(vtkProp* actor)
 {
     if (!actor || mActorList.contains(actor))

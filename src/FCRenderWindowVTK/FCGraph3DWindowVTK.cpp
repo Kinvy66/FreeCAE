@@ -875,6 +875,13 @@ void FCGraph3DWindowVTK::slotActionClipEvent(bool isCreateNewModel)
     dialog->show();
 }
 
+void FCGraph3DWindowVTK::slotActionTransparentEvent(bool checked)
+{
+    for (FCGraphObjectVTK* obj : getAllGraphObj())
+        obj->setTransparent(checked);
+    reRender();
+}
+
 void FCGraph3DWindowVTK::setViewAnime(double* focalPoint, double* viewUp, double* position)
 {
     for (int i = 0; i < 3; i++)
@@ -1033,6 +1040,14 @@ void FCGraph3DWindowVTK::initActions()
     a->setIcon(QIcon(":/icon/icoR_clip.png"));
     a->setVisible(false);
     connect(a, &QAction::triggered, this, [this]() { slotActionClipEvent(); });
+    actions.append(a);
+    a = new QAction(this);
+    a->setObjectName("actionGeometryTransparent");
+    a->setIcon(QIcon(":/icon/transparent.svg"));
+    a->setCheckable(true);
+    a->setChecked(true);  // 默认与创建时透明度一致（s_transparency），避免锯齿且只有两种状态
+    a->setToolTip(tr("几何体透明显示"));
+    connect(a, &QAction::toggled, this, &FCGraph3DWindowVTK::slotActionTransparentEvent);
     actions.append(a);
     addActionsToolBar(actions);
 }

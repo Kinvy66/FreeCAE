@@ -35,6 +35,7 @@ public:
 
     virtual void setClipType(GraphClipType type);
     virtual void setCustomClipPlane(double* org, double* nor);
+    virtual void setTransparent(bool isOn);
 
     virtual void addActor(vtkProp* actor);
     vtkProp* getActor(int index);

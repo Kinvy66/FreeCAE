@@ -131,6 +131,7 @@ public slots:
     virtual void slotActionViewParallelEvent();
     virtual void slotActionViewPerspectiveEvent();
     virtual void slotActionClipEvent(bool isCreateNewModel = true);
+    virtual void slotActionTransparentEvent(bool checked);
 
 protected:
     virtual void init();
