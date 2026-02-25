@@ -27,7 +27,7 @@ public:
     virtual bool execGUI();
 
     /**
-     * @brief 业务处理逻辑，在execGUI后执行
+     * @brief 业务处理逻辑
      * @return true 执行成功
      * @return false 执行失败
      */

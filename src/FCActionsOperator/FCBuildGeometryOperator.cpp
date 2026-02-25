@@ -24,6 +24,8 @@ FCDockingAreaInterface* FCBuildGeometryOperator::getDockingArea() const
 
 bool FCBuildGeometryOperator::execGUI()
 {
+    // TODO: VTK窗口刷新
+    
     FCDockingAreaInterface* docking = getDockingArea();
     if (!docking) return false;
     FCPropertyWidget* propWidget = docking->getSettingParametersWidget();
@@ -35,6 +37,15 @@ bool FCBuildGeometryOperator::execGUI()
     IGeometryBuildContent* buildContent = findGeometryBuildContent(content);
     if (!buildContent) return false;
     buildContent->executeBuild();
+    return true;
+}
+
+bool FCBuildGeometryOperator::execProfession()
+{
+    
+    // TODO: 从DAG中获取最新的几何序列，构建实际的几何模型
+    // 将构建的几何模型三角化，存放到VTK对象中
+    
     return true;
 }
 

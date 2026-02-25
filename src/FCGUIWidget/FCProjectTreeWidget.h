@@ -112,7 +112,11 @@ private slots:
      * @brief 树节点图标按钮点击事件
      */
     void soltIconButtonClicked();
-    /** 选择变化时检查是否为几何实体节点并发射 geometryNodeSelected */
+    
+    /**
+     * @brief 选择变化时检查是否为几何实体节点并发射 geometryNodeSelected
+     * @todo 修改工程树选中项变化的逻辑
+     */
     void onSelectionChanged();
 
 public:

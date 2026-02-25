@@ -23,6 +23,7 @@ class FCACTIONSOPERATOR_API FCBuildGeometryOperator : public FCActionOperator
 public:
     FCBuildGeometryOperator();
     bool execGUI() override;
+    bool execProfession() override;
     /** 无 UI 注入时可由调用方直接设置 Docking（如 FCGeometryPropertyConnector） */
     void setDockingArea(FCDockingAreaInterface* docking) { m_docking = docking; }
     FCDockingAreaInterface* getDockingArea() const;
