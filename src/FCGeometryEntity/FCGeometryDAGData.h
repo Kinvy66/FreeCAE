@@ -71,14 +71,26 @@ public:
      */
     QList<FCGeoNode> getGeometrySequence() const;
 
+    /** @brief 几何命令数据是否被修改（未保存） */
+    bool isDirty() const { return m_dirty; }
+    /** @brief 设置/清除 dirty 标志；置为 true 时若状态变化会发射 dirtyStateChanged */
+    void setDirty(bool on = true);
+    /** @brief 清除 dirty 标志（如保存成功后调用） */
+    void clearDirty() { setDirty(false); }
+
     QString serialize(int label = -1) override;
     bool deserialize(const QString& text, int label = -1) override;
     bool copy(FCAbstractDataObject* obj) override;
+
+Q_SIGNALS:
+    /** @brief dirty 状态变化（供工程层同步 setDirty / 标题 * 等） */
+    void dirtyStateChanged(bool on);
 
 private Q_SLOTS:
     void onBuildFinished();
 
 private:
+    bool m_dirty{ false };
     QScopedPointer<FCGeometryModule> m_module;
     QScopedPointer<FCGlobalGeoComponentManager> m_compMgr;
     BuildResultFiller m_buildResultFiller;

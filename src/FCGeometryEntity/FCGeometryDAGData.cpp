@@ -63,6 +63,13 @@ FCGeometryDAGData::FCGeometryDAGData(int parentDataID)
 
 FCGeometryDAGData::~FCGeometryDAGData() = default;
 
+void FCGeometryDAGData::setDirty(bool on)
+{
+    if (m_dirty == on) return;
+    m_dirty = on;
+    emit dirtyStateChanged(m_dirty);
+}
+
 void FCGeometryDAGData::setExecutor(FCGeometryNodeExecutor* executor)
 {
     if (m_module)
@@ -178,6 +185,7 @@ bool FCGeometryDAGData::deserialize(const QString& text, int /*label*/)
         }
     }
     tree->setNextNodeId(maxId);
+    m_dirty = false;
     return true;
 }
 

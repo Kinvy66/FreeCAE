@@ -113,6 +113,7 @@ bool FCActionCreateCubeOperator::execProfession()
     params[QStringLiteral("height")] = 100.0;
     QString name = QStringLiteral("Box_1");
     _currentNodeId = dagData->module()->addBlock(params, name);
+    dagData->setDirty(true);
     dagData->ensureBuild();
 
     // 创建用于 VTK 显示的 Box 命令（不加入命令列表），点击「构建」时用其驱动 3D 显示

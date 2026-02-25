@@ -39,6 +39,8 @@ signals:
     void geometrySequenceBuilt(const QList<FCAbsGeoCommand*>& cmds);
 
 private:
+    /** COMSOL 式：将当前 UI 上的属性值立即写回 DAG/Box 内存，无需保存或回车 */
+    void syncValuesToModel();
     void rebuildGeometryEntityModel();
 
     Ui::FCCubeInfoWidget *ui;
@@ -49,6 +51,8 @@ private:
     int m_nodeId{ -1 };
     /** DAG 路径下仅用于 VTK 显示的 Box 命令（不加入命令列表） */
     FCGeoModelBox* m_displayBoxCmd{ nullptr };
+    /** 若为 true 表示 m_displayBoxCmd 由本 widget 创建并负责释放 */
+    bool m_ownDisplayBoxCmd{ false };
 };
 
 } // namespace FC
