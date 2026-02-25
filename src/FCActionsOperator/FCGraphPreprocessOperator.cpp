@@ -111,6 +111,22 @@ void FCGraphPreprocessOperator::onGeometryBuilt(FCAbsGeoCommand* cmd)
     FCGraph3DWindowVTK* graphWin = getGraphWidget();
     if (!graphWin) return;
 
+    // 同一几何多次「构建」会重复 addObject 导致内存增长，先清空渲染器 0 再添加
+    FCGraphRender* render0 = graphWin->getRenderer(0);
+    if (render0) {
+        FCGraphObjManager* mgr = render0->getGraphObjManager();
+        if (mgr) {
+            int n = mgr->getGraphObjCount();
+            for (int i = n - 1; i >= 0; --i) {
+                FCGraphObjectVTK* obj = mgr->getGraphObjAt(i);
+                if (obj) {
+                    render0->removeObject(obj);
+                    delete obj;
+                }
+            }
+        }
+    }
+
     FCVTKViewAdaptorModelCmd adaptor;
     adaptor.setDataObject(static_cast<FCAbstractDataObject*>(cmd));
     if (!adaptor.update()) return;
@@ -132,7 +148,10 @@ void FCGraphPreprocessOperator::onGeometrySequenceBuilt(const QList<FCAbsGeoComm
             int n = mgr->getGraphObjCount();
             for (int i = n - 1; i >= 0; --i) {
                 FCGraphObjectVTK* obj = mgr->getGraphObjAt(i);
-                render0->removeObject(obj);
+                if (obj) {
+                    render0->removeObject(obj);
+                    delete obj;
+                }
             }
         }
     }
