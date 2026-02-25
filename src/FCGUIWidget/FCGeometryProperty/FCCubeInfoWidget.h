@@ -44,6 +44,8 @@ private:
     void rebuildGeometryEntityModel();
 
     Ui::FCCubeInfoWidget *ui;
+    /** 名称输入框是否被用户手动修改过；未修改时构建不更改自动生成的几何体名称 */
+    bool m_nameManuallyEdited{ false };
     FC::FCGeoModelBox* m_boxCmd{ nullptr };
     FC::FCGeometryDAGData* m_dagData{ nullptr };
     int m_nodeId{ -1 };

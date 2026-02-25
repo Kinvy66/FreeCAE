@@ -19,6 +19,7 @@ FCCubeInfoWidget::FCCubeInfoWidget(QWidget *parent)
     ui->setupUi(this);
     connect(ui->pushButton_build, &QPushButton::clicked, this, &FCCubeInfoWidget::onBuildClicked);
     connect(ui->pushButton_buildAll, &QPushButton::clicked, this, &FCCubeInfoWidget::onBuildAllClicked);
+    connect(ui->lineEdit_name, &QLineEdit::textChanged, this, [this]() { m_nameManuallyEdited = true; });
 }
 
 FCCubeInfoWidget::~FCCubeInfoWidget()
@@ -33,7 +34,10 @@ void FCCubeInfoWidget::setBoxCommand(FC::FCGeoModelBox* boxCmd)
     m_displayBoxCmd = nullptr;
     m_boxCmd = boxCmd;
     if (!boxCmd) return;
+    m_nameManuallyEdited = false;
+    ui->lineEdit_name->blockSignals(true);
     ui->lineEdit_name->setText(boxCmd->getDataObjectName());
+    ui->lineEdit_name->blockSignals(false);
     double p[3], len[3];
     boxCmd->getPoint1(p);
     boxCmd->getLength(len);
@@ -53,7 +57,10 @@ void FCCubeInfoWidget::setDAGNode(FC::FCGeometryDAGData* dagData, int nodeId, FC
     m_displayBoxCmd = displayBoxCmd;
     if (!dagData || nodeId < 0) return;
     FC::FCGeoNode node = dagData->module()->tree()->node(nodeId);
+    m_nameManuallyEdited = false;
+    ui->lineEdit_name->blockSignals(true);
     ui->lineEdit_name->setText(node.name.isEmpty() ? QStringLiteral("Box_%1").arg(nodeId) : node.name);
+    ui->lineEdit_name->blockSignals(false);
     QVariant len = node.params.value(QStringLiteral("length"));
     QVariant w   = node.params.value(QStringLiteral("width"));
     QVariant h   = node.params.value(QStringLiteral("height"));
@@ -77,13 +84,18 @@ void FCCubeInfoWidget::onBuildClicked()
         params[QStringLiteral("length")] = len[0];
         params[QStringLiteral("width")]  = len[1];
         params[QStringLiteral("height")] = len[2];
-        QString newName = ui->lineEdit_name->text().trimmed();
-        if (!newName.isEmpty()) {
-            FC::FCGeometryTree* tree = m_dagData->module()->tree();
-            FC::FCGeoNode node = tree->node(m_nodeId);
-            node.name = tree->checkName(newName);
-            tree->setNode(m_nodeId, node);
-            ui->lineEdit_name->setText(node.name);
+        FC::FCGeometryTree* tree = m_dagData->module()->tree();
+        FC::FCGeoNode node = tree->node(m_nodeId);
+        if (m_nameManuallyEdited) {
+            QString newName = ui->lineEdit_name->text().trimmed();
+            if (!newName.isEmpty()) {
+                node.name = tree->checkName(newName);
+                tree->setNode(m_nodeId, node);
+                ui->lineEdit_name->blockSignals(true);
+                ui->lineEdit_name->setText(node.name);
+                ui->lineEdit_name->blockSignals(false);
+                m_nameManuallyEdited = false;
+            }
         }
         m_dagData->module()->updateNode(m_nodeId, params);
         m_dagData->ensureBuild();
@@ -115,9 +127,11 @@ void FCCubeInfoWidget::onBuildClicked()
         ui->lineEdit_length2->text().toDouble(&ok),
         ui->lineEdit_length3->text().toDouble(&ok)
     };
-    QString newName = ui->lineEdit_name->text().trimmed();
-    if (!newName.isEmpty())
-        m_boxCmd->setDataObjectName(newName);
+    if (m_nameManuallyEdited) {
+        QString newName = ui->lineEdit_name->text().trimmed();
+        if (!newName.isEmpty())
+            m_boxCmd->setDataObjectName(newName);
+    }
     m_boxCmd->setPoint1(p);
     m_boxCmd->setLength(len);
     if (!m_boxCmd->update()) {
