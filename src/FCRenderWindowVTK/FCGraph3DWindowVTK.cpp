@@ -86,7 +86,13 @@ FCGraph3DWindowVTK::FCGraph3DWindowVTK(FCGraph3DWindowInitializer* ini)
     mRenderToolBar = new QToolBar(mToolbarRowWidget);
     mRenderToolBar->setContentsMargins(0, 0, 0, 0);
     mRenderToolBar->setIconSize(QSize(20, 20));
-    mRenderToolBar->setStyleSheet("QToolBar { border: none; background: transparent; }");
+    mRenderToolBar->setStyleSheet(
+        "QToolBar { border: none; background: transparent; }\n"
+        "QToolButton { background: transparent; border: none; border-radius: 3px; }\n"
+        "QToolButton:hover { background-color: rgba(0, 0, 0, 8%); }\n"
+        "QToolButton:pressed { background-color: rgba(0, 0, 0, 15%); }\n"
+        "QToolButton:checked { background-color: rgba(0, 0, 0, 12%); }\n"
+    );
     mRenderIconToolBar = new QToolBar(mToolbarRowWidget);
     mRenderIconToolBar->setContentsMargins(0, 0, 0, 0);
     mRenderIconToolBar->setStyleSheet("QToolBar { border: none; background: transparent; }");
@@ -617,10 +623,7 @@ void FCGraph3DWindowVTK::addActionsToolBar(QList<QAction*> actions, QAction* bef
     for (QToolButton* b : buttons)
     {
         if (b)
-        {
-            b->setStyleSheet("background: transparent;");
-            b->setToolTipDuration(1);
-        }
+            b->setToolTipDuration(-1);  // 悬停提示由 QAction::toolTip 提供，-1 表示使用系统默认延迟
     }
 }
 
