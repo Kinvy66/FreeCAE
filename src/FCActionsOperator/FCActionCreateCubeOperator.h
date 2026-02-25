@@ -22,9 +22,9 @@ public:
 
 private:
     /** 本次 execProfession 创建的 DAG 节点 ID（COMSOL 式） */
-    int _currentNodeId{ -1 };
+    int mCurrentNodeId{ -1 };
     /** 兼容旧版：Box 命令（当前以 DAG 为主，此项多为 nullptr） */
-    FCGeoModelBox* _currentBoxCmd{ nullptr };
+    FCGeoModelBox* mCurrentBoxCmd{ nullptr };
 };
 
 } // namespace FC

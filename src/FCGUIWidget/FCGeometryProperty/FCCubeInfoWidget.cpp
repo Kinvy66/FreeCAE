@@ -20,7 +20,7 @@ FCCubeInfoWidget::FCCubeInfoWidget(QWidget *parent)
     , ui(new Ui::FCCubeInfoWidget)
 {
     ui->setupUi(this);
-    connect(ui->lineEdit_name, &QLineEdit::textChanged, this, [this]() { m_nameManuallyEdited = true; });
+    connect(ui->lineEdit_name, &QLineEdit::textChanged, this, [this]() { mNameManuallyEdited = true; });
     // COMSOL 式：失焦或回车时立即写回内存，无需保存按钮
     auto syncOnEditFinished = [this]() { syncValuesToModel(); };
     connect(ui->lineEdit_name,    &QLineEdit::editingFinished, this, syncOnEditFinished);
@@ -34,27 +34,27 @@ FCCubeInfoWidget::FCCubeInfoWidget(QWidget *parent)
 
 FCCubeInfoWidget::~FCCubeInfoWidget()
 {
-    if (m_ownDisplayBoxCmd && m_displayBoxCmd) {
-        delete m_displayBoxCmd;
-        m_displayBoxCmd = nullptr;
+    if (mOwnDisplayBoxCmd && mDisplayBoxCmd) {
+        delete mDisplayBoxCmd;
+        mDisplayBoxCmd = nullptr;
     }
     delete ui;
 }
 
 void FCCubeInfoWidget::setBoxCommand(FCGeoModelBox* boxCmd)
 {
-    m_dagData = nullptr;
-    m_nodeId = -1;
-    if (m_ownDisplayBoxCmd && m_displayBoxCmd) {
-        delete m_displayBoxCmd;
-        m_displayBoxCmd = nullptr;
-        m_ownDisplayBoxCmd = false;
+    mDagData = nullptr;
+    mNodeId = -1;
+    if (mOwnDisplayBoxCmd && mDisplayBoxCmd) {
+        delete mDisplayBoxCmd;
+        mDisplayBoxCmd = nullptr;
+        mOwnDisplayBoxCmd = false;
     } else {
-        m_displayBoxCmd = nullptr;
+        mDisplayBoxCmd = nullptr;
     }
-    m_boxCmd = boxCmd;
+    mBoxCmd = boxCmd;
     if (!boxCmd) return;
-    m_nameManuallyEdited = false;
+    mNameManuallyEdited = false;
     ui->lineEdit_name->blockSignals(true);
     ui->lineEdit_name->setText(boxCmd->getDataObjectName());
     ui->lineEdit_name->blockSignals(false);
@@ -71,23 +71,23 @@ void FCCubeInfoWidget::setBoxCommand(FCGeoModelBox* boxCmd)
 
 void FCCubeInfoWidget::setDAGNode(FCGeometryDAGData* dagData, int nodeId, FCGeoModelBox* displayBoxCmd)
 {
-    m_boxCmd = nullptr;
-    m_dagData = dagData;
-    m_nodeId = nodeId;
-    if (m_ownDisplayBoxCmd && m_displayBoxCmd) {
-        delete m_displayBoxCmd;
-        m_displayBoxCmd = nullptr;
-        m_ownDisplayBoxCmd = false;
+    mBoxCmd = nullptr;
+    mDagData = dagData;
+    mNodeId = nodeId;
+    if (mOwnDisplayBoxCmd && mDisplayBoxCmd) {
+        delete mDisplayBoxCmd;
+        mDisplayBoxCmd = nullptr;
+        mOwnDisplayBoxCmd = false;
     }
     if (displayBoxCmd) {
-        m_displayBoxCmd = displayBoxCmd;
-        m_ownDisplayBoxCmd = false;
+        mDisplayBoxCmd = displayBoxCmd;
+        mOwnDisplayBoxCmd = false;
     } else {
-        m_displayBoxCmd = nullptr;
+        mDisplayBoxCmd = nullptr;
     }
     if (!dagData || nodeId < 0) return;
     FCGeoNode node = dagData->module()->tree()->node(nodeId);
-    m_nameManuallyEdited = false;
+    mNameManuallyEdited = false;
     ui->lineEdit_name->blockSignals(true);
     ui->lineEdit_name->setText(node.name.isEmpty() ? QStringLiteral("Box_%1").arg(nodeId) : node.name);
     ui->lineEdit_name->blockSignals(false);
@@ -104,7 +104,7 @@ void FCCubeInfoWidget::setDAGNode(FCGeometryDAGData* dagData, int nodeId, FCGeoM
     ui->lineEdit_length2->setText(QString::number(l1));
     ui->lineEdit_length3->setText(QString::number(l2));
     // 从树选中时未传入 displayBoxCmd，创建用于 VTK 显示的 Box 命令，供「构建」时 emit
-    if (!m_displayBoxCmd) {
+    if (!mDisplayBoxCmd) {
         FCGeoInterfaceFactory* factory = FCGeoInterfaceFactory::instance();
         if (factory) {
             FCGeoModelBox* boxCmd = factory->createCommandT<FCGeoModelBox>(FCGeoEnum::FGTBox);
@@ -114,8 +114,8 @@ void FCCubeInfoWidget::setDAGNode(FCGeometryDAGData* dagData, int nodeId, FCGeoM
                 boxCmd->setPoint1(p);
                 boxCmd->setLength(length);
                 if (boxCmd->update()) {
-                    m_displayBoxCmd = boxCmd;
-                    m_ownDisplayBoxCmd = true;
+                    mDisplayBoxCmd = boxCmd;
+                    mOwnDisplayBoxCmd = true;
                 } else {
                     delete boxCmd;
                 }
@@ -126,7 +126,7 @@ void FCCubeInfoWidget::setDAGNode(FCGeometryDAGData* dagData, int nodeId, FCGeoM
 
 void FCCubeInfoWidget::syncValuesToModel()
 {
-    if (m_dagData && m_nodeId >= 0) {
+    if (mDagData && mNodeId >= 0) {
         double len[3] = {
             ui->lineEdit_length1->text().toDouble(),
             ui->lineEdit_length2->text().toDouble(),
@@ -136,33 +136,33 @@ void FCCubeInfoWidget::syncValuesToModel()
         params[QStringLiteral("length")] = len[0];
         params[QStringLiteral("width")]  = len[1];
         params[QStringLiteral("height")] = len[2];
-        FCGeometryTree* tree = m_dagData->module()->tree();
-        FCGeoNode node = tree->node(m_nodeId);
-        if (m_nameManuallyEdited) {
+        FCGeometryTree* tree = mDagData->module()->tree();
+        FCGeoNode node = tree->node(mNodeId);
+        if (mNameManuallyEdited) {
             QString newName = ui->lineEdit_name->text().trimmed();
             if (!newName.isEmpty()) {
                 node.name = tree->checkName(newName);
-                tree->setNode(m_nodeId, node);
+                tree->setNode(mNodeId, node);
                 ui->lineEdit_name->blockSignals(true);
                 ui->lineEdit_name->setText(node.name);
                 ui->lineEdit_name->blockSignals(false);
-                m_nameManuallyEdited = false;
-                m_dagData->setDirty(true);
+                mNameManuallyEdited = false;
+                mDagData->setDirty(true);
             }
         }
-        m_dagData->module()->updateNode(m_nodeId, params);
-        m_dagData->setDirty(true);
-        m_dagData->ensureBuild();
+        mDagData->module()->updateNode(mNodeId, params);
+        mDagData->setDirty(true);
+        mDagData->ensureBuild();
         rebuildGeometryEntityModel();
-        if (m_displayBoxCmd) {
+        if (mDisplayBoxCmd) {
             double p[3] = { 0.0, 0.0, 0.0 };
-            m_displayBoxCmd->setPoint1(p);
-            m_displayBoxCmd->setLength(len);
-            m_displayBoxCmd->update();
+            mDisplayBoxCmd->setPoint1(p);
+            mDisplayBoxCmd->setLength(len);
+            mDisplayBoxCmd->update();
         }
         return;
     }
-    if (!m_boxCmd) return;
+    if (!mBoxCmd) return;
     bool ok = false;
     double p[3] = {
         ui->lineEdit_pointX->text().toDouble(&ok),
@@ -174,22 +174,22 @@ void FCCubeInfoWidget::syncValuesToModel()
         ui->lineEdit_length2->text().toDouble(&ok),
         ui->lineEdit_length3->text().toDouble(&ok)
     };
-    if (m_nameManuallyEdited) {
+    if (mNameManuallyEdited) {
         QString newName = ui->lineEdit_name->text().trimmed();
         if (!newName.isEmpty()) {
-            m_boxCmd->setDataObjectName(newName);
-            m_nameManuallyEdited = false;
+            mBoxCmd->setDataObjectName(newName);
+            mNameManuallyEdited = false;
         }
     }
-    m_boxCmd->setPoint1(p);
-    m_boxCmd->setLength(len);
-    m_boxCmd->update();
+    mBoxCmd->setPoint1(p);
+    mBoxCmd->setLength(len);
+    mBoxCmd->update();
     rebuildGeometryEntityModel();
 }
 
 void FCCubeInfoWidget::executeBuild()
 {
-    if (m_dagData && m_nodeId >= 0) {
+    if (mDagData && mNodeId >= 0) {
         double len[3] = {
             ui->lineEdit_length1->text().toDouble(),
             ui->lineEdit_length2->text().toDouble(),
@@ -199,37 +199,37 @@ void FCCubeInfoWidget::executeBuild()
         params[QStringLiteral("length")] = len[0];
         params[QStringLiteral("width")]  = len[1];
         params[QStringLiteral("height")] = len[2];
-        FCGeometryTree* tree = m_dagData->module()->tree();
-        FCGeoNode node = tree->node(m_nodeId);
-        if (m_nameManuallyEdited) {
+        FCGeometryTree* tree = mDagData->module()->tree();
+        FCGeoNode node = tree->node(mNodeId);
+        if (mNameManuallyEdited) {
             QString newName = ui->lineEdit_name->text().trimmed();
             if (!newName.isEmpty()) {
                 node.name = tree->checkName(newName);
-                tree->setNode(m_nodeId, node);
+                tree->setNode(mNodeId, node);
                 ui->lineEdit_name->blockSignals(true);
                 ui->lineEdit_name->setText(node.name);
                 ui->lineEdit_name->blockSignals(false);
-                m_nameManuallyEdited = false;
-                m_dagData->setDirty(true);
+                mNameManuallyEdited = false;
+                mDagData->setDirty(true);
             }
         }
-        m_dagData->module()->updateNode(m_nodeId, params);
-        m_dagData->setDirty(true);
-        m_dagData->ensureBuild();
+        mDagData->module()->updateNode(mNodeId, params);
+        mDagData->setDirty(true);
+        mDagData->ensureBuild();
         rebuildGeometryEntityModel();
         // 用显示用 Box 命令驱动 VTK 显示（DAG 执行器未接入时仍能显示）
-        if (m_displayBoxCmd) {
+        if (mDisplayBoxCmd) {
             double p[3] = { 0.0, 0.0, 0.0 };
-            m_displayBoxCmd->setPoint1(p);
-            m_displayBoxCmd->setLength(len);
-            if (m_displayBoxCmd->update())
-                emit geometryBuilt(m_displayBoxCmd);
+            mDisplayBoxCmd->setPoint1(p);
+            mDisplayBoxCmd->setLength(len);
+            if (mDisplayBoxCmd->update())
+                emit geometryBuilt(mDisplayBoxCmd);
         } else {
             emit geometryBuilt(nullptr);
         }
         return;
     }
-    if (!m_boxCmd) {
+    if (!mBoxCmd) {
         qWarning() << "FCCubeInfoWidget: no box command or DAG node to build";
         return;
     }
@@ -244,25 +244,25 @@ void FCCubeInfoWidget::executeBuild()
         ui->lineEdit_length2->text().toDouble(&ok),
         ui->lineEdit_length3->text().toDouble(&ok)
     };
-    if (m_nameManuallyEdited) {
+    if (mNameManuallyEdited) {
         QString newName = ui->lineEdit_name->text().trimmed();
         if (!newName.isEmpty())
-            m_boxCmd->setDataObjectName(newName);
+            mBoxCmd->setDataObjectName(newName);
     }
-    m_boxCmd->setPoint1(p);
-    m_boxCmd->setLength(len);
-    if (!m_boxCmd->update()) {
+    mBoxCmd->setPoint1(p);
+    mBoxCmd->setLength(len);
+    if (!mBoxCmd->update()) {
         qWarning() << "FCCubeInfoWidget: boxCmd->update() failed";
         return;
     }
     rebuildGeometryEntityModel();
-    emit geometryBuilt(m_boxCmd);
+    emit geometryBuilt(mBoxCmd);
 }
 
 void FCCubeInfoWidget::executeBuildAll()
 {
     FCGlobalData* globalData = FCGlobalData::getGlobalData();
-    FCGeometryDAGData* dagData = globalData ? globalData->getData<FCGeometryDAGData>(GDTGeom) : m_dagData;
+    FCGeometryDAGData* dagData = globalData ? globalData->getData<FCGeometryDAGData>(GDTGeom) : mDagData;
     if (!dagData) return;
     dagData->ensureBuild();
     rebuildGeometryEntityModel();
@@ -275,7 +275,7 @@ void FCCubeInfoWidget::rebuildGeometryEntityModel()
     if (!globalData) return;
     FCGeometryEntityModel* entityModel = globalData->getData<FCGeometryEntityModel>(GDTGeomEntity);
     if (!entityModel) return;
-    FCGeometryDAGData* dagData = m_dagData ? m_dagData : globalData->getData<FCGeometryDAGData>(GDTGeom);
+    FCGeometryDAGData* dagData = mDagData ? mDagData : globalData->getData<FCGeometryDAGData>(GDTGeom);
     if (!dagData) return;
     dagData->ensureBuild();
     FCGeometryEntityBuilder builder;

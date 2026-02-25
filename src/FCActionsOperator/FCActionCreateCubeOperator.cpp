@@ -31,7 +31,7 @@ bool FCActionCreateCubeOperator::execGUI()
 {
     FCDockingAreaInterface* docking = dockingArea();
     if (!docking) return true;
-    if (_currentNodeId < 0 && !_currentBoxCmd) return true;
+    if (mCurrentNodeId < 0 && !mCurrentBoxCmd) return true;
 
     FCPropertyWidget* propWidget = docking->getSettingParametersWidget();
     if (!propWidget) return true;
@@ -43,7 +43,7 @@ bool FCActionCreateCubeOperator::execGUI()
         treeOper->updateTree();
     }
     // 展开几何节点并选中新建的节点（DAG 节点 ID 或旧版命令 ID）
-    int selectId = _currentNodeId >= 0 ? _currentNodeId : (_currentBoxCmd ? _currentBoxCmd->getDataObjectID() : -1);
+    int selectId = mCurrentNodeId >= 0 ? mCurrentNodeId : (mCurrentBoxCmd ? mCurrentBoxCmd->getDataObjectID() : -1);
     if (selectId >= 0 && docking) {
         FCMainTreeWidget* modelWidget = docking->getModelBuilderWidget();
         FCProjectTreeWidget* treeWidget = modelWidget ? modelWidget->getTreeWidget() : nullptr;
@@ -64,11 +64,11 @@ bool FCActionCreateCubeOperator::execGUI()
     // 2. 绑定 DAG 节点（及用于 VTK 显示的 Box 命令）或旧版 box 命令到 UI
     if (FC::FCGlobalData* g = FC::FCGlobalData::getGlobalData()) {
         if (FC::FCGeometryDAGData* dagData = g->getGeometryData<FC::FCGeometryDAGData>()) {
-            cubeWidget->setDAGNode(dagData, _currentNodeId, _currentBoxCmd);
+            cubeWidget->setDAGNode(dagData, mCurrentNodeId, mCurrentBoxCmd);
         }
     }
-    if (_currentNodeId < 0 && _currentBoxCmd)
-        cubeWidget->setBoxCommand(_currentBoxCmd);
+    if (mCurrentNodeId < 0 && mCurrentBoxCmd)
+        cubeWidget->setBoxCommand(mCurrentBoxCmd);
 
     FCGraphPreprocessOperator* graphOper = FCOPERATORREPO->getOperatorT<FCGraphPreprocessOperator>("GraphPreprocessEvent");
     if (graphOper) {
@@ -93,8 +93,8 @@ bool FCActionCreateCubeOperator::execGUI()
 
 bool FCActionCreateCubeOperator::execProfession()
 {
-    _currentBoxCmd = nullptr;
-    _currentNodeId = -1;
+    mCurrentBoxCmd = nullptr;
+    mCurrentNodeId = -1;
 
     FC::FCGlobalData* globalData = FC::FCGlobalData::getGlobalData();
     if (!globalData) {
@@ -112,9 +112,8 @@ bool FCActionCreateCubeOperator::execProfession()
     params[QStringLiteral("width")]  = 100.0;
     params[QStringLiteral("height")] = 100.0;
     QString name = QStringLiteral("Box_1");
-    _currentNodeId = dagData->module()->addBlock(params, name);
+    mCurrentNodeId = dagData->module()->addBlock(params, name);
     dagData->setDirty(true);
-    dagData->ensureBuild();
 
     // 创建用于 VTK 显示的 Box 命令（不加入命令列表），点击「构建」时用其驱动 3D 显示
     FC::FCGeoInterfaceFactory* factory = FC::FCGeoInterfaceFactory::instance();
@@ -126,7 +125,7 @@ bool FCActionCreateCubeOperator::execProfession()
             boxCmd->setPoint1(point1);
             boxCmd->setLength(length);
             if (boxCmd->update())
-                _currentBoxCmd = boxCmd;
+                mCurrentBoxCmd = boxCmd;
             else
                 delete boxCmd;
         }
