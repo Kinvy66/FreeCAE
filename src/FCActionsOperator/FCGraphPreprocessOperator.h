@@ -11,10 +11,13 @@
 
 #include "FCActionsOperatorAPI.h"
 #include "FCGraphEventOperator.h"
+#include <QList>
 
-namespace FC 
+namespace FC
 {
 class FCGraph3DWindowVTK;
+class FCAbsGeoCommand;
+class FCDockingAreaInterface;
 class FCACTIONSOPERATOR_API FCGraphPreprocessOperator : public FCGraphEventOperator
 {
     Q_OBJECT
@@ -102,10 +105,19 @@ public:
      * @param   fitView：是否重置相机
      */
     void reRender(bool fitView = false) override;
-    
+
+    /** 无 UI 注入时可由调用方直接设置 Docking（如 FCGeometryPropertyConnector） */
+    void setDockingArea(FCDockingAreaInterface* docking) { m_docking = docking; }
+
+public slots:
+    /** 几何体构建后刷新 VTK（单命令） */
+    void onGeometryBuilt(FCAbsGeoCommand* cmd);
+    /** 几何序列全部构建后刷新 VTK */
+    void onGeometrySequenceBuilt(const QList<FCAbsGeoCommand*>& cmds);
+
 private:
     FCGraph3DWindowVTK* getGraphWidget();
-        
+    FCDockingAreaInterface* m_docking{ nullptr };
 };
 } // namespace FC
 

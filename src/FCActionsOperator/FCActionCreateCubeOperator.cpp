@@ -10,17 +10,15 @@
 #include <FCData/FCGlobalData.h>
 #include <FCData/FCAbstractDataObject.h>
 #include <FCPropertyWidget.h>
+#include <FCGeometryBuildBar.h>
 #include <FCCubeInfoWidget.h>
-#include <FCRenderWidget.h>
-#include <FCGraph3DWindowVTK.h>
-#include <FCVTKGraphAdaptor/FCVTKViewAdaptorModelCmd.h>
-#include <FCVTKGraphAdaptor/FCVTKGraphObject3D.h>
-#include <FCRenderWindowVTK/FCGraphRender.h>
-#include <FCRenderWindowVTK/FCGraphObjManager.h>
-#include <FCRenderWindowVTK/FCGraphObjectVTK.h>
+#include <QVBoxLayout>
 #include <QDebug>
 #include "FCOperatorRepo.h"
 #include "FCProjectTreeEventOperator.h"
+#include "FCGraphPreprocessOperator.h"
+#include "FCBuildGeometryOperator.h"
+#include "FCBuildAllGeometryOperator.h"
 
 namespace FC
 {
@@ -53,9 +51,15 @@ bool FCActionCreateCubeOperator::execGUI()
             treeWidget->expandGeometryAndSelectCommand(selectId);
     }
 
-    // 1. 创建 FCCubeInfoWidget 并放入 FCPropertyWidget（参数设置 Dock）内
+    // 1. 选中几何体节点时：组合「构建栏 + 几何属性」再放入属性窗口（仅几何体显示构建栏）
+    FCGeometryBuildBar* buildBar = new FCGeometryBuildBar(propWidget);
     FCCubeInfoWidget* cubeWidget = new FCCubeInfoWidget(propWidget);
-    propWidget->setContentWidget(cubeWidget);
+    QWidget* container = new QWidget(propWidget);
+    QVBoxLayout* containerLayout = new QVBoxLayout(container);
+    containerLayout->setContentsMargins(0, 0, 0, 0);
+    containerLayout->addWidget(buildBar);
+    containerLayout->addWidget(cubeWidget, 1);
+    propWidget->setContentWidget(container);
 
     // 2. 绑定 DAG 节点（及用于 VTK 显示的 Box 命令）或旧版 box 命令到 UI
     if (FC::FCGlobalData* g = FC::FCGlobalData::getGlobalData()) {
@@ -66,64 +70,25 @@ bool FCActionCreateCubeOperator::execGUI()
     if (_currentNodeId < 0 && _currentBoxCmd)
         cubeWidget->setBoxCommand(_currentBoxCmd);
 
-    connect(cubeWidget, &FCCubeInfoWidget::geometryBuilt, this, &FCActionCreateCubeOperator::onGeometryBuilt);
-    connect(cubeWidget, &FCCubeInfoWidget::geometrySequenceBuilt, this, &FCActionCreateCubeOperator::onGeometrySequenceBuilt);
+    FCGraphPreprocessOperator* graphOper = FCOPERATORREPO->getOperatorT<FCGraphPreprocessOperator>("GraphPreprocessEvent");
+    if (graphOper) {
+        graphOper->setUIInterface(uiInterface());
+        connect(cubeWidget, &FCCubeInfoWidget::geometryBuilt, graphOper, &FCGraphPreprocessOperator::onGeometryBuilt);
+        connect(cubeWidget, &FCCubeInfoWidget::geometrySequenceBuilt, graphOper, &FCGraphPreprocessOperator::onGeometrySequenceBuilt);
+    }
+    FCBuildGeometryOperator* buildOper = FCOPERATORREPO->getOperatorT<FCBuildGeometryOperator>("BuildGeometry");
+    FCBuildAllGeometryOperator* buildAllOper = FCOPERATORREPO->getOperatorT<FCBuildAllGeometryOperator>("BuildAllGeometry");
+    if (buildOper) {
+        buildOper->setUIInterface(uiInterface());
+        connect(buildBar, &FCGeometryBuildBar::buildClicked, this, [buildOper]() { buildOper->actionTriggered(); });
+    }
+    if (buildAllOper) {
+        buildAllOper->setUIInterface(uiInterface());
+        connect(buildBar, &FCGeometryBuildBar::buildAllClicked, this, [buildAllOper]() { buildAllOper->actionTriggered(); });
+    }
 
     docking->raiseDockingArea(FCDockingAreaInterface::DockingAreaSetting);
     return true;
-}
-
-void FCActionCreateCubeOperator::onGeometryBuilt(FC::FCAbsGeoCommand* cmd)
-{
-    if (!cmd) return;  // DAG 路径不发射 cmd，由 ensureBuild + 实体模型刷新处理
-    FCDockingAreaInterface* docking = dockingArea();
-    if (!docking) return;
-    FCRenderWidget* rw = docking->getGraphicOperateWidget();
-    if (!rw) return;
-    FCGraph3DWindowVTK* graphWin = rw->getGraph3DWindow();
-    if (!graphWin) return;
-
-    FCVTKViewAdaptorModelCmd adaptor;
-    adaptor.setDataObject(static_cast<FC::FCAbstractDataObject*>(cmd));
-    if (!adaptor.update()) return;
-    FCVTKGraphObject3D* graphObj = adaptor.getOutputData();
-    if (!graphObj || graphObj->getActorCount() == 0) return;
-    graphWin->addObject(0, graphObj, true);
-    graphWin->reRender();
-}
-
-void FCActionCreateCubeOperator::onGeometrySequenceBuilt(const QList<FC::FCAbsGeoCommand*>& cmds)
-{
-    FCDockingAreaInterface* docking = dockingArea();
-    if (!docking) return;
-    FCRenderWidget* rw = docking->getGraphicOperateWidget();
-    if (!rw) return;
-    FCGraph3DWindowVTK* graphWin = rw->getGraph3DWindow();
-    if (!graphWin) return;
-
-    FCGraphRender* render0 = graphWin->getRenderer(0);
-    if (render0) {
-        FCGraphObjManager* mgr = render0->getGraphObjManager();
-        if (mgr) {
-            int n = mgr->getGraphObjCount();
-            for (int i = n - 1; i >= 0; --i) {
-                FCGraphObjectVTK* obj = mgr->getGraphObjAt(i);
-                render0->removeObject(obj);
-            }
-        }
-    }
-    for (FC::FCAbsGeoCommand* cmd : cmds) {
-        if (!cmd) continue;
-        FCVTKViewAdaptorModelCmd adaptor;
-        adaptor.setDataObject(static_cast<FC::FCAbstractDataObject*>(cmd));
-        if (!adaptor.update()) continue;
-        FCVTKGraphObject3D* graphObj = adaptor.getOutputData();
-        if (graphObj && graphObj->getActorCount() > 0)
-            graphWin->addObject(0, graphObj, false);
-    }
-    if (!cmds.isEmpty())
-        graphWin->fitView();
-    graphWin->reRender();
 }
 
 bool FCActionCreateCubeOperator::execProfession()

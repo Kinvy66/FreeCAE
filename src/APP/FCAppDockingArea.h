@@ -107,9 +107,9 @@ private:
     // void buildChartAboutWidgets();
     // void buildDataAboutWidgets();
     // void buildOtherWidgets();
-    // 初始化信号槽
+    // 初始化信号槽（仅布局相关，领域逻辑由 FCGeometryPropertyConnector 等负责）
     void initConnection();
-    
+
 private:
     AppMainWindow* mApp;
     FCAppCommand* mAppCmd;  ///< cmd

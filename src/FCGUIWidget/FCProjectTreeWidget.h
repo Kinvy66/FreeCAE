@@ -81,7 +81,11 @@ public:
      * @brief 删除当前选中的实体节点
      */
     void deleteEntityItem();
-    
+
+signals:
+    /** 当前选中项为几何实体节点时发射，nodeId 为 DAG 节点 ID（data(1,0)） */
+    void geometryNodeSelected(int nodeId);
+
 private slots:
     /**
      * @brief 鼠标右键点击事件
@@ -108,7 +112,9 @@ private slots:
      * @brief 树节点图标按钮点击事件
      */
     void soltIconButtonClicked();
-    
+    /** 选择变化时检查是否为几何实体节点并发射 geometryNodeSelected */
+    void onSelectionChanged();
+
 public:
     /**
      * @brief 更新全局定义子节点（与 FCProjectTree 一致：参数1、变量1、函数1）

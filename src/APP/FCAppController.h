@@ -41,6 +41,7 @@ class FCAppActions;
 class FCAppDataManager;
 class FCActionEventHandler;
 class FCGlobalDataFactory;
+class FCGeometryPropertyConnector;
 
 class FCAppController : public QObject
 {
@@ -128,7 +129,9 @@ private:
     FCGlobalDataFactory* mDataFactory { nullptr };
     
     FCActionEventHandler* mActionHandler;
-    
+
+    QScopedPointer<FCGeometryPropertyConnector> m_geometryPropertyConnector;
+
     QStringList mFileReadFilters;  ///< 包含支持的文件[Images (*.png *.xpm *.jpg)] [Text files (*.txt)]
     //
     LastFocusedOpertateWidgets mLastFocusedOpertateWidget;  ///< 最后获取焦点的操作窗口

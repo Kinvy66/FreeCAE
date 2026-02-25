@@ -91,7 +91,7 @@ void FCAppActions::buildGeometryAction()
     actionInsertSequenen->setText(tr("插入序列"));
     
     // 2. create geometry panel
-    actionCreateCube = createAction("actionCreateCUbe", ":/icon/icon/geometry/cube.png");              ///< 立方体
+    actionCreateCube = createAction("actionCreateCube", ":/icon/icon/geometry/cube.png");              ///< 立方体
     actionCreateCube->setText(tr("立方体"));
     actionCreateCone = createAction("actionCreateCone", ":/icon/icon/geometry/cone.png");              ///< 圆锥体
     actionCreateCone->setText(tr("圆锥体"));

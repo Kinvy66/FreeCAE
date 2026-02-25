@@ -23,12 +23,11 @@
 // #include "FCAppDataManager.h"
 
 // docking ui
-// #include "FCProjectTreeWidget.h"
-#include "FCRenderWidget.h"
 #include "FCPropertyWidget.h"
+#include "FCMainTreeWidget.h"
+#include "FCRenderWidget.h"
 #include "FCMessageLogWidget.h"
 #include "FCProgressWidget.h"
-#include "FCMainTreeWidget.h"
 
 
 //===================================================
@@ -180,6 +179,11 @@ void FCAppDockingArea::buildDockingArea()
     
     savePerspectives();
     resetText();
+    initConnection();
+}
+
+void FCAppDockingArea::initConnection()
+{
 }
 
 /**
@@ -221,10 +225,6 @@ void FCAppDockingArea::buildMessageLogViewWidget()
     mProgressWidget->setObjectName("fc_progressWidgettDock");
 }
 
-void FCAppDockingArea::initConnection()
-{
-    
-}
 
 /**
 	 * @brief 模型构建dock

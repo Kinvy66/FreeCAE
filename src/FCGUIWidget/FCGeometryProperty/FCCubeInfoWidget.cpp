@@ -9,16 +9,15 @@
 #include <FCGeometryEntity/FCGeoNode.h>
 #include <FCData/FCGlobalData.h>
 #include <QLineEdit>
-#include <QPushButton>
 #include <QDebug>
+
+namespace FC {
 
 FCCubeInfoWidget::FCCubeInfoWidget(QWidget *parent)
     : QWidget(parent)
     , ui(new Ui::FCCubeInfoWidget)
 {
     ui->setupUi(this);
-    connect(ui->pushButton_build, &QPushButton::clicked, this, &FCCubeInfoWidget::onBuildClicked);
-    connect(ui->pushButton_buildAll, &QPushButton::clicked, this, &FCCubeInfoWidget::onBuildAllClicked);
     connect(ui->lineEdit_name, &QLineEdit::textChanged, this, [this]() { m_nameManuallyEdited = true; });
 }
 
@@ -27,7 +26,7 @@ FCCubeInfoWidget::~FCCubeInfoWidget()
     delete ui;
 }
 
-void FCCubeInfoWidget::setBoxCommand(FC::FCGeoModelBox* boxCmd)
+void FCCubeInfoWidget::setBoxCommand(FCGeoModelBox* boxCmd)
 {
     m_dagData = nullptr;
     m_nodeId = -1;
@@ -49,14 +48,14 @@ void FCCubeInfoWidget::setBoxCommand(FC::FCGeoModelBox* boxCmd)
     ui->lineEdit_length3->setText(QString::number(len[2]));
 }
 
-void FCCubeInfoWidget::setDAGNode(FC::FCGeometryDAGData* dagData, int nodeId, FC::FCGeoModelBox* displayBoxCmd)
+void FCCubeInfoWidget::setDAGNode(FCGeometryDAGData* dagData, int nodeId, FCGeoModelBox* displayBoxCmd)
 {
     m_boxCmd = nullptr;
     m_dagData = dagData;
     m_nodeId = nodeId;
     m_displayBoxCmd = displayBoxCmd;
     if (!dagData || nodeId < 0) return;
-    FC::FCGeoNode node = dagData->module()->tree()->node(nodeId);
+    FCGeoNode node = dagData->module()->tree()->node(nodeId);
     m_nameManuallyEdited = false;
     ui->lineEdit_name->blockSignals(true);
     ui->lineEdit_name->setText(node.name.isEmpty() ? QStringLiteral("Box_%1").arg(nodeId) : node.name);
@@ -72,7 +71,7 @@ void FCCubeInfoWidget::setDAGNode(FC::FCGeometryDAGData* dagData, int nodeId, FC
     ui->lineEdit_length3->setText(h.isValid()   ? QString::number(h.toDouble())   : QStringLiteral("100"));
 }
 
-void FCCubeInfoWidget::onBuildClicked()
+void FCCubeInfoWidget::executeBuild()
 {
     if (m_dagData && m_nodeId >= 0) {
         double len[3] = {
@@ -80,12 +79,12 @@ void FCCubeInfoWidget::onBuildClicked()
             ui->lineEdit_length2->text().toDouble(),
             ui->lineEdit_length3->text().toDouble()
         };
-        FC::FCGeoParamSet params;
+        FCGeoParamSet params;
         params[QStringLiteral("length")] = len[0];
         params[QStringLiteral("width")]  = len[1];
         params[QStringLiteral("height")] = len[2];
-        FC::FCGeometryTree* tree = m_dagData->module()->tree();
-        FC::FCGeoNode node = tree->node(m_nodeId);
+        FCGeometryTree* tree = m_dagData->module()->tree();
+        FCGeoNode node = tree->node(m_nodeId);
         if (m_nameManuallyEdited) {
             QString newName = ui->lineEdit_name->text().trimmed();
             if (!newName.isEmpty()) {
@@ -142,26 +141,28 @@ void FCCubeInfoWidget::onBuildClicked()
     emit geometryBuilt(m_boxCmd);
 }
 
-void FCCubeInfoWidget::onBuildAllClicked()
+void FCCubeInfoWidget::executeBuildAll()
 {
-    FC::FCGlobalData* globalData = FC::FCGlobalData::getGlobalData();
-    FC::FCGeometryDAGData* dagData = globalData ? globalData->getData<FC::FCGeometryDAGData>(FC::GDTGeom) : m_dagData;
+    FCGlobalData* globalData = FCGlobalData::getGlobalData();
+    FCGeometryDAGData* dagData = globalData ? globalData->getData<FCGeometryDAGData>(GDTGeom) : m_dagData;
     if (!dagData) return;
     dagData->ensureBuild();
     rebuildGeometryEntityModel();
-    emit geometrySequenceBuilt(QList<FC::FCAbsGeoCommand*>());
+    emit geometrySequenceBuilt(QList<FCAbsGeoCommand*>());
 }
 
 void FCCubeInfoWidget::rebuildGeometryEntityModel()
 {
-    FC::FCGlobalData* globalData = FC::FCGlobalData::getGlobalData();
+    FCGlobalData* globalData = FCGlobalData::getGlobalData();
     if (!globalData) return;
-    FC::FCGeometryEntityModel* entityModel = globalData->getData<FC::FCGeometryEntityModel>(FC::GDTGeomEntity);
+    FCGeometryEntityModel* entityModel = globalData->getData<FCGeometryEntityModel>(GDTGeomEntity);
     if (!entityModel) return;
-    FC::FCGeometryDAGData* dagData = m_dagData ? m_dagData : globalData->getData<FC::FCGeometryDAGData>(FC::GDTGeom);
+    FCGeometryDAGData* dagData = m_dagData ? m_dagData : globalData->getData<FCGeometryDAGData>(GDTGeom);
     if (!dagData) return;
     dagData->ensureBuild();
-    FC::FCGeometryEntityBuilder builder;
+    FCGeometryEntityBuilder builder;
     if (!builder.rebuild(dagData->getGlobalGeoCompManager(), entityModel))
         qWarning() << "FCCubeInfoWidget: Failed to rebuild FCGeometryEntityModel from DAG";
 }
+
+} // namespace FC

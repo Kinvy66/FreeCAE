@@ -46,6 +46,9 @@
 #include "FCActionCreateCubeOperator.h"
 #include "FCProjectTreeEventOperator.h"
 #include "FCGraphPreprocessOperator.h"
+#include "FCGeometryPropertyConnector.h"
+#include "FCBuildGeometryOperator.h"
+#include "FCBuildAllGeometryOperator.h"
 
 #include <FCMeshGenGmsh/FCGmshMeshGenInterface.h>
 #include <FCMeshGenInterface/FCMeshGenInterface.h>
@@ -217,6 +220,11 @@ void FCAppController::initialize()
 
     initConnection();
     registeActionsOperator();
+
+    if (mDock) {
+        m_geometryPropertyConnector.reset(new FCGeometryPropertyConnector(this));
+        m_geometryPropertyConnector->setDockingArea(mDock);
+    }
 }
 
 /**
@@ -242,10 +250,11 @@ void FCAppController::initConnection()
 void FCAppController::registeActionsOperator()
 {
     FCOPERATORREPO;  // 确保操作器仓库已初始化
-    Register2FCOperatorRepo(actionCreateCUbe, FCActionCreateCubeOperator);
+    Register2FCOperatorRepo(actionCreateCube, FCActionCreateCubeOperator);
     Register2FCOperatorRepo(ProjectTreeEvent, FCProjectTreeEventOperator);
     Register2FCOperatorRepo(GraphPreprocessEvent, FCGraphPreprocessOperator);
-    
+    Register2FCOperatorRepo(BuildGeometry, FCBuildGeometryOperator);
+    Register2FCOperatorRepo(BuildAllGeometry, FCBuildAllGeometryOperator);
 }
 
 

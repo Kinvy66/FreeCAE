@@ -31,7 +31,8 @@ FCProjectTreeWidget::FCProjectTreeWidget(QWidget* parent)
     
     connect(this, SIGNAL(customContextMenuRequested(QPoint)),
             this, SLOT(onModelCustomContextMenu(QPoint)));
-    
+
+    connect(this, &QTreeWidget::itemSelectionChanged, this, &FCProjectTreeWidget::onSelectionChanged);
 
     setHeaderHidden(true);
     setColumnCount(1);
@@ -156,6 +157,20 @@ void FCProjectTreeWidget::onItemClicked(QTreeWidgetItem* item, int column)
     Q_UNUSED(item);
     Q_UNUSED(column);
     // 与 TreeWidget 一致：可与 FCTreeEventOperator / FCOperatorRepo 联动，后续接入
+    // 几何实体选中由 onSelectionChanged 统一处理并发射 geometryNodeSelected
+}
+
+void FCProjectTreeWidget::onSelectionChanged()
+{
+    QTreeWidgetItem* item = currentItem();
+    if (!item) return;
+    QVariant typeVar = item->data(2, 0);
+    if (!typeVar.isValid()) return;
+    if (typeVar.value<ProjectTreeEnum>() != ProjectTreeEnum::ProjectTree_GeometryEntity)
+        return;
+    int nodeId = item->data(1, 0).toInt();
+    if (nodeId >= 0)
+        emit geometryNodeSelected(nodeId);
 }
 
 void FCProjectTreeWidget::onDoubleClicked(QTreeWidgetItem* item, int column)
