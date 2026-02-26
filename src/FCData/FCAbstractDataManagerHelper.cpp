@@ -9,7 +9,7 @@
 namespace FC {
 
 FCAbstractDataManagerHelper::FCAbstractDataManagerHelper(QList<FCAbstractDataObject*>& list)
-    : _dataList(list)
+    : mDataList(list)
 {
 }
 
@@ -17,8 +17,8 @@ void FCAbstractDataManagerHelper::appendData(FCAbstractDataObject* item)
 {
     if (!item) return;
     if (isContains(item)) { delete item; return; }
-    _dataList.append(item);
-    item->setParentDataID(_parentDataID);
+    mDataList.append(item);
+    item->setParentDataID(mParentDataID);
     connectHelper(item);
 }
 
@@ -26,26 +26,26 @@ void FCAbstractDataManagerHelper::appendData(const QList<FCAbstractDataObject*>&
 {
     for (auto* item : objs) {
         if (!item || isContains(item)) continue;
-        _dataList.append(item);
-        item->setParentDataID(_parentDataID);
+        mDataList.append(item);
+        item->setParentDataID(mParentDataID);
         connectHelper(item);
     }
 }
 
 int FCAbstractDataManagerHelper::getDataCount() const
 {
-    return _dataList.size();
+    return mDataList.size();
 }
 
 bool FCAbstractDataManagerHelper::isContains(FCAbstractDataObject* obj) const
 {
-    return _dataList.contains(obj);
+    return mDataList.contains(obj);
 }
 
 void FCAbstractDataManagerHelper::clear()
 {
-    while (!_dataList.isEmpty()) {
-        FCAbstractDataObject* obj = _dataList.takeFirst();
+    while (!mDataList.isEmpty()) {
+        FCAbstractDataObject* obj = mDataList.takeFirst();
         if (obj) { disconnect(obj, nullptr, this, nullptr); delete obj; }
     }
 }
@@ -53,29 +53,29 @@ void FCAbstractDataManagerHelper::clear()
 void FCAbstractDataManagerHelper::insertDataObj(int index, FCAbstractDataObject* item)
 {
     if (!item) return;
-    if (index >= _dataList.size()) { appendData(item); return; }
+    if (index >= mDataList.size()) { appendData(item); return; }
     if (index < 0) index = 0;
-    _dataList.insert(index, item);
-    item->setParentDataID(_parentDataID);
+    mDataList.insert(index, item);
+    item->setParentDataID(mParentDataID);
     connectHelper(item);
 }
 
 FCAbstractDataObject* FCAbstractDataManagerHelper::getDataByIndex(int index)
 {
-    if (index < 0 || index >= _dataList.size()) return nullptr;
-    return _dataList.at(index);
+    if (index < 0 || index >= mDataList.size()) return nullptr;
+    return mDataList.at(index);
 }
 
 FCAbstractDataObject* FCAbstractDataManagerHelper::getDataByID(int id)
 {
-    for (auto* obj : _dataList)
+    for (auto* obj : mDataList)
         if (obj && obj->getDataObjectID() == id) return obj;
     return nullptr;
 }
 
 FCAbstractDataObject* FCAbstractDataManagerHelper::getDataByName(const QString& name, bool compSens)
 {
-    for (auto* obj : _dataList) {
+    for (auto* obj : mDataList) {
         auto* nobj = dynamic_cast<FCAbstractNamedDataObject*>(obj);
         if (!nobj) continue;
         if (compSens) { if (name == nobj->getDataObjectName()) return obj; }
@@ -87,7 +87,7 @@ FCAbstractDataObject* FCAbstractDataManagerHelper::getDataByName(const QString& 
 QList<FCAbstractDataObject*> FCAbstractDataManagerHelper::getDataListByName(const QString& name, bool compSens)
 {
     QList<FCAbstractDataObject*> out;
-    for (auto* obj : _dataList) {
+    for (auto* obj : mDataList) {
         auto* nobj = dynamic_cast<FCAbstractNamedDataObject*>(obj);
         if (!nobj) continue;
         if (compSens) { if (name == nobj->getDataObjectName()) out.append(obj); }
@@ -98,33 +98,33 @@ QList<FCAbstractDataObject*> FCAbstractDataManagerHelper::getDataListByName(cons
 
 int FCAbstractDataManagerHelper::getDataIndex(FCAbstractDataObject* obj) const
 {
-    return _dataList.indexOf(obj);
+    return mDataList.indexOf(obj);
 }
 
 void FCAbstractDataManagerHelper::removeDataObj(FCAbstractDataObject* obj)
 {
-    int i = _dataList.indexOf(obj);
-    if (i >= 0) { disconnect(obj, nullptr, this, nullptr); _dataList.removeAt(i); delete obj; }
+    int i = mDataList.indexOf(obj);
+    if (i >= 0) { disconnect(obj, nullptr, this, nullptr); mDataList.removeAt(i); delete obj; }
 }
 
 void FCAbstractDataManagerHelper::removeDataObjWithoutRelease(FCAbstractDataObject* obj)
 {
-    _dataList.removeOne(obj);
+    mDataList.removeOne(obj);
 }
 
 void FCAbstractDataManagerHelper::removeDataByIndex(int index)
 {
-    if (index >= 0 && index < _dataList.size()) {
-        FCAbstractDataObject* obj = _dataList.takeAt(index);
+    if (index >= 0 && index < mDataList.size()) {
+        FCAbstractDataObject* obj = mDataList.takeAt(index);
         if (obj) { disconnect(obj, nullptr, this, nullptr); delete obj; }
     }
 }
 
 void FCAbstractDataManagerHelper::removeDataByID(int id)
 {
-    for (int i = 0; i < _dataList.size(); ++i)
-        if (_dataList.at(i) && _dataList.at(i)->getDataObjectID() == id) {
-            FCAbstractDataObject* obj = _dataList.takeAt(i);
+    for (int i = 0; i < mDataList.size(); ++i)
+        if (mDataList.at(i) && mDataList.at(i)->getDataObjectID() == id) {
+            FCAbstractDataObject* obj = mDataList.takeAt(i);
             disconnect(obj, nullptr, this, nullptr);
             delete obj;
             return;
@@ -133,12 +133,12 @@ void FCAbstractDataManagerHelper::removeDataByID(int id)
 
 void FCAbstractDataManagerHelper::removeDataByName(const QString& name, bool compSens)
 {
-    for (int i = _dataList.size() - 1; i >= 0; --i) {
-        auto* nobj = dynamic_cast<FCAbstractNamedDataObject*>(_dataList.at(i));
+    for (int i = mDataList.size() - 1; i >= 0; --i) {
+        auto* nobj = dynamic_cast<FCAbstractNamedDataObject*>(mDataList.at(i));
         if (!nobj) continue;
         bool match = compSens ? (name == nobj->getDataObjectName()) : (name.toLower() == nobj->getDataObjectName().toLower());
         if (match) {
-            FCAbstractDataObject* obj = _dataList.takeAt(i);
+            FCAbstractDataObject* obj = mDataList.takeAt(i);
             disconnect(obj, nullptr, this, nullptr);
             delete obj;
             return;
@@ -148,12 +148,12 @@ void FCAbstractDataManagerHelper::removeDataByName(const QString& name, bool com
 
 void FCAbstractDataManagerHelper::setParentDataID(int id)
 {
-    _parentDataID = id;
+    mParentDataID = id;
 }
 
 int FCAbstractDataManagerHelper::getParentDataID() const
 {
-    return _parentDataID;
+    return mParentDataID;
 }
 
 QString FCAbstractDataManagerHelper::checkName(const QString& name)
@@ -175,7 +175,7 @@ QString FCAbstractDataManagerHelper::checkName(const QString& name)
 
     int maxId = 0;
     QRegularExpression prefixNumRegex(QStringLiteral("^(.+)[_\\-](\\d+)$"));
-    for (FCAbstractDataObject* a : _dataList) {
+    for (FCAbstractDataObject* a : mDataList) {
         FCAbstractNamedDataObject* named = dynamic_cast<FCAbstractNamedDataObject*>(a);
         if (!named) continue;
         QString objName = named->getDataObjectName();
@@ -195,24 +195,24 @@ QString FCAbstractDataManagerHelper::checkName(const QString& name)
 
 int FCAbstractDataManagerHelper::getIndexByID(int dataId) const
 {
-    for (int i = 0; i < _dataList.size(); ++i)
-        if (_dataList.at(i) && _dataList.at(i)->getDataObjectID() == dataId) return i;
+    for (int i = 0; i < mDataList.size(); ++i)
+        if (mDataList.at(i) && mDataList.at(i)->getDataObjectID() == dataId) return i;
     return -1;
 }
 
 int FCAbstractDataManagerHelper::getIDByIndex(int dataIndex) const
 {
-    if (dataIndex < 0 || dataIndex >= _dataList.size()) return -1;
-    FCAbstractDataObject* obj = _dataList.at(dataIndex);
+    if (dataIndex < 0 || dataIndex >= mDataList.size()) return -1;
+    FCAbstractDataObject* obj = mDataList.at(dataIndex);
     return obj ? obj->getDataObjectID() : -1;
 }
 
 void FCAbstractDataManagerHelper::sortObject(ObjectSortType type)
 {
     if (type == ObjectSortType::DataObjID)
-        std::sort(_dataList.begin(), _dataList.end(), [](FCAbstractDataObject* a, FCAbstractDataObject* b) { return a && b && a->getDataObjectID() < b->getDataObjectID(); });
+        std::sort(mDataList.begin(), mDataList.end(), [](FCAbstractDataObject* a, FCAbstractDataObject* b) { return a && b && a->getDataObjectID() < b->getDataObjectID(); });
     else
-        std::sort(_dataList.begin(), _dataList.end(), [](FCAbstractDataObject* a, FCAbstractDataObject* b) {
+        std::sort(mDataList.begin(), mDataList.end(), [](FCAbstractDataObject* a, FCAbstractDataObject* b) {
             auto* na = dynamic_cast<FCAbstractNamedDataObject*>(a);
             auto* nb = dynamic_cast<FCAbstractNamedDataObject*>(b);
             if (!na || !nb) return false;
@@ -222,12 +222,12 @@ void FCAbstractDataManagerHelper::sortObject(ObjectSortType type)
 
 void FCAbstractDataManagerHelper::sortObject(std::function<bool(FCAbstractDataObject*, FCAbstractDataObject*)> function)
 {
-    std::sort(_dataList.begin(), _dataList.end(), function);
+    std::sort(mDataList.begin(), mDataList.end(), function);
 }
 
 bool FCAbstractDataManagerHelper::isUsedDataObject(const QList<int>& data) const
 {
-    for (auto* obj : _dataList) {
+    for (auto* obj : mDataList) {
         if (!obj) continue;
         for (int id : data) if (obj->getDataObjectID() == id) return true;
     }
@@ -236,7 +236,7 @@ bool FCAbstractDataManagerHelper::isUsedDataObject(const QList<int>& data) const
 
 void FCAbstractDataManagerHelper::dataObjectDestoried(FCAbstractDataObject* obj)
 {
-    _dataList.removeOne(obj);
+    mDataList.removeOne(obj);
 }
 
 void FCAbstractDataManagerHelper::connectHelper(FCAbstractDataObject* obj, bool con)

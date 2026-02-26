@@ -34,7 +34,7 @@ class FCGEOMETRYENTITY_API FCGeometryDAGData : public FCAbstractDataObject
     Q_OBJECT
     FC_CLASS(FC, FCGeometryDAGData)
 public:
-    explicit FCGeometryDAGData(int parentDataID = -1);
+    explicit FCGeometryDAGData();
     ~FCGeometryDAGData() override;
 
     /** @brief 获取 DAG 模块（addBlock/addUnion/build 等） */
@@ -71,11 +71,19 @@ public:
      */
     QList<FCGeoNode> getGeometrySequence() const;
 
-    /** @brief 几何命令数据是否被修改（未保存） */
+    /** 
+     *  @brief 几何命令数据是否被修改（未保存） 
+     */
     bool isDirty() const { return m_dirty; }
-    /** @brief 设置/清除 dirty 标志；置为 true 时若状态变化会发射 dirtyStateChanged */
+    
+    /** 
+     *  @brief 设置/清除 dirty 标志；置为 true 时若状态变化会发射 dirtyStateChanged 
+     */
     void setDirty(bool on = true);
-    /** @brief 清除 dirty 标志（如保存成功后调用） */
+    
+    /** 
+     *  @brief 清除 dirty 标志（如保存成功后调用） 
+     */
     void clearDirty() { setDirty(false); }
 
     QString serialize(int label = -1) override;

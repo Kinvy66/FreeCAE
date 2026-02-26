@@ -9,7 +9,13 @@
 namespace FC {
 
 FCAbstractGeoModel::FCAbstractGeoModel()
-{}
+{
+    
+    //创建对象
+    _compManager = new FCGeoComponentManager;
+    //记录父对象id
+    _compManager->setParentDataIDM(this->getDataObjectID());
+}
 
 FCAbstractGeoModel::~FCAbstractGeoModel()
 {}

@@ -5,7 +5,9 @@
  */
 #ifndef FCTYPE_H
 #define FCTYPE_H
+#include <stdint.h>
 
 typedef int FCID;
+typedef uint64_t FCIdType;
 
 #endif // FCTYPE_H

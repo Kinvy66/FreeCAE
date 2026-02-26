@@ -52,8 +52,7 @@ static FCGeoOpType stringToGeoOpType(const QString& s)
     return FCGeoOpType::None;
 }
 
-FCGeometryDAGData::FCGeometryDAGData(int parentDataID)
-    : FCAbstractDataObject(parentDataID)
+FCGeometryDAGData::FCGeometryDAGData()
 {
     m_module.reset(new FCGeometryModule(this));
     m_compMgr.reset(new FCGlobalGeoComponentManager);

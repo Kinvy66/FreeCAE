@@ -47,6 +47,12 @@ enum class ProjectTreeEnum
     ProjectTree_Result1DPlot,
 };
 
+enum TreeRole
+{
+    Role_Id = Qt::UserRole,  // 目录项id为-1， 实体数据项使用本身的id
+    Role_Type   ///< @sa ProjectTreeEnum
+};
+
 class FCGUIWIDGET_API FCProjectTreeWidget : public QTreeWidget
 {
     Q_OBJECT

@@ -34,47 +34,47 @@ bool FCAbsGeoPart::update()
 
 void FCAbsGeoPart::removeDataObj(FCAbstractDataObject* obj)
 {
-    QMutexLocker locker(&_mutex);
+    QMutexLocker locker(&mMutex);
     FCAbsGeoCommand* subCmd = dynamic_cast<FCAbsGeoCommand*>(obj);
     if (!subCmd) return;
     subCmd->removeFromPart(this);
-    if (_helper) _helper->removeDataObj(subCmd);
+    if (mHelper) mHelper->removeDataObj(subCmd);
 }
 
 void FCAbsGeoPart::removeDataObjWithoutRelease(FCAbstractDataObject* obj)
 {
-    QMutexLocker locker(&_mutex);
+    QMutexLocker locker(&mMutex);
     FCAbsGeoCommand* subCmd = dynamic_cast<FCAbsGeoCommand*>(obj);
     if (!subCmd) return;
     subCmd->removeFromPart(this);
-    if (_helper) _helper->removeDataObjWithoutRelease(obj);
+    if (mHelper) mHelper->removeDataObjWithoutRelease(obj);
 }
 
 void FCAbsGeoPart::removeDataByIndex(int index)
 {
-    QMutexLocker locker(&_mutex);
-    FCAbsGeoCommand* subCmd = _helper ? dynamic_cast<FCAbsGeoCommand*>(_helper->getDataByIndex(index)) : nullptr;
+    QMutexLocker locker(&mMutex);
+    FCAbsGeoCommand* subCmd = mHelper ? dynamic_cast<FCAbsGeoCommand*>(mHelper->getDataByIndex(index)) : nullptr;
     if (!subCmd) return;
     subCmd->removeFromPart(this);
-    if (_helper) _helper->removeDataObj(subCmd);
+    if (mHelper) mHelper->removeDataObj(subCmd);
 }
 
 void FCAbsGeoPart::removeDataByID(int id)
 {
-    QMutexLocker locker(&_mutex);
-    FCAbsGeoCommand* subCmd = _helper ? dynamic_cast<FCAbsGeoCommand*>(_helper->getDataByID(id)) : nullptr;
+    QMutexLocker locker(&mMutex);
+    FCAbsGeoCommand* subCmd = mHelper ? dynamic_cast<FCAbsGeoCommand*>(mHelper->getDataByID(id)) : nullptr;
     if (!subCmd) return;
     subCmd->removeFromPart(this);
-    if (_helper) _helper->removeDataObj(subCmd);
+    if (mHelper) mHelper->removeDataObj(subCmd);
 }
 
 void FCAbsGeoPart::removeDataByName(const QString& name, bool compSens)
 {
-    QMutexLocker locker(&_mutex);
-    FCAbsGeoCommand* subCmd = _helper ? dynamic_cast<FCAbsGeoCommand*>(_helper->getDataByName(name, compSens)) : nullptr;
+    QMutexLocker locker(&mMutex);
+    FCAbsGeoCommand* subCmd = mHelper ? dynamic_cast<FCAbsGeoCommand*>(mHelper->getDataByName(name, compSens)) : nullptr;
     if (!subCmd) return;
     subCmd->removeFromPart(this);
-    if (_helper) _helper->removeDataObj(subCmd);
+    if (mHelper) mHelper->removeDataObj(subCmd);
 }
 
 } // namespace FC

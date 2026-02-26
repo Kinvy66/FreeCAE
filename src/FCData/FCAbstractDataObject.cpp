@@ -4,13 +4,18 @@
  */
 #include "FCAbstractDataObject.h"
 #include "FCDataRepo.h"
+#include <QMutex>
+#include <QMutexLocker>
 
 namespace FC {
+static QMutex MUTEX;
 
 FCAbstractDataObject::FCAbstractDataObject(int parentDataID)
 {
-    _absDataID = FCDataRepo::instance()->getNextValidID();
-    _parentDataID = parentDataID;
+    QMutexLocker locker(&MUTEX);
+    
+    mAbsDataID = FCDataRepo::instance()->getNextValidID();
+    mParentDataID = parentDataID;
     FCDataRepo::instance()->addDataObj(this);
 }
 
@@ -22,17 +27,17 @@ FCAbstractDataObject::~FCAbstractDataObject()
 
 int FCAbstractDataObject::getDataObjectID() const
 {
-    return _absDataID;
+    return mAbsDataID;
 }
 
 void FCAbstractDataObject::setParentDataID(int id)
 {
-    _parentDataID = id;
+    mParentDataID = id;
 }
 
 int FCAbstractDataObject::getParentDataID() const
 {
-    return _parentDataID;
+    return mParentDataID;
 }
 
 QString FCAbstractDataObject::serialize(int)
@@ -47,18 +52,18 @@ bool FCAbstractDataObject::deserialize(const QString&, int)
 
 QVariant FCAbstractDataObject::getUserData(int userData) const
 {
-    return _userData.value(userData);
+    return mUserData.value(userData);
 }
 
 void FCAbstractDataObject::setUserData(int ud, const QVariant& va)
 {
-    _userData.insert(ud, va);
+    mUserData.insert(ud, va);
 }
 
 QList<int> FCAbstractDataObject::getUserDataKeys() const
 {
     QList<int> keys;
-    for (auto it = _userData.begin(); it != _userData.end(); ++it)
+    for (auto it = mUserData.begin(); it != mUserData.end(); ++it)
         keys.append(it.key());
     return keys;
 }
@@ -66,15 +71,15 @@ QList<int> FCAbstractDataObject::getUserDataKeys() const
 bool FCAbstractDataObject::copy(FCAbstractDataObject* obj)
 {
     if (!obj) return false;
-    _parentDataID = obj->getParentDataID();
+    mParentDataID = obj->getParentDataID();
     for (int k : obj->getUserDataKeys())
-        _userData.insert(k, obj->getUserData(k));
+        mUserData.insert(k, obj->getUserData(k));
     return true;
 }
 
 FCAbstractDataObject* FCAbstractDataObject::getParentObject()
 {
-    return FCDATAREPO->getDataByID(_parentDataID);
+    return FCDATAREPO->getDataByID(mParentDataID);
 }
 
 bool FCAbstractDataObject::isUsedDataObject(const QList<int>&)
@@ -84,7 +89,7 @@ bool FCAbstractDataObject::isUsedDataObject(const QList<int>&)
 
 void FCAbstractDataObject::setAbsDataID(int id)
 {
-    _absDataID = id;
+    mAbsDataID = id;
 }
 
 } // namespace FC

@@ -121,6 +121,7 @@ void FCProjectTreeWidget::buildCategoryItems()
     mPostProcessingRoot = new QTreeWidgetItem(mProjectRoot);
     mPostProcessingRoot->setText(0, tr("结果"));
     mPostProcessingRoot->setIcon(0, QIcon(":/icon/result.png"));
+    // mPostProcessingRoot->setData();
 }
 
 void FCProjectTreeWidget::onModelCustomContextMenu(QPoint point)

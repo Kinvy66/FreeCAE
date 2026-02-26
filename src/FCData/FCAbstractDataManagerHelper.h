@@ -55,8 +55,8 @@ public slots:
 private:
     void connectHelper(FCAbstractDataObject* obj, bool con = true);
 
-    QList<FCAbstractDataObject*>& _dataList;
-    int _parentDataID{ -1 };
+    QList<FCAbstractDataObject*>& mDataList;
+    int mParentDataID{ -1 };
 };
 
 } // namespace FC
