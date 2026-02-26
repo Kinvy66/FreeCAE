@@ -44,6 +44,8 @@
 // 操作器
 #include "FCOperatorRepo.h"
 #include "FCActionCreateCubeOperator.h"
+#include "FCActionCreateSphereOperator.h"
+#include "FCActionCreateCylinderOperator.h"
 #include "FCProjectTreeEventOperator.h"
 #include "FCGraphPreprocessOperator.h"
 #include "FCGeometryPropertyConnector.h"
@@ -251,6 +253,8 @@ void FCAppController::registeActionsOperator()
 {
     FCOPERATORREPO;  // 确保操作器仓库已初始化
     Register2FCOperatorRepo(actionCreateCube, FCActionCreateCubeOperator);
+    Register2FCOperatorRepo(actionCreateSphere, FCActionCreateSphereOperator);
+    Register2FCOperatorRepo(actionCreateCylinder, FCActionCreateCylinderOperator);
     Register2FCOperatorRepo(ProjectTreeEvent, FCProjectTreeEventOperator);
     Register2FCOperatorRepo(GraphPreprocessEvent, FCGraphPreprocessOperator);
     Register2FCOperatorRepo(BuildGeometry, FCBuildGeometryOperator);
