@@ -10,6 +10,8 @@
 
 namespace FC {
 
+class FCAbsGeoCommand;
+
 /**
  * @brief 几何体属性内容接口：支持「构建」「全部构建」的 widget 实现此接口
  *
@@ -20,6 +22,12 @@ class FCGUIWIDGET_API IGeometryBuildContent
 {
 public:
     virtual ~IGeometryBuildContent() = default;
+
+    /** 将当前 UI 参数写回模型（DAG/命令），不触发构建与显示 */
+    virtual void syncToModel() = 0;
+
+    /** 获取当前要构建的几何命令（syncToModel 之后调用），无则返回 nullptr */
+    virtual FCAbsGeoCommand* getCurrentBuildCommand() = 0;
 
     /** 构建：将当前参数写回并构建当前选中节点之前的所有几何，形成几何实体并在 VTK 中显示 */
     virtual void executeBuild() = 0;

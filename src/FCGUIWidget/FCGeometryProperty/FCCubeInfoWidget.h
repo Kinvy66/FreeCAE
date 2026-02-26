@@ -39,6 +39,8 @@ public:
      */
     void setDAGNode(FCGeometryDAGData* dagData, int nodeId, FCGeoModelBox* displayBoxCmd = nullptr);
 
+    void syncToModel() override;
+    FCAbsGeoCommand* getCurrentBuildCommand() override;
     void executeBuild() override;
     void executeBuildAll() override;
 

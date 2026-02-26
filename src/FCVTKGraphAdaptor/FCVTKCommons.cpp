@@ -21,7 +21,7 @@ QList<QColor> FCVTKCommons::s_colorList = {
 
 QColor FCVTKCommons::s_geoVertexColor = Qt::blue;
 QColor FCVTKCommons::s_geoEdgeColor = Qt::black;
-QColor FCVTKCommons::s_geoFaceColor = QColor(230, 255, 0);
+QColor FCVTKCommons::s_geoFaceColor = QColor(255, 255, 255);
 QColor FCVTKCommons::s_regionMeshFaceColor = Qt::gray;
 QColor FCVTKCommons::s_regionMeshEdgeColor = Qt::yellow;
 double FCVTKCommons::s_highlightPointSize = 10.;

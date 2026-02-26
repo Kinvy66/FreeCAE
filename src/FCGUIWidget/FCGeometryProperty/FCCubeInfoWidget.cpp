@@ -124,6 +124,16 @@ void FCCubeInfoWidget::setDAGNode(FCGeometryDAGData* dagData, int nodeId, FCGeoM
     }
 }
 
+void FCCubeInfoWidget::syncToModel()
+{
+    syncValuesToModel();
+}
+
+FCAbsGeoCommand* FCCubeInfoWidget::getCurrentBuildCommand()
+{
+    return mDisplayBoxCmd ? static_cast<FCAbsGeoCommand*>(mDisplayBoxCmd) : static_cast<FCAbsGeoCommand*>(mBoxCmd);
+}
+
 void FCCubeInfoWidget::syncValuesToModel()
 {
     if (mDagData && mNodeId >= 0) {

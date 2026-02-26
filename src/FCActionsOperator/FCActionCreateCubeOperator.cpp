@@ -118,12 +118,9 @@ bool FCActionCreateCubeOperator::execProfession()
     mCurrentNodeId = dagData->module()->addBlock(params, name);
     dagData->setDirty(true);
 
-    // 节点 ID = 命令 ID：直接从 Repo 取该 Box 命令用于 VTK 显示，无需再创建一份
-    if (mCurrentNodeId >= 0) {
-        mCurrentBoxCmd = FC::FCDATAREPO->getDataAs<FC::FCGeoModelBox>(mCurrentNodeId);
-        if (mCurrentBoxCmd && !mCurrentBoxCmd->update())
-            mCurrentBoxCmd = nullptr;
-    }
+    // 节点 ID = 命令 ID：直接从 Repo 取该 Box 命令用于属性面板绑定；OCC 几何体在用户点击「构建」时再创建
+    if (mCurrentNodeId >= 0)
+        mCurrentBoxCmd = FCDATAREPO->getDataAs<FC::FCGeoModelBox>(mCurrentNodeId);
     return true;
 }
 
