@@ -9,6 +9,8 @@
 
 #include <FCData/FCAbstractGlobalDataFactory.h>
 #include <FCData/FCGlobalData.h>
+#include <FCGeometryEntity/FCGeometryNodeExecutor.h>
+#include <memory>
 
 namespace FC {
 
@@ -58,6 +60,9 @@ private:
 
     /** 从当前几何命令列表构建几何实体层（Domain/Boundary/Edge/Point） */
     FCAbstractDataObject* createGeometryEntityModel(FCGlobalData* globalData) override;
+
+    /** OCC 几何节点执行器（节点 ID = 命令 ID），由 createGeoData 创建并注入 DAG */
+    std::unique_ptr<FCGeometryNodeExecutor> m_geometryExecutor;
 
 public:
     /**

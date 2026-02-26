@@ -8,16 +8,18 @@
 #include <FCGeometryEntity/FCGeometryDAGData.h>
 #include <FCGeometryEntity/FCGeometryEntityBuilder.h>
 #include <FCGeometryEntity/FCGeometryEntityModel.h>
+#include <FCGeometryCommand/FCOCCGeometryNodeExecutor.h>
 
 namespace FC {
 
-FCGlobalDataFactory::~FCGlobalDataFactory()
-{
-}
+FCGlobalDataFactory::~FCGlobalDataFactory() = default;
 
 FCAbstractDataObject* FCGlobalDataFactory::createGeoData()
 {
-    return new FCGeometryDAGData();
+    FCGeometryDAGData* dagData = new FCGeometryDAGData();
+    m_geometryExecutor = std::make_unique<OCC::FCOCCGeometryNodeExecutor>();
+    dagData->setExecutor(m_geometryExecutor.get());
+    return dagData;
 }
 
 FCAbstractDataObject *FCGlobalDataFactory::createPhysicsData()

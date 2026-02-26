@@ -5,9 +5,8 @@
 #include <FCGeometryEntity/FCGeometryDAGData.h>
 #include <FCGeometryEntity/FCGeoNode.h>
 #include <FCGeometryInterface/FCAbsGeoModelBox.h>
-#include <FCGeometryInterface/FCGeoInterfaceFactory.h>
-#include <FCGeometryInterface/FCGeoEnum.h>
 #include <FCData/FCGlobalData.h>
+#include <FCData/FCDataRepo.h>
 #include <FCData/FCAbstractDataObject.h>
 #include <FCPropertyWidget.h>
 #include <FCGeometryBuildBar.h>
@@ -107,28 +106,23 @@ bool FCActionCreateCubeOperator::execProfession()
         return false;
     }
 
+    // 参数键与 FCGeometryModule::applyParamsToCommand(Block) 一致
     FC::FCGeoParamSet params;
-    params[QStringLiteral("length")] = 100.0;
-    params[QStringLiteral("width")]  = 100.0;
-    params[QStringLiteral("height")] = 100.0;
+    params[QStringLiteral("point1_x")] = 0.0;
+    params[QStringLiteral("point1_y")] = 0.0;
+    params[QStringLiteral("point1_z")] = 0.0;
+    params[QStringLiteral("length_x")] = 100.0;
+    params[QStringLiteral("length_y")] = 100.0;
+    params[QStringLiteral("length_z")] = 100.0;
     QString name = QStringLiteral("Box_1");
     mCurrentNodeId = dagData->module()->addBlock(params, name);
     dagData->setDirty(true);
 
-    // 创建用于 VTK 显示的 Box 命令（不加入命令列表），点击「构建」时用其驱动 3D 显示
-    FC::FCGeoInterfaceFactory* factory = FC::FCGeoInterfaceFactory::instance();
-    if (factory) {
-        FC::FCGeoModelBox* boxCmd = factory->createCommandT<FC::FCGeoModelBox>(FC::FCGeoEnum::FGTBox);
-        if (boxCmd) {
-            double point1[3] = { 0.0, 0.0, 0.0 };
-            double length[3] = { 100.0, 100.0, 100.0 };
-            boxCmd->setPoint1(point1);
-            boxCmd->setLength(length);
-            if (boxCmd->update())
-                mCurrentBoxCmd = boxCmd;
-            else
-                delete boxCmd;
-        }
+    // 节点 ID = 命令 ID：直接从 Repo 取该 Box 命令用于 VTK 显示，无需再创建一份
+    if (mCurrentNodeId >= 0) {
+        mCurrentBoxCmd = FC::FCDATAREPO->getDataAs<FC::FCGeoModelBox>(mCurrentNodeId);
+        if (mCurrentBoxCmd && !mCurrentBoxCmd->update())
+            mCurrentBoxCmd = nullptr;
     }
     return true;
 }

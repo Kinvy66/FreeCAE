@@ -135,6 +135,12 @@ public:
      */
     int lastOutputNodeId() const;
 
+    /**
+     * @brief 移除节点并从 FCDataRepo 移除并销毁对应几何命令（节点 ID = 命令 ID）
+     * @param id 节点/命令 ID
+     */
+    void removeNode(int id);
+
 private:
     /**
      * @brief 内部添加节点

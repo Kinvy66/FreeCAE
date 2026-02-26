@@ -36,6 +36,9 @@ void FCDataRepo::addDataObj(FCAbstractDataObject* obj)
 {
     if (!obj) return;
     QMutexLocker locker(&mMutex);
+    int id = obj->getDataObjectID();
+    if (id >= mNextId)
+        mNextId = id + 1;
     mRepoPrivate.appendDataObj(obj);
 }
 

@@ -21,6 +21,8 @@ int FCGeometryTree::addNode(const FCGeoNode& node)
     FCGeoNode n = node;
     if (n.id < 0) {
         n.id = s_nextNodeId++;
+    } else if (n.id >= s_nextNodeId) {
+        s_nextNodeId = n.id + 1;
     }
     if (m_nodes.contains(n.id)) {
         return n.id;
