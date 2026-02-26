@@ -33,17 +33,24 @@ public:
     void insertCommandCreateFun(FCGeoEnum::FCGeometryComType t, GeoCommandFuns f);
     void insertDatumCreateFun(FCGeoEnum::FCDatumType t, GeoDatumFuns f);
     FCAbsGeoCommand* createCommand(FCGeoEnum::FCGeometryComType t);
-    template<class T> T* createCommandT(FCGeoEnum::FCGeometryComType t) {
+    
+    template<class T>
+    T* createCommandT(FCGeoEnum::FCGeometryComType t) {
         FCAbsGeoCommand* c = createCommand(t);
         T* ct = dynamic_cast<T*>(c);
         if (!ct && c) delete c;
         return ct;
     }
+    
     void clearAllInterface();
     bool getCommandSupported(FCGeoEnum::FCGeometryComType type);
+    
     bool getDatumSupported(FCGeoEnum::FCDatumType type);
+    
     FCAbsGeoDatum* createDatum(FCGeoEnum::FCDatumType t);
-    template<class T> T* createDatumT(FCGeoEnum::FCDatumType t, bool editable = true) {
+    
+    template<class T>
+    T* createDatumT(FCGeoEnum::FCDatumType t, bool editable = true) {
         FCAbsGeoDatum* d = createDatum(t);
         if (!d) return nullptr;
         T* dt = dynamic_cast<T*>(d);

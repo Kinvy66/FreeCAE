@@ -1,6 +1,6 @@
 /**
  * @file FCAbsGeoModelCut.h
- * @brief ???????????? FITKInterfaceGeometry FITKAbsGeoModelCut?
+ * @brief 切割命令
  */
 #ifndef FCABSGEOMODELCUT_H
 #define FCABSGEOMODELCUT_H
@@ -13,7 +13,7 @@
 namespace FC {
 
 /**
- * @brief ??????????
+ * @brief 切割命令
  * 切割命令基类，setInputCmdId 设置输入命令ID，getInputCmdId 获取输入命令ID，getPart 获取切割后的部分
  */
 class FCGEOMETRYINTERFACE_API FCAbsGeoModelCut : public FCAbsGeoCommand
