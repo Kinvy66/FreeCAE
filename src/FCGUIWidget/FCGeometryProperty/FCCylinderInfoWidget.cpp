@@ -10,6 +10,7 @@
 #include <FCGeometryEntity/FCGeometryEntityModel.h>
 #include <FCGeometryEntity/FCGeoNode.h>
 #include <FCData/FCGlobalData.h>
+#include <FCData/FCDataRepo.h>
 #include <QLineEdit>
 #include <QDebug>
 
@@ -115,19 +116,25 @@ void FCCylinderInfoWidget::setDAGNode(FCGeometryDAGData* dagData, FCID nodeId, F
     ui->lineEdit_radius->setText(QString::number(r));
     ui->lineEdit_length->setText(QString::number(L));
     if (!mDisplayCylinderCmd) {
-        FCGeoInterfaceFactory* factory = FCGeoInterfaceFactory::instance();
-        if (factory) {
-            FCGeoModelCylinder* cmd = factory->createCommandT<FCGeoModelCylinder>(FCGeoEnum::FGTCylinder);
-            if (cmd) {
-                cmd->setLocation(loc);
-                cmd->setDirection(dir);
-                cmd->setRadius(r);
-                cmd->setLength(L);
-                if (cmd->update()) {
-                    mDisplayCylinderCmd = cmd;
-                    mOwnDisplayCylinderCmd = true;
-                } else {
-                    delete cmd;
+        FCGeoModelCylinder* existingCmd = FCDataRepo::instance()->getDataAs<FCGeoModelCylinder>(nodeId);
+        if (existingCmd) {
+            mDisplayCylinderCmd = existingCmd;
+            mOwnDisplayCylinderCmd = false;
+        } else {
+            FCGeoInterfaceFactory* factory = FCGeoInterfaceFactory::instance();
+            if (factory) {
+                FCGeoModelCylinder* cmd = factory->createCommandT<FCGeoModelCylinder>(FCGeoEnum::FGTCylinder);
+                if (cmd) {
+                    cmd->setLocation(loc);
+                    cmd->setDirection(dir);
+                    cmd->setRadius(r);
+                    cmd->setLength(L);
+                    if (cmd->update()) {
+                        mDisplayCylinderCmd = cmd;
+                        mOwnDisplayCylinderCmd = true;
+                    } else {
+                        delete cmd;
+                    }
                 }
             }
         }

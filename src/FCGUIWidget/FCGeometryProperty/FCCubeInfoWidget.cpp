@@ -10,6 +10,7 @@
 #include <FCGeometryEntity/FCGeometryEntityModel.h>
 #include <FCGeometryEntity/FCGeoNode.h>
 #include <FCData/FCGlobalData.h>
+#include <FCData/FCDataRepo.h>
 #include <QLineEdit>
 #include <QDebug>
 
@@ -103,21 +104,27 @@ void FCCubeInfoWidget::setDAGNode(FCGeometryDAGData* dagData, FCID nodeId, FCGeo
     ui->lineEdit_length1->setText(QString::number(l0));
     ui->lineEdit_length2->setText(QString::number(l1));
     ui->lineEdit_length3->setText(QString::number(l2));
-    // 从树选中时未传入 displayBoxCmd，创建用于 VTK 显示的 Box 命令，供「构建」时 emit
+    // 从树选中时优先用仓库中该节点对应的命令（nodeId = 命令 ID），保证构建时 id/name 一致
     if (!mDisplayBoxCmd) {
-        FCGeoInterfaceFactory* factory = FCGeoInterfaceFactory::instance();
-        if (factory) {
-            FCGeoModelBox* boxCmd = factory->createCommandT<FCGeoModelBox>(FCGeoEnum::FGTBox);
-            if (boxCmd) {
-                double p[3] = { 0.0, 0.0, 0.0 };
-                double length[3] = { l0, l1, l2 };
-                boxCmd->setPoint1(p);
-                boxCmd->setLength(length);
-                if (boxCmd->update()) {
-                    mDisplayBoxCmd = boxCmd;
-                    mOwnDisplayBoxCmd = true;
-                } else {
-                    delete boxCmd;
+        FCGeoModelBox* existingCmd = FCDataRepo::instance()->getDataAs<FCGeoModelBox>(nodeId);
+        if (existingCmd) {
+            mDisplayBoxCmd = existingCmd;
+            mOwnDisplayBoxCmd = false;
+        } else {
+            FCGeoInterfaceFactory* factory = FCGeoInterfaceFactory::instance();
+            if (factory) {
+                FCGeoModelBox* boxCmd = factory->createCommandT<FCGeoModelBox>(FCGeoEnum::FGTBox);
+                if (boxCmd) {
+                    double p[3] = { 0.0, 0.0, 0.0 };
+                    double length[3] = { l0, l1, l2 };
+                    boxCmd->setPoint1(p);
+                    boxCmd->setLength(length);
+                    if (boxCmd->update()) {
+                        mDisplayBoxCmd = boxCmd;
+                        mOwnDisplayBoxCmd = true;
+                    } else {
+                        delete boxCmd;
+                    }
                 }
             }
         }

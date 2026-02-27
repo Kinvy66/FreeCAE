@@ -10,6 +10,7 @@
 #include <FCGeometryEntity/FCGeometryEntityModel.h>
 #include <FCGeometryEntity/FCGeoNode.h>
 #include <FCData/FCGlobalData.h>
+#include <FCData/FCDataRepo.h>
 #include <QLineEdit>
 #include <QDebug>
 
@@ -96,17 +97,23 @@ void FCSphereInfoWidget::setDAGNode(FCGeometryDAGData* dagData, FCID nodeId, FCG
     ui->lineEdit_locationZ->setText(QString::number(loc[2]));
     ui->lineEdit_radius->setText(QString::number(r));
     if (!mDisplaySphereCmd) {
-        FCGeoInterfaceFactory* factory = FCGeoInterfaceFactory::instance();
-        if (factory) {
-            FCGeoModelSphere* cmd = factory->createCommandT<FCGeoModelSphere>(FCGeoEnum::FGTSphere);
-            if (cmd) {
-                cmd->setLocation(loc);
-                cmd->setRadius(r);
-                if (cmd->update()) {
-                    mDisplaySphereCmd = cmd;
-                    mOwnDisplaySphereCmd = true;
-                } else {
-                    delete cmd;
+        FCGeoModelSphere* existingCmd = FCDataRepo::instance()->getDataAs<FCGeoModelSphere>(nodeId);
+        if (existingCmd) {
+            mDisplaySphereCmd = existingCmd;
+            mOwnDisplaySphereCmd = false;
+        } else {
+            FCGeoInterfaceFactory* factory = FCGeoInterfaceFactory::instance();
+            if (factory) {
+                FCGeoModelSphere* cmd = factory->createCommandT<FCGeoModelSphere>(FCGeoEnum::FGTSphere);
+                if (cmd) {
+                    cmd->setLocation(loc);
+                    cmd->setRadius(r);
+                    if (cmd->update()) {
+                        mDisplaySphereCmd = cmd;
+                        mOwnDisplaySphereCmd = true;
+                    } else {
+                        delete cmd;
+                    }
                 }
             }
         }
