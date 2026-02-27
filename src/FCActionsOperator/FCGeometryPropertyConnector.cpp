@@ -43,6 +43,8 @@ void FCGeometryPropertyConnector::setDockingArea(FCDockingAreaInterface* docking
 
     connect(treeWidget, &FCProjectTreeWidget::geometryNodeSelected,
             this, &FCGeometryPropertyConnector::onGeometryNodeSelected);
+    connect(treeWidget, &FCProjectTreeWidget::noEntitySelected,
+            this, &FCGeometryPropertyConnector::onNoEntitySelected);
 }
 
 namespace {
@@ -141,6 +143,14 @@ void FCGeometryPropertyConnector::onGeometryNodeSelected(FCID nodeId)
     propWidget->setContentWidget(container);
 
     connectBuildBarAndSetDAG(buildBar, contentWidget, dagData, nodeId, m_docking);
+}
+
+void FCGeometryPropertyConnector::onNoEntitySelected()
+{
+    if (!m_docking) return;
+    FCPropertyWidget* propWidget = m_docking->getSettingParametersWidget();
+    if (propWidget)
+        propWidget->setContentWidget(nullptr);
 }
 
 } // namespace FC

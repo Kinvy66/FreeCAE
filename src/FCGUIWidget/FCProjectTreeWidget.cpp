@@ -10,6 +10,7 @@
 #include <FCData/FCGlobalData.h>
 #include <FCGeometryEntity/FCGeometryDAGData.h>
 #include <FCGeometryEntity/FCGeoNode.h>
+#include <FCGeometryEntity/FCGeoOpType.h>
 #include <algorithm>
 #include <QMenu>
 #include <QTreeWidgetItem>
@@ -18,6 +19,25 @@
 
 namespace FC
 {
+
+static QString iconPathForGeoOpType(FCGeoOpType type)
+{
+    switch (type) {
+    case FCGeoOpType::Block:       return QStringLiteral(":/icon/geometry/cube.png");
+    case FCGeoOpType::Cylinder:   return QStringLiteral(":/icon/geometry/cylinder.png");
+    case FCGeoOpType::Sphere:     return QStringLiteral(":/icon/geometry/sphere.png");
+    case FCGeoOpType::Union:
+    case FCGeoOpType::Difference:
+    case FCGeoOpType::Intersection: return QStringLiteral(":/icon/geometry/boolean_opt.png");
+    case FCGeoOpType::Fillet:     return QStringLiteral(":/icon/geometry/fillet.png");
+    case FCGeoOpType::Chamfer:   return QStringLiteral(":/icon/geometry/chamfer.png");
+    case FCGeoOpType::Import:    return QStringLiteral(":/icon/geometry/import_geometry.png");
+    case FCGeoOpType::Extrude:   return QStringLiteral(":/icon/geometry/extrude.png");
+    case FCGeoOpType::Revolve:   return QStringLiteral(":/icon/geometry/revolve.png");
+    case FCGeoOpType::Sweep:     return QStringLiteral(":/icon/geometry/sweep.png");
+    default:                      return QStringLiteral(":/icon/undefined.png");
+    }
+}
 
 FCProjectTreeWidget::FCProjectTreeWidget(QWidget* parent)
     : QTreeWidget(parent)
@@ -56,8 +76,8 @@ void FCProjectTreeWidget::updateTree()
      // mProjectRoot = new QTreeWidgetItem();
    
     mProjectRoot->setText(0, tr("Untitled"));
-    // mProjectRoot->setData(1, 0, -1);
-    // mProjectRoot->setData(2, 0, QVariant::fromValue(ProjectTreeEnum::ProjectTree_Root));
+    // mProjectRoot->setData(0, Role_Id, QVariant());
+    // mProjectRoot->setData(0, Role_Type, QVariant::fromValue(ProjectTreeEnum::ProjectTree_Root));
     
     mProjectRoot->setIcon(0, QIcon(":/icon/project.png"));
     this->addTopLevelItem(mProjectRoot);
@@ -130,7 +150,7 @@ void FCProjectTreeWidget::onModelCustomContextMenu(QPoint point)
     if (item == nullptr)
         return;
     
-    ProjectTreeEnum treeType = item->data(2, 0).value<ProjectTreeEnum>();
+    ProjectTreeEnum treeType = item->data(0, Role_Type).value<ProjectTreeEnum>();
     QMenu menu(this);
     
     switch (treeType)
@@ -157,20 +177,38 @@ void FCProjectTreeWidget::onItemClicked(QTreeWidgetItem* item, int column)
 {
     Q_UNUSED(item);
     Q_UNUSED(column);
-    // 与 TreeWidget 一致：可与 FCTreeEventOperator / FCOperatorRepo 联动，后续接入
-    // 几何实体选中由 onSelectionChanged 统一处理并发射 geometryNodeSelected
+    syncPropertyPanelToCurrentItem();
 }
 
 void FCProjectTreeWidget::onSelectionChanged()
 {
+    syncPropertyPanelToCurrentItem();
+}
+
+void FCProjectTreeWidget::syncPropertyPanelToCurrentItem()
+{
     QTreeWidgetItem* item = currentItem();
-    if (!item) return;
-    QVariant typeVar = item->data(2, 0);
-    if (!typeVar.isValid()) return;
-    if (typeVar.value<ProjectTreeEnum>() != ProjectTreeEnum::ProjectTree_GeometryEntity)
+    if (!item) {
+        emit noEntitySelected();
         return;
-    FCID nodeId = static_cast<FCID>(item->data(1, 0).toULongLong());
-    emit geometryNodeSelected(nodeId);
+    }
+    QVariant idVar = item->data(0, Role_Id);
+    QVariant typeVar = item->data(0, Role_Type);
+    if (!idVar.isValid() || idVar.toULongLong() == 0) {
+        emit noEntitySelected();
+        return;
+    }
+    if (!typeVar.isValid()) {
+        emit noEntitySelected();
+        return;
+    }
+    ProjectTreeEnum type = typeVar.value<ProjectTreeEnum>();
+    if (type == ProjectTreeEnum::ProjectTree_GeometryEntity) {
+        FCID nodeId = static_cast<FCID>(idVar.toULongLong());
+        emit geometryNodeSelected(nodeId);
+    } else {
+        emit noEntitySelected();
+    }
 }
 
 void FCProjectTreeWidget::onDoubleClicked(QTreeWidgetItem* item, int column)
@@ -178,7 +216,7 @@ void FCProjectTreeWidget::onDoubleClicked(QTreeWidgetItem* item, int column)
     if (item == nullptr)
         return;
     Q_UNUSED(column);
-    // 与 TreeWidget 一致：可根据 data(1,0) / data(2,0) 触发编辑等，后续接入
+    // 与 TreeWidget 一致：可根据 data(0, Role_Id) / data(0, Role_Type) 触发编辑等，后续接入
 }
 
 void FCProjectTreeWidget::acitonClicked()
@@ -195,7 +233,7 @@ void FCProjectTreeWidget::acitonClicked()
     // auto acOper = Core::FCOperatorRepo::getInstance()->getOperatorT<Core::FCActionOperator>(senderObject->objectName());
     // if (acOper == nullptr) return;
     // acOper->setEmitter(senderObject);
-    // acOper->setArgs("objID", item->data(1, 0).toInt());
+    // acOper->setArgs("objID", item->data(0, Role_Id).toULongLong());
     // acOper->actionTriggered();
     Q_UNUSED(senderObject);
 }
@@ -242,8 +280,9 @@ void FCProjectTreeWidget::updateGeometryItems()
         FC::FCGeoNode node = dagData->module()->tree()->node(id);
         QTreeWidgetItem* item = new QTreeWidgetItem(mComponentGeometry);
         item->setText(0, node.name.isEmpty() ? QStringLiteral("Node%1").arg(static_cast<qulonglong>(id)) : node.name);
-        item->setData(1, 0, static_cast<qulonglong>(id));
-        item->setData(2, 0, QVariant::fromValue(ProjectTreeEnum::ProjectTree_GeometryEntity));
+        item->setIcon(0, QIcon(iconPathForGeoOpType(node.type)));
+        item->setData(0, TreeRole::Role_Id, static_cast<qulonglong>(id));
+        item->setData(0, Role_Type, QVariant::fromValue(ProjectTreeEnum::ProjectTree_GeometryEntity));
     }
 }
 
@@ -254,7 +293,7 @@ void FCProjectTreeWidget::expandGeometryAndSelectCommand(FCID cmdId)
     const quint64 key = static_cast<quint64>(cmdId);
     for (int i = 0; i < mComponentGeometry->childCount(); ++i) {
         QTreeWidgetItem* child = mComponentGeometry->child(i);
-        if (child->data(1, 0).toULongLong() == key) {
+        if (child->data(0, Role_Id).toULongLong() == key) {
             setCurrentItem(child);
             scrollToItem(child);
             break;

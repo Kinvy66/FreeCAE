@@ -112,7 +112,8 @@ FCID FCGeometryModule::appendNode(FCGeoOpType type, const QList<FCID>& inputs, c
     node.params = params;
     m_tree->addNode(node);
     m_lastNodeId = cmdId;
-    qInfo().noquote() << QStringLiteral("添加几何成功: id=%1, 名称=%2").arg(static_cast<qulonglong>(cmdId)).arg(nodeName);
+    qInfo().noquote() << QStringLiteral("Geometry added: id=%1, name=%2")
+                          .arg(static_cast<qulonglong>(cmdId)).arg(nodeName);
     return cmdId;
 }
 

@@ -32,6 +32,7 @@ public:
 
 private slots:
     void onGeometryNodeSelected(FCID nodeId);
+    void onNoEntitySelected();
 
 private:
     FCDockingAreaInterface* m_docking{ nullptr };

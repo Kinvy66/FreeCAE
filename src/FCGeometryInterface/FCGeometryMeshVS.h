@@ -7,6 +7,7 @@
 
 #include "FCGeometryInterfaceAPI.h"
 #include <FCData/FCAbstractDataObject.h>
+#include <FCData/FCIdHash.h>
 #include <FCData/FCMacros.h>
 #include <QHash>
 
@@ -23,21 +24,21 @@ public:
     explicit FCGeometryMeshVS();
     ~FCGeometryMeshVS() override;
 
-    void insertPoint(int id, FCGeoMeshVSPt* pt);
-    void insertEdge(int id, FCGeoMeshVSEdgeEntity* edge);
-    void insertFace(int id, FCGeoMeshVSFaceEntity* face);
+    void insertPoint(FCID id, FCGeoMeshVSPt* pt);
+    void insertEdge(FCID id, FCGeoMeshVSEdgeEntity* edge);
+    void insertFace(FCID id, FCGeoMeshVSFaceEntity* face);
 
-    const QHash<int, FCGeoMeshVSPt*>& getPointItems() const;
-    const QHash<int, FCGeoMeshVSEdgeEntity*>& getEdgeItems() const;
-    const QHash<int, FCGeoMeshVSFaceEntity*>& getFaceItems() const;
+    const QHash<FCID, FCGeoMeshVSPt*>& getPointItems() const;
+    const QHash<FCID, FCGeoMeshVSEdgeEntity*>& getEdgeItems() const;
+    const QHash<FCID, FCGeoMeshVSFaceEntity*>& getFaceItems() const;
 
     void clear();
     bool isValid() const;
 
 private:
-    QHash<int, FCGeoMeshVSPt*> _points;
-    QHash<int, FCGeoMeshVSEdgeEntity*> _edges;
-    QHash<int, FCGeoMeshVSFaceEntity*> _faces;
+    QHash<FCID, FCGeoMeshVSPt*> _points;
+    QHash<FCID, FCGeoMeshVSEdgeEntity*> _edges;
+    QHash<FCID, FCGeoMeshVSFaceEntity*> _faces;
 };
 
 } // namespace FC

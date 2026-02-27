@@ -50,7 +50,7 @@ enum class ProjectTreeEnum
 
 enum TreeRole
 {
-    Role_Id = Qt::UserRole,  // 目录项id为-1， 实体数据项使用本身的id
+    Role_Id = Qt::UserRole + 1,  // 目录项id为-1， 实体数据项使用本身的id
     Role_Type   ///< @sa ProjectTreeEnum
 };
 
@@ -90,8 +90,10 @@ public:
     void deleteEntityItem();
 
 signals:
-    /** 当前选中项为几何实体节点时发射，nodeId 为 DAG 节点 ID（data(1,0)） */
+    /** 当前选中项为几何实体节点时发射，nodeId 为 DAG 节点 ID（= 命令 ID，从 FCDataRepo 取数据填充属性页） */
     void geometryNodeSelected(FCID nodeId);
+    /** 当前选中项无有效实体 ID（如目录节点）时发射，用于清空属性页 */
+    void noEntitySelected();
 
 private slots:
     /**
@@ -121,8 +123,7 @@ private slots:
     void soltIconButtonClicked();
     
     /**
-     * @brief 选择变化时检查是否为几何实体节点并发射 geometryNodeSelected
-     * @todo 修改工程树选中项变化的逻辑
+     * @brief 选择变化时：有 ID 则从仓库取数并通知填充属性页，无 ID 则通知清空
      */
     void onSelectionChanged();
 
@@ -164,7 +165,9 @@ public:
     void update1DPlot();
     
 private:
-    
+    /** 根据当前选中项同步属性页：有 Role_Id 且为几何实体则发射 geometryNodeSelected，否则发射 noEntitySelected */
+    void syncPropertyPanelToCurrentItem();
+
     /**
      * @brief 构建一级类别目录
      */

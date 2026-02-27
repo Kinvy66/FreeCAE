@@ -110,7 +110,7 @@ void FCOCCShapeTriangulate::triangulateShape(double factor)
     triangulate(*shape, factor);
 }
 
-void FCOCCShapeTriangulate::discretePoint(int id, const TopoDS_Shape& shape)
+void FCOCCShapeTriangulate::discretePoint(FCID id, const TopoDS_Shape& shape)
 {
     TopoDS_Vertex vertex = TopoDS::Vertex(shape);
     gp_Pnt pt = BRep_Tool::Pnt(vertex);
@@ -119,7 +119,7 @@ void FCOCCShapeTriangulate::discretePoint(int id, const TopoDS_Shape& shape)
     _occModel->getMeshVS()->insertPoint(id, vpt);
 }
 
-void FCOCCShapeTriangulate::discreteEdge(int id, const TopoDS_Shape& shape)
+void FCOCCShapeTriangulate::discreteEdge(FCID id, const TopoDS_Shape& shape)
 {
     triangulate(shape, 0.0005);
     TopLoc_Location loc;
@@ -140,7 +140,7 @@ void FCOCCShapeTriangulate::discreteEdge(int id, const TopoDS_Shape& shape)
     _occModel->getMeshVS()->insertEdge(id, vsedge);
 }
 
-void FCOCCShapeTriangulate::discreteFace(int id, const TopoDS_Shape& shape)
+void FCOCCShapeTriangulate::discreteFace(FCID id, const TopoDS_Shape& shape)
 {
     const TopoDS_Face& face = TopoDS::Face(shape);
     TopLoc_Location loc;

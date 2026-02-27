@@ -9,6 +9,7 @@
 #include "FCVTKCommons.h"
 #include <FCRenderWindowVTK/FCGraphObjectVTK.h>
 #include <FCData/FCAbstractDataObject.h>
+#include <FCData/FCType.h>
 #include <QHash>
 #include <QList>
 // #include <vtkObject.h>
@@ -27,12 +28,12 @@ public:
 
     virtual void setViewMode(FCVTKCommons::ShapeMeshViewMode type, bool visible);
     virtual void setTransparent(bool isOn);
-    virtual void setColor(QColor color, FCVTKCommons::ShapeType type, int index);
+    virtual void setColor(QColor color, FCVTKCommons::ShapeType type, FCID shapeId);
     virtual void setColor(QColor color);
     virtual int getNumberOf(FCVTKCommons::ShapeType type);
     virtual void setPickMode(FCVTKCommons::ShapePickMode mode);
-    virtual int getShapeIdByVTKCellId(int vtkCellId, FCVTKCommons::ShapeAbsEnum topAbsShapeType);
-    virtual const QVector<int> getVTKCellIdsByShapeId(int shapeId, FCVTKCommons::ShapeAbsEnum topAbsShapeType);
+    virtual FCID getShapeIdByVTKCellId(int vtkCellId, FCVTKCommons::ShapeAbsEnum topAbsShapeType);
+    virtual const QVector<int> getVTKCellIdsByShapeId(FCID shapeId, FCVTKCommons::ShapeAbsEnum topAbsShapeType);
     virtual const QVector<int> getVTKCellIdsByVTKCellId(int cellId, FCVTKCommons::ShapeAbsEnum topAbsShapeType);
     virtual vtkDataSet* getMesh(FCVTKCommons::ShapeType type);
     virtual void setVisible(bool visibility);
@@ -40,7 +41,7 @@ public:
     virtual void update(bool forceUpdate = false) override;
     virtual void highlight(FCVTKCommons::ShapeType type = FCVTKCommons::ShapeTypeNone, QColor color = QColor());
     virtual void disHighlight();
-    virtual void advanceHighlight(FCVTKCommons::ShapeType type, QVector<int> indice, QColor color = QColor());
+    virtual void advanceHighlight(FCVTKCommons::ShapeType type, QVector<FCID> indice, QColor color = QColor());
     virtual void disAdvanceHighlight();
 
     int getDataId() const;

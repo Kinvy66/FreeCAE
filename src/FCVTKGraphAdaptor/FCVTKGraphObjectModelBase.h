@@ -8,6 +8,7 @@
 #include "FCVTKGraphAdaptorAPI.h"
 #include "FCVTKGraphObject3D.h"
 #include "FCVTKCommons.h"
+#include <FCData/FCIdHash.h>
 #include <QVector>
 #include <QVariant>
 #include <QHash>
@@ -35,15 +36,15 @@ public:
     void setVisible(bool visibility) override;
     void setViewMode(FCVTKCommons::ShapeMeshViewMode type, bool visible) override;
     void setTransparent(bool isOn) override;
-    void setColor(QColor color, FCVTKCommons::ShapeType type, int index) override;
+    void setColor(QColor color, FCVTKCommons::ShapeType type, FCID shapeId) override;
     void highlight(FCVTKCommons::ShapeType type = FCVTKCommons::ShapeTypeNone, QColor color = QColor()) override;
     void disHighlight() override;
-    void advanceHighlight(FCVTKCommons::ShapeType type, QVector<int> indice, QColor color = QColor()) override;
+    void advanceHighlight(FCVTKCommons::ShapeType type, QVector<FCID> indice, QColor color = QColor()) override;
     void disAdvanceHighlight() override;
     int getNumberOf(FCVTKCommons::ShapeType type) override;
     void setPickMode(FCVTKCommons::ShapePickMode mode) override;
-    int getShapeIdByVTKCellId(int vtkCellId, FCVTKCommons::ShapeAbsEnum topAbsShapeType) override;
-    const QVector<int> getVTKCellIdsByShapeId(int shapeId, FCVTKCommons::ShapeAbsEnum topAbsShapeType) override;
+    FCID getShapeIdByVTKCellId(int vtkCellId, FCVTKCommons::ShapeAbsEnum topAbsShapeType) override;
+    const QVector<int> getVTKCellIdsByShapeId(FCID shapeId, FCVTKCommons::ShapeAbsEnum topAbsShapeType) override;
     const QVector<int> getVTKCellIdsByVTKCellId(int cellId, FCVTKCommons::ShapeAbsEnum topAbsShapeType) override;
     vtkDataSet* getMesh(FCVTKCommons::ShapeType type) override;
 
@@ -77,14 +78,14 @@ protected:
     vtkProp* m_fActorEdge = nullptr;
     vtkProp* m_fActorFace = nullptr;
 
-    QVector<int> m_cellIdVertexIdMap;
-    QVector<int> m_cellIdEdgeIdMap;
-    QVector<int> m_cellIdFaceIdMap;
-    QHash<int, int> m_faceSolidIdMap;
-    QHash<int, int> m_vertexIdCellIdMap;
-    QHash<int, int> m_edgeIdCellIdMap;
-    QHash<int, QVector<int>> m_solidFaceIdsHash;
-    QHash<int, QVector<int>> m_faceCellIdsHash;
+    QVector<FCID> m_cellIdVertexIdMap;
+    QVector<FCID> m_cellIdEdgeIdMap;
+    QVector<FCID> m_cellIdFaceIdMap;
+    QHash<FCID, FCID> m_faceSolidIdMap;
+    QHash<FCID, int> m_vertexIdCellIdMap;
+    QHash<FCID, int> m_edgeIdCellIdMap;
+    QHash<FCID, QVector<FCID>> m_solidFaceIdsHash;
+    QHash<FCID, QVector<int>> m_faceCellIdsHash;
 
     QVariant m_shapeState;
 };

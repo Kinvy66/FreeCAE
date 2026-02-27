@@ -102,9 +102,9 @@ void FCVTKGraphObjectModelBase::createVertexGrid()
     if (!m_gridVertex || !m_triData) return;
     vtkPoints* points = m_gridVertex->GetPoints();
     if (!points) return;
-    const QHash<int, FCGeoMeshVSPt*>& pointsHash = m_triData->getPointItems();
+    const QHash<FCID, FCGeoMeshVSPt*>& pointsHash = m_triData->getPointItems();
     for (auto it = pointsHash.constBegin(); it != pointsHash.constEnd(); ++it) {
-        int meshPtId = it.key();
+        FCID meshPtId = it.key();
         FCGeoMeshVSPt* pt = it.value();
         vtkIdType ptIndex = points->InsertNextPoint(pt->x(), pt->y(), pt->z());
         vtkSmartPointer<vtkIdList> cell = vtkSmartPointer<vtkIdList>::New();
@@ -120,9 +120,9 @@ void FCVTKGraphObjectModelBase::createEdgeGrid()
     if (!m_gridEdge || !m_triData) return;
     vtkPoints* points = m_gridEdge->GetPoints();
     if (!points) return;
-    const QHash<int, FCGeoMeshVSEdgeEntity*>& edgesHash = m_triData->getEdgeItems();
+    const QHash<FCID, FCGeoMeshVSEdgeEntity*>& edgesHash = m_triData->getEdgeItems();
     for (auto it = edgesHash.constBegin(); it != edgesHash.constEnd(); ++it) {
-        int meshEdgeId = it.key();
+        FCID meshEdgeId = it.key();
         FCGeoMeshVSEdgeEntity* edge = it.value();
         const QList<FCGeoMeshVSPt*>& pts = edge->getPoints();
         vtkSmartPointer<vtkIdList> polyLineCell = vtkSmartPointer<vtkIdList>::New();
@@ -141,7 +141,7 @@ void FCVTKGraphObjectModelBase::createFaceGrid()
     if (!m_gridFace || !m_triData) return;
     vtkPoints* points = m_gridFace->GetPoints();
     if (!points) return;
-    const QHash<int, FCGeoMeshVSFaceEntity*>& facesHash = m_triData->getFaceItems();
+    const QHash<FCID, FCGeoMeshVSFaceEntity*>& facesHash = m_triData->getFaceItems();
     vtkDoubleArray* tempCellNormals = vtkDoubleArray::New();
     tempCellNormals->SetNumberOfComponents(3);
     vtkPoints* tempPts = vtkPoints::New();
@@ -150,7 +150,7 @@ void FCVTKGraphObjectModelBase::createFaceGrid()
     int ptIndexStart = 0;
 
     for (auto it = facesHash.constBegin(); it != facesHash.constEnd(); ++it) {
-        int meshFaceId = it.key();
+        FCID meshFaceId = it.key();
         FCGeoMeshVSFaceEntity* face = it.value();
         const QList<FCGeoMeshVSPt*>& facePoints = face->getPoints();
         for (FCGeoMeshVSPt* fp : facePoints)
@@ -214,11 +214,11 @@ void FCVTKGraphObjectModelBase::initializeSolidFaceMap()
     int nSolids = tpSolidMgr->getDataCount();
     for (int i = 0; i < nSolids; ++i) {
         FCAbsVirtualTopo* vSolid = tpSolidMgr->getDataByIndex(i);
-        int solidId = vSolid->getDataObjectID();
+        FCID solidId = vSolid->getDataObjectID();
         int nSub = vSolid->getSubTopoCount();
         for (int j = 0; j < nSub; ++j) {
             FCAbsVirtualTopo* vFace = vSolid->getSubTopo(j);
-            int faceId = vFace->getDataObjectID();
+            FCID faceId = vFace->getDataObjectID();
             m_solidFaceIdsHash[solidId].push_back(faceId);
             m_faceSolidIdMap[faceId] = solidId;
         }
@@ -346,29 +346,29 @@ void FCVTKGraphObjectModelBase::setTransparent(bool isOn)
     if (vtkActor* a = vtkActor::SafeDownCast(m_fActorFace)) a->GetProperty()->SetOpacity(opa);
 }
 
-void FCVTKGraphObjectModelBase::setColor(QColor color, FCVTKCommons::ShapeType type, int index)
+void FCVTKGraphObjectModelBase::setColor(QColor color, FCVTKCommons::ShapeType type, FCID shapeId)
 {
     switch (type) {
     case FCVTKCommons::ModelVertex: {
-        int cellId = m_vertexIdCellIdMap.value(index, -1);
+        int cellId = m_vertexIdCellIdMap.value(shapeId, -1);
         if (cellId >= 0 && m_colorMapVertex)
             m_colorMapVertex->setCellsColor(c_defaultArrName, QList<int>() << cellId, color);
         break;
     }
     case FCVTKCommons::ModelEdge: {
-        int cellId = m_edgeIdCellIdMap.value(index, -1);
+        int cellId = m_edgeIdCellIdMap.value(shapeId, -1);
         if (cellId >= 0 && m_colorMapEdge)
             m_colorMapEdge->setCellsColor(c_defaultArrName, QList<int>() << cellId, color);
         break;
     }
     case FCVTKCommons::ModelFace:
-        if (m_faceCellIdsHash.contains(index) && m_colorMapFace)
-            m_colorMapFace->setCellsColor(c_defaultArrName, m_faceCellIdsHash[index].toList(), color);
+        if (m_faceCellIdsHash.contains(shapeId) && m_colorMapFace)
+            m_colorMapFace->setCellsColor(c_defaultArrName, m_faceCellIdsHash[shapeId].toList(), color);
         break;
     case FCVTKCommons::ModelSolid:
-        if (m_solidFaceIdsHash.contains(index) && m_colorMapFace) {
+        if (m_solidFaceIdsHash.contains(shapeId) && m_colorMapFace) {
             QList<int> cellIds;
-            for (int fId : m_solidFaceIdsHash[index])
+            for (FCID fId : m_solidFaceIdsHash[shapeId])
                 cellIds.append(m_faceCellIdsHash.value(fId));
             m_colorMapFace->setCellsColor(c_defaultArrName, cellIds, color);
         }
@@ -402,7 +402,7 @@ void FCVTKGraphObjectModelBase::disHighlight()
     FCVTKGraphObject3D::disHighlight();
 }
 
-void FCVTKGraphObjectModelBase::advanceHighlight(FCVTKCommons::ShapeType type, QVector<int> indice, QColor color)
+void FCVTKGraphObjectModelBase::advanceHighlight(FCVTKCommons::ShapeType type, QVector<FCID> indice, QColor color)
 {
     if (!m_highlightSelector || indice.isEmpty()) return;
     vtkDataSet* meshDataSet = getMesh(type);
@@ -417,8 +417,8 @@ void FCVTKGraphObjectModelBase::advanceHighlight(FCVTKCommons::ShapeType type, Q
     }
     int nCells = meshDataSet->GetNumberOfCells();
     QVector<int> cellFlags(nCells, 0);
-    for (int index : indice) {
-        for (int vtkId : getVTKCellIdsByShapeId(index, shapeEnum))
+    for (FCID shapeId : indice) {
+        for (int vtkId : getVTKCellIdsByShapeId(shapeId, shapeEnum))
             cellFlags[vtkId] = 1;
     }
     QVector<int> vtkIndice;
@@ -469,14 +469,14 @@ void FCVTKGraphObjectModelBase::setPickMode(FCVTKCommons::ShapePickMode mode)
     FCVTKGraphObject3D::setPickMode(mode);
 }
 
-int FCVTKGraphObjectModelBase::getShapeIdByVTKCellId(int vtkCellId, FCVTKCommons::ShapeAbsEnum topAbsShapeType)
+FCID FCVTKGraphObjectModelBase::getShapeIdByVTKCellId(int vtkCellId, FCVTKCommons::ShapeAbsEnum topAbsShapeType)
 {
-    if (vtkCellId < 0) return -1;
+    if (vtkCellId < 0) return FCID_INVALID;
     switch (topAbsShapeType) {
     case FCVTKCommons::STA_SOLID:
         if (vtkCellId < m_cellIdFaceIdMap.size()) {
-            int faceId = m_cellIdFaceIdMap[vtkCellId];
-            return m_faceSolidIdMap.value(faceId, -1);
+            FCID faceId = m_cellIdFaceIdMap[vtkCellId];
+            return m_faceSolidIdMap.value(faceId, FCID_INVALID);
         }
         break;
     case FCVTKCommons::STA_FACE:
@@ -490,17 +490,17 @@ int FCVTKGraphObjectModelBase::getShapeIdByVTKCellId(int vtkCellId, FCVTKCommons
         break;
     default: break;
     }
-    return -1;
+    return FCID_INVALID;
 }
 
-const QVector<int> FCVTKGraphObjectModelBase::getVTKCellIdsByShapeId(int shapeId, FCVTKCommons::ShapeAbsEnum topAbsShapeType)
+const QVector<int> FCVTKGraphObjectModelBase::getVTKCellIdsByShapeId(FCID shapeId, FCVTKCommons::ShapeAbsEnum topAbsShapeType)
 {
     QVector<int> cellIds;
     switch (topAbsShapeType) {
     case FCVTKCommons::STA_SOLID: {
         if (!m_solidFaceIdsHash.contains(shapeId)) break;
-        for (int fId : m_solidFaceIdsHash[shapeId])
-            cellIds << getVTKCellIdsByShapeId(fId, FCVTKCommons::STA_FACE);
+        for (FCID fId : m_solidFaceIdsHash[shapeId])
+            cellIds.append(getVTKCellIdsByShapeId(fId, FCVTKCommons::STA_FACE));
         break;
     }
     case FCVTKCommons::STA_FACE:
@@ -523,11 +523,11 @@ const QVector<int> FCVTKGraphObjectModelBase::getVTKCellIdsByVTKCellId(int cellI
     switch (topAbsShapeType) {
     case FCVTKCommons::STA_SOLID:
         if (cellId < m_cellIdFaceIdMap.size()) {
-            int faceId = m_cellIdFaceIdMap[cellId];
-            int solidId = m_faceSolidIdMap.value(faceId, -1);
-            if (solidId >= 0 && m_solidFaceIdsHash.contains(solidId))
-                for (int fId : m_solidFaceIdsHash[solidId])
-                    cellIds << m_faceCellIdsHash.value(fId);
+            FCID faceId = m_cellIdFaceIdMap[cellId];
+            FCID solidId = m_faceSolidIdMap.value(faceId, FCID_INVALID);
+            if (solidId != FCID_INVALID && m_solidFaceIdsHash.contains(solidId))
+                for (FCID fId : m_solidFaceIdsHash[solidId])
+                    cellIds.append(m_faceCellIdsHash.value(fId));
         }
         break;
     case FCVTKCommons::STA_FACE:

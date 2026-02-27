@@ -18,16 +18,16 @@ FCPropertyWidget::FCPropertyWidget(QWidget *parent)
 
 void FCPropertyWidget::setContentWidget(QWidget* w)
 {
-    if (!w) return;
     QLayout* layout = this->layout();
     if (!layout) return;
     while (QLayoutItem* item = layout->takeAt(0)) {
         QWidget* old = item->widget();
         delete item;
         if (old)
-            delete old;  // 删除旧内容，避免 setParent(nullptr) 后变成悬浮窗
+            delete old;
     }
-    layout->addWidget(w);
+    if (w)
+        layout->addWidget(w);
 }
 
 } // namespace FC

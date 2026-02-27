@@ -39,11 +39,11 @@ void FCVTKGraphObject3D::setTransparent(bool isOn)
     Q_UNUSED(isOn);
 }
 
-void FCVTKGraphObject3D::setColor(QColor color, FCVTKCommons::ShapeType type, int index)
+void FCVTKGraphObject3D::setColor(QColor color, FCVTKCommons::ShapeType type, FCID shapeId)
 {
     Q_UNUSED(color);
     Q_UNUSED(type);
-    Q_UNUSED(index);
+    Q_UNUSED(shapeId);
 }
 
 void FCVTKGraphObject3D::setColor(QColor color)
@@ -62,14 +62,14 @@ void FCVTKGraphObject3D::setPickMode(FCVTKCommons::ShapePickMode mode)
     m_pickMode = mode;
 }
 
-int FCVTKGraphObject3D::getShapeIdByVTKCellId(int vtkCellId, FCVTKCommons::ShapeAbsEnum topAbsShapeType)
+FCID FCVTKGraphObject3D::getShapeIdByVTKCellId(int vtkCellId, FCVTKCommons::ShapeAbsEnum topAbsShapeType)
 {
     Q_UNUSED(vtkCellId);
     Q_UNUSED(topAbsShapeType);
-    return -1;
+    return FCID_INVALID;
 }
 
-const QVector<int> FCVTKGraphObject3D::getVTKCellIdsByShapeId(int shapeId, FCVTKCommons::ShapeAbsEnum topAbsShapeType)
+const QVector<int> FCVTKGraphObject3D::getVTKCellIdsByShapeId(FCID shapeId, FCVTKCommons::ShapeAbsEnum topAbsShapeType)
 {
     Q_UNUSED(shapeId);
     Q_UNUSED(topAbsShapeType);
@@ -120,7 +120,7 @@ void FCVTKGraphObject3D::disHighlight()
     m_isHighlighting = false;
 }
 
-void FCVTKGraphObject3D::advanceHighlight(FCVTKCommons::ShapeType type, QVector<int> indice, QColor color)
+void FCVTKGraphObject3D::advanceHighlight(FCVTKCommons::ShapeType type, QVector<FCID> indice, QColor color)
 {
     Q_UNUSED(type);
     Q_UNUSED(indice);

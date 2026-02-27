@@ -12,41 +12,41 @@ FCGeometryMeshVS::~FCGeometryMeshVS()
     clear();
 }
 
-void FCGeometryMeshVS::insertPoint(int id, FCGeoMeshVSPt* pt)
+void FCGeometryMeshVS::insertPoint(FCID id, FCGeoMeshVSPt* pt)
 {
-    if (!pt || id < 0) return;
+    if (!pt || id == FCID_INVALID) return;
     if (_points.contains(id))
         delete _points[id];
     _points.insert(id, pt);
 }
 
-void FCGeometryMeshVS::insertEdge(int id, FCGeoMeshVSEdgeEntity* edge)
+void FCGeometryMeshVS::insertEdge(FCID id, FCGeoMeshVSEdgeEntity* edge)
 {
-    if (!edge || id < 0) return;
+    if (!edge || id == FCID_INVALID) return;
     if (_edges.contains(id))
         delete _edges[id];
     _edges.insert(id, edge);
 }
 
-void FCGeometryMeshVS::insertFace(int id, FCGeoMeshVSFaceEntity* face)
+void FCGeometryMeshVS::insertFace(FCID id, FCGeoMeshVSFaceEntity* face)
 {
-    if (!face || id < 0) return;
+    if (!face || id == FCID_INVALID) return;
     if (_faces.contains(id))
         delete _faces[id];
     _faces.insert(id, face);
 }
 
-const QHash<int, FCGeoMeshVSPt*>& FCGeometryMeshVS::getPointItems() const
+const QHash<FCID, FCGeoMeshVSPt*>& FCGeometryMeshVS::getPointItems() const
 {
     return _points;
 }
 
-const QHash<int, FCGeoMeshVSEdgeEntity*>& FCGeometryMeshVS::getEdgeItems() const
+const QHash<FCID, FCGeoMeshVSEdgeEntity*>& FCGeometryMeshVS::getEdgeItems() const
 {
     return _edges;
 }
 
-const QHash<int, FCGeoMeshVSFaceEntity*>& FCGeometryMeshVS::getFaceItems() const
+const QHash<FCID, FCGeoMeshVSFaceEntity*>& FCGeometryMeshVS::getFaceItems() const
 {
     return _faces;
 }

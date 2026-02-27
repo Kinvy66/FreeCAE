@@ -14,6 +14,7 @@
 #define FCOCCSHAPETRIANGULATE_H
 
 #include "FCGeometryCommandAPI.h"
+#include <FCData/FCType.h>
 
 class TopoDS_Shape;
 
@@ -36,9 +37,9 @@ public:
 private:
     void triangulateShape(double factor = 0.001);
     void triangulate(const TopoDS_Shape& shape, double factor = 0.001);
-    void discretePoint(int id, const TopoDS_Shape& shape);
-    void discreteEdge(int id, const TopoDS_Shape& shape);
-    void discreteFace(int id, const TopoDS_Shape& shape);
+    void discretePoint(FCID id, const TopoDS_Shape& shape);
+    void discreteEdge(FCID id, const TopoDS_Shape& shape);
+    void discreteFace(FCID id, const TopoDS_Shape& shape);
 
     FCAbstractOCCModel* _occModel{};
 };

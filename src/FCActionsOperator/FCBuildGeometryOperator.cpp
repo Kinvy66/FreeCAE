@@ -73,7 +73,6 @@ bool FCBuildGeometryOperator::execProfession()
     FCGraph3DWindowVTK* graphWin = getGraphWidget(docking);
     if (!graphWin) return false;
 
-    // 单几何构建：清空渲染器 0 的几何对象再添加，避免重复 addObject 导致内存增长
     FCGraphRender* render0 = graphWin->getRenderer(0);
     if (render0) {
         FCGraphObjManager* mgr = render0->getGraphObjManager();
@@ -95,7 +94,7 @@ bool FCBuildGeometryOperator::execProfession()
     FCVTKGraphObject3D* graphObj = adaptor.getOutputData();
     if (!graphObj || graphObj->getActorCount() == 0) return false;
     graphWin->addObject(0, graphObj, true);
-    qInfo().noquote() << QStringLiteral("构建几何成功: id=%1, 名称=%2")
+    qInfo().noquote() << QStringLiteral("Geometry built: id=%1, name=%2")
                           .arg(static_cast<qulonglong>(cmd->getDataObjectID()))
                           .arg(cmd->getDataObjectName());
     return true;
