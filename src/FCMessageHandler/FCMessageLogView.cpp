@@ -26,7 +26,7 @@ FCMessageLogView::FCMessageLogView(QWidget *parent)
     
     // 创建action
     _actionMessageLogShowInfo     = createAction("actionMessageLogShowInfo",
-                                             ":/icon/icon/clear-message.svg",
+                                             ":/icon/icon/messageTypeInfo.svg",
                                              true,
                                              true);
     _actionMessageLogShowWarning  = createAction("actionMessageLogShowWarning",
