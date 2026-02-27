@@ -25,5 +25,6 @@ option(FC_COPY_THIRDPARTY_DLLS
 |ADS         |4.4.1  |
 |quazip      |1.5    |
 |zlib        |1.4.1.1|
-|gmsh        |4.15.0|
+|gmsh        |4.15.0 |
+|pybind11    |3.0.2  |
 
