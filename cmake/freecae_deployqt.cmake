@@ -134,6 +134,69 @@ function(fcfun_need_copy_dll _source_file _dest_file _need_copy)
 endfunction()
 
 ########################################################
+# 拷贝 VC 运行时 DLL 到目标目录 (vcruntime140, msvcp140 等)
+# 用于在没有安装 Visual Studio 的机器上运行 MSVC 编译的程序
+# 参数：
+#   _target_dir - 目标目录（通常是bin目录）
+########################################################
+function(fcfun_copy_vc_runtime_dlls _target_dir)
+    if(NOT WIN32)
+        return()
+    endif()
+
+    set(_vc_crt_dir "")
+    # 从编译器路径推测 VC Redist 目录: .../VC/Tools/MSVC/xx.xx.xxxxx/ -> .../VC/Redist/MSVC/xx.xx.xxxxx/x64/Microsoft.VC143.CRT
+    if(DEFINED CMAKE_CXX_COMPILER)
+        string(REGEX REPLACE "\\\\" "/" _compiler_path "${CMAKE_CXX_COMPILER}")
+        if(_compiler_path MATCHES "Microsoft Visual Studio/[0-9]+/[^/]+/VC/Tools/MSVC/([0-9.]+)/")
+            set(_msvc_version "${CMAKE_MATCH_1}")
+            if(_compiler_path MATCHES "(.*)/VC/Tools/MSVC/")
+                set(_vc_root "${CMAKE_MATCH_1}/VC")
+                set(_candidate "${_vc_root}/Redist/MSVC/${_msvc_version}/x64/Microsoft.VC143.CRT")
+                if(EXISTS "${_candidate}")
+                    set(_vc_crt_dir "${_candidate}")
+                endif()
+            endif()
+        endif()
+    endif()
+    # 备选: 搜索常见路径
+    if(_vc_crt_dir STREQUAL "")
+        file(GLOB _vs_paths "C:/Program Files/Microsoft Visual Studio/2022/*/VC/Redist/MSVC/*/x64/Microsoft.VC143.CRT")
+        if(_vs_paths)
+            list(GET _vs_paths 0 _vc_crt_dir)
+        endif()
+    endif()
+    if(_vc_crt_dir STREQUAL "")
+        file(GLOB _vs_paths "C:/Program Files (x86)/Microsoft Visual Studio/2022/*/VC/Redist/MSVC/*/x64/Microsoft.VC143.CRT")
+        if(_vs_paths)
+            list(GET _vs_paths 0 _vc_crt_dir)
+        endif()
+    endif()
+
+    if(_vc_crt_dir STREQUAL "" OR NOT EXISTS "${_vc_crt_dir}")
+        message(WARNING "VC runtime CRT dir not found, skipping. App may need vc_redist.x64.exe on target machine.")
+        return()
+    endif()
+
+    set(_dll_names vcruntime140.dll msvcp140.dll vcruntime140_1.dll)
+    set(_copied 0)
+    foreach(_dll_name IN LISTS _dll_names)
+        set(_src "${_vc_crt_dir}/${_dll_name}")
+        if(EXISTS "${_src}")
+            set(_dest "${_target_dir}/${_dll_name}")
+            fcfun_need_copy_dll("${_src}" "${_dest}" _need_copy)
+            if(_need_copy)
+                file(COPY "${_src}" DESTINATION "${_target_dir}")
+                math(EXPR _copied "${_copied} + 1")
+            endif()
+        endif()
+    endforeach()
+    if(_copied GREATER 0)
+        message(STATUS "Copied ${_copied} VC runtime DLL(s) from ${_vc_crt_dir}")
+    endif()
+endfunction()
+
+########################################################
 # 拷贝第三方库DLL到目标目录
 # 参数：
 #   _target_dir - 目标目录（通常是bin目录）
@@ -421,6 +484,8 @@ function(fcfun_copy_all_dlls_to_build _target_name _build_type)
         message(WARNING "Target executable not found: ${_target_exe}, skipping windeployqt")
     endif()
     
+    # 拷贝 VC 运行时 DLL
+    fcfun_copy_vc_runtime_dlls(${_bin_dir})
     # 然后拷贝第三方库DLL
     fcfun_copy_thirdlib_dlls(${_bin_dir} ${_build_type})
 endfunction()
@@ -525,6 +590,8 @@ if(DEFINED _TARGET_NAME AND DEFINED _BUILD_TYPE)
         endforeach()
     endif()
     
+    # 拷贝 VC 运行时 DLL
+    fcfun_copy_vc_runtime_dlls(${_bin_dir})
     # 然后拷贝第三方库DLL
     fcfun_copy_thirdlib_dlls(${_bin_dir} ${_BUILD_TYPE})
 endif()
