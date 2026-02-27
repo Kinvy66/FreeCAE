@@ -41,7 +41,7 @@ FCSphereInfoWidget::~FCSphereInfoWidget()
 void FCSphereInfoWidget::setSphereCommand(FCGeoModelSphere* sphereCmd)
 {
     mDagData = nullptr;
-    mNodeId = -1;
+    mNodeId = FCID_INVALID;
     if (mOwnDisplaySphereCmd && mDisplaySphereCmd) {
         delete mDisplaySphereCmd;
         mDisplaySphereCmd = nullptr;
@@ -63,7 +63,7 @@ void FCSphereInfoWidget::setSphereCommand(FCGeoModelSphere* sphereCmd)
     ui->lineEdit_radius->setText(QString::number(sphereCmd->getRadius()));
 }
 
-void FCSphereInfoWidget::setDAGNode(FCGeometryDAGData* dagData, int nodeId, FCGeoModelSphere* displaySphereCmd)
+void FCSphereInfoWidget::setDAGNode(FCGeometryDAGData* dagData, FCID nodeId, FCGeoModelSphere* displaySphereCmd)
 {
     mSphereCmd = nullptr;
     mDagData = dagData;
@@ -79,11 +79,11 @@ void FCSphereInfoWidget::setDAGNode(FCGeometryDAGData* dagData, int nodeId, FCGe
     } else {
         mDisplaySphereCmd = nullptr;
     }
-    if (!dagData || nodeId < 0) return;
+    if (!dagData || nodeId == FCID_INVALID) return;
     FCGeoNode node = dagData->module()->tree()->node(nodeId);
     mNameManuallyEdited = false;
     ui->lineEdit_name->blockSignals(true);
-    ui->lineEdit_name->setText(node.name.isEmpty() ? QStringLiteral("Sphere_%1").arg(nodeId) : node.name);
+    ui->lineEdit_name->setText(node.name.isEmpty() ? QStringLiteral("Sphere_%1").arg(static_cast<qulonglong>(nodeId)) : node.name);
     ui->lineEdit_name->blockSignals(false);
     double loc[3] = {
         node.params.value(QStringLiteral("location_x"), 0.0).toDouble(),
@@ -125,7 +125,7 @@ FCAbsGeoCommand* FCSphereInfoWidget::getCurrentBuildCommand()
 
 void FCSphereInfoWidget::syncValuesToModel()
 {
-    if (mDagData && mNodeId >= 0) {
+    if (mDagData && mNodeId != FCID_INVALID) {
         FCGeoParamSet params;
         params[QStringLiteral("location_x")] = ui->lineEdit_locationX->text().toDouble();
         params[QStringLiteral("location_y")] = ui->lineEdit_locationY->text().toDouble();
@@ -183,7 +183,7 @@ void FCSphereInfoWidget::syncValuesToModel()
 
 void FCSphereInfoWidget::executeBuild()
 {
-    if (mDagData && mNodeId >= 0) {
+    if (mDagData && mNodeId != FCID_INVALID) {
         syncValuesToModel();
         if (mDisplaySphereCmd) {
             if (mDisplaySphereCmd->update())

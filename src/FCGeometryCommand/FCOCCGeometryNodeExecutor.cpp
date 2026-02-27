@@ -54,7 +54,7 @@ bool FCOCCGeometryNodeExecutor::supports(FC::FCGeoOpType type) const
 }
 
 QVariant FCOCCGeometryNodeExecutor::execute(const FC::FCGeoNode& node,
-                                            const QHash<int, QVariant>& nodeResults,
+                                            const QHash<FCID, QVariant>& nodeResults,
                                             FC::FCSelectionRule*) const
 {
     FC::FCDataRepo* repo = FC::FCDataRepo::instance();

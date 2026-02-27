@@ -8,78 +8,65 @@
 
 namespace FC {
 
-static int s_nextNodeId = 1;
-
-void FCGeometryTree::setNextNodeId(int atLeastId)
+void FCGeometryTree::setNextNodeId(FCID)
 {
-    if (atLeastId >= s_nextNodeId)
-        s_nextNodeId = atLeastId + 1;
+    // 节点 ID 现由 FCDataRepo / FCUniqueIDGenerater 分配，此处保留接口兼容
 }
 
-int FCGeometryTree::addNode(const FCGeoNode& node)
+FCID FCGeometryTree::addNode(const FCGeoNode& node)
 {
-    FCGeoNode n = node;
-    if (n.id < 0) {
-        n.id = s_nextNodeId++;
-    } else if (n.id >= s_nextNodeId) {
-        s_nextNodeId = n.id + 1;
-    }
-    if (m_nodes.contains(n.id)) {
-        return n.id;
-    }
-    m_nodes.insert(n.id, n);
-    for (int inId : n.inputs) {
-        m_downstream[inId].append(n.id);
-    }
-    return n.id;
+    if (node.id == FCID_INVALID || m_nodes.contains(node.id))
+        return node.id;
+    m_nodes.insert(node.id, node);
+    for (FCID inId : node.inputs)
+        m_downstream[inId].append(node.id);
+    return node.id;
 }
 
-void FCGeometryTree::removeNode(int id)
+void FCGeometryTree::removeNode(FCID id)
 {
     FCGeoNode n = m_nodes.value(id);
     m_nodes.remove(id);
-    for (int inId : n.inputs) {
-        QList<int>& list = m_downstream[inId];
+    for (FCID inId : n.inputs) {
+        QList<FCID>& list = m_downstream[inId];
         list.removeAll(id);
         if (list.isEmpty()) m_downstream.remove(inId);
     }
     m_downstream.remove(id);
 }
 
-void FCGeometryTree::setNode(int id, const FCGeoNode& node)
+void FCGeometryTree::setNode(FCID id, const FCGeoNode& node)
 {
     if (!m_nodes.contains(id)) return;
     FCGeoNode old = m_nodes.value(id);
     m_nodes.insert(id, node);
-    for (int inId : old.inputs) {
+    for (FCID inId : old.inputs) {
         m_downstream[inId].removeAll(id);
         if (m_downstream[inId].isEmpty()) m_downstream.remove(inId);
     }
-    for (int inId : node.inputs) {
+    for (FCID inId : node.inputs)
         m_downstream[inId].append(id);
-    }
 }
 
-QList<int> FCGeometryTree::topoSort() const
+QList<FCID> FCGeometryTree::topoSort() const
 {
-    QList<int> order;
-    QSet<int> visited, temp;
-    for (int id : m_nodes.keys()) {
+    QList<FCID> order;
+    QSet<FCID> visited, temp;
+    for (FCID id : m_nodes.keys()) {
         if (visited.contains(id)) continue;
         if (!topoSortVisit(id, visited, temp, order))
-            return QList<int>(); // cycle
+            return QList<FCID>();
     }
-    // order 已是依赖优先（先 push 的是无依赖或依赖已 push 的），即执行顺序
     return order;
 }
 
-bool FCGeometryTree::topoSortVisit(int id, QSet<int>& visited, QSet<int>& temp, QList<int>& order) const
+bool FCGeometryTree::topoSortVisit(FCID id, QSet<FCID>& visited, QSet<FCID>& temp, QList<FCID>& order) const
 {
     if (temp.contains(id)) return false;
     if (visited.contains(id)) return true;
     temp.insert(id);
     FCGeoNode n = m_nodes.value(id);
-    for (int inId : n.inputs) {
+    for (FCID inId : n.inputs) {
         if (m_nodes.contains(inId) && !topoSortVisit(inId, visited, temp, order))
             return false;
     }
@@ -89,21 +76,21 @@ bool FCGeometryTree::topoSortVisit(int id, QSet<int>& visited, QSet<int>& temp, 
     return true;
 }
 
-QList<int> FCGeometryTree::getDownstream(int id) const
+QList<FCID> FCGeometryTree::getDownstream(FCID id) const
 {
     return m_downstream.value(id);
 }
 
-QSet<int> FCGeometryTree::getDownstreamRecursive(int id) const
+QSet<FCID> FCGeometryTree::getDownstreamRecursive(FCID id) const
 {
-    QSet<int> result;
+    QSet<FCID> result;
     result.insert(id);
-    QList<int> stack = m_downstream.value(id);
+    QList<FCID> stack = m_downstream.value(id);
     while (!stack.isEmpty()) {
-        int cur = stack.takeFirst();
+        FCID cur = stack.takeFirst();
         if (result.contains(cur)) continue;
         result.insert(cur);
-        for (int d : m_downstream.value(cur)) {
+        for (FCID d : m_downstream.value(cur)) {
             if (!result.contains(d)) stack.append(d);
         }
     }

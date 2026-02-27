@@ -30,7 +30,7 @@ bool FCActionCreateCubeOperator::execGUI()
 {
     FCDockingAreaInterface* docking = dockingArea();
     if (!docking) return true;
-    if (mCurrentNodeId < 0 && !mCurrentBoxCmd) return true;
+    if (mCurrentNodeId == FCID_INVALID && !mCurrentBoxCmd) return true;
 
     FCPropertyWidget* propWidget = docking->getSettingParametersWidget();
     if (!propWidget) return true;
@@ -42,8 +42,8 @@ bool FCActionCreateCubeOperator::execGUI()
         treeOper->updateTree();
     }
     // 展开几何节点并选中新建的节点（DAG 节点 ID 或旧版命令 ID）
-    int selectId = mCurrentNodeId >= 0 ? mCurrentNodeId : (mCurrentBoxCmd ? mCurrentBoxCmd->getDataObjectID() : -1);
-    if (selectId >= 0 && docking) {
+    FCID selectId = (mCurrentNodeId != FCID_INVALID) ? mCurrentNodeId : (mCurrentBoxCmd ? mCurrentBoxCmd->getDataObjectID() : FCID_INVALID);
+    if (selectId != FCID_INVALID && docking) {
         FCMainTreeWidget* modelWidget = docking->getModelBuilderWidget();
         FCProjectTreeWidget* treeWidget = modelWidget ? modelWidget->getTreeWidget() : nullptr;
         if (treeWidget)
@@ -66,7 +66,7 @@ bool FCActionCreateCubeOperator::execGUI()
             cubeWidget->setDAGNode(dagData, mCurrentNodeId, mCurrentBoxCmd);
         }
     }
-    if (mCurrentNodeId < 0 && mCurrentBoxCmd)
+    if (mCurrentNodeId == FCID_INVALID && mCurrentBoxCmd)
         cubeWidget->setBoxCommand(mCurrentBoxCmd);
 
     FCGraphPreprocessOperator* graphOper = FCOPERATORREPO->getOperatorT<FCGraphPreprocessOperator>("GraphPreprocessEvent");
@@ -93,7 +93,7 @@ bool FCActionCreateCubeOperator::execGUI()
 bool FCActionCreateCubeOperator::execProfession()
 {
     mCurrentBoxCmd = nullptr;
-    mCurrentNodeId = -1;
+    mCurrentNodeId = FCID_INVALID;
 
     FC::FCGlobalData* globalData = FC::FCGlobalData::getGlobalData();
     if (!globalData) {
@@ -119,7 +119,7 @@ bool FCActionCreateCubeOperator::execProfession()
     dagData->setDirty(true);
 
     // 节点 ID = 命令 ID：直接从 Repo 取该 Box 命令用于属性面板绑定；OCC 几何体在用户点击「构建」时再创建
-    if (mCurrentNodeId >= 0)
+    if (mCurrentNodeId != FCID_INVALID)
         mCurrentBoxCmd = FCDATAREPO->getDataAs<FC::FCGeoModelBox>(mCurrentNodeId);
     return true;
 }

@@ -11,6 +11,7 @@
 #include "FCGeometryTree.h"
 #include "FCGeometryBuildEngine.h"
 #include "FCSelectionRule.h"
+#include <FCData/FCType.h>
 #include <QObject>
 #include <QScopedPointer>
 #include <QVariant>
@@ -41,7 +42,7 @@ public:
      * @param name 节点名称，为空则自动生成
      * @return 新节点 ID
      */
-    int addBlock(const FCGeoParamSet& params, const QString& name = QString());
+    FCID addBlock(const FCGeoParamSet& params, const QString& name = QString());
 
     /**
      * @brief 添加 Cylinder 节点
@@ -49,7 +50,7 @@ public:
      * @param name 节点名称，为空则自动生成
      * @return 新节点 ID
      */
-    int addCylinder(const FCGeoParamSet& params, const QString& name = QString());
+    FCID addCylinder(const FCGeoParamSet& params, const QString& name = QString());
 
     /**
      * @brief 添加 Sphere 节点
@@ -57,7 +58,7 @@ public:
      * @param name 节点名称，为空则自动生成
      * @return 新节点 ID
      */
-    int addSphere(const FCGeoParamSet& params, const QString& name = QString());
+    FCID addSphere(const FCGeoParamSet& params, const QString& name = QString());
 
     /**
      * @brief 添加 Union 节点，inputs = [a, b]
@@ -66,7 +67,7 @@ public:
      * @param name 节点名称，为空则自动生成
      * @return 新节点 ID
      */
-    int addUnion(int a, int b, const QString& name = QString());
+    FCID addUnion(FCID a, FCID b, const QString& name = QString());
 
     /**
      * @brief 添加 Difference 节点（a 减 b）
@@ -75,7 +76,7 @@ public:
      * @param name 节点名称，为空则自动生成
      * @return 新节点 ID
      */
-    int addDifference(int a, int b, const QString& name = QString());
+    FCID addDifference(FCID a, FCID b, const QString& name = QString());
 
     /**
      * @brief 添加 Intersection 节点
@@ -84,7 +85,7 @@ public:
      * @param name 节点名称，为空则自动生成
      * @return 新节点 ID
      */
-    int addIntersection(int a, int b, const QString& name = QString());
+    FCID addIntersection(FCID a, FCID b, const QString& name = QString());
 
     /**
      * @brief 添加 Fillet 节点，input 为要倒角的形状节点，rule 为选边/选面规则
@@ -94,7 +95,7 @@ public:
      * @param name 节点名称，为空则自动生成
      * @return 新节点 ID
      */
-    int addFillet(int input, FCSelectionRule* rule, const FCGeoParamSet& params = FCGeoParamSet(), const QString& name = QString());
+    FCID addFillet(FCID input, FCSelectionRule* rule, const FCGeoParamSet& params = FCGeoParamSet(), const QString& name = QString());
 
     /**
      * @brief 添加 Import 节点（如从文件导入）
@@ -102,14 +103,14 @@ public:
      * @param name 节点名称，为空则自动生成
      * @return 新节点 ID
      */
-    int addImport(const FCGeoParamSet& params, const QString& name = QString());
+    FCID addImport(const FCGeoParamSet& params, const QString& name = QString());
 
     /**
      * @brief 更新节点参数并标记 dirty，触发后续 buildDirty 时重算
      * @param id 节点 ID
      * @param params 新的参数集
      */
-    void updateNode(int id, const FCGeoParamSet& params);
+    void updateNode(FCID id, const FCGeoParamSet& params);
 
     /**
      * @brief 全量构建，返回最终形状
@@ -131,15 +132,15 @@ public:
 
     /**
      * @brief 获取末节点 ID（build 的输出节点），用于多输出时扩展
-     * @return 最后一次添加/构建的节点 ID，无节点时为 -1
+     * @return 最后一次添加/构建的节点 ID，无节点时为 FCID_INVALID
      */
-    int lastOutputNodeId() const;
+    FCID lastOutputNodeId() const;
 
     /**
      * @brief 移除节点并从 FCDataRepo 移除并销毁对应几何命令（节点 ID = 命令 ID）
      * @param id 节点/命令 ID
      */
-    void removeNode(int id);
+    void removeNode(FCID id);
 
 private:
     /**
@@ -150,11 +151,11 @@ private:
      * @param name 节点名称
      * @return 新节点 ID
      */
-    int appendNode(FCGeoOpType type, const QList<int>& inputs, const FCGeoParamSet& params, const QString& name);
+    FCID appendNode(FCGeoOpType type, const QList<FCID>& inputs, const FCGeoParamSet& params, const QString& name);
 
     QScopedPointer<FCGeometryTree> m_tree;
     QScopedPointer<FCGeometryBuildEngine> m_engine;
-    int m_lastNodeId{ -1 };
+    FCID m_lastNodeId{ FCID_INVALID };
 };
 
 } // namespace FC

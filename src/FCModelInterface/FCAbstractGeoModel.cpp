@@ -51,7 +51,7 @@ bool FCAbstractGeoModel::getBoundaryBox(double* minPt, double* maxPt)
     return false;
 }
 
-void FCAbstractGeoModel::setAbsDataID(int id)
+void FCAbstractGeoModel::setAbsDataID(FCID id)
 {
     FCAbstractDataObject::setAbsDataID(id);
 }

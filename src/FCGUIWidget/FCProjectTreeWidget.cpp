@@ -169,9 +169,8 @@ void FCProjectTreeWidget::onSelectionChanged()
     if (!typeVar.isValid()) return;
     if (typeVar.value<ProjectTreeEnum>() != ProjectTreeEnum::ProjectTree_GeometryEntity)
         return;
-    int nodeId = item->data(1, 0).toInt();
-    if (nodeId >= 0)
-        emit geometryNodeSelected(nodeId);
+    FCID nodeId = static_cast<FCID>(item->data(1, 0).toULongLong());
+    emit geometryNodeSelected(nodeId);
 }
 
 void FCProjectTreeWidget::onDoubleClicked(QTreeWidgetItem* item, int column)
@@ -237,24 +236,25 @@ void FCProjectTreeWidget::updateGeometryItems()
     FC::FCGeometryDAGData* dagData = globalData->getData<FC::FCGeometryDAGData>(FC::GDTGeom);
     if (!dagData || !dagData->module() || !dagData->module()->tree())
         return;
-    QList<int> ids = dagData->module()->tree()->nodeIds();
+    QList<FCID> ids = dagData->module()->tree()->nodeIds();
     std::sort(ids.begin(), ids.end());
-    for (int id : ids) {
+    for (FCID id : ids) {
         FC::FCGeoNode node = dagData->module()->tree()->node(id);
         QTreeWidgetItem* item = new QTreeWidgetItem(mComponentGeometry);
-        item->setText(0, node.name.isEmpty() ? QStringLiteral("Node%1").arg(id) : node.name);
-        item->setData(1, 0, id);
+        item->setText(0, node.name.isEmpty() ? QStringLiteral("Node%1").arg(static_cast<qulonglong>(id)) : node.name);
+        item->setData(1, 0, static_cast<qulonglong>(id));
         item->setData(2, 0, QVariant::fromValue(ProjectTreeEnum::ProjectTree_GeometryEntity));
     }
 }
 
-void FCProjectTreeWidget::expandGeometryAndSelectCommand(int cmdId)
+void FCProjectTreeWidget::expandGeometryAndSelectCommand(FCID cmdId)
 {
-    if (!mComponentGeometry || cmdId < 0) return;
+    if (!mComponentGeometry || cmdId == FCID_INVALID) return;
     setExpanded(indexFromItem(mComponentGeometry), true);
+    const quint64 key = static_cast<quint64>(cmdId);
     for (int i = 0; i < mComponentGeometry->childCount(); ++i) {
         QTreeWidgetItem* child = mComponentGeometry->child(i);
-        if (child->data(1, 0).toInt() == cmdId) {
+        if (child->data(1, 0).toULongLong() == key) {
             setCurrentItem(child);
             scrollToItem(child);
             break;

@@ -68,7 +68,7 @@ void FCAbsGeoCommand::removeFromPart(FCAbsGeoCommand* part)
     Q_UNUSED(part);
 }
 
-FCAbsGeoCommand* FCGeoCommandManager::getDataByID(int id)
+FCAbsGeoCommand* FCGeoCommandManager::getDataByID(FCID id)
 {
     FCAbsGeoCommand* cmd = FCAbstractDataManager<FCAbsGeoCommand>::getDataByID(id);
     if (cmd) return cmd;

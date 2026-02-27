@@ -7,6 +7,7 @@
 
 #include "../FCGUIWidgetAPI.h"
 #include "IGeometryBuildContent.h"
+#include <FCData/FCType.h>
 #include <QWidget>
 #include <QList>
 
@@ -29,7 +30,7 @@ public:
     ~FCCylinderInfoWidget() override;
 
     void setCylinderCommand(FCGeoModelCylinder* cylinderCmd);
-    void setDAGNode(FCGeometryDAGData* dagData, int nodeId, FCGeoModelCylinder* displayCylinderCmd = nullptr);
+    void setDAGNode(FCGeometryDAGData* dagData, FCID nodeId, FCGeoModelCylinder* displayCylinderCmd = nullptr);
 
     void syncToModel() override;
     FCAbsGeoCommand* getCurrentBuildCommand() override;
@@ -48,7 +49,7 @@ private:
     bool mNameManuallyEdited{ false };
     FCGeoModelCylinder* mCylinderCmd{ nullptr };
     FCGeometryDAGData* mDagData{ nullptr };
-    int mNodeId{ -1 };
+    FCID mNodeId{ FCID_INVALID };
     FCGeoModelCylinder* mDisplayCylinderCmd{ nullptr };
     bool mOwnDisplayCylinderCmd{ false };
 };

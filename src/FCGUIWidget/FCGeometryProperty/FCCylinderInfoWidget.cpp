@@ -45,7 +45,7 @@ FCCylinderInfoWidget::~FCCylinderInfoWidget()
 void FCCylinderInfoWidget::setCylinderCommand(FCGeoModelCylinder* cylinderCmd)
 {
     mDagData = nullptr;
-    mNodeId = -1;
+    mNodeId = FCID_INVALID;
     if (mOwnDisplayCylinderCmd && mDisplayCylinderCmd) {
         delete mDisplayCylinderCmd;
         mDisplayCylinderCmd = nullptr;
@@ -72,7 +72,7 @@ void FCCylinderInfoWidget::setCylinderCommand(FCGeoModelCylinder* cylinderCmd)
     ui->lineEdit_length->setText(QString::number(cylinderCmd->getLength()));
 }
 
-void FCCylinderInfoWidget::setDAGNode(FCGeometryDAGData* dagData, int nodeId, FCGeoModelCylinder* displayCylinderCmd)
+void FCCylinderInfoWidget::setDAGNode(FCGeometryDAGData* dagData, FCID nodeId, FCGeoModelCylinder* displayCylinderCmd)
 {
     mCylinderCmd = nullptr;
     mDagData = dagData;
@@ -88,11 +88,11 @@ void FCCylinderInfoWidget::setDAGNode(FCGeometryDAGData* dagData, int nodeId, FC
     } else {
         mDisplayCylinderCmd = nullptr;
     }
-    if (!dagData || nodeId < 0) return;
+    if (!dagData || nodeId == FCID_INVALID) return;
     FCGeoNode node = dagData->module()->tree()->node(nodeId);
     mNameManuallyEdited = false;
     ui->lineEdit_name->blockSignals(true);
-    ui->lineEdit_name->setText(node.name.isEmpty() ? QStringLiteral("Cylinder_%1").arg(nodeId) : node.name);
+    ui->lineEdit_name->setText(node.name.isEmpty() ? QStringLiteral("Cylinder_%1").arg(static_cast<qulonglong>(nodeId)) : node.name);
     ui->lineEdit_name->blockSignals(false);
     double loc[3] = {
         node.params.value(QStringLiteral("location_x"), 0.0).toDouble(),
@@ -146,7 +146,7 @@ FCAbsGeoCommand* FCCylinderInfoWidget::getCurrentBuildCommand()
 
 void FCCylinderInfoWidget::syncValuesToModel()
 {
-    if (mDagData && mNodeId >= 0) {
+    if (mDagData && mNodeId != FCID_INVALID) {
         FCGeoParamSet params;
         params[QStringLiteral("location_x")] = ui->lineEdit_locationX->text().toDouble();
         params[QStringLiteral("location_y")] = ui->lineEdit_locationY->text().toDouble();
@@ -215,7 +215,7 @@ void FCCylinderInfoWidget::syncValuesToModel()
 
 void FCCylinderInfoWidget::executeBuild()
 {
-    if (mDagData && mNodeId >= 0) {
+    if (mDagData && mNodeId != FCID_INVALID) {
         syncValuesToModel();
         if (mDisplayCylinderCmd) {
             if (mDisplayCylinderCmd->update())

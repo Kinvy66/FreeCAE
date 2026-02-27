@@ -6,6 +6,7 @@
 #include "FCGeometryDAGData.h"
 #include "FCGeoOpType.h"
 #include "FCGeometryTree.h"
+#include <FCData/FCType.h>
 #include <FCGeometryInterface/FCGlobalGeoComponent.h>
 #include <algorithm>
 #include <QJsonArray>
@@ -98,9 +99,9 @@ QList<FCGeoNode> FCGeometryDAGData::getGeometrySequence() const
     if (!m_module || !m_module->tree())
         return out;
     const FCGeometryTree* tree = m_module->tree();
-    QList<int> ids = tree->nodeIds();
+    QList<FCID> ids = tree->nodeIds();
     std::sort(ids.begin(), ids.end());
-    for (int id : ids)
+    for (FCID id : ids)
         out.append(tree->node(id));
     return out;
 }
@@ -111,10 +112,10 @@ QString FCGeometryDAGData::serialize(int /*label*/)
         return QString();
     const FCGeometryTree* tree = m_module->tree();
     QJsonArray arr;
-    for (int id : tree->nodeIds()) {
+    for (FCID id : tree->nodeIds()) {
         FCGeoNode n = tree->node(id);
         QJsonObject obj;
-        obj[QStringLiteral("id")] = n.id;
+        obj[QStringLiteral("id")] = QString::number(static_cast<quint64>(n.id));
         obj[QStringLiteral("type")] = geoOpTypeToString(n.type);
         obj[QStringLiteral("name")] = n.name;
         QJsonObject paramsObj;
@@ -129,8 +130,8 @@ QString FCGeometryDAGData::serialize(int /*label*/)
         }
         obj[QStringLiteral("params")] = paramsObj;
         QJsonArray inputsArr;
-        for (int inId : n.inputs)
-            inputsArr.append(inId);
+        for (FCID inId : n.inputs)
+            inputsArr.append(QString::number(static_cast<quint64>(inId)));
         obj[QStringLiteral("inputs")] = inputsArr;
         arr.append(obj);
     }
@@ -158,11 +159,12 @@ bool FCGeometryDAGData::deserialize(const QString& text, int /*label*/)
     }
     FCGeometryTree* tree = m_module->tree();
     tree->clear();
-    int maxId = 0;
+    FCID maxId = FCID_INVALID;
     for (int i = 0; i < arr.size(); ++i) {
         QJsonObject obj = arr.at(i).toObject();
         FCGeoNode node;
-        node.id = obj[QStringLiteral("id")].toInt(-1);
+        QString idStr = obj[QStringLiteral("id")].toString();
+        node.id = idStr.isEmpty() ? FCID_INVALID : static_cast<FCID>(idStr.toULongLong());
         node.type = stringToGeoOpType(obj[QStringLiteral("type")].toString());
         node.name = obj[QStringLiteral("name")].toString();
         QJsonObject paramsObj = obj[QStringLiteral("params")].toObject();
@@ -176,8 +178,8 @@ bool FCGeometryDAGData::deserialize(const QString& text, int /*label*/)
         }
         QJsonArray inputsArr = obj[QStringLiteral("inputs")].toArray();
         for (int j = 0; j < inputsArr.size(); ++j)
-            node.inputs.append(inputsArr.at(j).toInt());
-        if (node.id >= 0) {
+            node.inputs.append(static_cast<FCID>(inputsArr.at(j).toString().toULongLong()));
+        if (node.id != FCID_INVALID) {
             tree->addNode(node);
             if (node.id > maxId)
                 maxId = node.id;

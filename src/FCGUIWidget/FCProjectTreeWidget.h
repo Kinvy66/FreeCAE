@@ -10,6 +10,7 @@
 #define FCPROJECTTREEWIDGET_H
 #include <QTreeWidget>
 #include "FCGUIWidgetAPI.h"
+#include <FCData/FCType.h>
 
 namespace FC
 {
@@ -90,7 +91,7 @@ public:
 
 signals:
     /** 当前选中项为几何实体节点时发射，nodeId 为 DAG 节点 ID（data(1,0)） */
-    void geometryNodeSelected(int nodeId);
+    void geometryNodeSelected(FCID nodeId);
 
 private slots:
     /**
@@ -138,7 +139,7 @@ public:
     
     void updateGeometryItems();
     /** 展开几何节点并选中指定命令 ID 对应的子项 */
-    void expandGeometryAndSelectCommand(int cmdId);
+    void expandGeometryAndSelectCommand(FCID cmdId);
     
     void updateMaterialItems();
     

@@ -7,6 +7,7 @@
 #define FCABSTRACTDATAMANAGERPRIVATE_H
 
 #include "FCDataAPI.h"
+#include "FCType.h"
 #include <QList>
 #include <QString>
 #include <functional>
@@ -153,7 +154,7 @@ public:
      * @param[i] data        数据对象ID列表
      * @return bool 是否被使用
      */
-    virtual bool isUsedDataObject(const QList<int>& data) = 0;
+    virtual bool isUsedDataObject(const QList<FCID>& data) = 0;
 };
 
 inline FCAbstractDataManagerPrivate::~FCAbstractDataManagerPrivate() = default;

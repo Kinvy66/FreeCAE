@@ -28,7 +28,7 @@ bool FCActionCreateCylinderOperator::execGUI()
 {
     FCDockingAreaInterface* docking = dockingArea();
     if (!docking) return true;
-    if (mCurrentNodeId < 0 && !mCurrentCylinderCmd) return true;
+    if (mCurrentNodeId == FCID_INVALID && !mCurrentCylinderCmd) return true;
 
     FCPropertyWidget* propWidget = docking->getSettingParametersWidget();
     if (!propWidget) return true;
@@ -38,8 +38,8 @@ bool FCActionCreateCylinderOperator::execGUI()
         treeOper->setUIInterface(uiInterface());
         treeOper->updateTree();
     }
-    int selectId = mCurrentNodeId >= 0 ? mCurrentNodeId : (mCurrentCylinderCmd ? mCurrentCylinderCmd->getDataObjectID() : -1);
-    if (selectId >= 0 && docking) {
+    FCID selectId = (mCurrentNodeId != FCID_INVALID) ? mCurrentNodeId : (mCurrentCylinderCmd ? mCurrentCylinderCmd->getDataObjectID() : FCID_INVALID);
+    if (selectId != FCID_INVALID && docking) {
         FCMainTreeWidget* modelWidget = docking->getModelBuilderWidget();
         FCProjectTreeWidget* treeWidget = modelWidget ? modelWidget->getTreeWidget() : nullptr;
         if (treeWidget)
@@ -60,7 +60,7 @@ bool FCActionCreateCylinderOperator::execGUI()
             cylinderWidget->setDAGNode(dagData, mCurrentNodeId, mCurrentCylinderCmd);
         }
     }
-    if (mCurrentNodeId < 0 && mCurrentCylinderCmd)
+    if (mCurrentNodeId == FCID_INVALID && mCurrentCylinderCmd)
         cylinderWidget->setCylinderCommand(mCurrentCylinderCmd);
 
     FCGraphPreprocessOperator* graphOper = FCOPERATORREPO->getOperatorT<FCGraphPreprocessOperator>("GraphPreprocessEvent");
@@ -87,7 +87,7 @@ bool FCActionCreateCylinderOperator::execGUI()
 bool FCActionCreateCylinderOperator::execProfession()
 {
     mCurrentCylinderCmd = nullptr;
-    mCurrentNodeId = -1;
+    mCurrentNodeId = FCID_INVALID;
 
     FC::FCGlobalData* globalData = FC::FCGlobalData::getGlobalData();
     if (!globalData) {
@@ -113,7 +113,7 @@ bool FCActionCreateCylinderOperator::execProfession()
     mCurrentNodeId = dagData->module()->addCylinder(params, name);
     dagData->setDirty(true);
 
-    if (mCurrentNodeId >= 0)
+    if (mCurrentNodeId != FCID_INVALID)
         mCurrentCylinderCmd = FCDATAREPO->getDataAs<FC::FCGeoModelCylinder>(mCurrentNodeId);
     return true;
 }

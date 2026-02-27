@@ -61,7 +61,7 @@ T* findWidgetByType(QWidget* w) {
 }
 
 void connectBuildBarAndSetDAG(FCGeometryBuildBar* buildBar, QWidget* contentWidget,
-    FCGeometryDAGData* dagData, int nodeId, FCDockingAreaInterface* docking)
+    FCGeometryDAGData* dagData, FCID nodeId, FCDockingAreaInterface* docking)
 {
     FCGraphPreprocessOperator* graphOper = FCOPERATORREPO->getOperatorT<FCGraphPreprocessOperator>("GraphPreprocessEvent");
     if (graphOper) {
@@ -93,9 +93,9 @@ void connectBuildBarAndSetDAG(FCGeometryBuildBar* buildBar, QWidget* contentWidg
 }
 } // namespace
 
-void FCGeometryPropertyConnector::onGeometryNodeSelected(int nodeId)
+void FCGeometryPropertyConnector::onGeometryNodeSelected(FCID nodeId)
 {
-    if (!m_docking || nodeId < 0) return;
+    if (!m_docking || nodeId == FCID_INVALID) return;
     FCPropertyWidget* propWidget = m_docking->getSettingParametersWidget();
     if (!propWidget) return;
     FCGlobalData* globalData = FCGlobalData::getGlobalData();

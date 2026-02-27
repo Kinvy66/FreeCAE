@@ -28,7 +28,7 @@ bool FCActionCreateSphereOperator::execGUI()
 {
     FCDockingAreaInterface* docking = dockingArea();
     if (!docking) return true;
-    if (mCurrentNodeId < 0 && !mCurrentSphereCmd) return true;
+    if (mCurrentNodeId == FCID_INVALID && !mCurrentSphereCmd) return true;
 
     FCPropertyWidget* propWidget = docking->getSettingParametersWidget();
     if (!propWidget) return true;
@@ -38,8 +38,8 @@ bool FCActionCreateSphereOperator::execGUI()
         treeOper->setUIInterface(uiInterface());
         treeOper->updateTree();
     }
-    int selectId = mCurrentNodeId >= 0 ? mCurrentNodeId : (mCurrentSphereCmd ? mCurrentSphereCmd->getDataObjectID() : -1);
-    if (selectId >= 0 && docking) {
+    FCID selectId = (mCurrentNodeId != FCID_INVALID) ? mCurrentNodeId : (mCurrentSphereCmd ? mCurrentSphereCmd->getDataObjectID() : FCID_INVALID);
+    if (selectId != FCID_INVALID && docking) {
         FCMainTreeWidget* modelWidget = docking->getModelBuilderWidget();
         FCProjectTreeWidget* treeWidget = modelWidget ? modelWidget->getTreeWidget() : nullptr;
         if (treeWidget)
@@ -60,7 +60,7 @@ bool FCActionCreateSphereOperator::execGUI()
             sphereWidget->setDAGNode(dagData, mCurrentNodeId, mCurrentSphereCmd);
         }
     }
-    if (mCurrentNodeId < 0 && mCurrentSphereCmd)
+    if (mCurrentNodeId == FCID_INVALID && mCurrentSphereCmd)
         sphereWidget->setSphereCommand(mCurrentSphereCmd);
 
     FCGraphPreprocessOperator* graphOper = FCOPERATORREPO->getOperatorT<FCGraphPreprocessOperator>("GraphPreprocessEvent");
@@ -87,7 +87,7 @@ bool FCActionCreateSphereOperator::execGUI()
 bool FCActionCreateSphereOperator::execProfession()
 {
     mCurrentSphereCmd = nullptr;
-    mCurrentNodeId = -1;
+    mCurrentNodeId = FCID_INVALID;
 
     FC::FCGlobalData* globalData = FC::FCGlobalData::getGlobalData();
     if (!globalData) {
@@ -109,7 +109,7 @@ bool FCActionCreateSphereOperator::execProfession()
     mCurrentNodeId = dagData->module()->addSphere(params, name);
     dagData->setDirty(true);
 
-    if (mCurrentNodeId >= 0)
+    if (mCurrentNodeId != FCID_INVALID)
         mCurrentSphereCmd = FCDATAREPO->getDataAs<FC::FCGeoModelSphere>(mCurrentNodeId);
     return true;
 }

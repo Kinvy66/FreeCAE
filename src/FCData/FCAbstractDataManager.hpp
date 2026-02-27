@@ -160,7 +160,7 @@ public:
      * @param[i] data        数据对象ID列表
      * @return bool 是否被使用
      */
-    bool isUsedDataObject(const QList<int>& data) override { QMutexLocker locker(&mMutex); return mHelper ? mHelper->isUsedDataObject(data) : false; }
+    bool isUsedDataObject(const QList<FCID>& data) override { QMutexLocker locker(&mMutex); return mHelper ? mHelper->isUsedDataObject(data) : false; }
 
     /**
      * @brief 获取数据对象
@@ -175,8 +175,8 @@ public:
      * @param[i] id        数据对象ID
      * @return T* 数据对象
      */
-    T* getDataByID(int id) { QMutexLocker locker(&mMutex); return toT(mHelper ? mHelper->getDataByID(id) : nullptr); }
-    T* getDataByID(int id) const { QMutexLocker locker(&mMutex); return toT(mHelper ? mHelper->getDataByID(id) : nullptr); }
+    T* getDataByID(FCID id) { QMutexLocker locker(&mMutex); return toT(mHelper ? mHelper->getDataByID(id) : nullptr); }
+    T* getDataByID(FCID id) const { QMutexLocker locker(&mMutex); return toT(mHelper ? mHelper->getDataByID(id) : nullptr); }
 
     /**
      * @brief 获取数据对象
@@ -197,13 +197,13 @@ public:
      * @brief 设置父数据对象ID
      * @param[i] id        父数据对象ID
      */
-    void setParentDataIDM(int id) { if (mHelper) mHelper->setParentDataID(id); }
+    void setParentDataIDM(FCID id) { if (mHelper) mHelper->setParentDataID(id); }
 
     /**
      * @brief 获取父数据对象ID
-     * @return int 父数据对象ID
+     * @return FCID 父数据对象ID
      */
-    int getMParentDataIDM() const { return mHelper ? mHelper->getParentDataID() : -1; }
+    FCID getMParentDataIDM() const { return mHelper ? mHelper->getParentDataID() : FCID_INVALID; }
 
 private:
     /**

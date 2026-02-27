@@ -28,6 +28,7 @@ target_include_directories(${FC_LIB_NAME} PUBLIC
 )
 target_link_libraries(${FC_LIB_NAME} PRIVATE
     Qt${QT_VERSION_MAJOR}::Core
+    ${FC_PROJECT_NAME}::FCUtils
 )
 
 fcmacro_set_lib_properties(${FC_LIB_NAME} ${FC_LIB_VERSION})

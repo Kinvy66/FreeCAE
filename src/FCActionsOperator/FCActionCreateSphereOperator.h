@@ -7,6 +7,7 @@
 
 #include "FCActionsOperatorAPI.h"
 #include "FCActionOperator.h"
+#include <FCData/FCType.h>
 
 namespace FC
 {
@@ -23,7 +24,7 @@ public:
     bool execProfession() override;
 
 private:
-    int mCurrentNodeId{ -1 };
+    FCID mCurrentNodeId{ FCID_INVALID };
     FCGeoModelSphere* mCurrentSphereCmd{ nullptr };
 };
 

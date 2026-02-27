@@ -20,6 +20,7 @@
 #include <FCRenderWindowVTK/FCGraphObjectVTK.h>
 #include <QWidget>
 #include <QLayout>
+#include <QDebug>
 
 namespace FC
 {
@@ -94,6 +95,9 @@ bool FCBuildGeometryOperator::execProfession()
     FCVTKGraphObject3D* graphObj = adaptor.getOutputData();
     if (!graphObj || graphObj->getActorCount() == 0) return false;
     graphWin->addObject(0, graphObj, true);
+    qInfo().noquote() << QStringLiteral("构建几何成功: id=%1, 名称=%2")
+                          .arg(static_cast<qulonglong>(cmd->getDataObjectID()))
+                          .arg(cmd->getDataObjectName());
     return true;
 }
 

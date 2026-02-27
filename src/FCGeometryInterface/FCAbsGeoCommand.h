@@ -10,6 +10,7 @@
 #include "FCGeoCommandProp.h"
 #include "FCVirtualTopoManager.h"
 #include "FCAbsGeoShapeAgent.h"
+#include <FCData/FCType.h>
 #include <FCData/FCAbstractNamedDataObject.h>
 #include <FCData/FCVariantParams.h>
 #include <FCData/FCAbstractDataManager.hpp>
@@ -23,17 +24,17 @@ class FCAbsVirtualTopo;
 struct FCGEOMETRYINTERFACE_API VirtualShape
 {
     VirtualShape() = default;
-    VirtualShape(int cmdID, int virtualTopoId, int virtualTopoIndex)
+    VirtualShape(FCID cmdID, int virtualTopoId, int virtualTopoIndex)
         : CmdId(cmdID), VirtualTopoId(virtualTopoId), VirtualTopoIndex(virtualTopoIndex) {}
-    VirtualShape(int cmdID, int virtualTopoIndex)
+    VirtualShape(FCID cmdID, int virtualTopoIndex)
         : CmdId(cmdID), VirtualTopoIndex(virtualTopoIndex) {}
 
-    int CmdId{ -1 };
+    FCID CmdId{ FCID_INVALID };
     int VirtualTopoId{ -1 };
     int VirtualTopoIndex{ -1 };
     FCGeoEnum::VTopoShapeType Type{ FCGeoEnum::VSNone };
-    bool isNull() const { return CmdId <= 0 && VirtualTopoId <= 0 && VirtualTopoIndex < 0; }
-    void reset() { CmdId = -1; VirtualTopoId = -1; VirtualTopoIndex = -1; }
+    bool isNull() const { return CmdId == FCID_INVALID && VirtualTopoId <= 0 && VirtualTopoIndex < 0; }
+    void reset() { CmdId = FCID_INVALID; VirtualTopoId = -1; VirtualTopoIndex = -1; }
     bool operator==(const VirtualShape& other) const {
         return CmdId == other.CmdId && VirtualTopoId == other.VirtualTopoId
             && VirtualTopoIndex == other.VirtualTopoIndex && Type == other.Type;
@@ -123,7 +124,7 @@ public:
     explicit FCGeoCommandManager() = default;
     ~FCGeoCommandManager() override = default;
     virtual QList<FCAbsGeoCommand*> getRootCommands();
-    FCAbsGeoCommand* getDataByID(int id);
+    FCAbsGeoCommand* getDataByID(FCID id);
 };
 
 } // namespace FC

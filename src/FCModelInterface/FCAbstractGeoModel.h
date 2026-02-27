@@ -31,7 +31,7 @@ public:
     virtual bool getBoundaryBox(double* minPt, double* maxPt);
 
 protected:
-    void setAbsDataID(int id) override;
+    void setAbsDataID(FCID id) override;
     FCGeoComponentManager* _compManager{};
 };
 

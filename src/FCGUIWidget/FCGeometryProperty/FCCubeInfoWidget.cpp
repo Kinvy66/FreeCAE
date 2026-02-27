@@ -44,7 +44,7 @@ FCCubeInfoWidget::~FCCubeInfoWidget()
 void FCCubeInfoWidget::setBoxCommand(FCGeoModelBox* boxCmd)
 {
     mDagData = nullptr;
-    mNodeId = -1;
+    mNodeId = FCID_INVALID;
     if (mOwnDisplayBoxCmd && mDisplayBoxCmd) {
         delete mDisplayBoxCmd;
         mDisplayBoxCmd = nullptr;
@@ -69,7 +69,7 @@ void FCCubeInfoWidget::setBoxCommand(FCGeoModelBox* boxCmd)
     ui->lineEdit_length3->setText(QString::number(len[2]));
 }
 
-void FCCubeInfoWidget::setDAGNode(FCGeometryDAGData* dagData, int nodeId, FCGeoModelBox* displayBoxCmd)
+void FCCubeInfoWidget::setDAGNode(FCGeometryDAGData* dagData, FCID nodeId, FCGeoModelBox* displayBoxCmd)
 {
     mBoxCmd = nullptr;
     mDagData = dagData;
@@ -85,11 +85,11 @@ void FCCubeInfoWidget::setDAGNode(FCGeometryDAGData* dagData, int nodeId, FCGeoM
     } else {
         mDisplayBoxCmd = nullptr;
     }
-    if (!dagData || nodeId < 0) return;
+    if (!dagData || nodeId == FCID_INVALID) return;
     FCGeoNode node = dagData->module()->tree()->node(nodeId);
     mNameManuallyEdited = false;
     ui->lineEdit_name->blockSignals(true);
-    ui->lineEdit_name->setText(node.name.isEmpty() ? QStringLiteral("Box_%1").arg(nodeId) : node.name);
+    ui->lineEdit_name->setText(node.name.isEmpty() ? QStringLiteral("Box_%1").arg(static_cast<qulonglong>(nodeId)) : node.name);
     ui->lineEdit_name->blockSignals(false);
     QVariant len = node.params.value(QStringLiteral("length"));
     QVariant w   = node.params.value(QStringLiteral("width"));
@@ -136,7 +136,7 @@ FCAbsGeoCommand* FCCubeInfoWidget::getCurrentBuildCommand()
 
 void FCCubeInfoWidget::syncValuesToModel()
 {
-    if (mDagData && mNodeId >= 0) {
+    if (mDagData && mNodeId != FCID_INVALID) {
         double len[3] = {
             ui->lineEdit_length1->text().toDouble(),
             ui->lineEdit_length2->text().toDouble(),
@@ -199,7 +199,7 @@ void FCCubeInfoWidget::syncValuesToModel()
 
 void FCCubeInfoWidget::executeBuild()
 {
-    if (mDagData && mNodeId >= 0) {
+    if (mDagData && mNodeId != FCID_INVALID) {
         double len[3] = {
             ui->lineEdit_length1->text().toDouble(),
             ui->lineEdit_length2->text().toDouble(),

@@ -10,7 +10,7 @@
 namespace FC {
 static QMutex MUTEX;
 
-FCAbstractDataObject::FCAbstractDataObject(int parentDataID)
+FCAbstractDataObject::FCAbstractDataObject(FCID parentDataID)
 {
     QMutexLocker locker(&MUTEX);
     
@@ -25,17 +25,17 @@ FCAbstractDataObject::~FCAbstractDataObject()
     FCDataRepo::instance()->removeDataObj(this);
 }
 
-int FCAbstractDataObject::getDataObjectID() const
+FCID FCAbstractDataObject::getDataObjectID() const
 {
     return mAbsDataID;
 }
 
-void FCAbstractDataObject::setParentDataID(int id)
+void FCAbstractDataObject::setParentDataID(FCID id)
 {
     mParentDataID = id;
 }
 
-int FCAbstractDataObject::getParentDataID() const
+FCID FCAbstractDataObject::getParentDataID() const
 {
     return mParentDataID;
 }
@@ -82,12 +82,12 @@ FCAbstractDataObject* FCAbstractDataObject::getParentObject()
     return FCDATAREPO->getDataByID(mParentDataID);
 }
 
-bool FCAbstractDataObject::isUsedDataObject(const QList<int>&)
+bool FCAbstractDataObject::isUsedDataObject(const QList<FCID>&)
 {
     return false;
 }
 
-void FCAbstractDataObject::setAbsDataID(int id)
+void FCAbstractDataObject::setAbsDataID(FCID id)
 {
     mAbsDataID = id;
 }

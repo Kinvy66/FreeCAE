@@ -66,7 +66,7 @@ FCAbstractDataObject* FCAbstractDataManagerHelper::getDataByIndex(int index)
     return mDataList.at(index);
 }
 
-FCAbstractDataObject* FCAbstractDataManagerHelper::getDataByID(int id)
+FCAbstractDataObject* FCAbstractDataManagerHelper::getDataByID(FCID id)
 {
     for (auto* obj : mDataList)
         if (obj && obj->getDataObjectID() == id) return obj;
@@ -120,7 +120,7 @@ void FCAbstractDataManagerHelper::removeDataByIndex(int index)
     }
 }
 
-void FCAbstractDataManagerHelper::removeDataByID(int id)
+void FCAbstractDataManagerHelper::removeDataByID(FCID id)
 {
     for (int i = 0; i < mDataList.size(); ++i)
         if (mDataList.at(i) && mDataList.at(i)->getDataObjectID() == id) {
@@ -146,12 +146,12 @@ void FCAbstractDataManagerHelper::removeDataByName(const QString& name, bool com
     }
 }
 
-void FCAbstractDataManagerHelper::setParentDataID(int id)
+void FCAbstractDataManagerHelper::setParentDataID(FCID id)
 {
     mParentDataID = id;
 }
 
-int FCAbstractDataManagerHelper::getParentDataID() const
+FCID FCAbstractDataManagerHelper::getParentDataID() const
 {
     return mParentDataID;
 }
@@ -193,18 +193,18 @@ QString FCAbstractDataManagerHelper::checkName(const QString& name)
     return candidate;
 }
 
-int FCAbstractDataManagerHelper::getIndexByID(int dataId) const
+int FCAbstractDataManagerHelper::getIndexByID(FCID dataId) const
 {
     for (int i = 0; i < mDataList.size(); ++i)
         if (mDataList.at(i) && mDataList.at(i)->getDataObjectID() == dataId) return i;
     return -1;
 }
 
-int FCAbstractDataManagerHelper::getIDByIndex(int dataIndex) const
+FCID FCAbstractDataManagerHelper::getIDByIndex(int dataIndex) const
 {
-    if (dataIndex < 0 || dataIndex >= mDataList.size()) return -1;
+    if (dataIndex < 0 || dataIndex >= mDataList.size()) return FCID_INVALID;
     FCAbstractDataObject* obj = mDataList.at(dataIndex);
-    return obj ? obj->getDataObjectID() : -1;
+    return obj ? obj->getDataObjectID() : FCID_INVALID;
 }
 
 void FCAbstractDataManagerHelper::sortObject(ObjectSortType type)
@@ -225,11 +225,11 @@ void FCAbstractDataManagerHelper::sortObject(std::function<bool(FCAbstractDataOb
     std::sort(mDataList.begin(), mDataList.end(), function);
 }
 
-bool FCAbstractDataManagerHelper::isUsedDataObject(const QList<int>& data) const
+bool FCAbstractDataManagerHelper::isUsedDataObject(const QList<FCID>& data) const
 {
     for (auto* obj : mDataList) {
         if (!obj) continue;
-        for (int id : data) if (obj->getDataObjectID() == id) return true;
+        for (FCID id : data) if (obj->getDataObjectID() == id) return true;
     }
     return false;
 }

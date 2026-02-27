@@ -5,6 +5,7 @@
  */
 #include "FCDataRepo.h"
 #include "FCAbstractDataObject.h"
+#include "FCUniqueIDGenerater.h"
 #include <QMutex>
 
 namespace FC {
@@ -23,7 +24,6 @@ void FCDataRepoPrivate::removeFromListOnly(FCAbstractDataObject* obj)
 }
 
 // ----- FCDataRepo -----
-int FCDataRepo::mNextId = 1;
 QMutex FCDataRepo::mMutex;
 
 FCDataRepo* FCDataRepo::instance()
@@ -36,9 +36,6 @@ void FCDataRepo::addDataObj(FCAbstractDataObject* obj)
 {
     if (!obj) return;
     QMutexLocker locker(&mMutex);
-    int id = obj->getDataObjectID();
-    if (id >= mNextId)
-        mNextId = id + 1;
     mRepoPrivate.appendDataObj(obj);
 }
 
@@ -49,16 +46,19 @@ void FCDataRepo::removeDataObj(FCAbstractDataObject* obj)
     mRepoPrivate.removeFromListOnly(obj);
 }
 
-FCAbstractDataObject* FCDataRepo::getDataByID(int id) const
+FCAbstractDataObject* FCDataRepo::getDataByID(FCID id) const
 {
     QMutexLocker locker(&mMutex);
     return mRepoPrivate.getDataByID(id);
 }
 
-int FCDataRepo::getNextValidID()
+FCID FCDataRepo::getNextValidID()
 {
     QMutexLocker locker(&mMutex);
-    int id = mNextId++;
+    FCID id;
+    do {
+        id = static_cast<FCID>(FCUniqueIDGenerater::id_uint64());
+    } while (mRepoPrivate.getDataByID(id) != nullptr);
     return id;
 }
 
@@ -78,25 +78,20 @@ QList<FCAbstractDataObject*> FCDataRepo::getDataList() const
     return list;
 }
 
-void FCDataRepo::resetRepo(QList<int> save)
+void FCDataRepo::resetRepo(QList<FCID> save)
 {
     QMutexLocker locker(&mMutex);
-    int maxId = 0;
     QList<FCAbstractDataObject*> toRemove;
     const int n = mRepoPrivate.getDataCount();
     for (int i = 0; i < n; ++i) {
         FCAbstractDataObject* obj = mRepoPrivate.getDataByIndex(i);
         if (!obj) continue;
-        int id = obj->getDataObjectID();
-        if (save.contains(id)) {
-            if (id > maxId) maxId = id;
-        } else {
+        FCID id = obj->getDataObjectID();
+        if (!save.contains(id))
             toRemove.append(obj);
-        }
     }
     for (FCAbstractDataObject* obj : toRemove)
         mRepoPrivate.removeDataObj(obj);
-    mNextId = maxId + 1;
 }
 
 } // namespace FC

@@ -27,26 +27,26 @@ public:
         UserRoleEnd = 1000000
     };
 
-    explicit FCAbstractDataObject(int parentDataID = -1);
+    explicit FCAbstractDataObject(FCID parentDataID = FCID_INVALID);
     virtual ~FCAbstractDataObject() override = 0;
 
     /**
      * @brief 获取数据对象的ID
-     * @return int  数据ID
+     * @return FCID  数据ID（与 FCIdType 一致）
      */
-    int getDataObjectID() const;
+    FCID getDataObjectID() const;
 
     /**
      * @brief 设置父数据对象id
      * @param[i]  id 父数据对象id
      */
-    virtual void setParentDataID(int id);
+    virtual void setParentDataID(FCID id);
 
     /**
      * @brief 获取父数据对象id
-     * @return int 父数据对象id
+     * @return FCID 父数据对象id
      */
-    int getParentDataID() const;
+    FCID getParentDataID() const;
 
     /**
      * @brief 序列化对象
@@ -125,7 +125,7 @@ public:
      * @param[i] dataIDs 数据对象ID列表
      * @return bool 是否被使用
      */
-    virtual bool isUsedDataObject(const QList<int>& dataIDs);
+    virtual bool isUsedDataObject(const QList<FCID>& dataIDs);
 
     /**
      * @brief 获取数据对象名称
@@ -151,11 +151,11 @@ protected:
      * @brief 设置数据对象ID
      * @param[i] id 数据对象ID
      */
-    virtual void setAbsDataID(int id);
+    virtual void setAbsDataID(FCID id);
 
 private:
     FCID mAbsDataID{ 0 };
-    FCID mParentDataID{ -1 };
+    FCID mParentDataID{ FCID_INVALID };
     QHash<FCID, QVariant> mUserData;
 };
 

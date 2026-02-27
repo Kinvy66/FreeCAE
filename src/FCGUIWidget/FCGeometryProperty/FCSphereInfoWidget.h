@@ -7,6 +7,7 @@
 
 #include "../FCGUIWidgetAPI.h"
 #include "IGeometryBuildContent.h"
+#include <FCData/FCType.h>
 #include <QWidget>
 #include <QList>
 
@@ -29,7 +30,7 @@ public:
     ~FCSphereInfoWidget() override;
 
     void setSphereCommand(FCGeoModelSphere* sphereCmd);
-    void setDAGNode(FCGeometryDAGData* dagData, int nodeId, FCGeoModelSphere* displaySphereCmd = nullptr);
+    void setDAGNode(FCGeometryDAGData* dagData, FCID nodeId, FCGeoModelSphere* displaySphereCmd = nullptr);
 
     void syncToModel() override;
     FCAbsGeoCommand* getCurrentBuildCommand() override;
@@ -48,7 +49,7 @@ private:
     bool mNameManuallyEdited{ false };
     FCGeoModelSphere* mSphereCmd{ nullptr };
     FCGeometryDAGData* mDagData{ nullptr };
-    int mNodeId{ -1 };
+    FCID mNodeId{ FCID_INVALID };
     FCGeoModelSphere* mDisplaySphereCmd{ nullptr };
     bool mOwnDisplaySphereCmd{ false };
 };

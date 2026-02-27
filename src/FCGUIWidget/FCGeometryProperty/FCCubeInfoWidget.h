@@ -3,6 +3,7 @@
 
 #include "../FCGUIWidgetAPI.h"
 #include "IGeometryBuildContent.h"
+#include <FCData/FCType.h>
 #include <QWidget>
 #include <QList>
 
@@ -37,7 +38,7 @@ public:
      * @param nodeId
      * @param displayBoxCmd
      */
-    void setDAGNode(FCGeometryDAGData* dagData, int nodeId, FCGeoModelBox* displayBoxCmd = nullptr);
+    void setDAGNode(FCGeometryDAGData* dagData, FCID nodeId, FCGeoModelBox* displayBoxCmd = nullptr);
 
     void syncToModel() override;
     FCAbsGeoCommand* getCurrentBuildCommand() override;
@@ -74,7 +75,7 @@ private:
     bool mNameManuallyEdited{ false };
     FCGeoModelBox* mBoxCmd{ nullptr };
     FCGeometryDAGData* mDagData{ nullptr };
-    int mNodeId{ -1 };
+    FCID mNodeId{ FCID_INVALID };
     /** DAG 路径下仅用于 VTK 显示的 Box 命令（不加入命令列表） */
     FCGeoModelBox* mDisplayBoxCmd{ nullptr };
     /** 若为 true 表示 m_displayBoxCmd 由本 widget 创建并负责释放 */

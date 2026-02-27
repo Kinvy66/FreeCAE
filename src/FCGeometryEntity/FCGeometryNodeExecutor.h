@@ -9,6 +9,7 @@
 #include "FCGeometryEntityAPI.h"
 #include "FCGeoNode.h"
 #include "FCSelectionRule.h"
+#include <FCData/FCType.h>
 #include <QHash>
 #include <QVariant>
 
@@ -32,7 +33,7 @@ public:
      * @return 该节点的输出形状（QVariant，OCC 为 TopoDS_Shape）
      */
     virtual QVariant execute(const FCGeoNode& node,
-                             const QHash<int, QVariant>& nodeResults,
+                             const QHash<FCID, QVariant>& nodeResults,
                              FCSelectionRule* selectionRule = nullptr) const = 0;
 
     /**

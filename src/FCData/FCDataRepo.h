@@ -7,6 +7,7 @@
 #define FCDATAREPO_H
 
 #include "FCDataAPI.h"
+#include "FCType.h"
 #include "FCAbstractDataObject.h"
 #include "FCAbstractNamedDataObject.h"
 #include "FCAbstractDataManager.hpp"
@@ -40,7 +41,7 @@ public:
 
     void addDataObj(FCAbstractDataObject* obj);
     void removeDataObj(FCAbstractDataObject* obj);
-    FCAbstractDataObject* getDataByID(int id) const;
+    FCAbstractDataObject* getDataByID(FCID id) const;
 
     /**
      * @brief 按类型获取数据对象
@@ -48,7 +49,7 @@ public:
      * @return 
      */
     template<typename T>
-    T* getDataAs(int id) const { return dynamic_cast<T*>(getDataByID(id)); }
+    T* getDataAs(FCID id) const { return dynamic_cast<T*>(getDataByID(id)); }
 
 
     /**
@@ -72,7 +73,7 @@ public:
      * @brief 获取一个未被占用的有效 ID（在创建 FCAbstractDataObject 前调用）
      * @return 
      */
-    int getNextValidID();
+    FCID getNextValidID();
 
     /**
      * @brief 获取仓库中数据对象数量
@@ -105,7 +106,7 @@ public:
      * @return 
      */
     template<typename T>
-    int getTDataID(const QString& name, bool compSens = false) const
+    FCID getTDataID(const QString& name, bool compSens = false) const
     {
         QMutexLocker locker(&mMutex);
         QList<FCAbstractDataObject*> data = mRepoPrivate.getDataObjectsByName(name, compSens);
@@ -113,7 +114,7 @@ public:
             T* t = dynamic_cast<T*>(d);
             if (t) return d->getDataObjectID();
         }
-        return -1;
+        return FCID_INVALID;
     }
     
     /**
@@ -124,10 +125,10 @@ public:
 
     
     /**
-     * @brief 清空并重置仓库，仅保留 save 中的 ID，并重置下一可用 ID
+     * @brief 清空并重置仓库，仅保留 save 中的 ID
      * @param save
      */
-    void resetRepo(QList<int> save = { -1 });
+    void resetRepo(QList<FCID> save = { FCID_INVALID });
 
 private:
     FCDataRepo() = default;
@@ -137,7 +138,6 @@ private:
 
     FCDataRepoPrivate mRepoPrivate;
     static QMutex mMutex;
-    static int mNextId;
 };
 
 } // namespace FC

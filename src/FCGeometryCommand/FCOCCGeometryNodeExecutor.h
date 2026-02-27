@@ -7,6 +7,7 @@
 #define FCOCCGEOMETRYNODEEXECUTOR_H
 
 #include "FCGeometryCommandAPI.h"
+#include <FCData/FCType.h>
 #include <FCGeometryEntity/FCGeometryNodeExecutor.h>
 #include <FCGeometryEntity/FCGeoOpType.h>
 
@@ -23,7 +24,7 @@ public:
     ~FCOCCGeometryNodeExecutor() override = default;
 
     QVariant execute(const FC::FCGeoNode& node,
-                     const QHash<int, QVariant>& nodeResults,
+                     const QHash<FCID, QVariant>& nodeResults,
                      FC::FCSelectionRule* selectionRule = nullptr) const override;
 
     bool supports(FC::FCGeoOpType type) const override;

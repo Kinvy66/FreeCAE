@@ -15,6 +15,7 @@
 #include <FCGeometryInterface/FCAbsGeoOperBool.h>
 #include <FCGeometryInterface/FCGeoEnum.h>
 #include <QScopedPointer>
+#include <QDebug>
 
 namespace FC {
 
@@ -84,15 +85,15 @@ void FCGeometryModule::setExecutor(FCGeometryNodeExecutor* executor)
     m_engine->setExecutor(executor);
 }
 
-int FCGeometryModule::appendNode(FCGeoOpType type, const QList<int>& inputs, const FCGeoParamSet& params, const QString& name)
+FCID FCGeometryModule::appendNode(FCGeoOpType type, const QList<FCID>& inputs, const FCGeoParamSet& params, const QString& name)
 {
     FCGeoEnum::FCGeometryComType comType = toGeometryComType(type);
-    if (comType == FCGeoEnum::FGTNone) return -1;
+    if (comType == FCGeoEnum::FGTNone) return FCID_INVALID;
     FCGeoInterfaceFactory* factory = FCGeoInterfaceFactory::instance();
-    if (!factory || !factory->getCommandSupported(comType)) return -1;
+    if (!factory || !factory->getCommandSupported(comType)) return FCID_INVALID;
 
     FCAbsGeoCommand* cmd = factory->createCommand(comType);
-    if (!cmd) return -1;
+    if (!cmd) return FCID_INVALID;
 
     QString nodeName = name.isEmpty() ? m_tree->checkName(QStringLiteral("Node")) : m_tree->checkName(name);
     cmd->setDataObjectName(nodeName);
@@ -105,59 +106,60 @@ int FCGeometryModule::appendNode(FCGeoOpType type, const QList<int>& inputs, con
         }
     }
 
-    int cmdId = cmd->getDataObjectID();
+    FCID cmdId = cmd->getDataObjectID();
     FCGeoNode node(cmdId, type, nodeName);
     node.inputs = inputs;
     node.params = params;
     m_tree->addNode(node);
     m_lastNodeId = cmdId;
+    qInfo().noquote() << QStringLiteral("添加几何成功: id=%1, 名称=%2").arg(static_cast<qulonglong>(cmdId)).arg(nodeName);
     return cmdId;
 }
 
-int FCGeometryModule::addBlock(const FCGeoParamSet& params, const QString& name)
+FCID FCGeometryModule::addBlock(const FCGeoParamSet& params, const QString& name)
 {
-    return appendNode(FCGeoOpType::Block, QList<int>(), params, name);
+    return appendNode(FCGeoOpType::Block, QList<FCID>(), params, name);
 }
 
-int FCGeometryModule::addCylinder(const FCGeoParamSet& params, const QString& name)
+FCID FCGeometryModule::addCylinder(const FCGeoParamSet& params, const QString& name)
 {
-    return appendNode(FCGeoOpType::Cylinder, QList<int>(), params, name);
+    return appendNode(FCGeoOpType::Cylinder, QList<FCID>(), params, name);
 }
 
-int FCGeometryModule::addSphere(const FCGeoParamSet& params, const QString& name)
+FCID FCGeometryModule::addSphere(const FCGeoParamSet& params, const QString& name)
 {
-    return appendNode(FCGeoOpType::Sphere, QList<int>(), params, name);
+    return appendNode(FCGeoOpType::Sphere, QList<FCID>(), params, name);
 }
 
-int FCGeometryModule::addUnion(int a, int b, const QString& name)
+FCID FCGeometryModule::addUnion(FCID a, FCID b, const QString& name)
 {
-    return appendNode(FCGeoOpType::Union, QList<int>() << a << b, FCGeoParamSet(), name);
+    return appendNode(FCGeoOpType::Union, QList<FCID>() << a << b, FCGeoParamSet(), name);
 }
 
-int FCGeometryModule::addDifference(int a, int b, const QString& name)
+FCID FCGeometryModule::addDifference(FCID a, FCID b, const QString& name)
 {
-    return appendNode(FCGeoOpType::Difference, QList<int>() << a << b, FCGeoParamSet(), name);
+    return appendNode(FCGeoOpType::Difference, QList<FCID>() << a << b, FCGeoParamSet(), name);
 }
 
-int FCGeometryModule::addIntersection(int a, int b, const QString& name)
+FCID FCGeometryModule::addIntersection(FCID a, FCID b, const QString& name)
 {
-    return appendNode(FCGeoOpType::Intersection, QList<int>() << a << b, FCGeoParamSet(), name);
+    return appendNode(FCGeoOpType::Intersection, QList<FCID>() << a << b, FCGeoParamSet(), name);
 }
 
-int FCGeometryModule::addFillet(int input, FCSelectionRule* rule, const FCGeoParamSet& params, const QString& name)
+FCID FCGeometryModule::addFillet(FCID input, FCSelectionRule* rule, const FCGeoParamSet& params, const QString& name)
 {
-    int id = appendNode(FCGeoOpType::Fillet, QList<int>() << input, params, name);
-    if (rule)
+    FCID id = appendNode(FCGeoOpType::Fillet, QList<FCID>() << input, params, name);
+    if (rule && id != FCID_INVALID)
         m_engine->setSelectionRuleForNode(id, rule);
     return id;
 }
 
-int FCGeometryModule::addImport(const FCGeoParamSet& params, const QString& name)
+FCID FCGeometryModule::addImport(const FCGeoParamSet& params, const QString& name)
 {
-    return appendNode(FCGeoOpType::Import, QList<int>(), params, name);
+    return appendNode(FCGeoOpType::Import, QList<FCID>(), params, name);
 }
 
-void FCGeometryModule::updateNode(int id, const FCGeoParamSet& params)
+void FCGeometryModule::updateNode(FCID id, const FCGeoParamSet& params)
 {
     if (!m_tree->hasNode(id)) return;
     FCGeoNode node = m_tree->node(id);
@@ -170,7 +172,7 @@ void FCGeometryModule::updateNode(int id, const FCGeoParamSet& params)
     m_engine->invalidateDownstream(id);
 }
 
-void FCGeometryModule::removeNode(int id)
+void FCGeometryModule::removeNode(FCID id)
 {
     if (!m_tree->hasNode(id)) return;
     m_engine->invalidateDownstream(id);
@@ -181,7 +183,7 @@ void FCGeometryModule::removeNode(int id)
         delete cmd;
     }
     if (m_lastNodeId == id)
-        m_lastNodeId = -1;
+        m_lastNodeId = FCID_INVALID;
 }
 
 QVariant FCGeometryModule::build()
@@ -194,7 +196,7 @@ QVariant FCGeometryModule::buildDirty()
     return m_engine->buildDirty();
 }
 
-int FCGeometryModule::lastOutputNodeId() const
+FCID FCGeometryModule::lastOutputNodeId() const
 {
     return m_lastNodeId;
 }

@@ -10,6 +10,7 @@
 #define FCGEOMETRYPROPERTYCONNECTOR_H
 
 #include "FCActionsOperatorAPI.h"
+#include <FCData/FCType.h>
 #include <QObject>
 
 namespace FC
@@ -30,7 +31,7 @@ public:
     void setDockingArea(FCDockingAreaInterface* docking);
 
 private slots:
-    void onGeometryNodeSelected(int nodeId);
+    void onGeometryNodeSelected(FCID nodeId);
 
 private:
     FCDockingAreaInterface* m_docking{ nullptr };

@@ -39,7 +39,7 @@ public:
 
     void appendDataObj(FCAbstractDataObject* item) override;
     void insertDataObj(int index, FCAbstractDataObject* item) override;
-    FCAbstractModelComponent* getDataByID(int id);
+    FCAbstractModelComponent* getDataByID(FCID id);
 
     virtual FCModelSet* getModelSetByMember(FCModelEnum::FITKModelSetType t,
         int modelID, const QList<int>& member);

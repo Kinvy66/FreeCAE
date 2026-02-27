@@ -174,7 +174,7 @@ void FCComponentManager::insertDataObj(int index, FCAbstractDataObject* item)
         mergeSameNameSet(existSet, set);
 }
 
-FCAbstractModelComponent* FCComponentManager::getDataByID(int id)
+FCAbstractModelComponent* FCComponentManager::getDataByID(FCID id)
 {
     FCAbstractModelComponent* comp = FCAbstractDataManager<FCAbstractModelComponent>::getDataByID(id);
     if (comp) return comp;
