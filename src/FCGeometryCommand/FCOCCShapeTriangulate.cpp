@@ -121,7 +121,8 @@ void FCOCCShapeTriangulate::discretePoint(FCID id, const TopoDS_Shape& shape)
 
 void FCOCCShapeTriangulate::discreteEdge(FCID id, const TopoDS_Shape& shape)
 {
-    triangulate(shape, 0.0005);
+    // 注释冗余网格化：整体 triangulate(*shape, 0.001) 已为边生成 Polygon3D，逐边再调 BRepMesh 重复且耗时
+    // triangulate(shape, 0.0005);
     TopLoc_Location loc;
     const TopoDS_Edge& edge = TopoDS::Edge(shape);
     const Handle(Poly_Polygon3D)& mesh = BRep_Tool::Polygon3D(edge, loc);

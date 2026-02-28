@@ -19,9 +19,12 @@
 #include <BRepBuilderAPI_MakeEdge.hxx>
 #include <BRepBuilderAPI_MakeWire.hxx>
 #include <BRepOffsetAPI_MakePipe.hxx>
+#include <Geom_BSplineCurve.hxx>
+#include <GeomAPI_Interpolate.hxx>
 #include <gp_Ax2.hxx>
 #include <gp_Pnt.hxx>
 #include <gp_Circ.hxx>
+#include <gp_Dir.hxx>
 #include <BRepLib.hxx>
 #include <cmath>
 
@@ -219,26 +222,33 @@ bool FCOCCModelHelix::update()
     const int chir = (chirality >= 0) ? 1 : -1;
 
     try {
-        const int nSeg = (nTurns * 24 > 16) ? (nTurns * 24) : 16;
-        const double dTheta = 2.0 * M_PI * nTurns / nSeg;
-        BRepBuilderAPI_MakeWire mkWire;
-        gp_Pnt pPrev(loc[0] + majorR, loc[1], loc[2]);
-        for (int i = 1; i <= nSeg; ++i) {
-            double th = chir * i * dTheta;
-            gp_Pnt pCur(loc[0] + majorR * std::cos(th),
-                        loc[1] + majorR * std::sin(th),
-                        loc[2] + axialPitch * i * dTheta / (2.0 * M_PI));
-            TopoDS_Edge edge = BRepBuilderAPI_MakeEdge(pPrev, pCur);
-            mkWire.Add(edge);
-            pPrev = pCur;
+        const int nPts = (nTurns * 32 > 20) ? (nTurns * 32) : 20;
+        Handle(TColgp_HArray1OfPnt) aPoles = new TColgp_HArray1OfPnt(1, nPts + 1);
+        for (int i = 0; i <= nPts; ++i) {
+            double t = static_cast<double>(i) / nPts * 2.0 * M_PI * nTurns;
+            double th = chir * t;
+            aPoles->SetValue(i + 1,
+                gp_Pnt(loc[0] + majorR * std::cos(th),
+                       loc[1] + majorR * std::sin(th),
+                       loc[2] + axialPitch * t / (2.0 * M_PI)));
         }
+        GeomAPI_Interpolate interp(aPoles, false, 1e-7);
+        interp.Perform();
+        if (!interp.IsDone()) return false;
+        Handle(Geom_BSplineCurve) helixCurve = interp.Curve();
+        if (helixCurve.IsNull()) return false;
+
+        Standard_Real first = helixCurve->FirstParameter();
+        Standard_Real last = helixCurve->LastParameter();
+        BRepBuilderAPI_MakeEdge mkPath(helixCurve, first, last);
+        if (!mkPath.IsDone()) return false;
+        BRepBuilderAPI_MakeWire mkWire(mkPath.Edge());
         if (!mkWire.IsDone()) return false;
 
-        gp_Pnt p0(loc[0] + majorR, loc[1], loc[2]);
-        gp_Pnt p1(loc[0] + majorR * std::cos(chir * dTheta),
-                  loc[1] + majorR * std::sin(chir * dTheta),
-                  loc[2] + axialPitch * dTheta / (2.0 * M_PI));
-        gp_Dir tangent(p1.X() - p0.X(), p1.Y() - p0.Y(), p1.Z() - p0.Z());
+        gp_Pnt p0 = helixCurve->Value(first);
+        gp_Vec tanVec = helixCurve->DN(first, 1);
+        if (tanVec.Magnitude() < 1e-12) return false;
+        gp_Dir tangent(tanVec);
         gp_Ax2 circAx(p0, tangent);
         gp_Circ circle(circAx, minorR);
         TopoDS_Edge circleEdge = BRepBuilderAPI_MakeEdge(circle);
