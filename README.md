@@ -1,12 +1,14 @@
 
 本项目是基于[freecaeworkbench](https://github.com/Kinvy66/freecaeworkbench)上进行重构。
+项目简介参考[freecaeworkbench/README](https://github.com/Kinvy66/freecaeworkbench/blob/master/README.md)
 
 安装包下载链接: [https://pan.baidu.com/s/10BtjbSt6ZIYKxgnka7SWhA?pwd=tp9a](https://pan.baidu.com/s/10BtjbSt6ZIYKxgnka7SWhA?pwd=tp9a) 提取码: tp9a
 
-编译环境： Qt6.8.3+MSVC2022
 
 第三方库下载链接: [https://pan.baidu.com/s/1G6D5cN9_vdIGqD3bcVWRlw?pwd=cybk](https://pan.baidu.com/s/1G6D5cN9_vdIGqD3bcVWRlw?pwd=cybk) 提取码: cybk
 
+
+编译环境： Qt6.8.3+MSVC2022
 
 第三方库直接解压在工程的根目录。
 
