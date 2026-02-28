@@ -1,6 +1,8 @@
 
 本项目是基于[freecaeworkbench](https://github.com/Kinvy66/freecaeworkbench)上进行重构。
 
+安装包下载链接: [https://pan.baidu.com/s/10BtjbSt6ZIYKxgnka7SWhA?pwd=tp9a](https://pan.baidu.com/s/10BtjbSt6ZIYKxgnka7SWhA?pwd=tp9a) 提取码: tp9a
+
 编译环境： Qt6.8.3+MSVC2022
 
 第三方库下载链接: [https://pan.baidu.com/s/1G6D5cN9_vdIGqD3bcVWRlw?pwd=cybk](https://pan.baidu.com/s/1G6D5cN9_vdIGqD3bcVWRlw?pwd=cybk) 提取码: cybk
@@ -29,4 +31,5 @@ option(FC_COPY_THIRDPARTY_DLLS
 |zlib        |1.4.1.1|
 |gmsh        |4.15.0 |
 |pybind11    |3.0.2  |
+
 
