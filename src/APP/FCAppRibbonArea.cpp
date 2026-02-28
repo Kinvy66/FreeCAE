@@ -235,7 +235,7 @@ void FCAppRibbonArea::buildRibbonGeometryCategory()
     mPanelGeometryPrimOpt->addSmallAction(mActions->actionCreateCylinder);
     mPanelGeometryPrimOpt->addSmallAction(mActions->actionCreateSphere);
     mPanelGeometryPrimOpt->addSmallAction(mActions->actionCreateTorus);
-    // mPanelGeometryPrimOpt->addSmallAction(m_actions->actionCreateHelix);
+    mPanelGeometryPrimOpt->addSmallAction(mActions->actionCreateHelix);
     
     SARibbonMenu* menuCreateMoreGemetryModel = new SARibbonMenu(mApp);
     menuCreateMoreGemetryModel->addAction(mActions->actionCreatorBezierCurve);

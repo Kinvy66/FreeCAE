@@ -131,6 +131,9 @@ void registerOCCGeometryCommands()
     fac->insertCommandCreateFun(FC::FCGeoEnum::FGTBox, []() { return new FCOCCModelBox; });
     fac->insertCommandCreateFun(FC::FCGeoEnum::FGTCylinder, []() { return new FCOCCModelCylinder; });
     fac->insertCommandCreateFun(FC::FCGeoEnum::FGTSphere, []() { return new FCOCCModelSphere; });
+    fac->insertCommandCreateFun(FC::FCGeoEnum::FGTCone, []() { return new FCOCCModelCone; });
+    fac->insertCommandCreateFun(FC::FCGeoEnum::FGTTorus, []() { return new FCOCCModelTorus; });
+    fac->insertCommandCreateFun(FC::FCGeoEnum::FGTHelix, []() { return new FCOCCModelHelix; });
 
     // 布尔与多体
     fac->insertCommandCreateFun(FC::FCGeoEnum::FGTBool, []() { return new FCOCCOperBool; });

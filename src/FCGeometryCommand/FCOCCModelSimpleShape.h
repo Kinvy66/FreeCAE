@@ -18,6 +18,9 @@
 #include <FCGeometryInterface/FCAbsGeoModelBox.h>
 #include <FCGeometryInterface/FCAbsGeoModelCylinder.h>
 #include <FCGeometryInterface/FCAbsGeoModelSphere.h>
+#include <FCGeometryInterface/FCAbsGeoModelCone.h>
+#include <FCGeometryInterface/FCAbsGeoModelHelix.h>
+#include <FCGeometryInterface/FCAbsGeoModelTorus.h>
 
 namespace OCC {
 
@@ -44,6 +47,33 @@ class FCGEOMETRYCMD_API FCOCCModelSphere : public FC::FCGeoModelSphere, public O
 public:
     explicit FCOCCModelSphere();
     ~FCOCCModelSphere() override = default;
+    FC::FCGeoEnum::FCGeometryComType getGeometryCommandType() override;
+    bool update() override;
+};
+
+class FCGEOMETRYCMD_API FCOCCModelCone : public FC::FCGeoModelCone, public OCCShapeAgent
+{
+public:
+    explicit FCOCCModelCone();
+    ~FCOCCModelCone() override = default;
+    FC::FCGeoEnum::FCGeometryComType getGeometryCommandType() override;
+    bool update() override;
+};
+
+class FCGEOMETRYCMD_API FCOCCModelTorus : public FC::FCGeoModelTorus, public OCCShapeAgent
+{
+public:
+    explicit FCOCCModelTorus();
+    ~FCOCCModelTorus() override = default;
+    FC::FCGeoEnum::FCGeometryComType getGeometryCommandType() override;
+    bool update() override;
+};
+
+class FCGEOMETRYCMD_API FCOCCModelHelix : public FC::FCGeoModelHelix, public OCCShapeAgent
+{
+public:
+    explicit FCOCCModelHelix();
+    ~FCOCCModelHelix() override = default;
     FC::FCGeoEnum::FCGeometryComType getGeometryCommandType() override;
     bool update() override;
 };

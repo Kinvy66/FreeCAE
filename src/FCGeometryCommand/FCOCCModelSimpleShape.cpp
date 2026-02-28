@@ -8,14 +8,22 @@
 
 /**
  * @file FCOCCModelSimpleShape.cpp
- * @brief OCC 基本体实现（移植自 FITKGeoCompOCC FITKOCCModelSimpleShape）
+ * @brief OCC 基本体实现（盒、圆柱、球、圆锥、圆环、螺旋）
  */
 #include "FCOCCModelSimpleShape.h"
 #include <BRepPrimAPI_MakeBox.hxx>
 #include <BRepPrimAPI_MakeCylinder.hxx>
 #include <BRepPrimAPI_MakeSphere.hxx>
+#include <BRepPrimAPI_MakeCone.hxx>
+#include <BRepPrimAPI_MakeTorus.hxx>
+#include <BRepBuilderAPI_MakeEdge.hxx>
+#include <BRepBuilderAPI_MakeWire.hxx>
+#include <BRepOffsetAPI_MakePipe.hxx>
 #include <gp_Ax2.hxx>
 #include <gp_Pnt.hxx>
+#include <gp_Circ.hxx>
+#include <BRepLib.hxx>
+#include <cmath>
 
 namespace OCC {
 
@@ -106,6 +114,141 @@ bool FCOCCModelSphere::update()
         cmd.Build();
         if (!cmd.IsDone()) return false;
         const TopoDS_Shape& out = cmd.Shape();
+        if (out.IsNull()) return false;
+        _occShapeAgent->updateShape(out);
+        return true;
+    } catch (...) {
+        return false;
+    }
+}
+
+FCOCCModelCone::FCOCCModelCone()
+    : OCCShapeAgent(this)
+{
+    _shapeAgent = _occShapeAgent;
+}
+
+FC::FCGeoEnum::FCGeometryComType FCOCCModelCone::getGeometryCommandType()
+{
+    return FC::FCGeoEnum::FGTCone;
+}
+
+bool FCOCCModelCone::update()
+{
+    double loc[3], axis[3];
+    getLocation(loc);
+    getAxis(axis);
+    double h = getHeight();
+    double r1 = getBottomRadius();
+    double r2 = getTopRadius();
+    if (h < 1e-9) return false;
+    try {
+        gp_Ax2 ax(gp_Pnt(loc[0], loc[1], loc[2]), gp_Dir(axis[0], axis[1], axis[2]));
+        BRepPrimAPI_MakeCone cmd(ax, r1, r2, h);
+        cmd.Build();
+        if (!cmd.IsDone()) return false;
+        const TopoDS_Shape& out = cmd.Shape();
+        if (out.IsNull()) return false;
+        _occShapeAgent->updateShape(out);
+        return true;
+    } catch (...) {
+        return false;
+    }
+}
+
+FCOCCModelTorus::FCOCCModelTorus()
+    : OCCShapeAgent(this)
+{
+    _shapeAgent = _occShapeAgent;
+}
+
+FC::FCGeoEnum::FCGeometryComType FCOCCModelTorus::getGeometryCommandType()
+{
+    return FC::FCGeoEnum::FGTTorus;
+}
+
+bool FCOCCModelTorus::update()
+{
+    double loc[3], axis[3];
+    getLocation(loc);
+    getAxis(axis);
+    double r1 = getMajorRadius();
+    double r2 = getMinorRadius();
+    double angle = getAngle();
+    if (r1 < 1e-9 || r2 < 1e-9 || r2 > r1) return false;
+    try {
+        gp_Ax2 ax(gp_Pnt(loc[0], loc[1], loc[2]), gp_Dir(axis[0], axis[1], axis[2]));
+        BRepPrimAPI_MakeTorus cmd(ax, r1, r2);
+        if (angle < 360.0 - 1e-6) {
+            const double angRad = angle * M_PI / 180.0;
+            cmd = BRepPrimAPI_MakeTorus(ax, r1, r2, angRad);
+        }
+        cmd.Build();
+        if (!cmd.IsDone()) return false;
+        const TopoDS_Shape& out = cmd.Shape();
+        if (out.IsNull()) return false;
+        _occShapeAgent->updateShape(out);
+        return true;
+    } catch (...) {
+        return false;
+    }
+}
+
+FCOCCModelHelix::FCOCCModelHelix()
+    : OCCShapeAgent(this)
+{
+    _shapeAgent = _occShapeAgent;
+}
+
+FC::FCGeoEnum::FCGeometryComType FCOCCModelHelix::getGeometryCommandType()
+{
+    return FC::FCGeoEnum::FGTHelix;
+}
+
+bool FCOCCModelHelix::update()
+{
+    double loc[3];
+    getLocation(loc);
+    int nTurns = getNumberOfTurns();
+    double majorR = getMajorRadius();
+    double minorR = getMinorRadius();
+    double axialPitch = getAxialPitch();
+    int chirality = getChirality();
+    if (nTurns < 1 || majorR < 1e-9 || minorR < 1e-9 || minorR >= majorR) return false;
+    if (axialPitch < 1e-9) axialPitch = majorR * 0.5;
+    const int chir = (chirality >= 0) ? 1 : -1;
+
+    try {
+        const int nSeg = (nTurns * 24 > 16) ? (nTurns * 24) : 16;
+        const double dTheta = 2.0 * M_PI * nTurns / nSeg;
+        BRepBuilderAPI_MakeWire mkWire;
+        gp_Pnt pPrev(loc[0] + majorR, loc[1], loc[2]);
+        for (int i = 1; i <= nSeg; ++i) {
+            double th = chir * i * dTheta;
+            gp_Pnt pCur(loc[0] + majorR * std::cos(th),
+                        loc[1] + majorR * std::sin(th),
+                        loc[2] + axialPitch * i * dTheta / (2.0 * M_PI));
+            TopoDS_Edge edge = BRepBuilderAPI_MakeEdge(pPrev, pCur);
+            mkWire.Add(edge);
+            pPrev = pCur;
+        }
+        if (!mkWire.IsDone()) return false;
+
+        gp_Pnt p0(loc[0] + majorR, loc[1], loc[2]);
+        gp_Pnt p1(loc[0] + majorR * std::cos(chir * dTheta),
+                  loc[1] + majorR * std::sin(chir * dTheta),
+                  loc[2] + axialPitch * dTheta / (2.0 * M_PI));
+        gp_Dir tangent(p1.X() - p0.X(), p1.Y() - p0.Y(), p1.Z() - p0.Z());
+        gp_Ax2 circAx(p0, tangent);
+        gp_Circ circle(circAx, minorR);
+        TopoDS_Edge circleEdge = BRepBuilderAPI_MakeEdge(circle);
+        BRepBuilderAPI_MakeWire circleWire(circleEdge);
+        if (!circleWire.IsDone()) return false;
+
+        BRepOffsetAPI_MakePipe pipe(mkWire.Wire(), circleWire.Wire());
+        pipe.Build();
+        if (!pipe.IsDone()) return false;
+        const TopoDS_Shape& out = pipe.Shape();
         if (out.IsNull()) return false;
         _occShapeAgent->updateShape(out);
         return true;
