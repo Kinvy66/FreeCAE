@@ -23,8 +23,6 @@
 #include <BRepBndLib.hxx>
 #include <BRepMesh_IncrementalMesh.hxx>
 #include <BRep_Tool.hxx>
-#include <BRepAdaptor_Curve.hxx>
-#include <GCPnts_UniformAbscissa.hxx>
 #include <IMeshTools_Parameters.hxx>
 #include <cmath>
 
@@ -123,50 +121,22 @@ void FCOCCShapeTriangulate::discretePoint(FCID id, const TopoDS_Shape& shape)
 
 void FCOCCShapeTriangulate::discreteEdge(FCID id, const TopoDS_Shape& shape)
 {
-    const TopoDS_Edge& edge = TopoDS::Edge(shape);
+    // 注释冗余网格化：整体 triangulate(*shape, 0.001) 已为边生成 Polygon3D，逐边再调 BRepMesh 重复且耗时
+    triangulate(shape, 0.0005);
     TopLoc_Location loc;
+    const TopoDS_Edge& edge = TopoDS::Edge(shape);
     const Handle(Poly_Polygon3D)& mesh = BRep_Tool::Polygon3D(edge, loc);
+    if (mesh.IsNull()) return;
+    int nPts = mesh->NbNodes();
+    gp_Trsf trans(loc.Transformation());
     FC::FCGeoMeshVSEdgeEntity* vsedge = new FC::FCGeoMeshVSEdgeEntity();
-
-    if (!mesh.IsNull()) {
-        int nPts = mesh->NbNodes();
-        gp_Trsf trans(loc.Transformation());
-        const TColgp_Array1OfPnt& nodes = mesh->Nodes();
-        for (int i = 1; i <= nPts; ++i) {
-            gp_Pnt pt = nodes.Value(i);
-            pt.Transform(trans);
-            FC::FCGeoMeshVSPt* vpt = new FC::FCGeoMeshVSPt();
-            vpt->setXYZ(static_cast<float>(pt.X()), static_cast<float>(pt.Y()), static_cast<float>(pt.Z()));
-            vsedge->appendPoint(vpt);
-        }
-    } else {
-        // Polygon3D 为空：BRepMesh 仅对面生成 Triangulation，边的数据在 PolygonOnTriangulation 中。
-        // 使用 BRepAdaptor_Curve + GCPnts 对边进行轻量级离散，避免逐边调用 BRepMesh。
-        double first, last;
-        Handle(Geom_Curve) curve = BRep_Tool::Curve(edge, first, last);
-        if (curve.IsNull() || std::fabs(last - first) < 1e-12) {
-            delete vsedge;
-            return;
-        }
-        const int nSample = 32;
-        BRepAdaptor_Curve adaptor(edge);
-        GCPnts_UniformAbscissa sampler(adaptor, nSample);
-        if (!sampler.IsDone()) {
-            delete vsedge;
-            return;
-        }
-        gp_Trsf trans(edge.Location().Transformation());
-        for (int i = 1; i <= sampler.NbPoints(); ++i) {
-            gp_Pnt pt = adaptor.Value(sampler.Parameter(i));
-            pt.Transform(trans);
-            FC::FCGeoMeshVSPt* vpt = new FC::FCGeoMeshVSPt();
-            vpt->setXYZ(static_cast<float>(pt.X()), static_cast<float>(pt.Y()), static_cast<float>(pt.Z()));
-            vsedge->appendPoint(vpt);
-        }
-    }
-    if (vsedge->getPointCount() < 2) {
-        delete vsedge;
-        return;
+    const TColgp_Array1OfPnt& nodes = mesh->Nodes();
+    for (int i = 1; i <= nPts; ++i) {
+        gp_Pnt pt = nodes.Value(i);
+        pt.Transform(trans);
+        FC::FCGeoMeshVSPt* vpt = new FC::FCGeoMeshVSPt();
+        vpt->setXYZ(static_cast<float>(pt.X()), static_cast<float>(pt.Y()), static_cast<float>(pt.Z()));
+        vsedge->appendPoint(vpt);
     }
     _occModel->getMeshVS()->insertEdge(id, vsedge);
 }
