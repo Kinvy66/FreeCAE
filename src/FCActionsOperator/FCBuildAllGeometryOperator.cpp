@@ -38,6 +38,11 @@ bool FCBuildAllGeometryOperator::execGUI()
     return true;
 }
 
+bool FCBuildAllGeometryOperator::execProfession()
+{
+    
+}
+
 IGeometryBuildContent* FCBuildAllGeometryOperator::findGeometryBuildContent(QWidget* w)
 {
     IGeometryBuildContent* c = dynamic_cast<IGeometryBuildContent*>(w);

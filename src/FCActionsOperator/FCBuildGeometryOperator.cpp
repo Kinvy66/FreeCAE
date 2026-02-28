@@ -52,6 +52,15 @@ bool FCBuildGeometryOperator::execGUI()
     return true;
 }
 
+/**
+ * @brief FCBuildGeometryOperator::execProfession
+ * @return 
+ * @todo 修改构建逻辑
+ * @details 只从点击事件中获取到当前选中几何节点的id
+ * 在DAG中从头到一直遍历，直到当前选中的几何节点id
+ * 遍历的过程中会逐个的构建几何体，并且每一个几何体(操作)的构建的数据是前一个节点构建的输出
+ * 这个步骤才是符合COMSOL的函数式几何构建
+ */
 bool FCBuildGeometryOperator::execProfession()
 {
     FCDockingAreaInterface* docking = getDockingArea();

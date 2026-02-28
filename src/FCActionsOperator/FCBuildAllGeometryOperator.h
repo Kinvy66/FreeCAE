@@ -23,6 +23,7 @@ class FCACTIONSOPERATOR_API FCBuildAllGeometryOperator : public FCActionOperator
 public:
     FCBuildAllGeometryOperator();
     bool execGUI() override;
+    bool execProfession() override;
     void setDockingArea(FCDockingAreaInterface* docking) { m_docking = docking; }
     FCDockingAreaInterface* getDockingArea() const;
 
