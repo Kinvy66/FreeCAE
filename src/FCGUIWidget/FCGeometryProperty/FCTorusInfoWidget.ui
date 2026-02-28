@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>FCTorusInfoWidget</class>
+ <widget class="QWidget" name="FCTorusInfoWidget">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>365</width>
+    <height>500</height>
+   </rect>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout_3">
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout_4">
+     <item>
+      <widget class="QLabel" name="label_name">
+       <property name="text">
+        <string>Name:</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLineEdit" name="lineEdit_name">
+       <property name="placeholderText">
+        <string>几何体名称，如 Torus_1</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <widget class="QGroupBox" name="groupBox_geom">
+     <property name="title">
+      <string>几何属性</string>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout_2">
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout_majorRadius">
+        <item>
+         <widget class="QLabel" name="label_majorRadius">
+          <property name="text">
+           <string>Major Radius:</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLineEdit" name="lineEdit_majorRadius"/>
+        </item>
+        <item>
+         <widget class="QLabel" name="label_major_unit">
+          <property name="text">
+           <string>m</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout_minorRadius">
+        <item>
+         <widget class="QLabel" name="label_minorRadius">
+          <property name="text">
+           <string>Minor Radius:</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLineEdit" name="lineEdit_minorRadius"/>
+        </item>
+        <item>
+         <widget class="QLabel" name="label_minor_unit">
+          <property name="text">
+           <string>m</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout_angle">
+        <item>
+         <widget class="QLabel" name="label_angle">
+          <property name="text">
+           <string>Angle:</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLineEdit" name="lineEdit_angle"/>
+        </item>
+        <item>
+         <widget class="QLabel" name="label_angle_unit">
+          <property name="text">
+           <string>deg</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QGroupBox" name="groupBox_location">
+     <property name="title">
+      <string>位置（中心）</string>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout_loc">
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout_x">
+        <item>
+         <widget class="QLabel" name="label_x">
+          <property name="text">
+           <string>X:</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLineEdit" name="lineEdit_locationX"/>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout_y">
+        <item>
+         <widget class="QLabel" name="label_y">
+          <property name="text">
+           <string>Y:</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLineEdit" name="lineEdit_locationY"/>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout_z">
+        <item>
+         <widget class="QLabel" name="label_z">
+          <property name="text">
+           <string>Z:</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLineEdit" name="lineEdit_locationZ"/>
+        </item>
+       </layout>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QGroupBox" name="groupBox_axis">
+     <property name="title">
+      <string>轴向</string>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout_axis">
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout_ax">
+        <item>
+         <widget class="QLabel" name="label_ax">
+          <property name="text">
+           <string>X:</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLineEdit" name="lineEdit_axisX"/>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout_ay">
+        <item>
+         <widget class="QLabel" name="label_ay">
+          <property name="text">
+           <string>Y:</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLineEdit" name="lineEdit_axisY"/>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout_az">
+        <item>
+         <widget class="QLabel" name="label_az">
+          <property name="text">
+           <string>Z:</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLineEdit" name="lineEdit_axisZ"/>
+        </item>
+       </layout>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <spacer name="verticalSpacer">
+     <property name="orientation">
+      <enum>Qt::Orientation::Vertical</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>40</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

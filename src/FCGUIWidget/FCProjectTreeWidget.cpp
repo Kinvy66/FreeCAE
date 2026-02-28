@@ -26,6 +26,9 @@ static QString iconPathForGeoOpType(FCGeoOpType type)
     case FCGeoOpType::Block:       return QStringLiteral(":/icon/geometry/cube.png");
     case FCGeoOpType::Cylinder:   return QStringLiteral(":/icon/geometry/cylinder.png");
     case FCGeoOpType::Sphere:     return QStringLiteral(":/icon/geometry/sphere.png");
+    case FCGeoOpType::Cone:     return QStringLiteral(":/icon/geometry/cone.png");
+    case FCGeoOpType::Torus:     return QStringLiteral(":/icon/geometry/torus.png");
+    case FCGeoOpType::Helix:     return QStringLiteral(":/icon/geometry/helix.png");        
     case FCGeoOpType::Union:
     case FCGeoOpType::Difference:
     case FCGeoOpType::Intersection: return QStringLiteral(":/icon/geometry/boolean_opt.png");

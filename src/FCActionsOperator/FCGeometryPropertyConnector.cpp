@@ -15,6 +15,9 @@
 #include <FCCubeInfoWidget.h>
 #include <FCSphereInfoWidget.h>
 #include <FCCylinderInfoWidget.h>
+#include <FCConeInfoWidget.h>
+#include <FCTorusInfoWidget.h>
+#include <FCHelixInfoWidget.h>
 #include <FCData/FCGlobalData.h>
 #include <FCGeometryEntity/FCGeometryDAGData.h>
 #include <FCGeometryEntity/FCGeoOpType.h>
@@ -80,6 +83,18 @@ void connectBuildBarAndSetDAG(FCGeometryBuildBar* buildBar, QWidget* contentWidg
             QObject::connect(w, &FCCylinderInfoWidget::geometryBuilt, graphOper, &FCGraphPreprocessOperator::onGeometryBuilt);
             QObject::connect(w, &FCCylinderInfoWidget::geometrySequenceBuilt, graphOper, &FCGraphPreprocessOperator::onGeometrySequenceBuilt);
             w->setDAGNode(dagData, nodeId, nullptr);
+        } else if (FCConeInfoWidget* w = findWidgetByType<FCConeInfoWidget>(contentWidget)) {
+            QObject::connect(w, &FCConeInfoWidget::geometryBuilt, graphOper, &FCGraphPreprocessOperator::onGeometryBuilt);
+            QObject::connect(w, &FCConeInfoWidget::geometrySequenceBuilt, graphOper, &FCGraphPreprocessOperator::onGeometrySequenceBuilt);
+            w->setDAGNode(dagData, nodeId, nullptr);
+        } else if (FCTorusInfoWidget* w = findWidgetByType<FCTorusInfoWidget>(contentWidget)) {
+            QObject::connect(w, &FCTorusInfoWidget::geometryBuilt, graphOper, &FCGraphPreprocessOperator::onGeometryBuilt);
+            QObject::connect(w, &FCTorusInfoWidget::geometrySequenceBuilt, graphOper, &FCGraphPreprocessOperator::onGeometrySequenceBuilt);
+            w->setDAGNode(dagData, nodeId, nullptr);
+        } else if (FCHelixInfoWidget* w = findWidgetByType<FCHelixInfoWidget>(contentWidget)) {
+            QObject::connect(w, &FCHelixInfoWidget::geometryBuilt, graphOper, &FCGraphPreprocessOperator::onGeometryBuilt);
+            QObject::connect(w, &FCHelixInfoWidget::geometrySequenceBuilt, graphOper, &FCGraphPreprocessOperator::onGeometrySequenceBuilt);
+            w->setDAGNode(dagData, nodeId, nullptr);
         }
     }
     FCBuildGeometryOperator* buildOper = FCOPERATORREPO->getOperatorT<FCBuildGeometryOperator>("BuildGeometry");
@@ -120,6 +135,15 @@ void FCGeometryPropertyConnector::onGeometryNodeSelected(FCID nodeId)
         } else if (nodeType == FCGeoOpType::Cylinder) {
             FCCylinderInfoWidget* w = content ? findWidgetByType<FCCylinderInfoWidget>(content) : nullptr;
             if (w) { w->setDAGNode(dagData, nodeId, nullptr); match = true; }
+        } else if (nodeType == FCGeoOpType::Cone) {
+            FCConeInfoWidget* w = content ? findWidgetByType<FCConeInfoWidget>(content) : nullptr;
+            if (w) { w->setDAGNode(dagData, nodeId, nullptr); match = true; }
+        } else if (nodeType == FCGeoOpType::Torus) {
+            FCTorusInfoWidget* w = content ? findWidgetByType<FCTorusInfoWidget>(content) : nullptr;
+            if (w) { w->setDAGNode(dagData, nodeId, nullptr); match = true; }
+        } else if (nodeType == FCGeoOpType::Helix) {
+            FCHelixInfoWidget* w = content ? findWidgetByType<FCHelixInfoWidget>(content) : nullptr;
+            if (w) { w->setDAGNode(dagData, nodeId, nullptr); match = true; }
         }
         if (match) return;
     }
@@ -132,6 +156,12 @@ void FCGeometryPropertyConnector::onGeometryNodeSelected(FCID nodeId)
         contentWidget = new FCSphereInfoWidget(propWidget);
     else if (nodeType == FCGeoOpType::Cylinder)
         contentWidget = new FCCylinderInfoWidget(propWidget);
+    else if (nodeType == FCGeoOpType::Cone)
+        contentWidget = new FCConeInfoWidget(propWidget);
+    else if (nodeType == FCGeoOpType::Torus)
+        contentWidget = new FCTorusInfoWidget(propWidget);
+    else if (nodeType == FCGeoOpType::Helix)
+        contentWidget = new FCHelixInfoWidget(propWidget);
     else
         contentWidget = new FCCubeInfoWidget(propWidget);
 

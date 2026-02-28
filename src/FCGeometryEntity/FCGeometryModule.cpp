@@ -11,6 +11,9 @@
 #include <FCGeometryInterface/FCAbsGeoModelBox.h>
 #include <FCGeometryInterface/FCAbsGeoModelCylinder.h>
 #include <FCGeometryInterface/FCAbsGeoModelSphere.h>
+#include <FCGeometryInterface/FCAbsGeoModelCone.h>
+#include <FCGeometryInterface/FCAbsGeoModelTorus.h>
+#include <FCGeometryInterface/FCAbsGeoModelHelix.h>
 #include <FCGeometryInterface/FCAbsGeoOperNBodyUnite.h>
 #include <FCGeometryInterface/FCAbsGeoOperBool.h>
 #include <FCGeometryInterface/FCGeoEnum.h>
@@ -25,6 +28,9 @@ static FCGeoEnum::FCGeometryComType toGeometryComType(FCGeoOpType type)
     case FCGeoOpType::Block:       return FCGeoEnum::FGTBox;
     case FCGeoOpType::Cylinder:    return FCGeoEnum::FGTCylinder;
     case FCGeoOpType::Sphere:      return FCGeoEnum::FGTSphere;
+    case FCGeoOpType::Cone:        return FCGeoEnum::FGTCone;
+    case FCGeoOpType::Torus:       return FCGeoEnum::FGTTorus;
+    case FCGeoOpType::Helix:       return FCGeoEnum::FGTHelix;
     case FCGeoOpType::Union:       return FCGeoEnum::FGTNBodyUnite;
     case FCGeoOpType::Difference: return FCGeoEnum::FGTBool;
     case FCGeoOpType::Intersection: return FCGeoEnum::FGTBool;
@@ -65,6 +71,39 @@ static void applyParamsToCommand(FCAbsGeoCommand* cmd, FCGeoOpType type, const F
             double loc[3] = { v(QStringLiteral("location_x")), v(QStringLiteral("location_y")), v(QStringLiteral("location_z")) };
             sph->setLocation(loc);
             sph->setRadius(v(QStringLiteral("radius"), 1));
+        }
+    } else if (type == FCGeoOpType::Cone) {
+        FCGeoModelCone* cone = dynamic_cast<FCGeoModelCone*>(cmd);
+        if (cone) {
+            double loc[3] = { v(QStringLiteral("location_x")), v(QStringLiteral("location_y")), v(QStringLiteral("location_z")) };
+            double axis[3] = { v(QStringLiteral("axis_x"), 0), v(QStringLiteral("axis_y"), 0), v(QStringLiteral("axis_z"), 1) };
+            cone->setLocation(loc);
+            cone->setAxis(axis);
+            cone->setHeight(v(QStringLiteral("height"), 1));
+            cone->setBottomRadius(v(QStringLiteral("bottom_radius"), 1));
+            cone->setTopRadius(v(QStringLiteral("top_radius"), 0));
+        }
+    } else if (type == FCGeoOpType::Torus) {
+        FCGeoModelTorus* torus = dynamic_cast<FCGeoModelTorus*>(cmd);
+        if (torus) {
+            double loc[3] = { v(QStringLiteral("location_x")), v(QStringLiteral("location_y")), v(QStringLiteral("location_z")) };
+            double axis[3] = { v(QStringLiteral("axis_x"), 0), v(QStringLiteral("axis_y"), 0), v(QStringLiteral("axis_z"), 1) };
+            torus->setLocation(loc);
+            torus->setAxis(axis);
+            torus->setMajorRadius(v(QStringLiteral("major_radius"), 10));
+            torus->setMinorRadius(v(QStringLiteral("minor_radius"), 2));
+            torus->setAngle(v(QStringLiteral("angle"), 360));
+        }
+    } else if (type == FCGeoOpType::Helix) {
+        FCGeoModelHelix* helix = dynamic_cast<FCGeoModelHelix*>(cmd);
+        if (helix) {
+            double loc[3] = { v(QStringLiteral("location_x")), v(QStringLiteral("location_y")), v(QStringLiteral("location_z")) };
+            helix->setLocation(loc);
+            helix->setNumberOfTurns(static_cast<int>(v(QStringLiteral("number_of_turns"), 5)));
+            helix->setMajorRadius(v(QStringLiteral("major_radius"), 5));
+            helix->setMinorRadius(v(QStringLiteral("minor_radius"), 1));
+            helix->setAxialPitch(v(QStringLiteral("axial_pitch"), 2));
+            helix->setChirality(static_cast<int>(v(QStringLiteral("chirality"), 1)));
         }
     }
     // Union/Difference/Intersection inputs are set at build time by executor
@@ -130,6 +169,21 @@ FCID FCGeometryModule::addCylinder(const FCGeoParamSet& params, const QString& n
 FCID FCGeometryModule::addSphere(const FCGeoParamSet& params, const QString& name)
 {
     return appendNode(FCGeoOpType::Sphere, QList<FCID>(), params, name);
+}
+
+FCID FCGeometryModule::addCone(const FCGeoParamSet& params, const QString& name)
+{
+    return appendNode(FCGeoOpType::Cone, QList<FCID>(), params, name);
+}
+
+FCID FCGeometryModule::addTorus(const FCGeoParamSet& params, const QString& name)
+{
+    return appendNode(FCGeoOpType::Torus, QList<FCID>(), params, name);
+}
+
+FCID FCGeometryModule::addHelix(const FCGeoParamSet& params, const QString& name)
+{
+    return appendNode(FCGeoOpType::Helix, QList<FCID>(), params, name);
 }
 
 FCID FCGeometryModule::addUnion(FCID a, FCID b, const QString& name)

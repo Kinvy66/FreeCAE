@@ -61,6 +61,30 @@ public:
     FCID addSphere(const FCGeoParamSet& params, const QString& name = QString());
 
     /**
+     * @brief 添加 Cone 节点（圆锥/圆台）
+     * @param params 节点参数集（位置、轴向、高度、底半径、顶半径）
+     * @param name 节点名称，为空则自动生成
+     * @return 新节点 ID
+     */
+    FCID addCone(const FCGeoParamSet& params, const QString& name = QString());
+
+    /**
+     * @brief 添加 Torus 节点（圆环）
+     * @param params 节点参数集（位置、轴向、大半径、小半径、角度）
+     * @param name 节点名称，为空则自动生成
+     * @return 新节点 ID
+     */
+    FCID addTorus(const FCGeoParamSet& params, const QString& name = QString());
+
+    /**
+     * @brief 添加 Helix 节点（螺旋体）
+     * @param params 节点参数集（位置、匝数、大半径、小半径、轴向距、旋向）
+     * @param name 节点名称，为空则自动生成
+     * @return 新节点 ID
+     */
+    FCID addHelix(const FCGeoParamSet& params, const QString& name = QString());
+
+    /**
      * @brief 添加 Union 节点，inputs = [a, b]
      * @param a 第一个输入节点 ID
      * @param b 第二个输入节点 ID

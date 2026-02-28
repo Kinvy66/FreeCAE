@@ -46,6 +46,9 @@
 #include "FCActionCreateCubeOperator.h"
 #include "FCActionCreateSphereOperator.h"
 #include "FCActionCreateCylinderOperator.h"
+#include "FCActionCreateConeOperator.h"
+#include "FCActionCreateTorusOperator.h"
+#include "FCActionCreateHelixOperator.h"
 #include "FCProjectTreeEventOperator.h"
 #include "FCGraphPreprocessOperator.h"
 #include "FCGeometryPropertyConnector.h"
@@ -255,6 +258,9 @@ void FCAppController::registeActionsOperator()
     Register2FCOperatorRepo(actionCreateCube, FCActionCreateCubeOperator);
     Register2FCOperatorRepo(actionCreateSphere, FCActionCreateSphereOperator);
     Register2FCOperatorRepo(actionCreateCylinder, FCActionCreateCylinderOperator);
+    Register2FCOperatorRepo(actionCreateCone, FCActionCreateConeOperator);
+    Register2FCOperatorRepo(actionCreateTorus, FCActionCreateTorusOperator);
+    Register2FCOperatorRepo(actionCreateHelix, FCActionCreateHelixOperator);
     Register2FCOperatorRepo(ProjectTreeEvent, FCProjectTreeEventOperator);
     Register2FCOperatorRepo(GraphPreprocessEvent, FCGraphPreprocessOperator);
     Register2FCOperatorRepo(BuildGeometry, FCBuildGeometryOperator);

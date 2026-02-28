@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>FCHelixInfoWidget</class>
+ <widget class="QWidget" name="FCHelixInfoWidget">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>365</width>
+    <height>500</height>
+   </rect>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout_3">
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout_4">
+     <item>
+      <widget class="QLabel" name="label_name">
+       <property name="text">
+        <string>Name:</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLineEdit" name="lineEdit_name">
+       <property name="placeholderText">
+        <string>几何体名称，如 Helix_1</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <widget class="QGroupBox" name="groupBox_geom">
+     <property name="title">
+      <string>几何属性</string>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout_2">
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout_turns">
+        <item>
+         <widget class="QLabel" name="label_turns">
+          <property name="text">
+           <string>Number of Turns:</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLineEdit" name="lineEdit_numberOfTurns"/>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout_majorRadius">
+        <item>
+         <widget class="QLabel" name="label_majorRadius">
+          <property name="text">
+           <string>Major Radius:</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLineEdit" name="lineEdit_majorRadius"/>
+        </item>
+        <item>
+         <widget class="QLabel" name="label_major_unit">
+          <property name="text">
+           <string>m</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout_minorRadius">
+        <item>
+         <widget class="QLabel" name="label_minorRadius">
+          <property name="text">
+           <string>Minor Radius:</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLineEdit" name="lineEdit_minorRadius"/>
+        </item>
+        <item>
+         <widget class="QLabel" name="label_minor_unit">
+          <property name="text">
+           <string>m</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout_pitch">
+        <item>
+         <widget class="QLabel" name="label_pitch">
+          <property name="text">
+           <string>Axial Pitch:</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLineEdit" name="lineEdit_axialPitch"/>
+        </item>
+        <item>
+         <widget class="QLabel" name="label_pitch_unit">
+          <property name="text">
+           <string>m</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout_chirality">
+        <item>
+         <widget class="QLabel" name="label_chirality">
+          <property name="text">
+           <string>Chirality:</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLineEdit" name="lineEdit_chirality">
+          <property name="placeholderText">
+           <string>1=右旋, -1=左旋</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QGroupBox" name="groupBox_location">
+     <property name="title">
+      <string>位置</string>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout_loc">
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout_x">
+        <item>
+         <widget class="QLabel" name="label_x">
+          <property name="text">
+           <string>X:</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLineEdit" name="lineEdit_locationX"/>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout_y">
+        <item>
+         <widget class="QLabel" name="label_y">
+          <property name="text">
+           <string>Y:</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLineEdit" name="lineEdit_locationY"/>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout_z">
+        <item>
+         <widget class="QLabel" name="label_z">
+          <property name="text">
+           <string>Z:</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLineEdit" name="lineEdit_locationZ"/>
+        </item>
+       </layout>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <spacer name="verticalSpacer">
+     <property name="orientation">
+      <enum>Qt::Orientation::Vertical</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>40</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

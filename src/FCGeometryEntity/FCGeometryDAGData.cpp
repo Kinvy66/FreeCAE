@@ -23,6 +23,9 @@ static QString geoOpTypeToString(FCGeoOpType t)
     case FCGeoOpType::Block:        return QStringLiteral("Block");
     case FCGeoOpType::Cylinder:    return QStringLiteral("Cylinder");
     case FCGeoOpType::Sphere:      return QStringLiteral("Sphere");
+    case FCGeoOpType::Cone:        return QStringLiteral("Cone");
+    case FCGeoOpType::Torus:       return QStringLiteral("Torus");
+    case FCGeoOpType::Helix:       return QStringLiteral("Helix");
     case FCGeoOpType::Union:       return QStringLiteral("Union");
     case FCGeoOpType::Difference:   return QStringLiteral("Difference");
     case FCGeoOpType::Intersection: return QStringLiteral("Intersection");
@@ -41,6 +44,9 @@ static FCGeoOpType stringToGeoOpType(const QString& s)
     if (s == QLatin1String("Block"))        return FCGeoOpType::Block;
     if (s == QLatin1String("Cylinder"))     return FCGeoOpType::Cylinder;
     if (s == QLatin1String("Sphere"))      return FCGeoOpType::Sphere;
+    if (s == QLatin1String("Cone"))        return FCGeoOpType::Cone;
+    if (s == QLatin1String("Torus"))       return FCGeoOpType::Torus;
+    if (s == QLatin1String("Helix"))       return FCGeoOpType::Helix;
     if (s == QLatin1String("Union"))       return FCGeoOpType::Union;
     if (s == QLatin1String("Difference"))   return FCGeoOpType::Difference;
     if (s == QLatin1String("Intersection")) return FCGeoOpType::Intersection;

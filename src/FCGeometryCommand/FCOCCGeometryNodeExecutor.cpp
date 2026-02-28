@@ -44,6 +44,9 @@ bool FCOCCGeometryNodeExecutor::supports(FC::FCGeoOpType type) const
     case FC::FCGeoOpType::Block:
     case FC::FCGeoOpType::Cylinder:
     case FC::FCGeoOpType::Sphere:
+    case FC::FCGeoOpType::Cone:
+    case FC::FCGeoOpType::Torus:
+    case FC::FCGeoOpType::Helix:
     case FC::FCGeoOpType::Union:
     case FC::FCGeoOpType::Difference:
     case FC::FCGeoOpType::Intersection:
@@ -67,7 +70,10 @@ QVariant FCOCCGeometryNodeExecutor::execute(const FC::FCGeoNode& node,
     switch (node.type) {
     case FC::FCGeoOpType::Block:
     case FC::FCGeoOpType::Cylinder:
-    case FC::FCGeoOpType::Sphere: {
+    case FC::FCGeoOpType::Sphere:
+    case FC::FCGeoOpType::Cone:
+    case FC::FCGeoOpType::Torus:
+    case FC::FCGeoOpType::Helix: {
         if (!cmd->update()) return QVariant();
         TopoDS_Shape* sh = occModel->getShape();
         if (!sh || sh->IsNull()) return QVariant();
