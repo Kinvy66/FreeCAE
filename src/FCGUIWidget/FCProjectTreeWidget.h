@@ -180,8 +180,9 @@ private:
      * @param[i]  menu          菜单
      * @param[i]  actions       动作 objectName
      * @param[i]  objectName    显示名称
+     * @param[i]  iconPath      可选，菜单项图标路径（QMenu::setIcon 对上下文菜单无效，图标需设在 QAction 上）
      */
-    void addMenuActions(QMenu& menu, QString actions, QString objectName);
+    void addMenuActions(QMenu& menu, QString actions, QString objectName, const QString& iconPath = QString());
     
 private:
     QTreeWidgetItem* mProjectRoot = nullptr;

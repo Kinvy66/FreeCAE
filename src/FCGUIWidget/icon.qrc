@@ -54,5 +54,6 @@
         <file>icon/geometry/torus.png</file>
         <file>icon/geometry/transform.png</file>
         <file>icon/geometry/workplane.png</file>
+        <file>icon/delete.png</file>
     </qresource>
 </RCC>

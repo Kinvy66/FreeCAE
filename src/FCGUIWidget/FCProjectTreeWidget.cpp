@@ -159,7 +159,7 @@ void FCProjectTreeWidget::onModelCustomContextMenu(QPoint point)
     switch (treeType)
     {
     case ProjectTreeEnum::ProjectTree_GeometryEntity:
-        addMenuActions(menu, "actionProjectTreeGeometryDelete", tr("删除"));
+        addMenuActions(menu, "actionProjectTreeGeometryDelete", tr("删除"), ":/icon/delete.png");
         break;
     case ProjectTreeEnum::ProjectTree_MeshEntity:
         addMenuActions(menu, "actionProjectTreeMeshDelete", tr("删除"));
@@ -349,9 +349,14 @@ void FCProjectTreeWidget::update1DPlot()
     
 }
 
-void FCProjectTreeWidget::addMenuActions(QMenu& menu, QString actions, QString objectName)
+void FCProjectTreeWidget::addMenuActions(QMenu& menu, QString actions, QString objectName, const QString& iconPath)
 {
-    QAction* act = menu.addAction(objectName);
+    QAction* act = nullptr;
+    if (iconPath.isEmpty()) {
+        act = menu.addAction(objectName);
+    } else {
+        act = menu.addAction(QIcon(iconPath), objectName);
+    }
     act->setObjectName(actions);
     connect(act, SIGNAL(triggered()), this, SLOT(acitonClicked()));
 }
