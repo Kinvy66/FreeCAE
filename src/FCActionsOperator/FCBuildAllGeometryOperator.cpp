@@ -40,7 +40,7 @@ bool FCBuildAllGeometryOperator::execGUI()
 
 bool FCBuildAllGeometryOperator::execProfession()
 {
-    
+    return true;
 }
 
 IGeometryBuildContent* FCBuildAllGeometryOperator::findGeometryBuildContent(QWidget* w)
