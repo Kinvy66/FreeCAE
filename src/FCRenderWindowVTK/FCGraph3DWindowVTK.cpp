@@ -26,6 +26,7 @@
 #include <vtkRendererCollection.h>
 #include <vtkSmartPointer.h>
 
+#include <QHideEvent>
 #include <QGridLayout>
 #include <QVBoxLayout>
 #include <QToolBar>
@@ -196,7 +197,18 @@ void FCGraph3DWindowVTK::showEvent(QShowEvent* event)
             mAxesWidget->InteractiveOff();
         }
     }
+    // 窗口重新显示时恢复 VTK 静止时的刷新率，避免后台长期不刷新导致的内存/显存占用
+    if (mInteractor)
+        mInteractor->SetStillUpdateRate(0.5);
     QWidget::showEvent(event);
+}
+
+void FCGraph3DWindowVTK::hideEvent(QHideEvent* event)
+{
+    // 窗口隐藏或最小化时停止 VTK 的静止刷新，减少后台定时渲染带来的内存增长
+    if (mInteractor)
+        mInteractor->SetStillUpdateRate(0);
+    QWidget::hideEvent(event);
 }
 
 void FCGraph3DWindowVTK::setHiddenLineRemoval(bool flag)

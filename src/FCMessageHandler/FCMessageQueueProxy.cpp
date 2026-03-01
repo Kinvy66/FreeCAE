@@ -38,8 +38,10 @@ public:
     //_FCThreadSafeMessageQueue通知FCGlobalMessageQueuePrivate，队列的尺寸变化了
     void queueSizeChanged();
     
-    //构建timer
+    //构建timer（仅创建，不自动启动；有待发射信号时由 startTimerIfNeeded 启动）
     void buildTimer(int intervalms);
+    /// 若有待发射信号且定时器未在运行，则启动单次定时器（用于减少空闲时周期性唤醒，缓解内存增长）
+    void startTimerIfNeeded();
     
     //设置发射间隔
     void setEmitInterval(int ms);
@@ -186,6 +188,7 @@ void FCMessageQueueProxy::PrivateData::queueAppended()
         //惰性发射仅仅做标记
         //        delayCreateCheck();
         mNeedEmitSignalQueueAppended = true;
+        startTimerIfNeeded();
     } else {
         //非惰性发射立即发射信号
         q_ptr->emitSignal(SignalQueueAppended);
@@ -198,6 +201,7 @@ void FCMessageQueueProxy::PrivateData::queueSizeChanged()
         //惰性发射仅仅做标记
         //        delayCreateCheck();
         mNeedEmitSignalQueueSizeChanged = true;
+        startTimerIfNeeded();
     } else {
         //非惰性发射立即发射信号
         q_ptr->emitSignal(SignalQueueSizeChanged);
@@ -212,12 +216,23 @@ void FCMessageQueueProxy::PrivateData::buildTimer(int intervalms)
         return;
     }
     if (!mTimer) {
-        //如果timer没有建立，就建立一个timer
+        //如果timer没有建立，就建立一个timer；使用单次触发，仅在有待发射信号时由 startTimerIfNeeded() 启动，避免空闲时每秒唤醒
         mTimer.reset(new QTimer());
+        mTimer->setSingleShot(true);
         mTimer->setInterval(intervalms);
         QObject::connect(mTimer.get(), &QTimer::timeout, q_ptr, &FCMessageQueueProxy::onTimeout);
-        mTimer->start();
+        // 不在此处 start()，由 queueAppended/queueSizeChanged 在需要时调用 startTimerIfNeeded() 启动
     }
+}
+
+void FCMessageQueueProxy::PrivateData::startTimerIfNeeded()
+{
+    if (!mIsLazyEmit || !mTimer)
+        return;
+    if (QApplication::startingUp() || QApplication::closingDown())
+        return;
+    if ((mNeedEmitSignalQueueAppended || mNeedEmitSignalQueueSizeChanged) && !mTimer->isActive())
+        mTimer->start();
 }
 
 void FCMessageQueueProxy::PrivateData::setEmitInterval(int ms)

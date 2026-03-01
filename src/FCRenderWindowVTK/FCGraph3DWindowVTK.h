@@ -138,6 +138,7 @@ protected:
     virtual void initActions();
     void setInteractionStyle(FCGraphInteractionStyle* style);
     void showEvent(QShowEvent* event) override;
+    void hideEvent(QHideEvent* event) override;
 
 private:
     void startChangingView(double* foc, double* up, double* pos);
