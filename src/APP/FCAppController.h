@@ -41,7 +41,8 @@ class FCAppActions;
 class FCAppDataManager;
 class FCActionEventHandler;
 class FCGlobalDataFactory;
-class FCGeometryPropertyConnector;
+class FCPropertyPanelOperator;
+class FCGeometryPropertyContentHandler;
 
 class FCAppController : public QObject
 {
@@ -115,6 +116,8 @@ private:
     // 初始化信号槽
     void initConnection();
     void registeActionsOperator();
+    /** 属性面板与工程树联动：创建协调者、注册几何 Handler、将树选中信号接到事件总线 */
+    void setupPropertyPanelAndTreeBridge();
   
 private:
     AppMainWindow* mMainWindow { nullptr };
@@ -130,7 +133,8 @@ private:
     
     FCActionEventHandler* mActionHandler;
 
-    QScopedPointer<FCGeometryPropertyConnector> m_geometryPropertyConnector;
+    QScopedPointer<FCPropertyPanelOperator> m_propertyPanelOperator;
+    QScopedPointer<FCGeometryPropertyContentHandler> m_geometryPropertyContentHandler;
 
     QStringList mFileReadFilters;  ///< 包含支持的文件[Images (*.png *.xpm *.jpg)] [Text files (*.txt)]
     //

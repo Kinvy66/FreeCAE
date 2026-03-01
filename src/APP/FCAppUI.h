@@ -11,7 +11,7 @@
 
 #include <FCUIInterface.h>
 
-namespace FC 
+namespace FC
 {
 class FCAppCore;
 class FCAppCommand;
@@ -19,6 +19,7 @@ class FCAppActions;
 class FCActionEventHandler;
 class FCAppDockingArea;
 class FCAppRibbonArea;
+class FCAppEventBus;
 class FCStatusBar;
 
 
@@ -36,7 +37,9 @@ public:
     
     //获取界面的ribbon区域
     virtual FCRibbonAreaInterface* getRibbonArea() override;
-    
+
+    virtual FCIEventBus* getEventBus() const override;
+
     //创建ui
     void createUi();
     
@@ -67,8 +70,9 @@ protected:
     
 public:
     FCAppActions* mActions;
-    
+
     FCAppCommand* mCmd;
+    FCAppEventBus* mEventBus{ nullptr };
     FCAppDockingArea* mDockingArea;
     FCAppRibbonArea* mRibbonArea;
     FCStatusBar* mStatusBar;
@@ -84,6 +88,11 @@ public:
  * -# FCAppCore.h
  */
 #define FC_APP_UI FC::FCAppCore::getInstance().getUi()
+#endif
+
+#ifndef FC_APP_EVENT_BUS
+/** @def 获取应用事件总线，供操作器/窗口 emit 与 subscribe，实现多窗口联动 */
+#define FC_APP_EVENT_BUS (FC::FCAppCore::getInstance().getUi()->getEventBus())
 #endif
 
 

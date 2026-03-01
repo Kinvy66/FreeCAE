@@ -1,9 +1,9 @@
 /**
- * @file FCGeometryPropertyConnector.cpp
- * @brief 几何属性连接器实现
+ * @file FCGeometryPropertyPanelOperator.cpp
+ * @brief 几何属性面板操作器实现
  * @copyright Copyright (c) 2026 Kinvy. All rights reserved.
  */
-#include "FCGeometryPropertyConnector.h"
+#include "FCGeometryPropertyPanelOperator.h"
 #include "FCBuildGeometryOperator.h"
 #include "FCBuildAllGeometryOperator.h"
 #include "FCOperatorRepo.h"
@@ -21,7 +21,6 @@
 #include <FCGeometryEntity/FCGeometryDAGData.h>
 #include <FCGeometryEntity/FCGeoOpType.h>
 #include <FCPropertyWidget.h>
-#include <QObject>
 #include <QLayout>
 
 namespace FC
@@ -44,7 +43,6 @@ T* findWidgetByType(QWidget* w)
     return nullptr;
 }
 
-/** 将 BuildBar 的构建按钮接到 BuildGeometry / BuildAllGeometry Operator */
 void wireBuildBarToOperators(FCGeometryBuildBar* buildBar, FCDockingAreaInterface* docking)
 {
     if (!buildBar || !docking) return;
@@ -60,14 +58,11 @@ void wireBuildBarToOperators(FCGeometryBuildBar* buildBar, FCDockingAreaInterfac
     }
 }
 
-/** 判断当前属性面板内容是否为指定几何类型的容器（用于复用同一 Widget 只更新 DAG） */
 bool isContainerForNodeType(QWidget* container, FCGeoOpType nodeType)
 {
     if (!container) return false;
     QLayout* lay = container->layout();
     if (!lay || lay->count() < 2) return false;
-    QWidget* content = lay->itemAt(1)->widget();
-    if (!content) return false;
     switch (nodeType) {
     case FCGeoOpType::Block:   return findWidgetByType<FCCubeInfoWidget>(container) != nullptr;
     case FCGeoOpType::Sphere:  return findWidgetByType<FCSphereInfoWidget>(container) != nullptr;
@@ -81,55 +76,52 @@ bool isContainerForNodeType(QWidget* container, FCGeoOpType nodeType)
 
 } // namespace
 
-FCGeometryPropertyConnector::FCGeometryPropertyConnector(QObject* parent)
-    : FCPropertyPanelConnectorInterface(parent)
+FCGeometryPropertyPanelOperator::FCGeometryPropertyPanelOperator(QObject* parent)
+    : FCAbstractOperator(parent)
 {
 }
 
-void FCGeometryPropertyConnector::setDockingArea(FCDockingAreaInterface* docking)
-{
-    if (m_docking == docking) return;
-    m_docking = docking;
-    if (m_docking && m_eventBus)
-        subscribeToEventBus();
-}
-
-void FCGeometryPropertyConnector::setEventBus(FCIEventBus* bus)
+void FCGeometryPropertyPanelOperator::setEventBus(FCIEventBus* bus)
 {
     if (m_eventBus == bus) return;
     m_eventBus = bus;
-    if (m_docking && m_eventBus)
-        subscribeToEventBus();
+    subscribeToEventBus();
 }
 
-void FCGeometryPropertyConnector::subscribeToEventBus()
+void FCGeometryPropertyPanelOperator::setBuildBarGlobalActions(const QList<QAction*>& actions)
+{
+    m_buildBarGlobalActions = actions;
+}
+
+void FCGeometryPropertyPanelOperator::subscribeToEventBus()
 {
     if (!m_eventBus) return;
-    connect(m_eventBus, &FCIEventBus::eventReceived, this, &FCGeometryPropertyConnector::onEventReceived, Qt::UniqueConnection);
+    connect(m_eventBus, &FCIEventBus::eventReceived, this, &FCGeometryPropertyPanelOperator::onEventReceived, Qt::UniqueConnection);
 }
 
-void FCGeometryPropertyConnector::onEventReceived(int eventType, QVariantMap data)
+void FCGeometryPropertyPanelOperator::onEventReceived(int eventType, QVariantMap data)
+{
+    onEvent(eventType, data);
+}
+
+void FCGeometryPropertyPanelOperator::onEvent(int eventType, const QVariantMap& data)
 {
     if (eventType == EventTreeNodeSelected) {
         if (data.value(QLatin1String(EventPayloadKey_EntityType)).toInt() != static_cast<int>(PropertyPanelEntityGeometry))
             return;
         bool ok = false;
         const quint64 id = data.value(QLatin1String(EventPayloadKey_NodeId)).toULongLong(&ok);
-        if (ok) onGeometryNodeSelected(static_cast<FCID>(id));
+        if (ok) handleGeometryNodeSelected(static_cast<FCID>(id));
     } else if (eventType == EventNoEntitySelected) {
-        onNoEntitySelected();
+        handleNoEntitySelected();
     }
 }
 
-void FCGeometryPropertyConnector::setBuildBarGlobalActions(const QList<QAction*>& actions)
+void FCGeometryPropertyPanelOperator::handleGeometryNodeSelected(FCID nodeId)
 {
-    m_buildBarGlobalActions = actions;
-}
-
-void FCGeometryPropertyConnector::onGeometryNodeSelected(FCID nodeId)
-{
-    if (!m_docking || nodeId == FCID_INVALID) return;
-    FCPropertyWidget* propWidget = m_docking->getSettingParametersWidget();
+    FCDockingAreaInterface* docking = dockingArea();
+    if (!docking || nodeId == FCID_INVALID) return;
+    FCPropertyWidget* propWidget = docking->getSettingParametersWidget();
     if (!propWidget) return;
     FCGlobalData* globalData = FCGlobalData::getGlobalData();
     if (!globalData) return;
@@ -138,7 +130,6 @@ void FCGeometryPropertyConnector::onGeometryNodeSelected(FCID nodeId)
 
     FCGeoOpType nodeType = dagData->module()->tree()->node(nodeId).type;
 
-    // 若当前已是同类型几何内容，只更新 DAG 节点，不重建界面
     QLayout* lay = propWidget->layout();
     if (lay && lay->count() > 0) {
         QWidget* currentContent = lay->itemAt(0)->widget();
@@ -149,17 +140,18 @@ void FCGeometryPropertyConnector::onGeometryNodeSelected(FCID nodeId)
     }
 
     GeometryPropertyContent content = m_contentFactory.createContent(
-        propWidget, nodeType, dagData, nodeId, m_docking, m_buildBarGlobalActions);
+        propWidget, nodeType, dagData, nodeId, docking, m_buildBarGlobalActions);
     if (!content.container) return;
 
-    wireBuildBarToOperators(content.buildBar, m_docking);
+    wireBuildBarToOperators(content.buildBar, docking);
     propWidget->setContentWidget(content.container);
 }
 
-void FCGeometryPropertyConnector::onNoEntitySelected()
+void FCGeometryPropertyPanelOperator::handleNoEntitySelected()
 {
-    if (!m_docking) return;
-    FCPropertyWidget* propWidget = m_docking->getSettingParametersWidget();
+    FCDockingAreaInterface* docking = dockingArea();
+    if (!docking) return;
+    FCPropertyWidget* propWidget = docking->getSettingParametersWidget();
     if (propWidget)
         propWidget->setContentWidget(nullptr);
 }

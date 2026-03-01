@@ -47,8 +47,8 @@ void FCActionEventHandler::execOperator()
         actOper->actionTriggered();
     } else {
         // 错误提示
-        FCAPPCONTROLLER_PASS();
         qWarning() << "FCActionEventHandler: Operator not found for action:" << objName;
+        FCAPPCONTROLLER_PASS();
     }
 }
 
