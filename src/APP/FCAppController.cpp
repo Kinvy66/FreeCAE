@@ -51,9 +51,15 @@
 #include "FCActionCreateHelixOperator.h"
 #include "FCProjectTreeEventOperator.h"
 #include "FCGraphPreprocessOperator.h"
-#include "FCGeometryPropertyConnector.h"
+#include "FCPropertyPanelOperator.h"
+#include "FCGeometryPropertyContentHandler.h"
 #include "FCBuildGeometryOperator.h"
 #include "FCBuildAllGeometryOperator.h"
+#include <FCEventTypes.h>
+#include <FCIEventBus.h>
+#include <FCGUIFrame/FCMainTreeWidget.h>
+#include <FCGUIWidget/FCProjectTreeWidget.h>
+#include <FCData/FCType.h>
 
 #include <FCMeshGenGmsh/FCGmshMeshGenInterface.h>
 #include <FCMeshGenInterface/FCMeshGenInterface.h>
@@ -226,10 +232,39 @@ void FCAppController::initialize()
     initConnection();
     registeActionsOperator();
 
-    if (mDock) {
-        m_geometryPropertyConnector.reset(new FCGeometryPropertyConnector(this));
-        m_geometryPropertyConnector->setDockingArea(mDock);
+    if (mDock){
+        setupPropertyPanelAndTreeBridge();
+        
     }
+}
+
+void FCAppController::setupPropertyPanelAndTreeBridge()
+{
+    FCUIInterface* ui = mCore ? mCore->getUiInterface() : nullptr;
+    FCIEventBus* bus = ui ? ui->getEventBus() : nullptr;
+    if (!bus) return;
+
+    m_propertyPanelOperator.reset(new FCPropertyPanelOperator(this));
+    m_propertyPanelOperator->setUIInterface(ui);
+    m_propertyPanelOperator->setEventBus(bus);
+
+    m_geometryPropertyContentHandler.reset(new FCGeometryPropertyContentHandler);
+    if (mActions)
+        m_geometryPropertyContentHandler->setBuildBarGlobalActions({ mActions->actionGeometryModelBuildAll });
+    m_propertyPanelOperator->registerHandler(PropertyPanelEntityGeometry, m_geometryPropertyContentHandler.get());
+
+    FCProjectTreeWidget* tree = mDock->getModelBuilderWidget() ? mDock->getModelBuilderWidget()->getTreeWidget() : nullptr;
+    if (!tree) return;
+
+    connect(tree, &FCProjectTreeWidget::geometryNodeSelected, this, [bus](FCID nodeId) {
+        QVariantMap data;
+        data.insert(QLatin1String(EventPayloadKey_NodeId), static_cast<quint64>(nodeId));
+        data.insert(QLatin1String(EventPayloadKey_EntityType), static_cast<int>(PropertyPanelEntityGeometry));
+        bus->emitEvent(EventTreeNodeSelected, data);
+    });
+    connect(tree, &FCProjectTreeWidget::noEntitySelected, this, [bus]() {
+        bus->emitEvent(EventNoEntitySelected, QVariantMap());
+    });
 }
 
 /**
@@ -243,6 +278,8 @@ void FCAppController::initConnection()
         if (action == nullptr)continue;
         connect(action, &QAction::triggered, mActionHandler, &FCActionEventHandler::execOperator);
     }
+    
+    
     
     // 测试使用
     // connect(mActions->actionCreateCube, &QAction::triggered, this, &FCAppController::testCreatorGeometry);
@@ -265,6 +302,8 @@ void FCAppController::registeActionsOperator()
     Register2FCOperatorRepo(GraphPreprocessEvent, FCGraphPreprocessOperator);
     Register2FCOperatorRepo(BuildGeometry, FCBuildGeometryOperator);
     Register2FCOperatorRepo(BuildAllGeometry, FCBuildAllGeometryOperator);
+    Register2FCOperatorRepo(PropertyPanelEvent, FCPropertyPanelOperator);
+    
 }
 
 

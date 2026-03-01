@@ -59,7 +59,7 @@ public:
     // 几何标签 Geometry Category
     //===================================================
     // 1. import/export pannel
-    QAction* actionGeometryModelBuildAll; ///< 导入几何模型
+    QAction* actionGeometryModelBuildAll; ///< 构建所有几何模型
     QAction* actionImportGeometryModel; ///< 导入几何模型
     QAction* actionExportGeometryModel;     ///< 导出几何模型
     QAction* actionInsertSequenen;      ///< 导出几何模型

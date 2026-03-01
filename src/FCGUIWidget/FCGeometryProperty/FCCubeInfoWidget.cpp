@@ -204,8 +204,12 @@ void FCCubeInfoWidget::syncValuesToModel()
     rebuildGeometryEntityModel();
 }
 
+/**
+ * @brief 空实现
+ */
 void FCCubeInfoWidget::executeBuild()
 {
+    /*
     if (mDagData && mNodeId != FCID_INVALID) {
         double len[3] = {
             ui->lineEdit_length1->text().toDouble(),
@@ -274,7 +278,9 @@ void FCCubeInfoWidget::executeBuild()
     }
     rebuildGeometryEntityModel();
     emit geometryBuilt(mBoxCmd);
+*/
 }
+
 
 void FCCubeInfoWidget::executeBuildAll()
 {

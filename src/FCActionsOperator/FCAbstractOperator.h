@@ -4,6 +4,7 @@
 #include <QObject>
 #include <QHash>
 #include <QVariant>
+#include <QVariantMap>
 #include <QWidget>
 #include "FCActionsOperatorAPI.h"
 #include "FCAbstractObject.hpp"
@@ -19,7 +20,7 @@ class FCACTIONSOPERATOR_API FCAbstractOperator : public QObject, public FCAbstra
 {
     Q_OBJECT
 public:
-    FCAbstractOperator();
+    explicit FCAbstractOperator(QObject* parent = nullptr);
     virtual ~FCAbstractOperator() = 0;
 
     /** 设置 UI 上下文（由事件处理在触发时注入），子类通过 mainWindow/dockingArea/ribbonArea 访问主界面 */
@@ -61,6 +62,13 @@ public:
      * @brief 清空全部参数
      */
     virtual void clearArgs();
+
+    /**
+     * @brief 由事件总线触发时调用（如几何节点选中、VTK 选中等），子类重写以响应事件
+     * @param eventType 事件类型（FCEventTypes.h）
+     * @param data 事件载荷
+     */
+    virtual void onEvent(int eventType, const QVariantMap& data);
 
     /**
      * @brief 获取参数

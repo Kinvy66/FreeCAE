@@ -26,6 +26,7 @@ class FCActionsInterface;
 class FCCommandInterface;
 class FCDockingAreaInterface;
 class FCRibbonAreaInterface;
+class FCIEventBus;
 
 class FCINTERFACE_API FCUIInterface : public FCBaseInterface
 {
@@ -73,7 +74,10 @@ public:
     
     //获取界面的ribbon区域
     virtual FCRibbonAreaInterface* getRibbonArea() = 0;
-    
+
+    /** 获取事件总线，操作器/窗口通过其发送与订阅事件以实现联动（树、属性、VTK 等） */
+    virtual FCIEventBus* getEventBus() const = 0;
+
 protected:
     bool eventFilter(QObject* watched, QEvent* event) override;
 };

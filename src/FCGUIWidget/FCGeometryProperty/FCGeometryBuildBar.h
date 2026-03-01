@@ -8,8 +8,12 @@
 
 #include "../FCGUIWidgetAPI.h"
 #include <QWidget>
+#include <QList>
 
+class QAction;
+class QHBoxLayout;
 class QPushButton;
+class QToolButton;
 
 namespace FC {
 
@@ -25,6 +29,11 @@ class FCGUIWIDGET_API FCGeometryBuildBar : public QWidget
 public:
     explicit FCGeometryBuildBar(QWidget *parent = nullptr);
 
+    /** 添加单个全局 action 为按钮，由外部注入，避免依赖 APP 层 */
+    void addGlobalAction(QAction* action);
+    /** 批量添加全局 actions 为按钮，便于一次注入多个（如构建所有、导入等） */
+    void addGlobalActions(const QList<QAction*>& actions);
+
 signals:
     /** 构建：当前选中节点之前的所有几何形成实体并显示 */
     void buildClicked();
@@ -36,6 +45,7 @@ private slots:
     void onBuildAllClicked();
 
 private:
+    QHBoxLayout* m_layout{ nullptr };
     QPushButton* m_btnBuild{ nullptr };
     QPushButton* m_btnBuildAll{ nullptr };
 };

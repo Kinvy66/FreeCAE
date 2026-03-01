@@ -2,8 +2,9 @@
 
 namespace FC 
 {
-FCAbstractOperator::FCAbstractOperator()
-    : _emitter(nullptr)
+FCAbstractOperator::FCAbstractOperator(QObject* parent)
+    : QObject(parent)
+    , _emitter(nullptr)
 {
 }
 
@@ -34,6 +35,12 @@ bool FCAbstractOperator::hasArgs(const QString& argName)
 void FCAbstractOperator::clearArgs()
 {
     _operArgs.clear();
+}
+
+void FCAbstractOperator::onEvent(int eventType, const QVariantMap& data)
+{
+    Q_UNUSED(eventType);
+    Q_UNUSED(data);
 }
 
 } // namespace FC

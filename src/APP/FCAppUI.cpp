@@ -12,6 +12,7 @@
 #include "FCAppActions.h"
 #include "FCAppCommand.h"
 #include "FCAppCore.h"
+#include "FCAppEventBus.h"
 #include "FCActionEventHandler.h"
 // #include "FCAppDataManager.h"
 #include "AppMainWindow.h"
@@ -66,6 +67,11 @@ FCRibbonAreaInterface* FCAppUI::getRibbonArea()
     return mRibbonArea;
 }
 
+FCIEventBus* FCAppUI::getEventBus() const
+{
+    return mEventBus;
+}
+
 /**
  * @brief 创建ui
  */
@@ -74,6 +80,7 @@ void FCAppUI::createUi()
     createCmd();      // cmd必须先创建，因为Actions会用到cmd的
     createActions();  // Actions第二个创建
     mActionHandler = new FCActionEventHandler();
+    mEventBus = new FCAppEventBus(this);
     createDockingArea();
     createRibbonArea();
     mRibbonArea->setDockingArea(mDockingArea);
